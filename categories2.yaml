@@ -188,7 +188,7 @@ categories:
     is_search: true
 
 filters:
-  min_price: 0           # ver4.2: 人気順運転につき下限撤廃（2026-07-24運用裁定・セール版へ戻す時は3000）
+  min_price: 800         # ver5.2: 人気順でも800円未満は除外（2026-07-24運用裁定・セール版へ戻す時は3000）
   max_price: 0
   sort_order: "review_desc"   # ver4.2: 人気順＝レビュー数のみで横断番付（2026-07-24運用裁定・セール版へ戻す時は "sale_first"）
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
