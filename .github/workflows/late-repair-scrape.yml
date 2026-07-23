@@ -1,0 +1,56 @@
+name: Late Repair Daily Scrape Outputs
+
+on:
+  schedule:
+    # JST 02:00. This is a late fallback after the regular and insurance windows.
+    - cron: "0 17 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: late-repair-daily-scrape-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install scraper dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Repair missing or invalid outputs
+        run: python ensure_daily_scrape.py
+
+      - name: Commit repaired outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          for ACCOUNT in account1 account2 account3 account4 account5 account6 account7 account8 account9 account10; do
+            git add "data/${ACCOUNT}/products_${DATE}.json"
+            git add "data/${ACCOUNT}/scrape_summary_${DATE}.json" || true
+          done
+          git diff --staged --quiet || git commit -m "Auto-late-repair daily scrape outputs ${DATE}"
+          for i in 1 2 3; do
+            git push && break
+            echo "push failed (attempt $i), pulling --rebase and retrying..."
+            git pull --rebase origin main
+            sleep 5
+          done

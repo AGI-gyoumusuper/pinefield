@@ -1,0 +1,169 @@
+# 人格5 食品・酒・消耗品（セール番長） カテゴリ設定 v1.0（2026-07-10 Fable建立 ver2.8）
+# 出自: ★新Amazonカテゴリ/★Amazonカテゴリ③④⑤提案.md（2026-07-05 Fable設計）
+# ⑤セール番長: 食品・酒・日用品の箱買い
+# 方針: 料率8%/5%×消耗品の高転換率×箱買いで単価確保。タイムセールの主戦場。
+categories:
+  # ---------- 飲む（8%帯・箱買いで単価を上げる） ----------
+  - name: "コーヒー豆・粉 大容量"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%B3%E3%83%BC%E3%83%92%E3%83%BC%E8%B1%86%20%E5%A4%A7%E5%AE%B9%E9%87%8F&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "ドリップコーヒー 箱"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%89%E3%83%AA%E3%83%83%E3%83%97%E3%82%B3%E3%83%BC%E3%83%92%E3%83%BC%20100%E8%A2%8B&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "炭酸水 箱買い"
+    url: "https://www.amazon.co.jp/s?k=%E7%82%AD%E9%85%B8%E6%B0%B4%2024%E6%9C%AC&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "ミネラルウォーター 箱"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%9F%E3%83%8D%E3%83%A9%E3%83%AB%E3%82%A6%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%BC%2024%E6%9C%AC&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "エナジードリンク 箱"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%A8%E3%83%8A%E3%82%B8%E3%83%BC%E3%83%89%E3%83%AA%E3%83%B3%E3%82%AF%2024%E6%9C%AC&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- 酒（8%・高単価とセールの両立） ----------
+  - name: "ビール 箱"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%93%E3%83%BC%E3%83%AB%2024%E6%9C%AC&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "ウイスキー"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%A6%E3%82%A4%E3%82%B9%E3%82%AD%E3%83%BC&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "ワインセット"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%AF%E3%82%A4%E3%83%B3%20%E3%82%BB%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "日本酒・焼酎"
+    url: "https://www.amazon.co.jp/s?k=%E6%97%A5%E6%9C%AC%E9%85%92%20%E3%82%BB%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- 食べる（8%） ----------
+  - name: "米 まとめ買い"
+    url: "https://www.amazon.co.jp/s?k=%E7%B1%B3%2010kg&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "パックご飯 箱"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%91%E3%83%83%E3%82%AF%E3%81%94%E9%A3%AF%2024%E5%80%8B&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "レトルトカレー まとめ買い"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%AC%E3%83%88%E3%83%AB%E3%83%88%E3%82%AB%E3%83%AC%E3%83%BC%20%E3%81%BE%E3%81%A8%E3%82%81%E8%B2%B7%E3%81%84&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "カップ麺 箱"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%AB%E3%83%83%E3%83%97%E9%BA%BA%20%E3%82%B1%E3%83%BC%E3%82%B9&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "缶詰 セット"
+    url: "https://www.amazon.co.jp/s?k=%E7%BC%B6%E8%A9%B0%20%E3%82%BB%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "お菓子 大容量"
+    url: "https://www.amazon.co.jp/s?k=%E3%81%8A%E8%8F%93%E5%AD%90%20%E5%A4%A7%E5%AE%B9%E9%87%8F%20%E8%A9%B0%E3%82%81%E5%90%88%E3%82%8F%E3%81%9B&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "シリアル・オートミール"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%AA%E3%83%BC%E3%83%88%E3%83%9F%E3%83%BC%E3%83%AB%20%E5%A4%A7%E5%AE%B9%E9%87%8F&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- 身体づくり（プロテインは④でなくここ＝消耗品） ----------
+  - name: "プロテイン"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%97%E3%83%AD%E3%83%86%E3%82%A4%E3%83%B3%201kg&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "サプリメント"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%B5%E3%83%97%E3%83%AA%E3%83%A1%E3%83%B3%E3%83%88%2090%E6%97%A5%E5%88%86&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "プロテインバー 箱"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%97%E3%83%AD%E3%83%86%E3%82%A4%E3%83%B3%E3%83%90%E3%83%BC%20%E7%AE%B1&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- 使い減る日用品（ドラッグストア5%） ----------
+  - name: "洗濯洗剤 大容量"
+    url: "https://www.amazon.co.jp/s?k=%E6%B4%97%E6%BF%AF%E6%B4%97%E5%89%A4%20%E8%A9%B0%E3%82%81%E6%9B%BF%E3%81%88%20%E5%A4%A7%E5%AE%B9%E9%87%8F&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "柔軟剤 大容量"
+    url: "https://www.amazon.co.jp/s?k=%E6%9F%94%E8%BB%9F%E5%89%A4%20%E8%A9%B0%E3%82%81%E6%9B%BF%E3%81%88%20%E5%A4%A7%E5%AE%B9%E9%87%8F&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "食器用洗剤 まとめ買い"
+    url: "https://www.amazon.co.jp/s?k=%E9%A3%9F%E5%99%A8%E7%94%A8%E6%B4%97%E5%89%A4%20%E8%A9%B0%E3%82%81%E6%9B%BF%E3%81%88%20%E3%81%BE%E3%81%A8%E3%82%81%E8%B2%B7%E3%81%84&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "トイレットペーパー 箱"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%88%E3%82%A4%E3%83%AC%E3%83%83%E3%83%88%E3%83%9A%E3%83%BC%E3%83%91%E3%83%BC%2012%E3%83%AD%E3%83%BC%E3%83%AB&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ティッシュ 箱買い"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%86%E3%82%A3%E3%83%83%E3%82%B7%E3%83%A5%2060%E7%AE%B1&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "シャンプー 詰め替え大容量"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%B7%E3%83%A3%E3%83%B3%E3%83%97%E3%83%BC%20%E8%A9%B0%E3%82%81%E6%9B%BF%E3%81%88%20%E5%A4%A7%E5%AE%B9%E9%87%8F&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "入浴剤 大容量"
+    url: "https://www.amazon.co.jp/s?k=%E5%85%A5%E6%B5%B4%E5%89%A4%20%E5%A4%A7%E5%AE%B9%E9%87%8F&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- ペットの消耗品（5%・②のペット家電とは別領域） ----------
+  - name: "ドッグフード 大袋"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%89%E3%83%83%E3%82%B0%E3%83%95%E3%83%BC%E3%83%89%20%E5%A4%A7%E8%A2%8B&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "キャットフード 大袋"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%AD%E3%83%A3%E3%83%83%E3%83%88%E3%83%95%E3%83%BC%E3%83%89%20%E5%A4%A7%E8%A2%8B&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "猫砂 まとめ買い"
+    url: "https://www.amazon.co.jp/s?k=%E7%8C%AB%E7%A0%82%20%E3%81%BE%E3%81%A8%E3%82%81%E8%B2%B7%E3%81%84&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+filters:
+  min_price: 0           # ver4.2: 人気順運転につき下限撤廃（2026-07-24運用裁定・セール版へ戻す時は3000）
+  max_price: 0
+  sort_order: "review_desc"   # ver4.2: 人気順＝レビュー数のみで横断番付（2026-07-24運用裁定・セール版へ戻す時は "sale_first"）
+  max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
+  max_per_category: 1    # ver4.2: 1棚1粒＝各カテゴリの顔役だけ（2026-07-24運用裁定・セール版へ戻す時は2）
+  # ⑤はセット・箱買いが看板のためexclude_title_patternsは適用しない（2026-07-19運用裁定）
+
+exclusion:
+  posted_asins_file: "data/account5/asin_history.json"
+  exclude_within_days: 7   # ver4.2: 人気順は7日窓（2026-07-24運用裁定・セール版へ戻す時は2）
+  exclude_scraped_candidates: false   # ver4.3: 浚っただけの候補（status=scraped）は焼かない＝投稿分のみ7日出禁（2026-07-24運用裁定・セール版へ戻す時はこの行を削除）
+  blocked_asins: []        # ver2.8: 恒久除外（構造を①に同期。account5固有の悪質出品者ASINが出たらここへ追記）

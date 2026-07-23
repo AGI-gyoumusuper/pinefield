@@ -1,0 +1,61 @@
+name: Scrape Amazon Products (account6)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/triggers/account6.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape_account6:
+    if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account6]')) || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install scraper dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Scrape account6
+        run: python scrape_main6.py
+
+      - name: Validate account6 output
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          OUT="data/account6/products_${DATE}.json"
+          if [ -f "$OUT" ]; then
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+          else
+            echo "$OUT was not created"
+            exit 1
+          fi
+
+      - name: Commit account6 output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          git add "data/account6/products_${DATE}.json"
+          git add "data/account6/scrape_summary_${DATE}.json" || true
+          git add "data/account6/asin_history.json"
+          git diff --staged --quiet || git commit -m "Auto-scrape account6 products ${DATE}"
+          for i in 1 2 3; do
+            git push && break
+            echo "push failed (attempt $i), pulling --rebase and retrying..."
+            git pull --rebase origin main
+            sleep 5
+          done

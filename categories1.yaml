@@ -1,0 +1,224 @@
+# Amazon タイムセール巡回カテゴリ設定 v3.1
+# 方針：「高級ソフトウェアエンジニアが買いそうな商品」35カテゴリ × セールフィルタ
+# v3.1 (2026-07-05): 除外をGitHub側へ一本化（3日ルール・data/account1/asin_history.json）
+#                    scrape_searchは最大2ページ巡回・カテゴリ別サマリをdataへ保存
+# URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank（ver4.0・2026-07-24人気順試運転。旧セール版: %2Cp_n_deal_type%3A23534876051）
+#   = カテゴリノード × セール商品のみ
+# is_search: true により scraper.py の scrape_search() を使用
+
+categories:
+  # ---------- 先頭カナリア枠（v2.3） ----------
+  # 新規セッションの最初の1〜2リクエストはボット判定でエラーページを踏みやすいため、
+  # 低重要度カテゴリを先頭に置いて判定を吸収させ、主力（PC本体）を安全圏に置く。
+  - name: "マウスパッド"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151873051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ドローン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3308532051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- PC本体 ----------
+  - name: "ノートPC"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151981051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "デスクトップPC"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151949051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "タブレット"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2152014051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- PC周辺機器（入出力） ----------
+  - name: "PCモニター"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151982051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "モニターアーム"
+    url: "https://www.amazon.co.jp/s?rh=n%3A10351517051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "キーボード"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151977051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "マウス"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151978051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "トラックボール"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151980051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "マイク"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2152017051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- オーディオ ----------
+  - name: "ヘッドホン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3477981&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "イヤホン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A7251477051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "PC用ヘッドセット"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2152016051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "PCスピーカー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151999051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "スマートスピーカー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A6905036051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- ストレージ ----------
+  - name: "NAS（ネットワークストレージ）"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151968051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "USBメモリ・フラッシュドライブ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151969051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "外付けドライブ・ストレージ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151950051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- 接続・電源 ----------
+  - name: "ドッキングステーション"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151884051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ディスプレイポートケーブル"
+    url: "https://www.amazon.co.jp/s?rh=n%3A8417540051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "モバイルバッテリー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2544551051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ワイヤレス充電器"
+    url: "https://www.amazon.co.jp/s?rh=n%3A7780678051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- PCパーツ・周辺 ----------
+  - name: "PCパーツ（総合）"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151901051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "PCバッグ・ケース・スリーブ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151881051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ノートパソコンスタンド"
+    url: "https://www.amazon.co.jp/s?rh=n%3A89298051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- スマートデバイス ----------
+  - name: "スマートフォン本体"
+    url: "https://www.amazon.co.jp/s?rh=n%3A128188011&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "スマートウォッチ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2725002051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "電子書籍リーダー（Kindle等）"
+    url: "https://www.amazon.co.jp/s?rh=n%3A45726011&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "VRヘッドセット"
+    url: "https://www.amazon.co.jp/s?rh=n%3A8459822051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- ゲーミング ----------
+  - name: "ゲーミングコントローラー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151971051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ゲーミングヘッドセット"
+    url: "https://www.amazon.co.jp/s?rh=n%3A4817937051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ゲーミングチェア"
+    url: "https://www.amazon.co.jp/s?rh=n%3A5341900051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  # ---------- 家具 ----------
+  - name: "デスク・テーブル"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3578366051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "デスクチェア"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2494729051&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+# ============================================
+# 共通フィルタ（既存と同じ）
+# ============================================
+filters:
+  min_price: 0           # ver4.0: 人気順試運転につき価格下限撤廃（2026-07-24運用裁定・戻す時は3000）
+  max_price: 0           # 0=上限なし
+  sort_order: "review_desc"   # ver4.0: 各棚人気上位をレビュー数のみで横断番付（2026-07-24運用裁定＝人気カテゴリの顔役だけが上位に残る。評価★・第二鍵とも不使用＝同数は浚った順。セール版へ戻す時は "sale_first"）
+  max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
+  max_per_category: 1    # ver4.0: 1棚1粒＝各カテゴリの顔役だけ（2026-07-24運用裁定。収穫は棚10件のまま＝1位が履歴休みの日は2位が繰り上がり自然回転）
+  exclude_title_patterns:   # ver3.0: セット・複数個口・詰め合わせの除外（2026-07-19運用裁定）
+    - 'セット'
+    - 'まとめ買い'
+    - 'まとめ売り'
+    - '詰め合わせ'
+    - 'アソート'
+    - '福袋'
+    - '(?<!\d)×\s?[2-9](?!\d)'
+
+# ============================================
+# 投稿済みASIN除外（既存と同じ）
+# ============================================
+exclusion:
+  posted_asins_file: "data/account1/asin_history.json"
+  exclude_within_days: 7   # ver4.1: 人気順運転は7日窓（2026-07-24運用裁定＝人気の顔ぶれは不動ゆえ2日では3日周期で再登場する）。セール版へ戻す時は2。履歴は投稿後に scripts/sync_asin_history1.ps1 で更新
+  exclude_scraped_candidates: false   # ver4.3: 浚っただけの候補（status=scraped）は焼かない＝投稿分のみ7日出禁（2026-07-24運用裁定・セール版へ戻す時はこの行を削除）
+  blocked_asins:           # ver2.8: 恒久除外（運用裁定2026-07-12: 悪質出品者のカテゴリ誤登録商品は二度と扱わない）
+    - "B0GP6FV63C"   # 女性服「ドッキングペプラムカットソー」がドッキングステーションに誤登録（7/9・7/12混入）
+    - "B0GPVVG6VN"   # 同商品のバリエーションASIN（保険）

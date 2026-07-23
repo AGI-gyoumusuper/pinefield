@@ -1,0 +1,296 @@
+name: Scrape Amazon Products
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/triggers/account*.json"
+  workflow_dispatch:
+    inputs:
+      account:
+        description: "Account to scrape"
+        default: "all"
+        required: false
+        type: choice
+        options:
+          - all
+          - account1
+          - account2
+          - account3
+          - account4
+          - account5
+          - account0
+
+permissions:
+  contents: write
+
+jobs:
+  scrape_account1:
+    if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account1]')) || (github.event_name == 'workflow_dispatch' && (inputs.account == 'all' || inputs.account == 'account1')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install scraper dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Scrape account1
+        run: python scrape_main1.py
+
+      - name: Validate account1 output
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          OUT="data/account1/products_${DATE}.json"
+          if [ -f "$OUT" ]; then
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+            python -c "import json; d=json.load(open('$OUT', encoding='utf-8-sig')); print(f'account1 total {len(d)} items'); [print(f'{p.get(\"price\", \"\")} - {p.get(\"title\", \"\")[:50]} ({p.get(\"category\", \"\")})') for p in d[:5]]"
+          else
+            echo "$OUT was not created"
+            exit 1
+          fi
+
+      - name: Commit account1 output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          git add "data/account1/products_${DATE}.json"
+          git add "data/account1/scrape_summary_${DATE}.json" || true
+          git add "data/account1/asin_history.json"
+          git diff --staged --quiet || git commit -m "Auto-scrape account1 products ${DATE}"
+          for i in 1 2 3; do
+            git push && break
+            echo "push failed (attempt $i), pulling --rebase and retrying..."
+            git pull --rebase origin main
+            sleep 5
+          done
+
+  scrape_account2:
+    if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account2]')) || (github.event_name == 'workflow_dispatch' && (inputs.account == 'all' || inputs.account == 'account2')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install scraper dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Scrape account2
+        run: python scrape_main2.py
+
+      - name: Validate account2 output
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          OUT="data/account2/products_${DATE}.json"
+          if [ -f "$OUT" ]; then
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+            python -c "import json; d=json.load(open('$OUT', encoding='utf-8-sig')); print(f'account2 total {len(d)} items'); [print(f'{p.get(\"price\", \"\")} - {p.get(\"title\", \"\")[:50]} ({p.get(\"category\", \"\")})') for p in d[:5]]"
+          else
+            echo "$OUT was not created"
+            exit 1
+          fi
+
+      - name: Commit account2 output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          git add "data/account2/products_${DATE}.json"
+          git add "data/account2/scrape_summary_${DATE}.json" || true
+          git add "data/account2/asin_history.json"
+          git diff --staged --quiet || git commit -m "Auto-scrape account2 products ${DATE}"
+          for i in 1 2 3; do
+            git push && break
+            echo "push failed (attempt $i), pulling --rebase and retrying..."
+            git pull --rebase origin main
+            sleep 5
+          done
+
+  scrape_account0:
+    if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account0]')) || (github.event_name == 'workflow_dispatch' && (inputs.account == 'all' || inputs.account == 'account0')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install scraper dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+      - name: Scrape account0
+        run: python scrape_main0.py
+      - name: Validate account0 output
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          OUT="data/account0/products_${DATE}.json"
+          if [ -f "$OUT" ]; then
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 20, f'[ERROR] too few scrape items: {out}: {count} < 20'"
+          else
+            echo "$OUT was not created"
+            exit 1
+          fi
+      - name: Commit account0 output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          git add "data/account0/products_${DATE}.json"
+          git add "data/account0/scrape_summary_${DATE}.json" || true
+          git diff --staged --quiet || git commit -m "Auto-scrape account0 products ${DATE}"
+          for i in 1 2 3; do
+            git push && break
+            echo "push failed (attempt $i), pulling --rebase and retrying..."
+            git pull --rebase origin main
+            sleep 5
+          done
+
+  scrape_account3:
+    if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account3]')) || (github.event_name == 'workflow_dispatch' && (inputs.account == 'all' || inputs.account == 'account3')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install scraper dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+      - name: Scrape account3
+        run: python scrape_main3.py
+      - name: Validate account3 output
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          OUT="data/account3/products_${DATE}.json"
+          if [ -f "$OUT" ]; then
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+          else
+            echo "$OUT was not created"
+            exit 1
+          fi
+      - name: Commit account3 output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          git add "data/account3/products_${DATE}.json"
+          git add "data/account3/scrape_summary_${DATE}.json" || true
+          git add "data/account3/asin_history.json"
+          git diff --staged --quiet || git commit -m "Auto-scrape account3 products ${DATE}"
+          for i in 1 2 3; do
+            git push && break
+            echo "push failed (attempt $i), pulling --rebase and retrying..."
+            git pull --rebase origin main
+            sleep 5
+          done
+
+  scrape_account4:
+    if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account4]')) || (github.event_name == 'workflow_dispatch' && (inputs.account == 'all' || inputs.account == 'account4')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install scraper dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+      - name: Scrape account4
+        run: python scrape_main4.py
+      - name: Validate account4 output
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          OUT="data/account4/products_${DATE}.json"
+          if [ -f "$OUT" ]; then
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+          else
+            echo "$OUT was not created"
+            exit 1
+          fi
+      - name: Commit account4 output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          git add "data/account4/products_${DATE}.json"
+          git add "data/account4/scrape_summary_${DATE}.json" || true
+          git add "data/account4/asin_history.json"
+          git diff --staged --quiet || git commit -m "Auto-scrape account4 products ${DATE}"
+          for i in 1 2 3; do
+            git push && break
+            echo "push failed (attempt $i), pulling --rebase and retrying..."
+            git pull --rebase origin main
+            sleep 5
+          done
+
+  scrape_account5:
+    if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account5]')) || (github.event_name == 'workflow_dispatch' && (inputs.account == 'all' || inputs.account == 'account5')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install scraper dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+      - name: Scrape account5
+        run: python scrape_main5.py
+      - name: Validate account5 output
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          OUT="data/account5/products_${DATE}.json"
+          if [ -f "$OUT" ]; then
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+          else
+            echo "$OUT was not created"
+            exit 1
+          fi
+      - name: Commit account5 output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          git add "data/account5/products_${DATE}.json"
+          git add "data/account5/scrape_summary_${DATE}.json" || true
+          git add "data/account5/asin_history.json"
+          git diff --staged --quiet || git commit -m "Auto-scrape account5 products ${DATE}"
+          for i in 1 2 3; do
+            git push && break
+            echo "push failed (attempt $i), pulling --rebase and retrying..."
+            git pull --rebase origin main
+            sleep 5
+          done

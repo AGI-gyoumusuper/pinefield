@@ -1,0 +1,92 @@
+name: Ensure Daily Scrape Outputs
+
+on:
+  schedule:
+    # JST 01:00. GitHub Actions cron uses UTC.
+    - cron: "0 16 * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: ensure-daily-scrape-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ensure:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - account: account1
+            schedule: "0 16 * * *"
+          - account: account2
+            schedule: "0 16 * * *"
+          - account: account3
+            schedule: "0 16 * * *"
+          - account: account4
+            schedule: "0 16 * * *"
+          - account: account5
+            schedule: "0 16 * * *"
+          - account: account6
+            schedule: "0 16 * * *"
+          - account: account7
+            schedule: "0 16 * * *"
+          - account: account8
+            schedule: "0 16 * * *"
+          - account: account9
+            schedule: "0 16 * * *"
+          - account: account10
+            schedule: "0 16 * * *"
+    steps:
+      - name: Checkout repository
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Wait for regular scrape workflow
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          MAX_WAIT_SECONDS: "1200"
+          POLL_SECONDS: "20"
+        run: python wait_for_regular_scrape.py
+
+      - name: Install scraper dependencies
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Ensure today's scrape outputs
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
+        run: python ensure_daily_scrape.py --account "${{ matrix.account }}"
+
+      - name: Commit repaired outputs
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          ACCOUNT="${{ matrix.account }}"
+          git add "data/${ACCOUNT}/products_${DATE}.json"
+          git add "data/${ACCOUNT}/scrape_summary_${DATE}.json" || true
+          git diff --staged --quiet || git commit -m "Auto-ensure ${{ matrix.account }} scrape outputs ${DATE}"
+          for i in 1 2 3; do
+            git push && break
+            echo "push failed (attempt $i), pulling --rebase and retrying..."
+            git pull --rebase origin main
+            sleep 5
+          done

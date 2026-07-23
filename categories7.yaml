@@ -1,0 +1,237 @@
+# ⑦BBB カテゴリ設定 v2.1（2026-07-19 単品中心・高級単品を追加）
+# 方針: 元の化粧品カテゴリへ戻し、高級ブランド単品を追加。複数商品を前提とする検索語は使用しない。
+# セール優先→割引率→価格、1,900円以上、最大34件、カテゴリ偏重を抑制する。
+categories:
+  - name: "メイクブラシ"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%A1%E3%82%A4%E3%82%AF%E3%83%96%E3%83%A9%E3%82%B7&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "ネイルケア"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%8D%E3%82%A4%E3%83%AB%E3%82%B1%E3%82%A2&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "化粧水"
+    url: "https://www.amazon.co.jp/s?k=%E5%8C%96%E7%B2%A7%E6%B0%B4&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "乳液"
+    url: "https://www.amazon.co.jp/s?k=%E4%B9%B3%E6%B6%B2&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "美容液"
+    url: "https://www.amazon.co.jp/s?k=%E7%BE%8E%E5%AE%B9%E6%B6%B2&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "フェイスクリーム"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%95%E3%82%A7%E3%82%A4%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A0&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "クレンジング"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%AF%E3%83%AC%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%B0&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "洗顔料"
+    url: "https://www.amazon.co.jp/s?k=%E6%B4%97%E9%A1%94%E6%96%99&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "フェイスパック"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%95%E3%82%A7%E3%82%A4%E3%82%B9%E3%83%91%E3%83%83%E3%82%AF&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "化粧下地"
+    url: "https://www.amazon.co.jp/s?k=%E5%8C%96%E7%B2%A7%E4%B8%8B%E5%9C%B0&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ファンデーション"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%95%E3%82%A1%E3%83%B3%E3%83%87%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "BBクリーム"
+    url: "https://www.amazon.co.jp/s?k=BB%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A0&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "コンシーラー"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%B3%E3%83%B3%E3%82%B7%E3%83%BC%E3%83%A9%E3%83%BC&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "フェイスパウダー"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%95%E3%82%A7%E3%82%A4%E3%82%B9%E3%83%91%E3%82%A6%E3%83%80%E3%83%BC&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "口紅・リップ"
+    url: "https://www.amazon.co.jp/s?k=%E5%8F%A3%E7%B4%85&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "リップ美容液"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%AA%E3%83%83%E3%83%97%E7%BE%8E%E5%AE%B9%E6%B6%B2&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "アイシャドウ"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%A2%E3%82%A4%E3%82%B7%E3%83%A3%E3%83%89%E3%82%A6&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "マスカラ"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%9E%E3%82%B9%E3%82%AB%E3%83%A9&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "アイライナー"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%A2%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%8A%E3%83%BC&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "アイブロウ"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%A2%E3%82%A4%E3%83%96%E3%83%AD%E3%82%A6&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "チーク"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%81%E3%83%BC%E3%82%AF&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "まつげ美容液"
+    url: "https://www.amazon.co.jp/s?k=%E3%81%BE%E3%81%A4%E3%81%92%E7%BE%8E%E5%AE%B9%E6%B6%B2&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "ヘアオイル"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%98%E3%82%A2%E3%82%AA%E3%82%A4%E3%83%AB&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ヘアトリートメント"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%98%E3%82%A2%E3%83%88%E3%83%AA%E3%83%BC%E3%83%88%E3%83%A1%E3%83%B3%E3%83%88&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ヘアワックス"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%98%E3%82%A2%E3%83%AF%E3%83%83%E3%82%AF%E3%82%B9&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "ボディクリーム"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%9C%E3%83%87%E3%82%A3%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A0&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ハンドクリーム"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%8F%E3%83%B3%E3%83%89%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A0&s=exact-aware-popularity-rank"
+    max_items: 8
+    is_search: true
+
+  - name: "メンズスキンケア"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%A1%E3%83%B3%E3%82%BA%20%E3%82%B9%E3%82%AD%E3%83%B3%E3%82%B1%E3%82%A2&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "デパコス・アイシャドウパレット"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%87%E3%83%91%E3%82%B3%E3%82%B9%20%E3%82%A2%E3%82%A4%E3%82%B7%E3%83%A3%E3%83%89%E3%82%A6%20%E3%83%91%E3%83%AC%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "SK-II・フェイシャルトリートメント"
+    url: "https://www.amazon.co.jp/s?k=SK-II%20%E3%83%95%E3%82%A7%E3%82%A4%E3%82%B7%E3%83%A3%E3%83%AB%20%E3%83%88%E3%83%AA%E3%83%BC%E3%83%88%E3%83%A1%E3%83%B3%E3%83%88%20%E3%82%A8%E3%83%83%E3%82%BB%E3%83%B3%E3%82%B9&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "コスメデコルテ・リポソーム"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%B3%E3%82%B9%E3%83%A1%E3%83%87%E3%82%B3%E3%83%AB%E3%83%86%20%E3%83%AA%E3%83%9D%E3%82%BD%E3%83%BC%E3%83%A0&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ランコム・ジェニフィック"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%A9%E3%83%B3%E3%82%B3%E3%83%A0%20%E3%82%B8%E3%82%A7%E3%83%8B%E3%83%95%E3%82%A3%E3%83%83%E3%82%AF&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "エスティローダー・ナイトリペア"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%A8%E3%82%B9%E3%83%86%E3%82%A3%E3%83%AD%E3%83%BC%E3%83%80%E3%83%BC%20%E3%82%A2%E3%83%89%E3%83%90%E3%83%B3%E3%82%B9%20%E3%83%8A%E3%82%A4%E3%83%88%20%E3%83%AA%E3%83%9A%E3%82%A2&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "資生堂・アルティミューン"
+    url: "https://www.amazon.co.jp/s?k=%E8%B3%87%E7%94%9F%E5%A0%82%20%E3%82%A2%E3%83%AB%E3%83%86%E3%82%A3%E3%83%9F%E3%83%A5%E3%83%BC%E3%83%B3&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "POLA・B.Aローション"
+    url: "https://www.amazon.co.jp/s?k=POLA%20B.A%20%E3%83%AD%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "オバジ・C25セラム"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%AA%E3%83%90%E3%82%B8%20C25%20%E3%82%BB%E3%83%A9%E3%83%A0&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "ドクターシーラボ・エンリッチリフト"
+    url: "https://www.amazon.co.jp/s?k=%E3%83%89%E3%82%AF%E3%82%BF%E3%83%BC%E3%82%B7%E3%83%BC%E3%83%A9%E3%83%9C%20%E3%82%A8%E3%83%B3%E3%83%AA%E3%83%83%E3%83%81%E3%83%AA%E3%83%95%E3%83%88&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "クラランス・ダブルセーラム"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%AF%E3%83%A9%E3%83%A9%E3%83%B3%E3%82%B9%20%E3%83%80%E3%83%96%E3%83%AB%20%E3%82%BB%E3%83%BC%E3%83%A9%E3%83%A0&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "シュウウエムラ・クレンジング450ml"
+    url: "https://www.amazon.co.jp/s?k=%E3%82%B7%E3%83%A5%E3%82%A6%E3%82%A6%E3%82%A8%E3%83%A0%E3%83%A9%20%E3%82%AF%E3%83%AC%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%B0%20%E3%82%AA%E3%82%A4%E3%83%AB%20450ml&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "高級美容液"
+    url: "https://www.amazon.co.jp/s?k=%E9%AB%98%E7%B4%9A%20%E7%BE%8E%E5%AE%B9%E6%B6%B2&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "高級化粧水"
+    url: "https://www.amazon.co.jp/s?k=%E9%AB%98%E7%B4%9A%20%E5%8C%96%E7%B2%A7%E6%B0%B4&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "高級フェイスクリーム"
+    url: "https://www.amazon.co.jp/s?k=%E9%AB%98%E7%B4%9A%20%E3%83%95%E3%82%A7%E3%82%A4%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A0&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+  - name: "高級香水100ml"
+    url: "https://www.amazon.co.jp/s?k=%E9%AB%98%E7%B4%9A%20%E9%A6%99%E6%B0%B4%20100ml&s=exact-aware-popularity-rank"
+    max_items: 12
+    is_search: true
+
+filters:
+  min_price: 0           # ver4.2: 人気順運転につき下限撤廃（2026-07-24運用裁定・セール版へ戻す時は3000）
+  max_price: 0
+  sort_order: "review_desc"   # ver4.2: 人気順＝レビュー数のみで横断番付（2026-07-24運用裁定・セール版へ戻す時は "sale_first"）
+  max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
+  max_per_category: 1    # ver4.2: 1棚1粒＝各カテゴリの顔役だけ（2026-07-24運用裁定・セール版へ戻す時は2）
+  exclude_title_patterns:
+    - 'セット'
+    - '(?:詰め合わせ|まとめ買い)'
+    - '(?:[2-9]|[1-9][0-9]+)\s*(?:個|本|枚|袋|箱|巻|組)\s*(?:入|入り)?'
+    - '[×xX]\s*(?:[2-9]|[1-9][0-9]+)\s*(?:個|本|枚|袋|箱|巻|組)?'
+  reset_context_each_category: true
+
+exclusion:
+  posted_asins_file: "data/account7/asin_history.json"
+  exclude_within_days: 7   # ver4.2: 人気順は7日窓（2026-07-24運用裁定・セール版へ戻す時は2）
+  exclude_scraped_candidates: false   # ver4.3: 浚っただけの候補（status=scraped）は焼かない＝投稿分のみ7日出禁（2026-07-24運用裁定・セール版へ戻す時はこの行を削除）
+  blocked_asins: []
