@@ -306,19 +306,28 @@ async def scrape_search(page: Page, url: str, category: str, max_items: int = 10
                 img_el = await card.query_selector("img.s-image, img")
                 image_url = await img_el.get_attribute("src") if img_el else ""
 
-                # 評価・レビュー件数（あれば取得）
-                rating_el = await card.query_selector("i.a-icon-star-small .a-icon-alt, i.a-icon-star .a-icon-alt")
+                # 評価・レビュー件数（ver5.1・2026-07-24運用裁定：DOMの飾りでなくカード全文の文字列から型で読む）
+                # 第一網＝星の代替文「5つ星のうち◯◯」（画面非表示だがHTML内に必ず刷られる読み上げ用定型句）
+                # 第二網＝その直後に立つ括弧数字「(5,627)」等をレビュー数として拾う（￥を跨がない＝価格誤食い防止）
                 rating = ""
-                if rating_el:
-                    rating_text = (await rating_el.inner_text()).strip()
-                    m = re.search(r"([\d.]+)", rating_text)
-                    rating = m.group(1) if m else ""
-                review_el = await card.query_selector("[aria-label*='件'], .a-size-base.s-underline-text")
                 review_count = ""
-                if review_el:
-                    rc = (await review_el.inner_text()).strip()
-                    rcm = re.search(r"[\d,]+", rc)
-                    review_count = rcm.group(0) if rcm else ""
+                try:
+                    card_text = await card.inner_text()
+                except Exception:
+                    card_text = ""
+                m = re.search(r"5つ星のうち\s*([\d.]+)", card_text)
+                if m:
+                    rating = m.group(1)
+                    m2 = re.search(r"5つ星のうち\s*" + re.escape(rating) + r"[^\d￥円]{0,12}([\d,]+)", card_text)
+                    if m2:
+                        review_count = m2.group(1)
+                if not rating:
+                    # 旧DOM網（保険）：星アイコンの代替文セレクタ
+                    rating_el = await card.query_selector("i[class*='a-icon-star'] .a-icon-alt, .a-icon-alt")
+                    if rating_el:
+                        rating_text = (await rating_el.inner_text()).strip()
+                        rm = re.search(r"([\d.]+)", rating_text)
+                        rating = rm.group(1) if rm else ""
 
                 # 価格0は除外（広告枠やSponsoredで価格未取得のケース）
                 if price_int <= 0:
