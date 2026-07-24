@@ -1,394 +1,534 @@
-﻿{
-    "schema":  "note-amazon-asin-history-v1",
-    "updated_at":  "2026-07-24T11:46:26+09:00",
-    "description":  "Single source of truth for account3 ASIN exclusion (3-day rule enforced by scraper.py at scrape time). Update via scripts/sync_asin_history1.ps1 after posting.",
-    "posted":  [
-                   {
-                       "asin":  "B0081CM9KS",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-20T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B017R5S7D2",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-20T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B075GJC9PH",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-20T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B09SFQW9PN",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-20T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0C57Y8QC8",
-                       "status":  "posted",
-                       "posted_at":  "2026-07-20T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0C57ZT7W1",
-                       "status":  "posted",
-                       "posted_at":  "2026-07-20T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0C73DZH11",
-                       "status":  "posted",
-                       "posted_at":  "2026-07-20T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0D1KNYMRS",
-                       "status":  "posted",
-                       "posted_at":  "2026-07-20T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0GV39NTSQ",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-20T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B078W6DPTP",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-21T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B09L42VBH5",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-21T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0B48SWVWX",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-21T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0CLRNDXQW",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-21T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0CM9SMGC8",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-21T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0D767K9DV",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-21T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0FZRC3R3W",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-21T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0G1RL6V2S",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-21T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B00JXMUR2W",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-22T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0C5S6TJHZ",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-22T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0DQ4XXMRL",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-22T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0FB3DVCYM",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-22T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0FQBN4DTK",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-22T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0FRQ6573B",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-22T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0GKDJCZWK",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-22T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0GQGFDQ1J",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-22T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0H1GTZS1V",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-22T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B0H33NXGRW",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-22T00:00:00+09:00"
-                   },
-                   {
-                       "asin":  "B00UNSO9N8",
-                       "title":  "【公式】Shop Japan(ショップジャパン) ワンダーコア スマート ライムグリーン [メーカー保証1年付] 腹筋 腕部 太もも エクササイズ用 倒れるだけ腹筋マシン 自宅でエクササイズ WDS-AM01",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  9
-                   },
-                   {
-                       "asin":  "B08R1BFJG5",
-                       "title":  "ニベアUV ディープ プロテクト \u0026 ケア ジェル 80g SPF50+ / PA++++ 〈 予防美容(日やけによるシミ・そばかすを防ぐ)ができる美容ケアUV 〉",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  2
-                   },
-                   {
-                       "asin":  "B09TFGV11Z",
-                       "title":  "【正規品】ブラウン 脱毛器 シルクエキスパート Pro5 【Amazon.co.jp限定】 光脱毛器 PL5387 【業界最高峰パワー x 刺激レス】 医療機関テスト済み IPL 男女兼用 VIO対応 たった3回で効果実感 365日ツルすべ肌へ 光美容器 アタッチメント3個 White/Gold",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  4
-                   },
-                   {
-                       "asin":  "B0C1BVKK5N",
-                       "title":  "【詰め替え大容量】NONIO(ノニオ)プラスホワイトニング デンタルリンス フレッシュホワイトミント [医薬部外品] 1300ml 液体歯磨き 口臭原因菌を殺菌",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  10
-                   },
-                   {
-                       "asin":  "B0C2YLRFGX",
-                       "title":  "BRiOSS (ブリオス) チャームリフト アイボリー",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  2
-                   },
-                   {
-                       "asin":  "B0C9QG96H9",
-                       "title":  "Sensaナノイオンフェイシャルスチーマー | ディープ毛穴クレンジング | 温ミスト噴霧器 | 保湿と水分補給 | ホームフェイスサウナ | エッセンシャルオイルバスケット3個付き",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  3
-                   },
-                   {
-                       "asin":  "B0CTQ1XFRL",
-                       "title":  "ブラウン 電気シェーバー シリーズ5 電動 髭剃り メンズ 【Amazon.co.jp限定】 52-M1200s ミント キワゾリトリマー 防水設計 充電式 コードレス ディープキャッチ網刃 トラベルケース",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  5
-                   },
-                   {
-                       "asin":  "B0DB48CFG7",
-                       "title":  "ブラウン 電動歯ブラシ オーラルB【電動初心者の決定版】iO2 iOS21D90BK ブラック 防水 歯科医推奨No.1ブランド【Amazon.co.jp 限定】",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  9
-                   },
-                   {
-                       "asin":  "B0DCB6QCVD",
-                       "title":  "Schick(シック) サロンプラス トーンアップ ボディシェーバー ホルダー(刃付き) 女性用 カミソリ",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  6
-                   },
-                   {
-                       "asin":  "B0DS7WX8QS",
-                       "title":  "Bioré ビオレUV アクアリッチ ウォータリーエッセンス 100g 日焼け止め SPF50 【Amazon.co.jp限定】",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  8
-                   },
-                   {
-                       "asin":  "B0FP47GB9Q",
-                       "title":  "ジョンソンボディケア VCアロマミルク 500ml シトラスとシダーウッドの香り ボディクリーム ボディミルク ローション ビタミンC配合 ポンプ 保湿 【大容量】",
-                       "status":  "scraped",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  null,
-                       "account_id":  "account3",
-                       "account_name":  "account3",
-                       "note_url":  null,
-                       "edit_url":  null,
-                       "thumbnail_path":  null,
-                       "source_file":  "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
-                       "source_index":  7
-                   },
-                   {
-                       "asin":  "B0CDSYRKMW",
-                       "title":  "歯の表も裏も上下まとめて10秒、H型ヘッドのウォーターフロッサーで歯間ケアが続く習慣になる",
-                       "status":  "reserved",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  "2026-07-24T09:47:00+09:00",
-                       "account_id":  "account3",
-                       "account_name":  "ミリミムちゃん",
-                       "note_url":  "https://note.com/animedaisukiminn/n/n2c29f1f90842",
-                       "edit_url":  "https://editor.note.com/notes/n2c29f1f90842/edit/",
-                       "thumbnail_path":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\prepared_thumbnails_1280x670_first\\3-1_B0CDSYRKMW.png",
-                       "source_file":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\post_account3_results_2026-07-24_first.json",
-                       "source_index":  1
-                   },
-                   {
-                       "asin":  "B079KHLVKN",
-                       "title":  "バターみたいに滑るアイライナー。e.l.f.サテンペンシルが手放せない理由",
-                       "status":  "reserved",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  "2026-07-24T11:48:00+09:00",
-                       "account_id":  "account3",
-                       "account_name":  "ミリミムちゃん",
-                       "note_url":  "https://note.com/animedaisukiminn/n/n9fe3e32bbfee",
-                       "edit_url":  "https://editor.note.com/notes/n9fe3e32bbfee/edit/",
-                       "thumbnail_path":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem2\\3-2_B079KHLVKN.png",
-                       "source_file":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
-                       "source_index":  1
-                   },
-                   {
-                       "asin":  "B086XCB1QP",
-                       "title":  "お風呂上がりの10分がごほうびに変わる筋膜リリースガンMebak 3、強さは30段階です",
-                       "status":  "reserved",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  "2026-07-24T13:29:00+09:00",
-                       "account_id":  "account3",
-                       "account_name":  "ミリミムちゃん",
-                       "note_url":  "https://note.com/animedaisukiminn/n/n67e75b2f2a53",
-                       "edit_url":  "https://editor.note.com/notes/n67e75b2f2a53/edit/",
-                       "thumbnail_path":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem3\\3-3_B086XCB1QP_v1.png",
-                       "source_file":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
-                       "source_index":  2
-                   },
-                   {
-                       "asin":  "B01HPRXCVO",
-                       "title":  "1,650円で毎日ヘッドスパ気分。頭皮マッサージブラシ1位、日本製ハンドプロのゾワゾワする気持ちよさ",
-                       "status":  "reserved",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  "2026-07-24T15:20:00+09:00",
-                       "account_id":  "account3",
-                       "account_name":  "ミリミムちゃん",
-                       "note_url":  "https://note.com/animedaisukiminn/n/nf53100e48ab2",
-                       "edit_url":  "https://editor.note.com/notes/nf53100e48ab2/edit/",
-                       "thumbnail_path":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem4\\3-4_B01HPRXCVO_v2.png",
-                       "source_file":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
-                       "source_index":  3
-                   },
-                   {
-                       "asin":  "B00272N89Y",
-                       "title":  "血圧計は腕帯が先に傷みます。本体を買い替えずに復活させるオムロン純正Mサイズ腕帯",
-                       "status":  "reserved",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  "2026-07-24T17:12:00+09:00",
-                       "account_id":  "account3",
-                       "account_name":  "ミリミムちゃん",
-                       "note_url":  "https://note.com/animedaisukiminn/n/n153f72a1c67d",
-                       "edit_url":  "https://editor.note.com/notes/n153f72a1c67d/edit/",
-                       "thumbnail_path":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem5\\3-5_B00272N89Y_v2.png",
-                       "source_file":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
-                       "source_index":  4
-                   },
-                   {
-                       "asin":  "B09L42VBH5",
-                       "title":  "記録が続かない人の体重管理は、乗るだけでスマホに残るオムロンの体重計が解決してくれます",
-                       "status":  "reserved",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  "2026-07-24T19:03:00+09:00",
-                       "account_id":  "account3",
-                       "account_name":  "ミリミムちゃん",
-                       "note_url":  "https://note.com/animedaisukiminn/n/n7dfd79ee072c",
-                       "edit_url":  "https://editor.note.com/notes/n7dfd79ee072c/edit/",
-                       "thumbnail_path":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem6\\3-6_B09L42VBH5_v1.png",
-                       "source_file":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
-                       "source_index":  5
-                   },
-                   {
-                       "asin":  "B0939X7DZD",
-                       "title":  "長い毛もVIOも1本で完結。シックのマルチボディシェーバーが1,536円です",
-                       "status":  "reserved",
-                       "posted_at":  "2026-07-24T00:00:00+09:00",
-                       "reserved_at":  "2026-07-24T22:46:00+09:00",
-                       "account_id":  "account3",
-                       "account_name":  "ミリミムちゃん",
-                       "note_url":  "https://note.com/animedaisukiminn/n/nf0622f1427a3",
-                       "edit_url":  "https://editor.note.com/notes/nf0622f1427a3/edit/",
-                       "thumbnail_path":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem8\\3-8_B0939X7DZD_v3.png",
-                       "source_file":  "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
-                       "source_index":  6
-                   }
-               ]
+{
+  "schema": "note-amazon-asin-history-v1",
+  "updated_at": "2026-07-25T00:32:50+09:00",
+  "description": "Single source of truth for account3 ASIN exclusion. Scraped and posted ASINs are retained for the configured exclusion window.",
+  "posted": [
+    {
+      "asin": "B0081CM9KS",
+      "status": "scraped",
+      "posted_at": "2026-07-20T00:00:00+09:00"
+    },
+    {
+      "asin": "B017R5S7D2",
+      "status": "scraped",
+      "posted_at": "2026-07-20T00:00:00+09:00"
+    },
+    {
+      "asin": "B075GJC9PH",
+      "status": "scraped",
+      "posted_at": "2026-07-20T00:00:00+09:00"
+    },
+    {
+      "asin": "B09SFQW9PN",
+      "status": "scraped",
+      "posted_at": "2026-07-20T00:00:00+09:00"
+    },
+    {
+      "asin": "B0C57Y8QC8",
+      "status": "posted",
+      "posted_at": "2026-07-20T00:00:00+09:00"
+    },
+    {
+      "asin": "B0C57ZT7W1",
+      "status": "posted",
+      "posted_at": "2026-07-20T00:00:00+09:00"
+    },
+    {
+      "asin": "B0C73DZH11",
+      "status": "posted",
+      "posted_at": "2026-07-20T00:00:00+09:00"
+    },
+    {
+      "asin": "B0D1KNYMRS",
+      "status": "posted",
+      "posted_at": "2026-07-20T00:00:00+09:00"
+    },
+    {
+      "asin": "B0GV39NTSQ",
+      "status": "scraped",
+      "posted_at": "2026-07-20T00:00:00+09:00"
+    },
+    {
+      "asin": "B078W6DPTP",
+      "status": "scraped",
+      "posted_at": "2026-07-21T00:00:00+09:00"
+    },
+    {
+      "asin": "B09L42VBH5",
+      "status": "scraped",
+      "posted_at": "2026-07-21T00:00:00+09:00"
+    },
+    {
+      "asin": "B0B48SWVWX",
+      "status": "scraped",
+      "posted_at": "2026-07-21T00:00:00+09:00"
+    },
+    {
+      "asin": "B0CLRNDXQW",
+      "status": "scraped",
+      "posted_at": "2026-07-21T00:00:00+09:00"
+    },
+    {
+      "asin": "B0CM9SMGC8",
+      "status": "scraped",
+      "posted_at": "2026-07-21T00:00:00+09:00"
+    },
+    {
+      "asin": "B0D767K9DV",
+      "status": "scraped",
+      "posted_at": "2026-07-21T00:00:00+09:00"
+    },
+    {
+      "asin": "B0FZRC3R3W",
+      "status": "scraped",
+      "posted_at": "2026-07-21T00:00:00+09:00"
+    },
+    {
+      "asin": "B0G1RL6V2S",
+      "status": "scraped",
+      "posted_at": "2026-07-21T00:00:00+09:00"
+    },
+    {
+      "asin": "B00JXMUR2W",
+      "status": "scraped",
+      "posted_at": "2026-07-22T00:00:00+09:00"
+    },
+    {
+      "asin": "B0C5S6TJHZ",
+      "status": "scraped",
+      "posted_at": "2026-07-22T00:00:00+09:00"
+    },
+    {
+      "asin": "B0DQ4XXMRL",
+      "status": "scraped",
+      "posted_at": "2026-07-22T00:00:00+09:00"
+    },
+    {
+      "asin": "B0FB3DVCYM",
+      "status": "scraped",
+      "posted_at": "2026-07-22T00:00:00+09:00"
+    },
+    {
+      "asin": "B0FQBN4DTK",
+      "status": "scraped",
+      "posted_at": "2026-07-22T00:00:00+09:00"
+    },
+    {
+      "asin": "B0FRQ6573B",
+      "status": "scraped",
+      "posted_at": "2026-07-22T00:00:00+09:00"
+    },
+    {
+      "asin": "B0GKDJCZWK",
+      "status": "scraped",
+      "posted_at": "2026-07-22T00:00:00+09:00"
+    },
+    {
+      "asin": "B0GQGFDQ1J",
+      "status": "scraped",
+      "posted_at": "2026-07-22T00:00:00+09:00"
+    },
+    {
+      "asin": "B0H1GTZS1V",
+      "status": "scraped",
+      "posted_at": "2026-07-22T00:00:00+09:00"
+    },
+    {
+      "asin": "B0H33NXGRW",
+      "status": "scraped",
+      "posted_at": "2026-07-22T00:00:00+09:00"
+    },
+    {
+      "asin": "B00272N89Y",
+      "title": "血圧計は腕帯が先に傷みます。本体を買い替えずに復活させるオムロン純正Mサイズ腕帯",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T17:12:00+09:00",
+      "account_id": "account3",
+      "account_name": "ミリミムちゃん",
+      "note_url": "https://note.com/animedaisukiminn/n/n153f72a1c67d",
+      "edit_url": "https://editor.note.com/notes/n153f72a1c67d/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem5\\3-5_B00272N89Y_v2.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
+      "source_index": 4
+    },
+    {
+      "asin": "B00UNSO9N8",
+      "title": "【公式】Shop Japan(ショップジャパン) ワンダーコア スマート ライムグリーン [メーカー保証1年付] 腹筋 腕部 太もも エクササイズ用 倒れるだけ腹筋マシン 自宅でエクササイズ WDS-AM01",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 9
+    },
+    {
+      "asin": "B01HPRXCVO",
+      "title": "1,650円で毎日ヘッドスパ気分。頭皮マッサージブラシ1位、日本製ハンドプロのゾワゾワする気持ちよさ",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T15:20:00+09:00",
+      "account_id": "account3",
+      "account_name": "ミリミムちゃん",
+      "note_url": "https://note.com/animedaisukiminn/n/nf53100e48ab2",
+      "edit_url": "https://editor.note.com/notes/nf53100e48ab2/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem4\\3-4_B01HPRXCVO_v2.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
+      "source_index": 3
+    },
+    {
+      "asin": "B079KHLVKN",
+      "title": "バターみたいに滑るアイライナー。e.l.f.サテンペンシルが手放せない理由",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T11:48:00+09:00",
+      "account_id": "account3",
+      "account_name": "ミリミムちゃん",
+      "note_url": "https://note.com/animedaisukiminn/n/n9fe3e32bbfee",
+      "edit_url": "https://editor.note.com/notes/n9fe3e32bbfee/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem2\\3-2_B079KHLVKN.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
+      "source_index": 1
+    },
+    {
+      "asin": "B086XCB1QP",
+      "title": "お風呂上がりの10分がごほうびに変わる筋膜リリースガンMebak 3、強さは30段階です",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T13:29:00+09:00",
+      "account_id": "account3",
+      "account_name": "ミリミムちゃん",
+      "note_url": "https://note.com/animedaisukiminn/n/n67e75b2f2a53",
+      "edit_url": "https://editor.note.com/notes/n67e75b2f2a53/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem3\\3-3_B086XCB1QP_v1.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
+      "source_index": 2
+    },
+    {
+      "asin": "B08R1BFJG5",
+      "title": "ニベアUV ディープ プロテクト & ケア ジェル 80g SPF50+ / PA++++ 〈 予防美容(日やけによるシミ・そばかすを防ぐ)ができる美容ケアUV 〉",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 2
+    },
+    {
+      "asin": "B0939X7DZD",
+      "title": "長い毛もVIOも1本で完結。シックのマルチボディシェーバーが1,536円です",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T22:46:00+09:00",
+      "account_id": "account3",
+      "account_name": "ミリミムちゃん",
+      "note_url": "https://note.com/animedaisukiminn/n/nf0622f1427a3",
+      "edit_url": "https://editor.note.com/notes/nf0622f1427a3/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem8\\3-8_B0939X7DZD_v3.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
+      "source_index": 6
+    },
+    {
+      "asin": "B09L42VBH5",
+      "title": "記録が続かない人の体重管理は、乗るだけでスマホに残るオムロンの体重計が解決してくれます",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T19:03:00+09:00",
+      "account_id": "account3",
+      "account_name": "ミリミムちゃん",
+      "note_url": "https://note.com/animedaisukiminn/n/n7dfd79ee072c",
+      "edit_url": "https://editor.note.com/notes/n7dfd79ee072c/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem6\\3-6_B09L42VBH5_v1.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account3_combined_results.json",
+      "source_index": 5
+    },
+    {
+      "asin": "B09TFGV11Z",
+      "title": "【正規品】ブラウン 脱毛器 シルクエキスパート Pro5 【Amazon.co.jp限定】 光脱毛器 PL5387 【業界最高峰パワー x 刺激レス】 医療機関テスト済み IPL 男女兼用 VIO対応 たった3回で効果実感 365日ツルすべ肌へ 光美容器 アタッチメント3個 White/Gold",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 4
+    },
+    {
+      "asin": "B0C1BVKK5N",
+      "title": "【詰め替え大容量】NONIO(ノニオ)プラスホワイトニング デンタルリンス フレッシュホワイトミント [医薬部外品] 1300ml 液体歯磨き 口臭原因菌を殺菌",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 10
+    },
+    {
+      "asin": "B0C2YLRFGX",
+      "title": "BRiOSS (ブリオス) チャームリフト アイボリー",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 2
+    },
+    {
+      "asin": "B0C9QG96H9",
+      "title": "Sensaナノイオンフェイシャルスチーマー | ディープ毛穴クレンジング | 温ミスト噴霧器 | 保湿と水分補給 | ホームフェイスサウナ | エッセンシャルオイルバスケット3個付き",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 3
+    },
+    {
+      "asin": "B0CDSYRKMW",
+      "title": "歯の表も裏も上下まとめて10秒、H型ヘッドのウォーターフロッサーで歯間ケアが続く習慣になる",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T09:47:00+09:00",
+      "account_id": "account3",
+      "account_name": "ミリミムちゃん",
+      "note_url": "https://note.com/animedaisukiminn/n/n2c29f1f90842",
+      "edit_url": "https://editor.note.com/notes/n2c29f1f90842/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\prepared_thumbnails_1280x670_first\\3-1_B0CDSYRKMW.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\post_account3_results_2026-07-24_first.json",
+      "source_index": 1
+    },
+    {
+      "asin": "B0CTQ1XFRL",
+      "title": "ブラウン 電気シェーバー シリーズ5 電動 髭剃り メンズ 【Amazon.co.jp限定】 52-M1200s ミント キワゾリトリマー 防水設計 充電式 コードレス ディープキャッチ網刃 トラベルケース",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 5
+    },
+    {
+      "asin": "B0DB48CFG7",
+      "title": "ブラウン 電動歯ブラシ オーラルB【電動初心者の決定版】iO2 iOS21D90BK ブラック 防水 歯科医推奨No.1ブランド【Amazon.co.jp 限定】",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 9
+    },
+    {
+      "asin": "B0DCB6QCVD",
+      "title": "Schick(シック) サロンプラス トーンアップ ボディシェーバー ホルダー(刃付き) 女性用 カミソリ",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 6
+    },
+    {
+      "asin": "B0DS7WX8QS",
+      "title": "Bioré ビオレUV アクアリッチ ウォータリーエッセンス 100g 日焼け止め SPF50 【Amazon.co.jp限定】",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 8
+    },
+    {
+      "asin": "B0FP47GB9Q",
+      "title": "ジョンソンボディケア VCアロマミルク 500ml シトラスとシダーウッドの香り ボディクリーム ボディミルク ローション ビタミンC配合 ポンプ 保湿 【大容量】",
+      "status": "scraped",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-24.json",
+      "source_index": 7
+    },
+    {
+      "asin": "B00UNSO9N8",
+      "title": "【公式】Shop Japan(ショップジャパン) ワンダーコア スマート ライムグリーン [メーカー保証1年付] 腹筋 腕部 太もも エクササイズ用 倒れるだけ腹筋マシン 自宅でエクササイズ WDS-AM01",
+      "status": "scraped",
+      "posted_at": "2026-07-25T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-25.json",
+      "source_index": 8
+    },
+    {
+      "asin": "B06XYDFDV5",
+      "title": "バンテリンサポーター 腰用 大きめ/Lサイズ(へそ周り 80~100cm) ブラック",
+      "status": "scraped",
+      "posted_at": "2026-07-25T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-25.json",
+      "source_index": 10
+    },
+    {
+      "asin": "B084FT21FJ",
+      "title": "脱毛器 無痛脱毛 自動照射 60万発9段階 全身適用 vio対応 家庭用 男女兼用 ipl 光脱毛器 髭 だつもうき脱毛器 メンズ サーリシ 光美容器 White Ai01",
+      "status": "scraped",
+      "posted_at": "2026-07-25T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-25.json",
+      "source_index": 4
+    },
+    {
+      "asin": "B08R1BFJG5",
+      "title": "ニベアUV ディープ プロテクト & ケア ジェル 80g SPF50+ / PA++++ 〈 予防美容(日やけによるシミ・そばかすを防ぐ)ができる美容ケアUV 〉",
+      "status": "scraped",
+      "posted_at": "2026-07-25T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-25.json",
+      "source_index": 3
+    },
+    {
+      "asin": "B0C1BVKK5N",
+      "title": "【詰め替え大容量】NONIO(ノニオ)プラスホワイトニング デンタルリンス フレッシュホワイトミント [医薬部外品] 1300ml 液体歯磨き 口臭原因菌を殺菌",
+      "status": "scraped",
+      "posted_at": "2026-07-25T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-25.json",
+      "source_index": 2
+    },
+    {
+      "asin": "B0C8KHTD16",
+      "title": "Philips Sonicare Cordless Power Flosser 3000 - Black",
+      "status": "scraped",
+      "posted_at": "2026-07-25T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-25.json",
+      "source_index": 5
+    },
+    {
+      "asin": "B0CXDNS6HN",
+      "title": "SALONIA サロニア 美顔器 EMS リフトブラシ シルバー 【Amazon.co.jp限定】 | SAL22206SL,EMS,電気ブラシ,美顔器,電動頭皮ブラシ,リフトアップ",
+      "status": "scraped",
+      "posted_at": "2026-07-25T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-25.json",
+      "source_index": 7
+    },
+    {
+      "asin": "B0DYNVL7B4",
+      "title": "SALONIA サロニア スピーディーイオン ドライヤー グレー【Amazon.co.jp限定】 | SL-013AGR,大風量,速乾,軽量,マイナスイオン,ヘアドライヤー",
+      "status": "scraped",
+      "posted_at": "2026-07-25T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-25.json",
+      "source_index": 6
+    },
+    {
+      "asin": "B0FKB678DY",
+      "title": "めぐりズム 蒸気めぐるアイマスク 無香料 16枚入【大容量】【Amazon.co.jp限定】",
+      "status": "scraped",
+      "posted_at": "2026-07-25T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-25.json",
+      "source_index": 9
+    },
+    {
+      "asin": "B0FT1BQ88M",
+      "title": "SALONIA サロニア 2WAY ストレート カール ヘアアイロン コテ 32mm SL-002AB ブラック 【Amazon.co.jp限定】",
+      "status": "scraped",
+      "posted_at": "2026-07-25T00:00:00+09:00",
+      "reserved_at": null,
+      "account_id": "account3",
+      "account_name": "account3",
+      "note_url": null,
+      "edit_url": null,
+      "thumbnail_path": null,
+      "source_file": "/home/runner/work/pinefield/pinefield/data/account3/products_2026-07-25.json",
+      "source_index": 1
+    }
+  ]
 }
