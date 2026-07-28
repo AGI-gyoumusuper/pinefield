@@ -1,9 +1,9 @@
-# Amazon タイムセール巡回カテゴリ設定 v3.1
-# 方針：「高級ソフトウェアエンジニアが買いそうな商品」35カテゴリ × セールフィルタ
+# Amazon 人気順巡回カテゴリ設定
+# 方針：「高級ソフトウェアエンジニアが買いそうな商品」35カテゴリ × 人気順
 # v3.1 (2026-07-05): 除外をGitHub側へ一本化（3日ルール・data/account1/asin_history.json）
 #                    scrape_searchは最大2ページ巡回・カテゴリ別サマリをdataへ保存
-# URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank（ver4.0・2026-07-24人気順試運転。旧セール版: %2Cp_n_deal_type%3A23534876051）
-#   = カテゴリノード × セール商品のみ
+# URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank
+#   = カテゴリノード × Amazon人気順（割引の有無は採用条件にしない）
 # is_search: true により scraper.py の scrape_search() を使用
 
 categories:

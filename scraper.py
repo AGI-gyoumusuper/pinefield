@@ -1,13 +1,10 @@
 """
-Amazon セール商品スクレイパー (Playwright版・PCガジェット特化)
+Amazon 人気順商品スクレイパー (Playwright版)
 
-- categories.yaml で巡回カテゴリと価格フィルタを管理
-- 3000円以上のPCガジェット商品を取得
-- 三系統対応:
-  * ベストセラー（既存）
-  * タイムセール特集（既存）
-  * 検索＋セールフィルタ（v3新規）/s?rh=n%3A{node}%2Cp_n_deal_type%3A23534876051
-- セール優先ソート + 投稿済みASIN除外
+- categoriesN.yaml で巡回カテゴリと価格フィルタを管理
+- Amazon検索結果を人気順で巡回し、レビュー件数順で横断選定
+- 割引率・元値は商品情報として取得するが、採用条件には使用しない
+- 投稿済みASIN除外
 - 個別商品ページから商品説明文・スペック欄も取得（v2追加）
 """
 
@@ -224,11 +221,10 @@ async def scrape_timesale(page: Page, url: str, category: str, max_items: int = 
 # ============================================
 # Amazon検索結果ページは [data-component-type="s-search-result"] で
 # 各商品カードがマークアップされており、ベストセラー/タイムセールページより
-# 構造が安定している。/s?rh=n%3A{node}%2Cp_n_deal_type%3A23534876051
-# 形式のセール×カテゴリ絞り込みURL用。
+# 構造が安定している。人気順などの検索結果URL用。
 
 async def scrape_search(page: Page, url: str, category: str, max_items: int = 10, associate_tag: str = ASSOCIATE_TAG, excluded: Optional[set] = None, stats: Optional[dict] = None) -> List[Product]:
-    """Amazon検索結果ページ (/s?rh=...) からセール商品を取得する。
+    """Amazon検索結果ページ (/s?rh=...) から商品を取得する。
 
     - s-search-result カードを順に走査
     - スポンサー枠も含めてASIN単位で重複排除
@@ -239,7 +235,7 @@ async def scrape_search(page: Page, url: str, category: str, max_items: int = 10
     products: List[Product] = []
     seen_asins = set()
     excluded = excluded or set()
-    cat_stats: dict = {"pages": [], "taken": 0, "skipped_posted": 0, "skipped_nosale": 0, "error": ""}
+    cat_stats: dict = {"pages": [], "taken": 0, "skipped_posted": 0, "error": ""}
 
     async def _consume_cards(cards) -> None:
         for card in cards:
@@ -333,11 +329,6 @@ async def scrape_search(page: Page, url: str, category: str, max_items: int = 10
                 if price_int <= 0:
                     continue
 
-                # セール対象品のみ採用（割引情報・元値のいずれも無いものは除外）
-                if not discount_rate and not original_price:
-                    cat_stats["skipped_nosale"] += 1
-                    continue
-
                 seen_asins.add(asin)
                 products.append(Product(
                     asin=asin,
@@ -400,7 +391,7 @@ async def scrape_search(page: Page, url: str, category: str, max_items: int = 10
         cat_stats["taken"] = len(products)
         logger.info(
             f"[{category}] 取得 {len(products)} 件"
-            f"（割引付 {sum(1 for p in products if p.discount_rate)} 件・"
+            f"（割引表示 {sum(1 for p in products if p.discount_rate)} 件・"
             f"投稿済スキップ {cat_stats['skipped_posted']} 件）"
         )
     except Exception as e:
