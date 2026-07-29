@@ -1,131 +1,109 @@
-# 人格3 セルフケア（美容・健康） カテゴリ設定 v1.0（2026-07-10 Fable建立 ver2.8）
-# 出自: ★新Amazonカテゴリ/★Amazonカテゴリ③④⑤提案.md（2026-07-05 Fable設計）
-# ③セルフケア: 美容・健康家電とコスメ
-# 方針: 自分の体に投資する読者。ドライヤー・脱毛器・マッサージ器は単価が高く記事映えする。
+# account3 美容・健康家電 Amazon実カテゴリ設定
+# 2026-07-29: キーワード検索を全廃し、Amazonの実在Browse Nodeだけへ置換
+# URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank
 categories:
-  # ---------- 髪 ----------
-  - name: "高級ドライヤー"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%89%E3%83%A9%E3%82%A4%E3%83%A4%E3%83%BC%20%E5%A4%A7%E9%A2%A8%E9%87%8F&s=exact-aware-popularity-rank"
-    max_items: 12
+  - name: "ヘアドライヤー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2145992051&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "ヘアアイロン"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%98%E3%82%A2%E3%82%A2%E3%82%A4%E3%83%AD%E3%83%B3&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2145995051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "ヘアブラシ・電気ブラシ"
-    url: "https://www.amazon.co.jp/s?k=%E9%9B%BB%E6%B0%97%E3%83%96%E3%83%A9%E3%82%B7%20%E9%A0%AD%E7%9A%AE&s=exact-aware-popularity-rank"
+  - name: "電動頭皮マッサージャー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2145996051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  # ---------- 顔・肌 ----------
-  - name: "美顔器"
-    url: "https://www.amazon.co.jp/s?k=%E7%BE%8E%E9%A1%94%E5%99%A8&s=exact-aware-popularity-rank"
-    max_items: 12
+  - name: "美顔器・エイジングケア機器"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2145989051&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "フェイススチーマー"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%95%E3%82%A7%E3%82%A4%E3%82%B9%E3%82%B9%E3%83%81%E3%83%BC%E3%83%9E%E3%83%BC&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A5013079051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "脱毛器"
-    url: "https://www.amazon.co.jp/s?k=%E5%85%89%E8%84%B1%E6%AF%9B%E5%99%A8&s=exact-aware-popularity-rank"
-    max_items: 12
+    url: "https://www.amazon.co.jp/s?rh=n%3A5013078051&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "メンズシェーバー"
-    url: "https://www.amazon.co.jp/s?k=%E9%9B%BB%E5%8B%95%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%90%E3%83%BC%20%E3%83%A1%E3%83%B3%E3%82%BA&s=exact-aware-popularity-rank"
-    max_items: 12
+    url: "https://www.amazon.co.jp/s?rh=n%3A2145940051&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "レディースシェーバー"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%90%E3%83%BC%20%E3%83%AC%E3%83%87%E3%82%A3%E3%83%BC%E3%82%B9&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A5013077051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "スキンケアセット"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%B9%E3%82%AD%E3%83%B3%E3%82%B1%E3%82%A2%20%E3%82%BB%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A52977051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "日焼け止め・UVケア"
-    url: "https://www.amazon.co.jp/s?k=%E6%97%A5%E7%84%BC%E3%81%91%E6%AD%A2%E3%82%81%20%E5%A4%A7%E5%AE%B9%E9%87%8F&s=exact-aware-popularity-rank"
+  - name: "日焼け止め"
+    url: "https://www.amazon.co.jp/s?rh=n%3A170262011&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  # ---------- 口腔（②の電動歯ブラシとは別商品群） ----------
-  - name: "口腔洗浄器"
-    url: "https://www.amazon.co.jp/s?k=%E5%8F%A3%E8%85%94%E6%B4%97%E6%B5%84%E5%99%A8&s=exact-aware-popularity-rank"
+  - name: "電動歯ブラシ・口腔ケア機器"
+    url: "https://www.amazon.co.jp/s?rh=n%3A10509646051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "ホワイトニング"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%8B%E3%83%B3%E3%82%B0%20%E6%AD%AF&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A169772011&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  # ---------- 身体のケア ----------
-  - name: "マッサージガン"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%9E%E3%83%83%E3%82%B5%E3%83%BC%E3%82%B8%E3%82%AC%E3%83%B3&s=exact-aware-popularity-rank"
-    max_items: 12
+  - name: "ハンディマッサージャー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2146032051&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "ネックマッサージャー"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%8D%E3%83%83%E3%82%AF%E3%83%9E%E3%83%83%E3%82%B5%E3%83%BC%E3%82%B8%E3%83%A3%E3%83%BC&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A8433617051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "フットマッサージャー"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%95%E3%83%83%E3%83%88%E3%83%9E%E3%83%83%E3%82%B5%E3%83%BC%E3%82%B8%E3%83%A3%E3%83%BC&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2146031051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "マッサージシート"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%9E%E3%83%83%E3%82%B5%E3%83%BC%E3%82%B8%E3%82%B7%E3%83%BC%E3%83%88&s=exact-aware-popularity-rank"
+  - name: "マッサージクッション"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3974655051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "アイウォーマー"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%BC&s=exact-aware-popularity-rank"
+  - name: "アイマッサージャー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A5013080051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "EMS腹筋ベルト"
-    url: "https://www.amazon.co.jp/s?k=EMS%20%E8%85%B9%E7%AD%8B&s=exact-aware-popularity-rank"
+  - name: "EMS・筋肉刺激機器"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2145975051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  # ---------- 計る・整える ----------
   - name: "体組成計"
-    url: "https://www.amazon.co.jp/s?k=%E4%BD%93%E7%B5%84%E6%88%90%E8%A8%88&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2145971051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "血圧計"
-    url: "https://www.amazon.co.jp/s?k=%E8%A1%80%E5%9C%A7%E8%A8%88&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "光目覚まし時計"
-    url: "https://www.amazon.co.jp/s?k=%E5%85%89%E7%9B%AE%E8%A6%9A%E3%81%BE%E3%81%97%E6%99%82%E8%A8%88&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "姿勢サポーター"
-    url: "https://www.amazon.co.jp/s?k=%E5%A7%BF%E5%8B%A2%E7%9F%AF%E6%AD%A3%20%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  # ---------- 香り ----------
-  - name: "香水"
-    url: "https://www.amazon.co.jp/s?k=%E9%A6%99%E6%B0%B4&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2145972051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "アロマディフューザー"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%A2%E3%83%AD%E3%83%9E%E3%83%87%E3%82%A3%E3%83%95%E3%83%A5%E3%83%BC%E3%82%B6%E3%83%BC&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A169895011&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 

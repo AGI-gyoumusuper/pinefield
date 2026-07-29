@@ -1,140 +1,119 @@
-# 人格4 宅トレ・アウトドア カテゴリ設定 v1.0（2026-07-10 Fable建立 ver2.8）
-# 出自: ★新Amazonカテゴリ/★Amazonカテゴリ③④⑤提案.md（2026-07-05 Fable設計）
-# ④外遊びと運動: キャンプ・スポーツ器具・フィットネス
-# 方針: 週末の外遊びと平日の宅トレ。スポーツ&アウトドアは料率4%と家電の2倍。
+# account4 アウトドア・スポーツ・宅トレ Amazon実カテゴリ設定
+# 2026-07-29: キーワード検索を全廃し、Amazonの実在Browse Nodeだけへ置換
+# URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank
 categories:
-  # ---------- キャンプの基地 ----------
   - name: "テント"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%86%E3%83%B3%E3%83%88%20%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%97&s=exact-aware-popularity-rank"
-    max_items: 12
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325801&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "タープ"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%BF%E3%83%BC%E3%83%97&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325791&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "寝袋"
-    url: "https://www.amazon.co.jp/s?k=%E5%AF%9D%E8%A2%8B&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A14916951&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "キャンプマット"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%97%20%E3%83%9E%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A10504410051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "キャンプチェア"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%A2%E3%82%A6%E3%83%88%E3%83%89%E3%82%A2%E3%83%81%E3%82%A7%E3%82%A2&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325891&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "アウトドアテーブル"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%A2%E3%82%A6%E3%83%88%E3%83%89%E3%82%A2%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325901&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  # ---------- 火と光と食 ----------
   - name: "ランタン"
-    url: "https://www.amazon.co.jp/s?k=LED%E3%83%A9%E3%83%B3%E3%82%BF%E3%83%B3&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A14917021&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "焚き火台"
-    url: "https://www.amazon.co.jp/s?k=%E7%84%9A%E3%81%8D%E7%81%AB%E5%8F%B0&s=exact-aware-popularity-rank"
+  - name: "キャンプ用グリル・スモーカー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325691&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "バーベキューコンロ"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%90%E3%83%BC%E3%83%99%E3%82%AD%E3%83%A5%E3%83%BC%E3%82%B3%E3%83%B3%E3%83%AD&s=exact-aware-popularity-rank"
+  - name: "キャンプストーブ・バーナー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15347711&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "シングルバーナー"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%90%E3%83%BC%E3%83%8A%E3%83%BC&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "クッカーセット"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%AF%E3%83%83%E3%82%AB%E3%83%BC%20%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%97&s=exact-aware-popularity-rank"
+  - name: "キャンプ用クッカー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325651&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "クーラーボックス"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%AF%E3%83%BC%E3%83%A9%E3%83%BC%E3%83%9C%E3%83%83%E3%82%AF%E3%82%B9&s=exact-aware-popularity-rank"
-    max_items: 12
-    is_search: true
-
-  # ---------- 電源・装備（①のモバイルバッテリーとは別物＝大容量電源のみ） ----------
-  - name: "ポータブル電源"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%96%E3%83%AB%E9%9B%BB%E6%BA%90&s=exact-aware-popularity-rank"
-    max_items: 12
-    is_search: true
-
-  - name: "ソーラーパネル"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%BD%E3%83%BC%E3%83%A9%E3%83%BC%E3%83%91%E3%83%8D%E3%83%AB%20%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%96%E3%83%AB&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A14916931&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "登山リュック"
-    url: "https://www.amazon.co.jp/s?k=%E7%99%BB%E5%B1%B1%20%E3%83%AA%E3%83%A5%E3%83%83%E3%82%AF&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15384771&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "トレッキングポール"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%88%E3%83%AC%E3%83%83%E3%82%AD%E3%83%B3%E3%82%B0%E3%83%9D%E3%83%BC%E3%83%AB&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A16397222051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "アウトドアナイフ"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%A2%E3%82%A6%E3%83%88%E3%83%89%E3%82%A2%20%E3%83%8A%E3%82%A4%E3%83%95&s=exact-aware-popularity-rank"
+  - name: "アウトドアナイフ・ツール"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15314301&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "双眼鏡"
-    url: "https://www.amazon.co.jp/s?k=%E5%8F%8C%E7%9C%BC%E9%8F%A1&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A16023671&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  # ---------- 家で鍛える ----------
   - name: "フィットネスバイク"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%95%E3%82%A3%E3%83%83%E3%83%88%E3%83%8D%E3%82%B9%E3%83%90%E3%82%A4%E3%82%AF&s=exact-aware-popularity-rank"
-    max_items: 12
+    url: "https://www.amazon.co.jp/s?rh=n%3A344957011&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "ルームランナー"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%AB%E3%83%BC%E3%83%A0%E3%83%A9%E3%83%B3%E3%83%8A%E3%83%BC&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A344958011&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "可変式ダンベル"
-    url: "https://www.amazon.co.jp/s?k=%E5%8F%AF%E5%A4%89%E5%BC%8F%E3%83%80%E3%83%B3%E3%83%99%E3%83%AB&s=exact-aware-popularity-rank"
+  - name: "ウェイト・ダンベル"
+    url: "https://www.amazon.co.jp/s?rh=n%3A10325844051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "トレーニングベンチ"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%88%E3%83%AC%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0%E3%83%99%E3%83%B3%E3%83%81&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A344929011&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "懸垂マシン"
-    url: "https://www.amazon.co.jp/s?k=%E6%87%B8%E5%9E%82%E3%83%9E%E3%82%B7%E3%83%B3&s=exact-aware-popularity-rank"
+  - name: "懸垂器具"
+    url: "https://www.amazon.co.jp/s?rh=n%3A344936011&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "ヨガマット"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%A8%E3%82%AC%E3%83%9E%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A344939011&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  # ---------- 走る・漕ぐ ----------
-  - name: "ランニングシューズ"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%A9%E3%83%B3%E3%83%8B%E3%83%B3%E3%82%B0%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BA&s=exact-aware-popularity-rank"
-    max_items: 12
+  - name: "ランニング用品"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2247235051&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "自転車ヘルメット"
-    url: "https://www.amazon.co.jp/s?k=%E8%87%AA%E8%BB%A2%E8%BB%8A%20%E3%83%98%E3%83%AB%E3%83%A1%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15334611&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 

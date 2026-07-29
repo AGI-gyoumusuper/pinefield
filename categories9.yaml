@@ -1,142 +1,120 @@
-# ⑨DDD カテゴリ設定 v1.0（2026-07-12 Fable設計・系統確定: 家具・インテリア・寝具）
-# 出自: ★新Amazonカテゴリ/★Amazonカテゴリ⑥〜⑩系統案_v1.0.md v2.0（運用裁定・①の型=広市場×25±カテゴリ×高単価）
-# account9
-# 先頭1〜2件はカナリア枠（ボット判定吸収・①v2.3の作法）。初週のカテゴリ別サマリで収穫の細い枠は差し替える（検収条項）
-# 季節メモ: 毛布・こたつは夏に細いためタオルケット・布団セットで代替中。冬に入替復帰を検討
+# account9 家具・インテリア・寝具 Amazon実カテゴリ設定
+# 2026-07-29: キーワード検索を全廃し、Amazonの実在Browse Nodeだけへ置換
+# URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank
 categories:
-  - name: "シューズラック"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BA%E3%83%A9%E3%83%83%E3%82%AF&s=exact-aware-popularity-rank"
-    max_items: 8
+  - name: "シューズラック・靴箱"
+    url: "https://www.amazon.co.jp/s?rh=n%3A392222011&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
-  - name: "収納ケース"
-    url: "https://www.amazon.co.jp/s?k=%E5%8F%8E%E7%B4%8D%E3%82%B1%E3%83%BC%E3%82%B9%20%E5%BC%95%E3%81%8D%E5%87%BA%E3%81%97&s=exact-aware-popularity-rank"
-    max_items: 8
+  - name: "収納ケース・ボックス"
+    url: "https://www.amazon.co.jp/s?rh=n%3A16416191&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "マットレス"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%9E%E3%83%83%E3%83%88%E3%83%AC%E3%82%B9&s=exact-aware-popularity-rank"
-    max_items: 12
+    url: "https://www.amazon.co.jp/s?rh=n%3A5341881051&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
-  - name: "脚付きマットレス"
-    url: "https://www.amazon.co.jp/s?k=%E8%84%9A%E4%BB%98%E3%81%8D%E3%83%9E%E3%83%83%E3%83%88%E3%83%AC%E3%82%B9&s=exact-aware-popularity-rank"
-    max_items: 8
+  - name: "ベッド・ベッドフレーム"
+    url: "https://www.amazon.co.jp/s?rh=n%3A393994011&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "枕"
-    url: "https://www.amazon.co.jp/s?k=%E6%9E%95&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2378233051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "羽毛布団"
-    url: "https://www.amazon.co.jp/s?k=%E7%BE%BD%E6%AF%9B%E5%B8%83%E5%9B%A3&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "掛け布団"
-    url: "https://www.amazon.co.jp/s?k=%E6%8E%9B%E3%81%91%E5%B8%83%E5%9B%A3&s=exact-aware-popularity-rank"
+  - name: "羽毛布団・掛け布団"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2378224051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "敷きパッド"
-    url: "https://www.amazon.co.jp/s?k=%E6%95%B7%E3%81%8D%E3%83%91%E3%83%83%E3%83%89&s=exact-aware-popularity-rank"
-    max_items: 8
-    is_search: true
-
-  - name: "タオルケット"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%BF%E3%82%AA%E3%83%AB%E3%82%B1%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
-    max_items: 8
-    is_search: true
-
-  - name: "布団セット"
-    url: "https://www.amazon.co.jp/s?k=%E5%B8%83%E5%9B%A3%E3%82%BB%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2378229051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "ベッドフレーム"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%99%E3%83%83%E3%83%89%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0&s=exact-aware-popularity-rank"
-    max_items: 12
-    is_search: true
-
-  - name: "すのこベッド"
-    url: "https://www.amazon.co.jp/s?k=%E3%81%99%E3%81%AE%E3%81%93%E3%83%99%E3%83%83%E3%83%89&s=exact-aware-popularity-rank"
+  - name: "布団セット"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2378232051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "ソファ"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%BD%E3%83%95%E3%82%A1&s=exact-aware-popularity-rank"
-    max_items: 12
-    is_search: true
-
-  - name: "ソファベッド"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%BD%E3%83%95%E3%82%A1%E3%83%99%E3%83%83%E3%83%89&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A16428081&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "座椅子"
-    url: "https://www.amazon.co.jp/s?k=%E5%BA%A7%E6%A4%85%E5%AD%90&s=exact-aware-popularity-rank"
-    max_items: 8
+  - name: "ソファベッド"
+    url: "https://www.amazon.co.jp/s?rh=n%3A16428091&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "リビングチェア"
+    url: "https://www.amazon.co.jp/s?rh=n%3A10539221051&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
   - name: "ビーズクッション"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%93%E3%83%BC%E3%82%BA%E3%82%AF%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3&s=exact-aware-popularity-rank"
-    max_items: 8
+    url: "https://www.amazon.co.jp/s?rh=n%3A5341885051&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
-  - name: "ローテーブル"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%AD%E3%83%BC%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB&s=exact-aware-popularity-rank"
+  - name: "リビングテーブル"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2491367051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "ダイニングテーブルセット"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%80%E3%82%A4%E3%83%8B%E3%83%B3%E3%82%B0%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E3%82%BB%E3%83%83%E3%83%88&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A392239011&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "テレビ台"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%86%E3%83%AC%E3%83%93%E5%8F%B0&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A5341897051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "本棚"
-    url: "https://www.amazon.co.jp/s?k=%E6%9C%AC%E6%A3%9A&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A392220011&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "チェスト"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%81%E3%82%A7%E3%82%B9%E3%83%88&s=exact-aware-popularity-rank"
+  - name: "チェスト・ドレッサー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A16428201&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "ハンガーラック"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%8F%E3%83%B3%E3%82%AC%E3%83%BC%E3%83%A9%E3%83%83%E3%82%AF&s=exact-aware-popularity-rank"
-    max_items: 8
-    is_search: true
-
-  - name: "ラグ"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%A9%E3%82%B0&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A16416231&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "遮光カーテン"
-    url: "https://www.amazon.co.jp/s?k=%E9%81%AE%E5%85%89%E3%82%AB%E3%83%BC%E3%83%86%E3%83%B3&s=exact-aware-popularity-rank"
+  - name: "ラグ・カーペット"
+    url: "https://www.amazon.co.jp/s?rh=n%3A13946831&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "シーリングライト"
-    url: "https://www.amazon.co.jp/s?k=%E3%82%B7%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%B0%E3%83%A9%E3%82%A4%E3%83%88&s=exact-aware-popularity-rank"
+  - name: "カーテン・窓用品"
+    url: "https://www.amazon.co.jp/s?rh=n%3A10532071051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
-  - name: "フロアライト"
-    url: "https://www.amazon.co.jp/s?k=%E3%83%95%E3%83%AD%E3%82%A2%E3%83%A9%E3%82%A4%E3%83%88&s=exact-aware-popularity-rank"
-    max_items: 8
+  - name: "照明・シーリングライト"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2133982051&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
-  - name: "全身鏡"
-    url: "https://www.amazon.co.jp/s?k=%E5%85%A8%E8%BA%AB%E9%8F%A1&s=exact-aware-popularity-rank"
-    max_items: 8
+  - name: "全身鏡・ウォールミラー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A306191011&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+  - name: "収納棚"
+    url: "https://www.amazon.co.jp/s?rh=n%3A16428161&s=exact-aware-popularity-rank"
+    max_items: 10
     is_search: true
 
 filters:
