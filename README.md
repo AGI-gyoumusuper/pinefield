@@ -10,3 +10,7 @@ category. Output order resumes after the category recorded in
 `data/accountN/category_rotation.json`, wraps at the actual configured category
 count, and is advanced by `scripts/sync_asin_history1.ps1` only after products
 are actually posted or reserved.
+
+An optional `min_price` on an individual category overrides the global floor.
+The scraper applies it to the Amazon search URL and validates the parsed product
+price again before category-leader selection.

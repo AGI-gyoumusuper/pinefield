@@ -2,8 +2,9 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from urllib.parse import parse_qs, urlparse
 
-from scraper import Product, filter_and_sort
+from scraper import Product, filter_and_sort, search_url_with_min_price
 from scripts.update_category_rotation import build_updated_state
 
 
@@ -118,6 +119,29 @@ class CategoryRoundRobinTests(unittest.TestCase):
             categories=categories(9),
         )
         self.assertEqual(product(1, 1, 10).asin, selected[0].asin)
+
+    def test_category_min_price_is_enforced_before_leader_selection(self):
+        cheap_high_review = product(1, 2, 1000)
+        cheap_high_review.price_int = 6000
+        eligible_lower_review = product(1, 1, 100)
+        eligible_lower_review.price_int = 8000
+        selected = filter_and_sort(
+            [cheap_high_review, eligible_lower_review],
+            min_price=800,
+            max_total=1,
+            selection_mode="category_round_robin",
+            categories=categories(1),
+            category_min_prices={"C1": 7000},
+        )
+        self.assertEqual(eligible_lower_review.asin, selected[0].asin)
+
+    def test_category_min_price_is_added_to_amazon_search_url(self):
+        url = search_url_with_min_price(
+            "https://www.amazon.co.jp/s?rh=n%3A2151977051&s=exact-aware-popularity-rank",
+            7000,
+        )
+        query = parse_qs(urlparse(url).query)
+        self.assertEqual(["n:2151977051,p_36:700000-"], query["rh"])
 
     def test_posting_sync_saves_position_six_and_next_position_seven(self):
         config_categories = categories(11)

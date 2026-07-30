@@ -17,7 +17,7 @@ import random
 import re
 from dataclasses import dataclass, asdict
 from typing import List, Optional, Tuple
-from urllib.parse import unquote
+from urllib.parse import parse_qsl, unquote, urlencode, urlparse, urlunparse
 
 import yaml
 from playwright.async_api import async_playwright, Page, BrowserContext
@@ -418,6 +418,30 @@ def category_key(category: dict) -> str:
     return f"name:{name}"
 
 
+def search_url_with_min_price(url: str, min_price: int) -> str:
+    """Amazon検索URLへカテゴリ固有の下限価格を付ける（円→p_36の100倍値）。"""
+    if min_price <= 0:
+        return url
+    parsed = urlparse(url)
+    if parsed.path != "/s":
+        return url
+    query = parse_qsl(parsed.query, keep_blank_values=True)
+    updated_query = []
+    found_rh = False
+    for key, value in query:
+        if key == "rh":
+            found_rh = True
+            parts = [part for part in value.split(",") if not part.startswith("p_36:")]
+            parts.append(f"p_36:{min_price * 100}-")
+            value = ",".join(parts)
+        elif key == "low-price":
+            value = str(min_price)
+        updated_query.append((key, value))
+    if not found_rh:
+        updated_query.append(("rh", f"p_36:{min_price * 100}-"))
+    return urlunparse(parsed._replace(query=urlencode(updated_query)))
+
+
 def load_rotation_state(path: str) -> dict:
     if not path or not os.path.exists(path):
         return {}
@@ -514,6 +538,7 @@ def filter_and_sort(
     selection_mode: str = "",
     categories: Optional[List[dict]] = None,
     rotation_state_file: str = "",
+    category_min_prices: Optional[dict[str, int]] = None,
 ) -> List[Product]:
     posted_asins = posted_asins or set()
     seen = set()
@@ -539,7 +564,9 @@ def filter_and_sort(
         logger.info(f"Title pattern exclusions: {before - len(deduped)} items")
     filtered = []
     for p in deduped:
-        if p.price_int < min_price:
+        category_name = (p.category or "").split("#")[0]
+        effective_min_price = max(min_price, (category_min_prices or {}).get(category_name, min_price))
+        if p.price_int < effective_min_price:
             continue
         if max_price > 0 and p.price_int > max_price:
             continue
@@ -799,6 +826,11 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
     cats = config.get("categories", [])
     flt = config.get("filters", {})
     min_price = int(flt.get("min_price", 3000))
+    category_min_prices = {
+        str(cat.get("name", "")).strip(): max(min_price, int(cat.get("min_price", min_price)))
+        for cat in cats
+        if str(cat.get("name", "")).strip()
+    }
     max_price = int(flt.get("max_price", 0))
     sort_order = str(flt.get("sort_order", "price_desc"))
     max_total = int(flt.get("max_total_items", 50))
@@ -861,6 +893,7 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
             name = cat.get("name", "unknown")
             url = cat.get("url", "")
             max_items = int(cat.get("max_items", 5))
+            category_min_price = category_min_prices.get(str(name).strip(), min_price)
             # 取得方式判定（優先度: is_search > is_timesale > bestseller）
             is_search = bool(cat.get("is_search", False))
             is_timesale = bool(cat.get("is_timesale", False))
@@ -869,7 +902,8 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
             logger.info(f"=== {name} 開始 ===")
             try:
                 if is_search:
-                    products = await scrape_search(page, url, name, max_items, associate_tag, excluded=posted_asins, stats=scrape_stats)
+                    search_url = search_url_with_min_price(url, category_min_price)
+                    products = await scrape_search(page, search_url, name, max_items, associate_tag, excluded=posted_asins, stats=scrape_stats)
                 elif is_timesale:
                     products = await scrape_timesale(page, url, name, max_items, associate_tag)
                 else:
@@ -899,6 +933,7 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
             selection_mode=selection_mode,
             categories=cats,
             rotation_state_file=rotation_state_file,
+            category_min_prices=category_min_prices,
         )
         # Phase 3: 個別商品ページから description / specs を取得
         if filtered:
