@@ -34,6 +34,9 @@ if ($HistoryAccount -notmatch '^account[0-9]+$') {
 }
 $HistoryJson = Join-Path $RepoDir ("data\{0}\asin_history.json" -f $HistoryAccount)
 $HistoryRel = "data/$HistoryAccount/asin_history.json"
+$RotationJson = Join-Path $RepoDir ("data\{0}\category_rotation.json" -f $HistoryAccount)
+$RotationRel = "data/$HistoryAccount/category_rotation.json"
+$RotationScript = Join-Path $ScriptRoot 'update_category_rotation.py'
 
 function Read-JsonFile {
     param([string]$Path)
@@ -176,12 +179,17 @@ foreach ($entry in $existingEntries) {
 }
 
 $added = 0; $updated = 0; $skipped = 0
+$rotationAsins = [System.Collections.Generic.List[string]]::new()
 foreach ($source in $SourceJson) {
     $json = Read-JsonFile -Path $source
     $rows = @(Get-ArrayItems $json)
     for ($i = 0; $i -lt $rows.Count; $i++) {
         $entry = Convert-RowToHistoryEntry -Row $rows[$i] -SourcePath $source -Index ($i + 1)
         if ($null -eq $entry) { $skipped++; continue }
+        $rotationStatus = ([string]$entry.status).Trim().ToLowerInvariant()
+        if ($rotationStatus -notin @('scraped', 'draft', 'failed', 'error', 'skipped')) {
+            $rotationAsins.Add([string]$entry.asin)
+        }
         $key = Get-EntryKey $entry
         if ($map.Contains($key)) { $map[$key] = Merge-Entry -Old $map[$key] -New $entry; $updated++ }
         else { $map[$key] = $entry; $added++ }
@@ -204,6 +212,20 @@ $output = [PSCustomObject]@{
     posted = $posted
 }
 
+$rotationArgs = @(
+    $RotationScript,
+    '--account', $HistoryAccount,
+    '--repo-dir', $RepoDir
+)
+foreach ($asin in $rotationAsins) {
+    $rotationArgs += @('--asin', $asin)
+}
+if ($DryRun) {
+    $rotationArgs += '--dry-run'
+}
+& python @rotationArgs
+if ($LASTEXITCODE -ne 0) { throw "category rotation update failed" }
+
 if ($DryRun) {
     Write-Host ("[DryRun] added={0} updated={1} skipped={2} total={3}" -f $added, $updated, $skipped, $posted.Count)
     exit 0
@@ -213,7 +235,11 @@ ConvertTo-Json -InputObject $output -Depth 20 | Set-Content -LiteralPath $Histor
 Write-Host ("[sync] history written: added={0} updated={1} skipped={2} total={3}" -f $added, $updated, $skipped, $posted.Count)
 
 # ---- commit & push so the 00:01 JST scraper sees it ----
-& git -C $RepoDir add $HistoryRel
+$gitPaths = @($HistoryRel)
+if (Test-Path -LiteralPath $RotationJson -PathType Leaf) {
+    $gitPaths += $RotationRel
+}
+& git -C $RepoDir add @gitPaths
 if ($LASTEXITCODE -ne 0) { throw "git add failed" }
 & git -C $RepoDir diff --staged --quiet
 if ($LASTEXITCODE -eq 0) {

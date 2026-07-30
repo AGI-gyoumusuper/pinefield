@@ -2,9 +2,10 @@
 Amazon 人気順商品スクレイパー (Playwright版)
 
 - categoriesN.yaml で巡回カテゴリと価格フィルタを管理
-- Amazon検索結果を人気順で巡回し、レビュー件数順で横断選定
+- Amazon検索結果を人気順で巡回し、カテゴリ内レビュー件数順で代表商品を選定
 - 割引率・元値は商品情報として取得するが、採用条件には使用しない
 - 投稿済みASIN除外
+- 投稿・予約済みカテゴリの次から可変カテゴリ数で循環
 - 個別商品ページから商品説明文・スペック欄も取得（v2追加）
 """
 
@@ -16,6 +17,7 @@ import random
 import re
 from dataclasses import dataclass, asdict
 from typing import List, Optional, Tuple
+from urllib.parse import unquote
 
 import yaml
 from playwright.async_api import async_playwright, Page, BrowserContext
@@ -402,7 +404,117 @@ async def scrape_search(page: Page, url: str, category: str, max_items: int = 10
     return products
 
 
-def filter_and_sort(products: List[Product], min_price: int = 3000, max_price: int = 0, sort_order: str = "price_desc", max_total: int = 50, posted_asins: Optional[set] = None, min_discount_pct: int = 0, max_per_category: int = 0, exclude_title_patterns: Optional[List[str]] = None) -> List[Product]:
+def review_num(product: Product) -> int:
+    return int(re.sub(r"[^\d]", "", product.review_count or "") or 0)
+
+
+def category_key(category: dict) -> str:
+    """カテゴリ追加・削除後も追跡できる安定キーを返す。"""
+    name = str(category.get("name", "")).strip()
+    decoded_url = unquote(str(category.get("url", "")))
+    node_match = re.search(r"(?:^|[=,&])n:(\d+)", decoded_url)
+    if node_match:
+        return f"node:{node_match.group(1)}"
+    return f"name:{name}"
+
+
+def load_rotation_state(path: str) -> dict:
+    if not path or not os.path.exists(path):
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8-sig") as f:
+            state = json.load(f)
+        return state if isinstance(state, dict) else {}
+    except Exception as e:
+        logger.warning(f"カテゴリ巡回位置の読込失敗（先頭から続行）: {path}: {e}")
+        return {}
+
+
+def select_category_round_robin(
+    products: List[Product],
+    categories: List[dict],
+    max_total: int,
+    rotation_state_file: str,
+) -> List[Product]:
+    """各カテゴリの評価数首位を、前回使用カテゴリの次から順番に採用する。"""
+    active_categories = [
+        category for category in categories
+        if str(category.get("name", "")).strip() and str(category.get("url", "")).strip()
+    ]
+    if not active_categories:
+        return []
+
+    grouped: dict[str, List[Product]] = {}
+    for product in products:
+        name = (product.category or "").split("#")[0]
+        grouped.setdefault(name, []).append(product)
+    for candidates in grouped.values():
+        candidates.sort(key=review_num, reverse=True)
+
+    state = load_rotation_state(rotation_state_file)
+    keys = [category_key(category) for category in active_categories]
+    names = [str(category.get("name", "")).strip() for category in active_categories]
+    last_key = str(state.get("last_category_key", "")).strip()
+    last_name = str(state.get("last_category_name", "")).strip()
+    next_key = str(state.get("next_category_key", "")).strip()
+    next_name = str(state.get("next_category_name", "")).strip()
+    start_index = 0
+    if last_key in keys:
+        start_index = (keys.index(last_key) + 1) % len(active_categories)
+    elif last_name in names:
+        start_index = (names.index(last_name) + 1) % len(active_categories)
+    elif next_key in keys:
+        start_index = keys.index(next_key)
+    elif next_name in names:
+        start_index = names.index(next_name)
+    else:
+        try:
+            saved_next_position = int(state.get("next_category_position", 1))
+        except (TypeError, ValueError):
+            saved_next_position = 1
+        start_index = max(saved_next_position - 1, 0) % len(active_categories)
+
+    ordered_categories = active_categories[start_index:] + active_categories[:start_index]
+    limit = len(active_categories) if max_total <= 0 else min(max_total, len(active_categories))
+    selected: List[Product] = []
+    missing: List[str] = []
+    for category in ordered_categories:
+        name = str(category.get("name", "")).strip()
+        candidates = grouped.get(name, [])
+        if not candidates:
+            missing.append(name)
+            continue
+        selected.append(candidates[0])
+        if len(selected) >= limit:
+            break
+
+    logger.info(
+        "カテゴリ循環選定: 有効=%d 開始=%s 採用=%d/%d 前回=%s",
+        len(active_categories),
+        names[start_index],
+        len(selected),
+        limit,
+        last_name or last_key or "なし",
+    )
+    if missing:
+        logger.warning(f"有効商品なしカテゴリ: {', '.join(missing)}")
+    return selected
+
+
+def filter_and_sort(
+    products: List[Product],
+    min_price: int = 3000,
+    max_price: int = 0,
+    sort_order: str = "price_desc",
+    max_total: int = 50,
+    posted_asins: Optional[set] = None,
+    min_discount_pct: int = 0,
+    max_per_category: int = 0,
+    exclude_title_patterns: Optional[List[str]] = None,
+    selection_mode: str = "",
+    categories: Optional[List[dict]] = None,
+    rotation_state_file: str = "",
+) -> List[Product]:
     posted_asins = posted_asins or set()
     seen = set()
     deduped = []
@@ -456,6 +568,16 @@ def filter_and_sort(products: List[Product], min_price: int = 3000, max_price: i
         filtered = [p for p in filtered if discount_pct(p) >= min_discount_pct]
         logger.info(f"割引率 {min_discount_pct}% 未満: {len(low_pool)} 件を後備へ降格（不足時のみ補充・ver2.6）")
 
+    if selection_mode == "category_round_robin":
+        if low_pool:
+            filtered = filtered + low_pool
+        return select_category_round_robin(
+            filtered,
+            categories or [],
+            max_total,
+            rotation_state_file,
+        )
+
     if sort_order == "sale_first":
         filtered.sort(key=lambda p: (1 if p.discount_rate else 0, discount_pct(p), p.price_int), reverse=True)
     elif sort_order == "amount_first":  # v2.4実装: ①割引有無 → ②割引"額"(円) → ③価格
@@ -465,8 +587,6 @@ def filter_and_sort(products: List[Product], min_price: int = 3000, max_price: i
         # 棚同士の1位は素では比較不能のため、レビュー数を人気の近似に用いる。
         # 評価（★）は水増し警戒で不使用（収集は継続＝分析用）。第二鍵も置かない——1万の位で同数はまず起きず、
         # 万一の同数は浚った順のまま（安定ソート＝決定的で説明可能。ランダムは再現性が消えるため不採用）。
-        def review_num(p: Product) -> int:
-            return int(re.sub(r"[^\d]", "", p.review_count or "") or 0)
         filtered.sort(key=review_num, reverse=True)
     elif sort_order == "price_desc":
         filtered.sort(key=lambda x: x.price_int, reverse=True)
@@ -684,6 +804,10 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
     max_total = int(flt.get("max_total_items", 50))
     min_discount_pct = int(flt.get("min_discount_pct", 0))
     max_per_category = int(flt.get("max_per_category", 0))
+    selection_mode = str(flt.get("selection_mode", "")).strip()
+    rotation_state_file = str(flt.get("rotation_state_file", "")).strip()
+    if rotation_state_file and not os.path.isabs(rotation_state_file):
+        rotation_state_file = os.path.join(os.path.dirname(config_path), rotation_state_file)
     exclude_title_patterns = [str(pattern) for pattern in flt.get("exclude_title_patterns", []) or []]
     reset_context_each_category = bool(flt.get("reset_context_each_category", False))
     excl = config.get("exclusion", {})
@@ -772,6 +896,9 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
             min_discount_pct=min_discount_pct,
             max_per_category=max_per_category,
             exclude_title_patterns=exclude_title_patterns,
+            selection_mode=selection_mode,
+            categories=cats,
+            rotation_state_file=rotation_state_file,
         )
         # Phase 3: 個別商品ページから description / specs を取得
         if filtered:

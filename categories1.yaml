@@ -198,9 +198,11 @@ categories:
 # 共通フィルタ（既存と同じ）
 # ============================================
 filters:
+  selection_mode: "category_round_robin"  # 各カテゴリ評価数1位を、投稿済みカテゴリの次から循環採用
+  rotation_state_file: "data/account1/category_rotation.json"
   min_price: 800         # ver5.2: 人気順でも800円未満は除外（2026-07-24運用裁定・セール版へ戻す時は3000）
   max_price: 0           # 0=上限なし
-  sort_order: "review_desc"   # ver4.0: 各棚人気上位をレビュー数のみで横断番付（2026-07-24運用裁定＝人気カテゴリの顔役だけが上位に残る。評価★・第二鍵とも不使用＝同数は浚った順。セール版へ戻す時は "sale_first"）
+  sort_order: "review_desc"   # 各カテゴリ内を評価数順にし、最上位1商品を採用
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
   max_per_category: 1    # ver4.0: 1棚1粒＝各カテゴリの顔役だけ（2026-07-24運用裁定。収穫は棚10件のまま＝1位が履歴休みの日は2位が繰り上がり自然回転）
   exclude_title_patterns:   # ver3.0: セット・複数個口・詰め合わせの除外（2026-07-19運用裁定）

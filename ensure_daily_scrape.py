@@ -18,7 +18,7 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
 TODAY = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
-MIN_ITEMS = 10  # ver4.0: 10件体制に検証基準を同期（2026-07-19裁定34→8→10・衝突解消時に8→10修正 2026-07-24）
+MIN_ITEMS = 8  # カテゴリ数は可変。9カテゴリ運用でも正常扱いできる安全下限
 ACCOUNTS = tuple(f"account{number}" for number in range(1, 11))  # 10人格＝account1〜10（account0は退役・2026-07-13裁定）
 
 

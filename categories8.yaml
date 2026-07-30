@@ -88,9 +88,11 @@ categories:
     is_search: true
 
 filters:
+  selection_mode: "category_round_robin"
+  rotation_state_file: "data/account8/category_rotation.json"
   min_price: 800         # ver5.2: 人気順でも800円未満は除外（2026-07-24運用裁定・セール版へ戻す時は3000）
   max_price: 0
-  sort_order: "review_desc"   # ver4.2: 人気順＝レビュー数のみで横断番付（2026-07-24運用裁定・セール版へ戻す時は "sale_first"）
+  sort_order: "review_desc"   # 各カテゴリ内を評価数順にし、最上位1商品を採用
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
   max_per_category: 1    # ver4.2: 1棚1粒＝各カテゴリの顔役だけ（2026-07-24運用裁定・セール版へ戻す時は2）
   exclude_title_patterns:   # ver3.0: セット・複数個口・詰め合わせの除外（2026-07-19運用裁定）
