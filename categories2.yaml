@@ -57,21 +57,6 @@ categories:
     max_items: 10
     is_search: true
 
-  - name: "電動フロアクリーナー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2640990051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "高圧洗浄機"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2459361051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "スチームクリーナー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2466960051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
   - name: "空気清浄機"
     url: "https://www.amazon.co.jp/s?rh=n%3A4083011&s=exact-aware-popularity-rank"
     max_items: 10
@@ -87,11 +72,6 @@ categories:
     max_items: 10
     is_search: true
 
-  - name: "脱臭機"
-    url: "https://www.amazon.co.jp/s?rh=n%3A5122269051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
   - name: "扇風機・サーキュレーター"
     url: "https://www.amazon.co.jp/s?rh=n%3A4082981&s=exact-aware-popularity-rank"
     max_items: 10
@@ -102,38 +82,13 @@ categories:
     max_items: 10
     is_search: true
 
-  - name: "布団乾燥機"
-    url: "https://www.amazon.co.jp/s?rh=n%3A16313541&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "アイロン・衣類スチーマー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A4083141&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
   - name: "電動歯ブラシ"
-    url: "https://www.amazon.co.jp/s?rh=n%3A4084091&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A4084101&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
   - name: "犬用自動給餌器"
     url: "https://www.amazon.co.jp/s?rh=n%3A2155191051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "猫用自動給餌器"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2155315051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "犬用自動給水器"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2155194051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "猫用自動給水器"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2155316051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
@@ -145,7 +100,7 @@ categories:
 filters:
   selection_mode: "category_round_robin"
   rotation_state_file: "data/account2/category_rotation.json"
-  min_price: 800         # ver5.2: 人気順でも800円未満は除外（2026-07-24運用裁定・セール版へ戻す時は3000）
+  min_price: 2950        # 2026-07-31: 人間検査済みカテゴリ運用の一律下限
   max_price: 0
   sort_order: "review_desc"   # 各カテゴリ内を評価数順にし、最上位1商品を採用
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）

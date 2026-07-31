@@ -22,28 +22,8 @@ categories:
     max_items: 10
     is_search: true
 
-  - name: "ディスクグラインダー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2038943051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "電動サンダー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A16397241051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "電動のこぎり"
-    url: "https://www.amazon.co.jp/s?rh=n%3A16397240051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
   - name: "エアコンプレッサー"
     url: "https://www.amazon.co.jp/s?rh=n%3A2039484051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "溶接機"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2459295051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
@@ -77,20 +57,15 @@ categories:
     max_items: 10
     is_search: true
 
-  - name: "園芸用ハンドツール"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2486513051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "剪定ばさみ"
-    url: "https://www.amazon.co.jp/s?rh=n%3A392700011&s=exact-aware-popularity-rank"
+  - name: "DIY・工具・ガーデン"
+    url: "https://www.amazon.co.jp/s?i=diy&rh=n%3A2016929051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
 filters:
   selection_mode: "category_round_robin"
   rotation_state_file: "data/account8/category_rotation.json"
-  min_price: 800         # ver5.2: 人気順でも800円未満は除外（2026-07-24運用裁定・セール版へ戻す時は3000）
+  min_price: 2950        # 2026-07-31: 人間検査済みカテゴリ運用の一律下限
   max_price: 0
   sort_order: "review_desc"   # 各カテゴリ内を評価数順にし、最上位1商品を採用
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）

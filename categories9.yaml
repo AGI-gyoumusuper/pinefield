@@ -2,11 +2,6 @@
 # 2026-07-29: キーワード検索を全廃し、Amazonの実在Browse Nodeだけへ置換
 # URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank
 categories:
-  - name: "シューズラック・靴箱"
-    url: "https://www.amazon.co.jp/s?rh=n%3A392222011&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
   - name: "収納ケース・ボックス"
     url: "https://www.amazon.co.jp/s?rh=n%3A16416191&s=exact-aware-popularity-rank"
     max_items: 10
@@ -37,11 +32,6 @@ categories:
     max_items: 10
     is_search: true
 
-  - name: "布団セット"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2378232051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
   - name: "ソファ"
     url: "https://www.amazon.co.jp/s?rh=n%3A16428081&s=exact-aware-popularity-rank"
     max_items: 10
@@ -49,31 +39,6 @@ categories:
 
   - name: "ソファベッド"
     url: "https://www.amazon.co.jp/s?rh=n%3A16428091&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "リビングチェア"
-    url: "https://www.amazon.co.jp/s?rh=n%3A10539221051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "ビーズクッション"
-    url: "https://www.amazon.co.jp/s?rh=n%3A5341885051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "リビングテーブル"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2491367051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "ダイニングテーブルセット"
-    url: "https://www.amazon.co.jp/s?rh=n%3A392239011&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "テレビ台"
-    url: "https://www.amazon.co.jp/s?rh=n%3A5341897051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
@@ -102,16 +67,10 @@ categories:
     max_items: 10
     is_search: true
 
-  - name: "照明・シーリングライト"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2133982051&s=exact-aware-popularity-rank"
+  - name: "シーリングライト"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2133985051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
-
-  - name: "全身鏡・ウォールミラー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A306191011&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
   - name: "収納棚"
     url: "https://www.amazon.co.jp/s?rh=n%3A16428161&s=exact-aware-popularity-rank"
     max_items: 10
@@ -120,7 +79,7 @@ categories:
 filters:
   selection_mode: "category_round_robin"
   rotation_state_file: "data/account9/category_rotation.json"
-  min_price: 800         # ver5.2: 人気順でも800円未満は除外（2026-07-24運用裁定・セール版へ戻す時は3000）
+  min_price: 2950        # 2026-07-31: 人間検査済みカテゴリ運用の一律下限
   max_price: 0
   sort_order: "review_desc"   # 各カテゴリ内を評価数順にし、最上位1商品を採用
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）

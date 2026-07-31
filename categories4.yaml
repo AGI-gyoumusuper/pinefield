@@ -7,18 +7,8 @@ categories:
     max_items: 10
     is_search: true
 
-  - name: "タープ"
-    url: "https://www.amazon.co.jp/s?rh=n%3A15325791&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
   - name: "寝袋"
     url: "https://www.amazon.co.jp/s?rh=n%3A14916951&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "キャンプマット"
-    url: "https://www.amazon.co.jp/s?rh=n%3A10504410051&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
@@ -57,23 +47,8 @@ categories:
     max_items: 10
     is_search: true
 
-  - name: "登山リュック"
-    url: "https://www.amazon.co.jp/s?rh=n%3A15384771&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "トレッキングポール"
-    url: "https://www.amazon.co.jp/s?rh=n%3A16397222051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "アウトドアナイフ・ツール"
-    url: "https://www.amazon.co.jp/s?rh=n%3A15314301&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "双眼鏡"
-    url: "https://www.amazon.co.jp/s?rh=n%3A16023671&s=exact-aware-popularity-rank"
+  - name: "シースナイフ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15326401&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
@@ -87,11 +62,6 @@ categories:
     max_items: 10
     is_search: true
 
-  - name: "ウェイト・ダンベル"
-    url: "https://www.amazon.co.jp/s?rh=n%3A10325844051&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
   - name: "トレーニングベンチ"
     url: "https://www.amazon.co.jp/s?rh=n%3A344929011&s=exact-aware-popularity-rank"
     max_items: 10
@@ -99,11 +69,6 @@ categories:
 
   - name: "懸垂器具"
     url: "https://www.amazon.co.jp/s?rh=n%3A344936011&s=exact-aware-popularity-rank"
-    max_items: 10
-    is_search: true
-
-  - name: "ヨガマット"
-    url: "https://www.amazon.co.jp/s?rh=n%3A344939011&s=exact-aware-popularity-rank"
     max_items: 10
     is_search: true
 
@@ -120,7 +85,7 @@ categories:
 filters:
   selection_mode: "category_round_robin"
   rotation_state_file: "data/account4/category_rotation.json"
-  min_price: 800         # ver5.2: 人気順でも800円未満は除外（2026-07-24運用裁定・セール版へ戻す時は3000）
+  min_price: 2950        # 2026-07-31: 人間検査済みカテゴリ運用の一律下限
   max_price: 0
   sort_order: "review_desc"   # 各カテゴリ内を評価数順にし、最上位1商品を採用
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
