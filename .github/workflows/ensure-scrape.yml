@@ -78,11 +78,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           ACCOUNT="${{ matrix.account }}"
           git add "data/${ACCOUNT}/products_${DATE}.json"
           git add "data/${ACCOUNT}/scrape_summary_${DATE}.json" || true
+          git add "data/${ACCOUNT}/asin_history.json"
           git diff --staged --quiet || git commit -m "Auto-ensure ${{ matrix.account }} scrape outputs ${DATE}"
           for i in 1 2 3; do
             git push && break

@@ -41,11 +41,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           for ACCOUNT in account1 account2 account3 account4 account5 account6 account7 account8 account9 account10; do
-            git add "data/${ACCOUNT}/products_${DATE}.json"
+            git add "data/${ACCOUNT}/products_${DATE}.json" || true
             git add "data/${ACCOUNT}/scrape_summary_${DATE}.json" || true
+            git add "data/${ACCOUNT}/asin_history.json" || true
           done
           git diff --staged --quiet || git commit -m "Auto-late-repair daily scrape outputs ${DATE}"
           for i in 1 2 3; do
