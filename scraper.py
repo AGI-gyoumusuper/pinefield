@@ -110,9 +110,10 @@ def load_posted_asins(path: str, within_days: int = 0, include_scraped: bool = T
         asin = str(p.get("asin", "")).strip().upper()
         if not re.fullmatch(r"[A-Z0-9]{10}", asin):
             continue
-        # ver4.3（2026-07-24運用裁定）: include_scraped=False の時は「浚っただけ」の候補
-        # （status=scraped）を除外対象にしない＝人気順運転では投稿済み分だけが出禁になる。
-        if not include_scraped and str(p.get("status", "")).strip().lower() == "scraped":
+        # 人気順運転では、noteで実際に投稿・予約されたASINだけを出禁にする。
+        # scrapedだけでなく、rejected/failed/draft等も投稿実績ではないため除外対象にしない。
+        status = str(p.get("status", "")).strip().lower()
+        if not include_scraped and status not in {"posted", "published", "reserved", "scheduled"}:
             continue
         if within_days <= 0:
             result.add(asin)
@@ -744,6 +745,9 @@ def save_scraped_asins_to_history(products: List[Product], config_path: str, dat
     同日・同一ASINの投稿済み詳細がある場合は上書きしない。
     """
     config = load_config(config_path)
+    if not bool(config.get("exclusion", {}).get("exclude_scraped_candidates", True)):
+        logger.info("スクレイプ候補のASIN履歴保存を省略（投稿・予約成功分だけを同期する人気順運転）")
+        return
     posted_path = config.get("exclusion", {}).get("posted_asins_file", "posted_asins.json")
     history_path = posted_path if os.path.isabs(posted_path) else os.path.join(os.path.dirname(__file__), posted_path)
     os.makedirs(os.path.dirname(history_path) or ".", exist_ok=True)

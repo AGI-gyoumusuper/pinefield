@@ -1,6 +1,6 @@
 # Amazon 人気順巡回カテゴリ設定
 # 方針：「高級ソフトウェアエンジニアが買いそうな商品」20カテゴリ × 人気順
-# v3.1 (2026-07-05): 除外をGitHub側へ一本化（3日ルール・data/account1/asin_history.json）
+# ASIN除外はGitHub側へ一本化（20日・data/account1/asin_history.json）
 #                    scrape_searchは最大2ページ巡回・カテゴリ別サマリをdataへ保存
 # URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank
 #   = カテゴリノード × Amazon人気順（割引の有無は採用条件にしない）
@@ -145,8 +145,8 @@ filters:
 # ============================================
 exclusion:
   posted_asins_file: "data/account1/asin_history.json"
-  exclude_within_days: 7   # ver4.1: 人気順運転は7日窓（2026-07-24運用裁定＝人気の顔ぶれは不動ゆえ2日では3日周期で再登場する）。セール版へ戻す時は2。履歴は投稿後に scripts/sync_asin_history1.ps1 で更新
-  exclude_scraped_candidates: false   # ver4.3: 浚っただけの候補（status=scraped）は焼かない＝投稿分のみ7日出禁（2026-07-24運用裁定・セール版へ戻す時はこの行を削除）
+  exclude_within_days: 20  # 投稿・予約成功ASINを20日間除外。履歴は予約ランナーから自動同期
+  exclude_scraped_candidates: false   # 浚っただけの候補は焼かず、投稿・予約成功分のみ20日出禁
   blocked_asins:           # ver2.8: 恒久除外（運用裁定2026-07-12: 悪質出品者のカテゴリ誤登録商品は二度と扱わない）
     - "B0GP6FV63C"   # 女性服「ドッキングペプラムカットソー」がドッキングステーションに誤登録（7/9・7/12混入）
     - "B0GPVVG6VN"   # 同商品のバリエーションASIN（保険）

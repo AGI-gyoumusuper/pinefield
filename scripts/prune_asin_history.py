@@ -1,43 +1,102 @@
-"""ASIN履歴の剪定（ver3.0・2026-07-19運用裁定：昨日の分だけ保持・他は削除）。
+"""Prune ASIN ledgers to the configured recent-day window.
 
-account1〜10の data/accountN/asin_history.json から、posted_at が
-「当日(JST)または前日」以外の項目を削除する。恒久BAN（categoriesN.yamlのblocked_asins）は別機構につき無傷。
-実行：python scripts/prune_asin_history.py（リポジトリ直下から）
+The newest of ``posted_at`` and ``reserved_at`` is used.  Future reservations
+and entries with an unreadable date are retained on the safe side.  Entry
+fields are preserved verbatim.
 """
 
+from __future__ import annotations
+
+import argparse
 import json
-from datetime import datetime, timedelta
+import os
+import re
+from datetime import date, datetime, timedelta
 from pathlib import Path
+from typing import Any
 from zoneinfo import ZoneInfo
 
-BASE = Path(__file__).resolve().parent.parent
-today = datetime.now(ZoneInfo("Asia/Tokyo")).date()
-# ver4.3（2026-07-24）: 人気順運転の7日窓に合わせ、保持を直近7日へ拡大（旧: 当日+前日のみ）
-keep_dates = {str(today - timedelta(days=d)) for d in range(0, 7)}
 
-for n in range(1, 11):
-    p = BASE / "data" / f"account{n}" / "asin_history.json"
-    if not p.exists():
-        p.parent.mkdir(parents=True, exist_ok=True)
-        skeleton = {
+BASE = Path(__file__).resolve().parent.parent
+DEFAULT_KEEP_DAYS = 20
+
+
+def entry_date(entry: dict[str, Any]) -> date | None:
+    values: list[date] = []
+    for name in ("posted_at", "reserved_at"):
+        match = re.match(r"(\d{4}-\d{2}-\d{2})", str(entry.get(name) or "").strip())
+        if not match:
+            continue
+        try:
+            values.append(date.fromisoformat(match.group(1)))
+        except ValueError:
+            continue
+    return max(values, default=None)
+
+
+def prune_history_data(value: dict[str, Any], today: date, keep_days: int) -> tuple[dict[str, Any], int]:
+    if keep_days < 1:
+        raise ValueError("keep_days must be at least 1")
+    rows = value.get("posted", [])
+    if not isinstance(rows, list):
+        raise ValueError("history posted must be an array")
+    cutoff = today - timedelta(days=keep_days - 1)
+    kept = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        used_on = entry_date(row)
+        if used_on is None or used_on >= cutoff:
+            kept.append(row)
+    output = dict(value)
+    output["posted"] = kept
+    output["updated_at"] = datetime.now(ZoneInfo("Asia/Tokyo")).isoformat(timespec="seconds")
+    return output, len(rows) - len(kept)
+
+
+def atomic_write_json(path: Path, value: dict[str, Any]) -> None:
+    temp_path = path.with_suffix(path.suffix + ".tmp")
+    with temp_path.open("w", encoding="utf-8", newline="\n") as file:
+        json.dump(value, file, ensure_ascii=False, indent=2)
+        file.write("\n")
+    os.replace(temp_path, path)
+
+
+def prune_file(path: Path, today: date, keep_days: int) -> tuple[int, int]:
+    if not path.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        value = {
             "schema": "note-amazon-asin-history-v1",
             "updated_at": datetime.now(ZoneInfo("Asia/Tokyo")).isoformat(timespec="seconds"),
-            "description": f"Single source of truth for account{n} ASIN exclusion.",
+            "description": f"Canonical ASIN exclusion ledger for {path.parent.name}.",
             "posted": [],
         }
-        p.write_text(json.dumps(skeleton, ensure_ascii=False, indent=2) + "\n", encoding="utf-8-sig")
-        print(f"account{n}: ファイルなし → 空帳簿を新設")
-        continue
-    d = json.loads(p.read_text(encoding="utf-8-sig"))
-    before = len(d.get("posted", []))
-    # ver5.0: 公開リポジトリ化に伴い、帳簿は痩せた3項目のみ保持（URL・名義等の身元情報を持たない）
-    d["posted"] = [
-        {"asin": e.get("asin"), "status": e.get("status", "posted"), "posted_at": e.get("posted_at")}
-        for e in d.get("posted", [])
-        if str(e.get("posted_at", ""))[:10] in keep_dates
-    ]
-    d["updated_at"] = datetime.now(ZoneInfo("Asia/Tokyo")).isoformat(timespec="seconds")
-    p.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8-sig")
-    print(f"account{n}: {before}件 → {len(d['posted'])}件（当日・前日のみ保持）")
+        atomic_write_json(path, value)
+        return 0, 0
+    with path.open("r", encoding="utf-8-sig") as file:
+        value = json.load(file)
+    before = len(value.get("posted", [])) if isinstance(value, dict) else 0
+    if not isinstance(value, dict):
+        raise ValueError(f"history root must be an object: {path}")
+    output, removed = prune_history_data(value, today, keep_days)
+    if removed > 0:
+        atomic_write_json(path, output)
+    return before, before - removed
 
-print("完了。commit/pushは運用者の手で（掟どおりファイル名指定add）。")
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--days", type=int, default=DEFAULT_KEEP_DAYS)
+    parser.add_argument("--repo-dir", default=str(BASE))
+    args = parser.parse_args()
+    today = datetime.now(ZoneInfo("Asia/Tokyo")).date()
+    repo_dir = Path(args.repo_dir).resolve()
+    for number in range(1, 11):
+        path = repo_dir / "data" / f"account{number}" / "asin_history.json"
+        before, after = prune_file(path, today, args.days)
+        print(f"account{number}: {before} -> {after} entries (keep {args.days} days)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

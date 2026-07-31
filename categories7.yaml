@@ -104,6 +104,6 @@ filters:
 
 exclusion:
   posted_asins_file: "data/account7/asin_history.json"
-  exclude_within_days: 7   # ver4.2: 人気順は7日窓（2026-07-24運用裁定・セール版へ戻す時は2）
-  exclude_scraped_candidates: false   # ver4.3: 浚っただけの候補（status=scraped）は焼かない＝投稿分のみ7日出禁（2026-07-24運用裁定・セール版へ戻す時はこの行を削除）
+  exclude_within_days: 20  # 投稿・予約成功ASINを20日間除外。履歴は予約ランナーから自動同期
+  exclude_scraped_candidates: false   # 浚っただけの候補は焼かず、投稿・予約成功分のみ20日出禁
   blocked_asins: []

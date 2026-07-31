@@ -2,265 +2,208 @@ param(
     [Parameter(Mandatory = $true, Position = 0)]
     [string[]]$SourceJson,
 
+    [string[]]$ProductJson = @(),
     [string]$AccountId = 'account1',
     [string]$AccountName = 'account1',
     [string]$HistoryAccount = '',
-
+    [switch]$RequireCategory,
     [switch]$NoPush,
     [switch]$DryRun
 )
 
-# ============================================================
-# sync_asin_history1.ps1  (ver2.1, 2026-07-05)
-# Merge note posting-result JSON(s) into pinefield's canonical
-# data/<account>/asin_history.json, then commit & push so the
-# pinefield GitHub-side scraper can exclude them.
-# Usage:
-#   powershell -ExecutionPolicy Bypass -File scripts\sync_asin_history1.ps1 -SourceJson "C:\path\posting_result.json" -AccountId account2 -AccountName "account2"
-# ============================================================
+# Merge only verified note reservations/posts, commit in an isolated worktree,
+# push the current HEAD to origin/main, then prove the ASINs exist remotely.
 
 $ErrorActionPreference = 'Stop'
-
 $ScriptRoot = $PSScriptRoot
 if ([string]::IsNullOrWhiteSpace($ScriptRoot)) {
     $ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 }
 $RepoDir = Split-Path -Parent $ScriptRoot
-if ([string]::IsNullOrWhiteSpace($HistoryAccount)) {
-    $HistoryAccount = $AccountId
+if ([string]::IsNullOrWhiteSpace($HistoryAccount)) { $HistoryAccount = $AccountId }
+if ($HistoryAccount -notmatch '^account([1-9]|10)$') {
+    throw "HistoryAccount must be account1..account10: $HistoryAccount"
 }
-if ($HistoryAccount -notmatch '^account[0-9]+$') {
-    throw "HistoryAccount must be like account1/account2: $HistoryAccount"
-}
-$HistoryJson = Join-Path $RepoDir ("data\{0}\asin_history.json" -f $HistoryAccount)
-$HistoryRel = "data/$HistoryAccount/asin_history.json"
-$RotationJson = Join-Path $RepoDir ("data\{0}\category_rotation.json" -f $HistoryAccount)
-$RotationRel = "data/$HistoryAccount/category_rotation.json"
-$RotationScript = Join-Path $ScriptRoot 'update_category_rotation.py'
 
-function Read-JsonFile {
-    param([string]$Path)
-    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
-        throw "JSON file not found: $Path"
+function Resolve-InputFiles {
+    param([string[]]$Paths, [string]$Label)
+    $resolved = @()
+    foreach ($item in $Paths) {
+        if ([string]::IsNullOrWhiteSpace($item)) { continue }
+        if (-not (Test-Path -LiteralPath $item -PathType Leaf)) {
+            throw "$Label file not found: $item"
+        }
+        $resolved += (Resolve-Path -LiteralPath $item).Path
     }
-    $raw = [System.Text.Encoding]::UTF8.GetString([System.IO.File]::ReadAllBytes($Path))
-    $raw = $raw.TrimStart([char]0xFEFF).Trim()
-    if (-not $raw) { throw "JSON file is empty: $Path" }
-    return $raw | ConvertFrom-Json
+    return @($resolved)
 }
 
-function Get-ArrayItems {
-    param($Json)
-    if ($null -eq $Json) { return @() }
-    if ($Json -is [System.Array]) { return @($Json) }
-    foreach ($name in @('posted', 'results', 'items', 'articles', 'data')) {
-        if ($Json.PSObject.Properties.Name -contains $name) { return @($Json.$name) }
+function Invoke-Git {
+    param([string]$Directory, [string[]]$Arguments, [switch]$Capture)
+    if ($Capture) {
+        $value = & git -C $Directory @Arguments 2>&1
+        if ($LASTEXITCODE -ne 0) { throw "git $($Arguments -join ' ') failed: $value" }
+        return ($value -join "`n")
     }
-    return @($Json)
+    & git -C $Directory @Arguments
+    if ($LASTEXITCODE -ne 0) { throw "git $($Arguments -join ' ') failed" }
 }
 
-function Find-AsinInText {
-    param($Value)
-    if ($null -eq $Value) { return $null }
-    $text = ([string]$Value).ToUpperInvariant()
-    foreach ($pattern in @('(?:/DP/|/GP/PRODUCT/)([A-Z0-9]{10})', '[?&]ASIN=([A-Z0-9]{10})', '(?<![A-Z0-9])(B0[A-Z0-9]{8})(?![A-Z0-9])')) {
-        $match = [regex]::Match($text, $pattern)
-        if ($match.Success) { return $match.Groups[1].Value }
-    }
-    return $null
+function Invoke-CoreSync {
+    param([string]$WorkingRepo, [string[]]$Sources, [string[]]$Products, [switch]$CoreDryRun)
+    $core = Join-Path $WorkingRepo 'scripts\sync_asin_history.py'
+    if (-not (Test-Path -LiteralPath $core -PathType Leaf)) { throw "sync core not found: $core" }
+    $arguments = @(
+        $core,
+        '--repo-dir', $WorkingRepo,
+        '--account', $HistoryAccount,
+        '--account-name', $AccountName
+    )
+    foreach ($source in $Sources) { $arguments += @('--source-json', $source) }
+    foreach ($product in $Products) { $arguments += @('--product-json', $product) }
+    if ($RequireCategory) { $arguments += '--require-category' }
+    if ($CoreDryRun) { $arguments += '--dry-run' }
+    $output = & python @arguments 2>&1
+    $exitCode = $LASTEXITCODE
+    foreach ($line in $output) { Write-Host $line }
+    if ($exitCode -ne 0) { throw "ASIN sync validation failed (exit $exitCode)" }
+    $marker = @($output | Where-Object { [string]$_ -like 'ASIN_SYNC_RESULT=*' } | Select-Object -Last 1)
+    if ($marker.Count -ne 1) { throw 'ASIN sync result marker was not emitted' }
+    return ([string]$marker[0]).Substring('ASIN_SYNC_RESULT='.Length) | ConvertFrom-Json
 }
 
-function Get-AsinFromObject {
-    param($Item)
-    foreach ($name in @('asin', 'ASIN', 'product_asin', 'productAsin')) {
-        if ($Item.PSObject.Properties.Name -contains $name) {
-            $value = ([string]$Item.$name).Trim().ToUpperInvariant()
-            if ($value -match '^[A-Z0-9]{10}$') { return $value }
+function Test-RemoteLedger {
+    param([string]$BaseRepo, $Summary)
+    Invoke-Git -Directory $BaseRepo -Arguments @('fetch', '--quiet', 'origin', 'main')
+    $historyRel = "data/$HistoryAccount/asin_history.json"
+    $remoteText = Invoke-Git -Directory $BaseRepo -Arguments @('show', "origin/main:$historyRel") -Capture
+    $remote = $remoteText | ConvertFrom-Json
+    foreach ($event in @($Summary.accepted_events)) {
+        $eventAsin = ([string]$event.asin).Trim().ToUpperInvariant()
+        $eventDate = [string]$event.event_date
+        $eventAccount = [string]$event.account_id
+        $eventCategory = [string]$event.category
+        $matches = @($remote.posted | Where-Object {
+            $entry = $_
+            $entryAsin = ([string]$entry.asin).Trim().ToUpperInvariant()
+            $entryStatus = ([string]$entry.status).Trim().ToLowerInvariant()
+            $entryDates = @()
+            foreach ($name in @('posted_at', 'reserved_at')) {
+                $match = [regex]::Match([string]$entry.$name, '^(\d{4}-\d{2}-\d{2})')
+                if ($match.Success) { $entryDates += $match.Groups[1].Value }
+            }
+            $entryDate = if ($entryDates.Count -gt 0) { @($entryDates | Sort-Object)[-1] } else { '' }
+            $entryAsin -eq $eventAsin -and
+                $entryStatus -in @('posted', 'published', 'reserved', 'scheduled') -and
+                ([string]$entry.account_id) -eq $eventAccount -and
+                $entryDate -eq $eventDate -and
+                ([string]::IsNullOrWhiteSpace($eventCategory) -or ([string]$entry.category) -eq $eventCategory)
+        })
+        if ($matches.Count -lt 1) {
+            throw "remote event verification failed: $eventAsin|$eventDate|$eventAccount|$eventCategory"
         }
     }
-    foreach ($name in @('main_affiliate_url', 'affiliate_url', 'amazon_url', 'url', 'body', 'result_url', 'edit_url')) {
-        if ($Item.PSObject.Properties.Name -contains $name) {
-            $asin = Find-AsinInText $Item.$name
-            if ($asin) { return $asin }
+
+    if (@($Summary.rotation_matched_asins).Count -gt 0 -and -not $Summary.rotation_warning) {
+        $rotationRel = "data/$HistoryAccount/category_rotation.json"
+        $remoteRotationText = Invoke-Git -Directory $BaseRepo -Arguments @('show', "origin/main:$rotationRel") -Capture
+        $remoteRotation = $remoteRotationText | ConvertFrom-Json
+        foreach ($name in @('last_asin', 'last_category_name', 'last_category_position', 'next_category_name', 'next_category_position', 'last_event_at')) {
+            if ([string]$remoteRotation.$name -ne [string]$Summary.rotation_state.$name) {
+                throw "remote category rotation verification failed: $name expected=$($Summary.rotation_state.$name) actual=$($remoteRotation.$name)"
+            }
         }
     }
-    foreach ($prop in $Item.PSObject.Properties) {
-        if ($prop.Value -is [string]) {
-            $asin = Find-AsinInText $prop.Value
-            if ($asin) { return $asin }
-        }
-    }
-    return $null
 }
 
-function Get-PropValue {
-    param($Item, [string[]]$Names)
-    foreach ($name in $Names) {
-        if ($Item.PSObject.Properties.Name -contains $name) {
-            $value = $Item.$name
-            if ($null -ne $value -and -not [string]::IsNullOrWhiteSpace([string]$value)) { return [string]$value }
-        }
-    }
-    return $null
-}
-
-function Get-DateText {
-    param($Value)
-    if ($null -eq $Value) { return $null }
-    $text = ([string]$Value).Trim()
-    if ($text -match '^(\d{4}-\d{2}-\d{2})') { return $Matches[1] }
-    return $null
-}
-
-function Convert-RowToHistoryEntry {
-    param($Row, [string]$SourcePath, [int]$Index)
-    $asin = Get-AsinFromObject $Row
-    if (-not $asin) { return $null }
-    $status = Get-PropValue $Row @('status')
-    $postedAt = Get-PropValue $Row @('posted_at', 'postedAt')
-    $reservedAt = Get-PropValue $Row @('reserved_at', 'reservedAt', 'scheduled_at', 'scheduledAt')
-    if (-not $reservedAt) {
-        $date = Get-PropValue $Row @('note_schedule_date')
-        $time = Get-PropValue $Row @('note_schedule_time')
-        if ($date -and $time) { $reservedAt = "$date $time" }
-    }
-    if (-not $postedAt -and -not $reservedAt) { return $null }
-    if (-not $status) { $status = if ($reservedAt) { 'scheduled' } else { 'posted' } }
-    [PSCustomObject]@{
-        asin = $asin
-        title = Get-PropValue $Row @('title', 'product_title')
-        status = $status
-        posted_at = $postedAt
-        reserved_at = $reservedAt
-        account_id = $AccountId
-        account_name = $AccountName
-        note_url = Get-PropValue $Row @('result_url', 'note_url')
-        edit_url = Get-PropValue $Row @('edit_url')
-        thumbnail_path = Get-PropValue $Row @('thumbnail_path')
-        source_file = (Resolve-Path -LiteralPath $SourcePath).Path
-        source_index = $Index
-    }
-}
-
-function Get-EntryKey {
-    param($Entry)
-    $dateText = Get-DateText $Entry.posted_at
-    if (-not $dateText) { $dateText = Get-DateText $Entry.reserved_at }
-    if (-not $dateText) { $dateText = 'unknown' }
-    return ('{0}|{1}|{2}' -f $Entry.asin, $dateText, $Entry.account_id)
-}
-
-function Merge-Entry {
-    param($Old, $New)
-    foreach ($prop in @('title', 'status', 'posted_at', 'reserved_at', 'account_id', 'account_name', 'note_url', 'edit_url', 'thumbnail_path', 'source_file', 'source_index')) {
-        if ($New.PSObject.Properties.Name -contains $prop) {
-            $value = $New.$prop
-            if ($null -ne $value -and -not [string]::IsNullOrWhiteSpace([string]$value)) { $Old.$prop = $value }
-        }
-    }
-    return $Old
-}
-
-# ---- load existing history ----
-$existingEntries = @()
-if (Test-Path -LiteralPath $HistoryJson -PathType Leaf) {
-    $history = Read-JsonFile -Path $HistoryJson
-    $existingEntries = @(Get-ArrayItems $history)
-}
-
-$map = [ordered]@{}
-foreach ($entry in $existingEntries) {
-    $asin = Get-AsinFromObject $entry
-    if (-not $asin) { continue }
-    if (-not ($entry.PSObject.Properties.Name -contains 'asin')) {
-        $entry | Add-Member -NotePropertyName asin -NotePropertyValue $asin
-    }
-    $map[(Get-EntryKey $entry)] = $entry
-}
-
-$added = 0; $updated = 0; $skipped = 0
-$rotationAsins = [System.Collections.Generic.List[string]]::new()
-foreach ($source in $SourceJson) {
-    $json = Read-JsonFile -Path $source
-    $rows = @(Get-ArrayItems $json)
-    for ($i = 0; $i -lt $rows.Count; $i++) {
-        $entry = Convert-RowToHistoryEntry -Row $rows[$i] -SourcePath $source -Index ($i + 1)
-        if ($null -eq $entry) { $skipped++; continue }
-        $rotationStatus = ([string]$entry.status).Trim().ToLowerInvariant()
-        if ($rotationStatus -notin @('scraped', 'draft', 'failed', 'error', 'skipped')) {
-            $rotationAsins.Add([string]$entry.asin)
-        }
-        $key = Get-EntryKey $entry
-        if ($map.Contains($key)) { $map[$key] = Merge-Entry -Old $map[$key] -New $entry; $updated++ }
-        else { $map[$key] = $entry; $added++ }
-    }
-}
-
-$now = (Get-Date).ToString('yyyy-MM-ddTHH:mm:sszzz')
-$posted = @(
-    $map.Values |
-        Sort-Object `
-            @{ Expression = { $d = Get-DateText $_.posted_at; if (-not $d) { $d = Get-DateText $_.reserved_at }; if ($d) { $d } else { '9999-99-99' } } },
-            @{ Expression = { $_.reserved_at } },
-            @{ Expression = { $_.asin } }
-)
-
-$output = [PSCustomObject]@{
-    schema = 'note-amazon-asin-history-v1'
-    updated_at = $now
-    description = "Single source of truth for $HistoryAccount ASIN exclusion (3-day rule enforced by scraper.py at scrape time). Update via scripts/sync_asin_history1.ps1 after posting."
-    posted = $posted
-}
-
-$rotationArgs = @(
-    $RotationScript,
-    '--account', $HistoryAccount,
-    '--repo-dir', $RepoDir
-)
-foreach ($asin in $rotationAsins) {
-    $rotationArgs += @('--asin', $asin)
-}
-if ($DryRun) {
-    $rotationArgs += '--dry-run'
-}
-& python @rotationArgs
-if ($LASTEXITCODE -ne 0) { throw "category rotation update failed" }
+$sources = Resolve-InputFiles -Paths $SourceJson -Label 'SourceJson'
+$products = Resolve-InputFiles -Paths $ProductJson -Label 'ProductJson'
+if ($sources.Count -eq 0) { throw 'At least one SourceJson is required' }
 
 if ($DryRun) {
-    Write-Host ("[DryRun] added={0} updated={1} skipped={2} total={3}" -f $added, $updated, $skipped, $posted.Count)
+    $summary = Invoke-CoreSync -WorkingRepo $RepoDir -Sources $sources -Products $products -CoreDryRun
+    Write-Host ('ASIN_SYNC_RESULT=' + ($summary | ConvertTo-Json -Compress -Depth 20))
     exit 0
 }
-
-ConvertTo-Json -InputObject $output -Depth 20 | Set-Content -LiteralPath $HistoryJson -Encoding UTF8
-Write-Host ("[sync] history written: added={0} updated={1} skipped={2} total={3}" -f $added, $updated, $skipped, $posted.Count)
-
-# ---- commit & push so the 00:01 JST scraper sees it ----
-$gitPaths = @($HistoryRel)
-if (Test-Path -LiteralPath $RotationJson -PathType Leaf) {
-    $gitPaths += $RotationRel
-}
-& git -C $RepoDir add @gitPaths
-if ($LASTEXITCODE -ne 0) { throw "git add failed" }
-& git -C $RepoDir diff --staged --quiet
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "[sync] no change to commit."
-    exit 0
-}
-$msg = "Update ASIN history $HistoryAccount " + (Get-Date).ToString('yyyy-MM-dd HH:mm')
-& git -C $RepoDir commit -m $msg
-if ($LASTEXITCODE -ne 0) { throw "git commit failed" }
 
 if ($NoPush) {
-    Write-Host "[sync] committed locally (NoPush). Remember to push before 00:01 JST."
+    $summary = Invoke-CoreSync -WorkingRepo $RepoDir -Sources $sources -Products $products
+    $paths = @("data/$HistoryAccount/asin_history.json")
+    $rotationPath = "data/$HistoryAccount/category_rotation.json"
+    if (Test-Path -LiteralPath (Join-Path $RepoDir $rotationPath)) { $paths += $rotationPath }
+    Invoke-Git -Directory $RepoDir -Arguments (@('add', '--') + $paths)
+    $staged = & git -C $RepoDir diff --staged --name-only
+    if ($LASTEXITCODE -ne 0) { throw 'git staged inspection failed' }
+    $unexpected = @($staged | Where-Object { $_ -notin $paths })
+    if ($unexpected.Count -gt 0) { throw "unrelated staged files detected: $($unexpected -join ',')" }
+    Write-Host ('ASIN_SYNC_RESULT=' + ($summary | ConvertTo-Json -Compress -Depth 20))
     exit 0
 }
-$pushed = $false
-for ($i = 1; $i -le 3; $i++) {
-    & git -C $RepoDir push origin main
-    if ($LASTEXITCODE -eq 0) { $pushed = $true; break }
-    Write-Host ("[sync] push failed (attempt {0}), rebasing..." -f $i)
-    & git -C $RepoDir pull --rebase --autostash origin main
-    Start-Sleep -Seconds 5
+
+$mutexName = 'Global\PinefieldVerifiedAsinSync'
+$mutex = New-Object System.Threading.Mutex($false, $mutexName)
+$lockTaken = $false
+try {
+    $lockTaken = $mutex.WaitOne([TimeSpan]::FromMinutes(5))
+    if (-not $lockTaken) { throw 'timed out waiting for ASIN sync lock' }
+
+    $pushed = $false
+    $lastError = $null
+    for ($attempt = 1; $attempt -le 4; $attempt++) {
+        $tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("pinefield-asin-sync-" + [guid]::NewGuid().ToString('N'))
+        try {
+            Invoke-Git -Directory $RepoDir -Arguments @('fetch', '--quiet', 'origin', 'main')
+            Invoke-Git -Directory $RepoDir -Arguments @('worktree', 'add', '--quiet', '--detach', $tempRoot, 'origin/main')
+            $summary = Invoke-CoreSync -WorkingRepo $tempRoot -Sources $sources -Products $products
+            $paths = @("data/$HistoryAccount/asin_history.json")
+            $rotationPath = "data/$HistoryAccount/category_rotation.json"
+            if (Test-Path -LiteralPath (Join-Path $tempRoot $rotationPath)) { $paths += $rotationPath }
+            Invoke-Git -Directory $tempRoot -Arguments (@('add', '--') + $paths)
+
+            $staged = & git -C $tempRoot diff --staged --name-only
+            if ($LASTEXITCODE -ne 0) { throw 'git staged inspection failed' }
+            $unexpected = @($staged | Where-Object { $_ -notin $paths })
+            if ($unexpected.Count -gt 0) { throw "unrelated staged files detected: $($unexpected -join ',')" }
+            & git -C $tempRoot diff --staged --quiet
+            $hasChanges = $LASTEXITCODE -ne 0
+            if ($hasChanges) {
+                $message = "ver6.0 Record verified ASINs $HistoryAccount " + (Get-Date).ToString('yyyy-MM-dd HH:mm')
+                Invoke-Git -Directory $tempRoot -Arguments @('commit', '--quiet', '-m', $message)
+                & git -C $tempRoot push origin HEAD:main
+                if ($LASTEXITCODE -ne 0) { throw 'git push origin HEAD:main failed' }
+            }
+
+            Test-RemoteLedger -BaseRepo $RepoDir -Summary $summary
+            $summary | Add-Member -NotePropertyName remote_verified -NotePropertyValue $true -Force
+            $summary | Add-Member -NotePropertyName pushed -NotePropertyValue $hasChanges -Force
+            Write-Host ('ASIN_SYNC_RESULT=' + ($summary | ConvertTo-Json -Compress -Depth 20))
+            $pushed = $true
+            break
+        } catch {
+            $lastError = $_
+            Write-Warning "ASIN sync attempt $attempt failed: $($_.Exception.Message)"
+            if ($_.Exception.Message -match 'ASIN_SYNC_ERROR=|validation failed|file not found|category config not found') {
+                break
+            }
+        } finally {
+            if (Test-Path -LiteralPath $tempRoot) {
+                & git -C $RepoDir worktree remove --force $tempRoot 2>$null
+                if (Test-Path -LiteralPath $tempRoot) {
+                    $resolvedTemp = [System.IO.Path]::GetFullPath($tempRoot)
+                    $systemTemp = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
+                    if (-not $resolvedTemp.StartsWith($systemTemp, [System.StringComparison]::OrdinalIgnoreCase) -or
+                        -not ([System.IO.Path]::GetFileName($resolvedTemp)).StartsWith('pinefield-asin-sync-')) {
+                        throw "refusing to remove unexpected worktree path: $resolvedTemp"
+                    }
+                    Remove-Item -LiteralPath $resolvedTemp -Recurse -Force
+                }
+            }
+            & git -C $RepoDir worktree prune 2>$null
+        }
+        if (-not $pushed -and $attempt -lt 4) { Start-Sleep -Seconds 2 }
+    }
+    if (-not $pushed) { throw "ASIN sync failed after automatic attempts: $($lastError.Exception.Message)" }
+} finally {
+    if ($lockTaken) { $mutex.ReleaseMutex() }
+    $mutex.Dispose()
 }
-if (-not $pushed) { throw "git push failed after retries" }
-Write-Host "[sync] pushed. Scraper will exclude these ASINs from the next run."
