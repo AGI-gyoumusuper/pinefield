@@ -1,7 +1,7 @@
 {
   "schema": "note-amazon-asin-history-v1",
-  "updated_at": "2026-07-31T00:36:24+09:00",
-  "description": "Single source of truth for account4 ASIN exclusion. Scraped and posted ASINs are retained for the configured exclusion window.",
+  "updated_at": "2026-08-02T05:09:03+09:00",
+  "description": "Canonical ASIN ledger for account4. Popular-ranking exclusion uses only verified note posts/reservations; scraped and rejected legacy rows are not exclusion evidence.",
   "posted": [
     {
       "asin": "B000T0ZATC",
@@ -133,20 +133,6 @@
       "asin": "B0G5N1CP9F",
       "status": "scraped",
       "posted_at": "2026-07-22T00:00:00+09:00"
-    },
-    {
-      "asin": "B0001P15CG",
-      "title": "9227件が星4.6。卵1個分の重さに12機能、ビクトリノックス スパルタン",
-      "status": "reserved",
-      "posted_at": "2026-07-24T00:00:00+09:00",
-      "reserved_at": "2026-07-24T09:55:00+09:00",
-      "account_id": "account4",
-      "account_name": "アウトドドア",
-      "note_url": "https://note.com/sihituan/n/n56b5b3200303",
-      "edit_url": "https://editor.note.com/notes/n56b5b3200303/edit/",
-      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\prepared_thumbnails_1280x670_first\\4-1_B0001P15CG_v2.png",
-      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\post_account4_results_2026-07-24_first.json",
-      "source_index": 1
     },
     {
       "asin": "B000AR4VXK",
@@ -322,20 +308,6 @@
       "source_index": 6
     },
     {
-      "asin": "B0CKXRL6LL",
-      "title": "アディダスのランニングシューズが4,465円。レビュー8,911件★4.3のGLX 7を売り場目線で解説",
-      "status": "reserved",
-      "posted_at": "2026-07-24T00:00:00+09:00",
-      "reserved_at": "2026-07-24T11:50:00+09:00",
-      "account_id": "account4",
-      "account_name": "史筆庵",
-      "note_url": "https://note.com/sihituan/n/n82d866a5cf4b",
-      "edit_url": "https://editor.note.com/notes/n82d866a5cf4b/edit/",
-      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem2\\4-2_B0CKXRL6LL.png",
-      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account4_combined_results.json",
-      "source_index": 1
-    },
-    {
       "asin": "B0D91QXY11",
       "title": "キャプテンスタッグ(CAPTAIN STAG) クーラーボックス 【 シエロ 6サイズ展開 ブルー/マットblue】 【 CSシャルマン 8サイズ展開 ベージュ/ブルーグレー/アイスグレー/アーモンドグリーン/ブラウン 】",
       "status": "rejected",
@@ -362,6 +334,34 @@
       "edit_url": null,
       "thumbnail_path": null,
       "source_file": "/home/runner/work/pinefield/pinefield/data/account4/products_2026-07-24.json",
+      "source_index": 1
+    },
+    {
+      "asin": "B0001P15CG",
+      "title": "9227件が星4.6。卵1個分の重さに12機能、ビクトリノックス スパルタン",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T09:55:00+09:00",
+      "account_id": "account4",
+      "account_name": "アウトドドア",
+      "note_url": "https://note.com/sihituan/n/n56b5b3200303",
+      "edit_url": "https://editor.note.com/notes/n56b5b3200303/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\prepared_thumbnails_1280x670_first\\4-1_B0001P15CG_v2.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\post_account4_results_2026-07-24_first.json",
+      "source_index": 1
+    },
+    {
+      "asin": "B0CKXRL6LL",
+      "title": "アディダスのランニングシューズが4,465円。レビュー8,911件★4.3のGLX 7を売り場目線で解説",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T11:50:00+09:00",
+      "account_id": "account4",
+      "account_name": "史筆庵",
+      "note_url": "https://note.com/sihituan/n/n82d866a5cf4b",
+      "edit_url": "https://editor.note.com/notes/n82d866a5cf4b/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem2\\4-2_B0CKXRL6LL.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account4_combined_results.json",
       "source_index": 1
     },
     {
@@ -890,20 +890,6 @@
       "source_index": 4
     },
     {
-      "asin": "B07SVDCFM1",
-      "title": "LEEPWEIのオールシーズン封筒型シュラフが2,999円──キャンプも車中泊も防災も、これ一つで回せる",
-      "status": "reserved",
-      "posted_at": "2026-07-28T00:00:00+09:00",
-      "reserved_at": "2026-07-28T18:13:00+09:00",
-      "account_id": "account4",
-      "account_name": "史筆庵",
-      "note_url": "https://note.com/sihituan/n/n22258ec8569e",
-      "edit_url": "https://editor.note.com/notes/n22258ec8569e/edit/",
-      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item1\\prepared_thumbnails_1280x670_item1\\4-1_B07SVDCFM1_v2.png",
-      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item1\\post_account4_results_2026-07-28_item1.json",
-      "source_index": 1
-    },
-    {
       "asin": "B07TP4WPGD",
       "title": "Amazonベーシック マルチツール ポケットナイフ ナイロンケース付き 15イン1 ブラック",
       "status": "scraped",
@@ -930,20 +916,6 @@
       "thumbnail_path": null,
       "source_file": "/home/runner/work/pinefield/pinefield/data/account4/products_2026-07-28.json",
       "source_index": 8
-    },
-    {
-      "asin": "B08CZWJ7P8",
-      "title": "985g・A4収納・耐荷重20kgで5,480円──TokyoCamp焚き火台HAKOSUKAがタイムセールで8％オフ",
-      "status": "reserved",
-      "posted_at": "2026-07-28T00:00:00+09:00",
-      "reserved_at": "2026-07-28T19:30:00+09:00",
-      "account_id": "account4",
-      "account_name": "史筆庵",
-      "note_url": "https://note.com/sihituan/n/ncdc36ebf4895",
-      "edit_url": "https://editor.note.com/notes/ncdc36ebf4895/edit/",
-      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item2\\prepared_thumbnails_1280x670_item2\\4-2_B08CZWJ7P8_v1.png",
-      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item2\\post_account4_results_2026-07-28_item2.json",
-      "source_index": 1
     },
     {
       "asin": "B08K84ZD5M",
@@ -1004,20 +976,6 @@
       "source_index": 2
     },
     {
-      "asin": "B09K3QQBKH",
-      "title": "ぶら下がる場所が家にあるだけで、背中の鍛え方が変わる──STEADYの懸垂マシンが16,990円",
-      "status": "reserved",
-      "posted_at": "2026-07-28T00:00:00+09:00",
-      "reserved_at": "2026-07-28T21:00:00+09:00",
-      "account_id": "account4",
-      "account_name": "史筆庵",
-      "note_url": "https://note.com/sihituan/n/n4e817a759e46",
-      "edit_url": "https://editor.note.com/notes/n4e817a759e46/edit/",
-      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item3\\prepared_thumbnails_1280x670_item3\\4-3_B09K3QQBKH_v2.png",
-      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item3\\post_account4_results_2026-07-28_item3.json",
-      "source_index": 1
-    },
-    {
       "asin": "B09ZDJJQKZ",
       "title": "エアーマット GEKETY キャンプ マット 足踏み式 【厚手10㎝・簡単に膨らむ】無限連結 枕付 車中泊 防災 来客用 エアマット 軽量 コンパクト | 登山 寝袋 テント用 キャンプ用品 R値4.0 防水 持ち運び便利 簡単収納 収納袋/補修テープ付 シングル 70×195㎝/830g",
       "status": "scraped",
@@ -1073,6 +1031,48 @@
       "thumbnail_path": null,
       "source_file": "/home/runner/work/pinefield/pinefield/data/account4/products_2026-07-28.json",
       "source_index": 7
+    },
+    {
+      "asin": "B07SVDCFM1",
+      "title": "LEEPWEIのオールシーズン封筒型シュラフが2,999円──キャンプも車中泊も防災も、これ一つで回せる",
+      "status": "reserved",
+      "posted_at": "2026-07-28T00:00:00+09:00",
+      "reserved_at": "2026-07-28T18:13:00+09:00",
+      "account_id": "account4",
+      "account_name": "史筆庵",
+      "note_url": "https://note.com/sihituan/n/n22258ec8569e",
+      "edit_url": "https://editor.note.com/notes/n22258ec8569e/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item1\\prepared_thumbnails_1280x670_item1\\4-1_B07SVDCFM1_v2.png",
+      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item1\\post_account4_results_2026-07-28_item1.json",
+      "source_index": 1
+    },
+    {
+      "asin": "B08CZWJ7P8",
+      "title": "985g・A4収納・耐荷重20kgで5,480円──TokyoCamp焚き火台HAKOSUKAがタイムセールで8％オフ",
+      "status": "reserved",
+      "posted_at": "2026-07-28T00:00:00+09:00",
+      "reserved_at": "2026-07-28T19:30:00+09:00",
+      "account_id": "account4",
+      "account_name": "史筆庵",
+      "note_url": "https://note.com/sihituan/n/ncdc36ebf4895",
+      "edit_url": "https://editor.note.com/notes/ncdc36ebf4895/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item2\\prepared_thumbnails_1280x670_item2\\4-2_B08CZWJ7P8_v1.png",
+      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item2\\post_account4_results_2026-07-28_item2.json",
+      "source_index": 1
+    },
+    {
+      "asin": "B09K3QQBKH",
+      "title": "ぶら下がる場所が家にあるだけで、背中の鍛え方が変わる──STEADYの懸垂マシンが16,990円",
+      "status": "reserved",
+      "posted_at": "2026-07-28T00:00:00+09:00",
+      "reserved_at": "2026-07-28T21:00:00+09:00",
+      "account_id": "account4",
+      "account_name": "史筆庵",
+      "note_url": "https://note.com/sihituan/n/n4e817a759e46",
+      "edit_url": "https://editor.note.com/notes/n4e817a759e46/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item3\\prepared_thumbnails_1280x670_item3\\4-3_B09K3QQBKH_v2.png",
+      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account4-item3\\post_account4_results_2026-07-28_item3.json",
+      "source_index": 1
     },
     {
       "asin": "B0016BNDXI",
@@ -1353,6 +1353,15 @@
       "thumbnail_path": null,
       "source_file": "/home/runner/work/pinefield/pinefield/data/account4/products_2026-07-31.json",
       "source_index": 2
+    },
+    {
+      "asin": "B08P5811G7",
+      "status": "reserved",
+      "posted_at": null,
+      "reserved_at": "2026-08-02T08:24:00+09:00",
+      "account_id": "account4",
+      "account_name": "sihituan",
+      "category": "テント"
     }
   ]
 }
