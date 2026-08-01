@@ -14,4 +14,6 @@ if __name__ == "__main__":
     today = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
     fetch_and_save(
         output_path=str(BASE_DIR / "data" / "account7" / f"products_{today}.json"),
-        config_path=str(BASE_DIR / "categories7.yaml"),    )
+        config_path=str(BASE_DIR / "categories7.yaml"),
+        associate_tag="noteamazon7-22",
+    )

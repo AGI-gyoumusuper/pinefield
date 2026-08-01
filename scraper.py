@@ -25,7 +25,7 @@ from playwright.async_api import async_playwright, Page, BrowserContext
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-ASSOCIATE_TAG = ""  # ver5.0: 公開リポジトリ化に伴いタグは焼き込まない（素のdpリンクで出力・タグ付与はローカル取得側の役目）
+ASSOCIATE_TAG = "noteamazon1-22"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "categories1.yaml")
 
@@ -50,6 +50,52 @@ class Product:
 def make_affiliate_url(asin: str, associate_tag: str = ASSOCIATE_TAG) -> str:
     base = f"https://www.amazon.co.jp/dp/{asin}"
     return f"{base}?tag={associate_tag}" if associate_tag else base
+
+
+def expected_associate_tag(output_path: str, config_path: str) -> str:
+    """Return the account-specific tag for an active account1-account10 run."""
+    output_match = re.search(r"(?:^|[\\/])account(10|[1-9])(?:[\\/]|$)", output_path)
+    config_match = re.search(r"categories(10|[1-9])\.ya?ml$", os.path.basename(config_path))
+
+    output_account = output_match.group(1) if output_match else None
+    config_account = config_match.group(1) if config_match else None
+    if output_account and config_account and output_account != config_account:
+        raise ValueError(
+            f"Account routing mismatch: output=account{output_account}, "
+            f"config=account{config_account}"
+        )
+
+    account = output_account or config_account
+    if not account:
+        raise ValueError(
+            "Cannot determine affiliate account from output_path or config_path"
+        )
+    return f"noteamazon{account}-22"
+
+
+def validate_affiliate_output(
+    products: List[Product],
+    output_path: str,
+    config_path: str,
+    associate_tag: str,
+) -> None:
+    """Run one lightweight affiliate URL check immediately after scraping."""
+    expected_tag = expected_associate_tag(output_path, config_path)
+    if associate_tag != expected_tag:
+        raise ValueError(
+            f"Affiliate tag mismatch: expected={expected_tag}, actual={associate_tag or '(empty)'}"
+        )
+
+    mismatched_asins = [
+        product.asin
+        for product in products
+        if product.affiliate_url != make_affiliate_url(product.asin, expected_tag)
+    ]
+    if mismatched_asins:
+        sample = ", ".join(mismatched_asins[:5])
+        raise ValueError(
+            f"Affiliate URL mismatch: {len(mismatched_asins)} item(s); ASIN={sample}"
+        )
 
 
 def parse_price(price_str: str) -> int:
@@ -953,6 +999,8 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
 def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG_PATH, associate_tag: str = ASSOCIATE_TAG) -> List[Product]:
     logger.info(f"=== Playwright スクレイピング開始: {config_path} ===")
     products, scrape_stats = asyncio.run(fetch_products(config_path, associate_tag))
+    validate_affiliate_output(products, output_path, config_path, associate_tag)
+    logger.info(f"Amazon affiliate URL check OK: {associate_tag} ({len(products)} items)")
     logger.info(f"最終取得: {len(products)} 件")
     os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
