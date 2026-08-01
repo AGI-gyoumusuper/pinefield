@@ -1,7 +1,7 @@
 {
   "schema": "note-amazon-asin-history-v1",
-  "updated_at": "2026-07-31T00:46:16+09:00",
-  "description": "Single source of truth for account6 ASIN exclusion. Scraped and posted ASINs are retained for the configured exclusion window.",
+  "updated_at": "2026-08-02T05:12:01+09:00",
+  "description": "Canonical ASIN ledger for account6. Popular-ranking exclusion uses only verified note posts/reservations; scraped and rejected legacy rows are not exclusion evidence.",
   "posted": [
     {
       "asin": "B07FTG84SW",
@@ -141,20 +141,6 @@
       "source_index": 5
     },
     {
-      "asin": "B07FTG84SW",
-      "title": "歩きながらの動画が映画のワンカットになる。スマホジンバルの現在地、DJI Osmo Mobile 7P",
-      "status": "reserved",
-      "posted_at": "2026-07-24T00:00:00+09:00",
-      "reserved_at": "2026-07-24T10:11:00+09:00",
-      "account_id": "account6",
-      "account_name": "ふーけい",
-      "note_url": "https://note.com/huu_kei/n/n94442a048483",
-      "edit_url": "https://editor.note.com/notes/n94442a048483/edit/",
-      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\prepared_thumbnails_1280x670_first\\6-1_B07FTG84SW_v4.png",
-      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\post_account6_results_2026-07-24_first.json",
-      "source_index": 1
-    },
-    {
       "asin": "B08449CCCB",
       "title": "富士フイルム(FUJIFILM) X 交換レンズ フジノン 単焦点 標準 コンパクト XC35mm F2 F XC35MMF2",
       "status": "scraped",
@@ -283,20 +269,6 @@
       "rejection_reason": "2026-07-27 manual review: unsuitable product"
     },
     {
-      "asin": "B0CH2X5LBX",
-      "title": "サンディスク正規品の128GB、読み出し140MB/s・10年保証で4千円台。機材の裏方を静かに固めるUltra",
-      "status": "reserved",
-      "posted_at": "2026-07-24T00:00:00+09:00",
-      "reserved_at": "2026-07-24T12:01:00+09:00",
-      "account_id": "account6",
-      "account_name": "ふーけい",
-      "note_url": "https://note.com/huu_kei/n/n7dd343a9e9a4",
-      "edit_url": "https://editor.note.com/notes/n7dd343a9e9a4/edit/",
-      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem2\\6-2_B0CH2X5LBX.png",
-      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account6_combined_results.json",
-      "source_index": 1
-    },
-    {
       "asin": "B0D5HNNS3B",
       "title": "コムテック ドライブレコーダー ZDR018 前後2カメラ コンパクト 前後200万画素 Full HD GPS搭載 32GBmicroSDカード付属 後続車両接近お知らせ機能搭載 駐車監視機能 高速起動 3年保証",
       "status": "rejected",
@@ -352,6 +324,34 @@
       "thumbnail_path": null,
       "source_file": "/home/runner/work/pinefield/pinefield/data/account6/products_2026-07-24.json",
       "source_index": 9
+    },
+    {
+      "asin": "B07FTG84SW",
+      "title": "歩きながらの動画が映画のワンカットになる。スマホジンバルの現在地、DJI Osmo Mobile 7P",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T10:11:00+09:00",
+      "account_id": "account6",
+      "account_name": "ふーけい",
+      "note_url": "https://note.com/huu_kei/n/n94442a048483",
+      "edit_url": "https://editor.note.com/notes/n94442a048483/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\prepared_thumbnails_1280x670_first\\6-1_B07FTG84SW_v4.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\予約作業_2026-07-24\\post_account6_results_2026-07-24_first.json",
+      "source_index": 1
+    },
+    {
+      "asin": "B0CH2X5LBX",
+      "title": "サンディスク正規品の128GB、読み出し140MB/s・10年保証で4千円台。機材の裏方を静かに固めるUltra",
+      "status": "reserved",
+      "posted_at": "2026-07-24T00:00:00+09:00",
+      "reserved_at": "2026-07-24T12:01:00+09:00",
+      "account_id": "account6",
+      "account_name": "ふーけい",
+      "note_url": "https://note.com/huu_kei/n/n7dd343a9e9a4",
+      "edit_url": "https://editor.note.com/notes/n7dd343a9e9a4/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\prepared_thumbnails_1280x670_rem2\\6-2_B0CH2X5LBX.png",
+      "source_file": "C:\\Users\\taker\\Downloads\\KIJIFABLEEEEEE\\残り24本予約_2026-07-24\\account6_combined_results.json",
+      "source_index": 1
     },
     {
       "asin": "B01LPR3TPO",
@@ -644,20 +644,6 @@
       "rejection_reason": "2026-07-27 manual review: unsuitable product"
     },
     {
-      "asin": "B0056E49MK",
-      "title": "250mm望遠・手ブレ補正・UDレンズで58,368円──キヤノンEF-S55-250mm F4-5.6 IS IIという選択",
-      "status": "reserved",
-      "posted_at": "2026-07-28T00:00:00+09:00",
-      "reserved_at": "2026-07-28T19:50:00+09:00",
-      "account_id": "account6",
-      "account_name": "ふーけい",
-      "note_url": "https://note.com/huu_kei/n/nb49211d7b6bf",
-      "edit_url": "https://editor.note.com/notes/nb49211d7b6bf/edit/",
-      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item2\\prepared_thumbnails_1280x670_item2\\6-2_B0056E49MK_v2.png",
-      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item2\\post_account6_results_2026-07-28_item2.json",
-      "source_index": 1
-    },
-    {
       "asin": "B00RV90LE8",
       "title": "NEEWER 撮影用三軸 壁に取り付け 手動 背景サポートシステム 2×三つ折りフック 6 x 拡張バー 3×チェーン 耐荷重：22lb/10kg",
       "status": "scraped",
@@ -714,34 +700,6 @@
       "source_index": 10
     },
     {
-      "asin": "B07QNJ2YQD",
-      "title": "ロジクール C922nが11,400円──フルHD30fpsと720p60fpsを選べる、配信にも会議にも強いウェブカメラ",
-      "status": "reserved",
-      "posted_at": "2026-07-28T00:00:00+09:00",
-      "reserved_at": "2026-07-28T18:35:00+09:00",
-      "account_id": "account6",
-      "account_name": "ふーけい",
-      "note_url": "https://note.com/huu_kei/n/n18b55044f6e4",
-      "edit_url": "https://editor.note.com/notes/n18b55044f6e4/edit/",
-      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item1\\prepared_thumbnails_1280x670_item1\\6-1_B07QNJ2YQD_v2.png",
-      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item1\\post_account6_results_2026-07-28_item1.json",
-      "source_index": 1
-    },
-    {
-      "asin": "B08VGJ1TK9",
-      "title": "顔が暗いまま映る問題は、クリップ1個で終わる──NEEWERのスマホライトNL-60AIが27％オフの2,108円",
-      "status": "reserved",
-      "posted_at": "2026-07-28T00:00:00+09:00",
-      "reserved_at": "2026-07-28T21:24:00+09:00",
-      "account_id": "account6",
-      "account_name": "ふーけい",
-      "note_url": "https://note.com/huu_kei/n/n4065b3d3c4d2",
-      "edit_url": "https://editor.note.com/notes/n4065b3d3c4d2/edit/",
-      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item3\\prepared_thumbnails_1280x670_item3\\6-3_B08VGJ1TK9_v1.png",
-      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item3\\post_account6_results_2026-07-28_item3.json",
-      "source_index": 1
-    },
-    {
       "asin": "B09GKLCP95",
       "title": "マンフロット(Manfrotto) ミニ三脚 PIXI ブラック カメラ用ミニ三脚 動画用ハンドグリップ 耐荷重1kg 高さ13.5cm 自重0.17kg アルミニウム イタリア製 ミラーレスカメラ 一眼レフカメラ コンパクトカメラ スマホ MTPIXIMII-B",
       "status": "scraped",
@@ -782,6 +740,48 @@
       "thumbnail_path": null,
       "source_file": "/home/runner/work/pinefield/pinefield/data/account6/products_2026-07-28.json",
       "source_index": 9
+    },
+    {
+      "asin": "B07QNJ2YQD",
+      "title": "ロジクール C922nが11,400円──フルHD30fpsと720p60fpsを選べる、配信にも会議にも強いウェブカメラ",
+      "status": "reserved",
+      "posted_at": "2026-07-28T00:00:00+09:00",
+      "reserved_at": "2026-07-28T18:35:00+09:00",
+      "account_id": "account6",
+      "account_name": "ふーけい",
+      "note_url": "https://note.com/huu_kei/n/n18b55044f6e4",
+      "edit_url": "https://editor.note.com/notes/n18b55044f6e4/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item1\\prepared_thumbnails_1280x670_item1\\6-1_B07QNJ2YQD_v2.png",
+      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item1\\post_account6_results_2026-07-28_item1.json",
+      "source_index": 1
+    },
+    {
+      "asin": "B0056E49MK",
+      "title": "250mm望遠・手ブレ補正・UDレンズで58,368円──キヤノンEF-S55-250mm F4-5.6 IS IIという選択",
+      "status": "reserved",
+      "posted_at": "2026-07-28T00:00:00+09:00",
+      "reserved_at": "2026-07-28T19:50:00+09:00",
+      "account_id": "account6",
+      "account_name": "ふーけい",
+      "note_url": "https://note.com/huu_kei/n/nb49211d7b6bf",
+      "edit_url": "https://editor.note.com/notes/nb49211d7b6bf/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item2\\prepared_thumbnails_1280x670_item2\\6-2_B0056E49MK_v2.png",
+      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item2\\post_account6_results_2026-07-28_item2.json",
+      "source_index": 1
+    },
+    {
+      "asin": "B08VGJ1TK9",
+      "title": "顔が暗いまま映る問題は、クリップ1個で終わる──NEEWERのスマホライトNL-60AIが27％オフの2,108円",
+      "status": "reserved",
+      "posted_at": "2026-07-28T00:00:00+09:00",
+      "reserved_at": "2026-07-28T21:24:00+09:00",
+      "account_id": "account6",
+      "account_name": "ふーけい",
+      "note_url": "https://note.com/huu_kei/n/n4065b3d3c4d2",
+      "edit_url": "https://editor.note.com/notes/n4065b3d3c4d2/edit/",
+      "thumbnail_path": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item3\\prepared_thumbnails_1280x670_item3\\6-3_B08VGJ1TK9_v1.png",
+      "source_file": "C:\\Users\\taker\\Documents\\Codex\\2026-07-27\\git\\outputs\\note_post_2026-07-28\\queues\\account6-item3\\post_account6_results_2026-07-28_item3.json",
+      "source_index": 1
     },
     {
       "asin": "B000QUD1BE",
@@ -1062,6 +1062,15 @@
       "thumbnail_path": null,
       "source_file": "/home/runner/work/pinefield/pinefield/data/account6/products_2026-07-31.json",
       "source_index": 10
+    },
+    {
+      "asin": "B089LZSR7M",
+      "status": "reserved",
+      "posted_at": null,
+      "reserved_at": "2026-08-02T08:40:00+09:00",
+      "account_id": "account6",
+      "account_name": "huu_kei",
+      "category": "直火式エスプレッソメーカー"
     }
   ]
 }
