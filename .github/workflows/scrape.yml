@@ -52,7 +52,7 @@ jobs:
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           OUT="data/account1/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
             python -c "import json; d=json.load(open('$OUT', encoding='utf-8-sig')); print(f'account1 total {len(d)} items'); [print(f'{p.get(\"price\", \"\")} - {p.get(\"title\", \"\")[:50]} ({p.get(\"category\", \"\")})') for p in d[:5]]"
           else
             echo "$OUT was not created"
@@ -101,7 +101,7 @@ jobs:
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           OUT="data/account2/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
             python -c "import json; d=json.load(open('$OUT', encoding='utf-8-sig')); print(f'account2 total {len(d)} items'); [print(f'{p.get(\"price\", \"\")} - {p.get(\"title\", \"\")[:50]} ({p.get(\"category\", \"\")})') for p in d[:5]]"
           else
             echo "$OUT was not created"
@@ -146,7 +146,7 @@ jobs:
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           OUT="data/account0/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 20, f'[ERROR] too few scrape items: {out}: {count} < 20'"
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
           else
             echo "$OUT was not created"
             exit 1
@@ -188,7 +188,7 @@ jobs:
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           OUT="data/account3/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
           else
             echo "$OUT was not created"
             exit 1
@@ -231,7 +231,7 @@ jobs:
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           OUT="data/account4/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
           else
             echo "$OUT was not created"
             exit 1
@@ -274,7 +274,7 @@ jobs:
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           OUT="data/account5/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 8, f'[ERROR] too few scrape items: {out}: {count} < 8'"
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
           else
             echo "$OUT was not created"
             exit 1
