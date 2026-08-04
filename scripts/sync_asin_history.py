@@ -20,6 +20,12 @@ from zoneinfo import ZoneInfo
 
 import yaml
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from product_identity import extract_product_identity, merge_product_identities
+
 try:
     from .update_category_rotation import build_updated_state
 except ImportError:  # direct script execution
@@ -175,8 +181,8 @@ def row_to_entry(
     return entry, category
 
 
-def product_category_map(paths: list[Path], account_dir: Path) -> dict[str, str]:
-    mapping: dict[str, str] = {}
+def product_metadata_map(paths: list[Path], account_dir: Path) -> dict[str, dict[str, Any]]:
+    mapping: dict[str, dict[str, Any]] = {}
 
     def add_file(path: Path, overwrite: bool) -> None:
         try:
@@ -185,17 +191,25 @@ def product_category_map(paths: list[Path], account_dir: Path) -> dict[str, str]
             raise SyncError(f"cannot read product JSON {path}: {error}") from error
         for row in rows:
             asin = extract_asin(row)
-            category = normalize_category(row.get("category"))
-            if not asin or not category:
+            if not asin:
                 continue
             if overwrite or asin not in mapping:
-                mapping[asin] = category
+                mapping[asin] = row
 
     for path in paths:
         add_file(path, overwrite=True)
     for path in sorted(account_dir.glob("products_*.json"), reverse=True):
         add_file(path, overwrite=False)
     return mapping
+
+
+def product_category_map(paths: list[Path], account_dir: Path) -> dict[str, str]:
+    """Backward-compatible category-only view of the product metadata."""
+    return {
+        asin: category
+        for asin, row in product_metadata_map(paths, account_dir).items()
+        if (category := normalize_category(row.get("category")))
+    }
 
 
 def load_history(path: Path, account_id: str) -> dict[str, Any]:
@@ -247,9 +261,22 @@ def merge_history(
         status_rank = {"scheduled": 1, "reserved": 2, "published": 3, "posted": 4}
         if status_rank.get(str(entry.get("status", "")), 0) >= status_rank.get(str(old.get("status", "")), 0):
             merged["status"] = entry["status"]
-        for name in ("posted_at", "reserved_at", "account_id", "account_name", "category"):
+        for name in (
+            "posted_at",
+            "reserved_at",
+            "account_id",
+            "account_name",
+            "category",
+        ):
             if entry.get(name) not in (None, ""):
                 merged[name] = entry[name]
+        if entry.get("product_identity"):
+            combined_identity = merge_product_identities(
+                extract_product_identity(old),
+                extract_product_identity(entry),
+            )
+            if combined_identity.usable:
+                merged["product_identity"] = combined_identity.to_dict()
         if merged != old:
             indexed[key] = merged
             updated += 1
@@ -338,12 +365,22 @@ def sync(
         for category in categories
         if isinstance(category, dict) and category.get("name") and category.get("url")
     }
-    mapped_categories = product_category_map(product_paths, account_dir)
+    product_metadata = product_metadata_map(product_paths, account_dir)
+    mapped_categories = {
+        asin: normalize_category(row.get("category"))
+        for asin, row in product_metadata.items()
+        if normalize_category(row.get("category"))
+    }
     mapped_categories.update(direct_categories)
     resolved: dict[str, str] = {}
     missing: list[str] = []
     for entry in accepted:
         asin = entry["asin"]
+        product_row = product_metadata.get(asin)
+        if product_row:
+            identity = extract_product_identity(product_row)
+            if identity.usable:
+                entry["product_identity"] = identity.to_dict()
         category = normalize_category(mapped_categories.get(asin))
         if category in active_names:
             resolved[asin] = category

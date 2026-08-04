@@ -1,10 +1,15 @@
 import json
 import tempfile
 import unittest
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
-from scraper import Product, load_posted_asins, save_scraped_asins_to_history
+from scraper import (
+    Product,
+    load_posted_asins,
+    load_product_exclusion_registry,
+    save_scraped_asins_to_history,
+)
 from scripts.prune_asin_history import prune_history_data
 from scripts.sync_asin_history import SyncError, sync
 
@@ -55,7 +60,11 @@ class VerifiedAsinSyncTests(unittest.TestCase):
             write_json(
                 products,
                 [
-                    {"asin": "B000000001", "category": "C1#1"},
+                    {
+                        "asin": "B000000001",
+                        "category": "C1#1",
+                        "specs": "ブランド名 Sony メーカー型番 WH-1000XM5 UPC 077924051524 Amazon 売れ筋ランキング 1位",
+                    },
                     {"asin": "B000000002", "category": "C2#1"},
                 ],
             )
@@ -65,6 +74,14 @@ class VerifiedAsinSyncTests(unittest.TestCase):
             self.assertEqual(["B000000001"], [row["asin"] for row in history["posted"]])
             self.assertEqual("reserved", history["posted"][0]["status"])
             self.assertEqual("C1", history["posted"][0]["category"])
+            self.assertEqual(
+                ["SONY::WH1000XM5"],
+                history["posted"][0]["product_identity"]["brand_model_keys"],
+            )
+            self.assertEqual(
+                ["00077924051524"],
+                history["posted"][0]["product_identity"]["global_trade_numbers"],
+            )
             self.assertEqual("B000000001", rotation["last_asin"])
             self.assertEqual(2, rotation["next_category_position"])
             self.assertEqual(1, result["accepted_count"])
@@ -185,6 +202,68 @@ class AsinExclusionTests(unittest.TestCase):
                 },
             )
             self.assertEqual({"B000000001"}, load_posted_asins(str(path), 20, include_scraped=False))
+
+    def test_product_identities_use_the_same_success_status_gate(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "history.json"
+            write_json(
+                path,
+                {
+                    "posted": [
+                        {
+                            "asin": "B000000001",
+                            "status": "reserved",
+                            "reserved_at": "2099-01-01",
+                            "product_identity": {
+                                "brand_model_keys": ["SONY::WH1000XM5"],
+                                "global_trade_numbers": ["00077924051524"],
+                            },
+                        },
+                        {
+                            "asin": "B000000002",
+                            "status": "scraped",
+                            "posted_at": "2099-01-01",
+                            "product_identity": {
+                                "brand_model_keys": ["ACME::BAD1000"],
+                                "global_trade_numbers": ["00074451126220"],
+                            },
+                        },
+                    ]
+                },
+            )
+            registry = load_product_exclusion_registry(
+                str(path), 20, include_scraped=False, include_product_identities=True
+            )
+            self.assertEqual({"B000000001"}, registry.asins)
+            self.assertEqual({"SONY::WH1000XM5"}, registry.brand_model_keys)
+            self.assertEqual({"00077924051524"}, registry.global_trade_numbers)
+
+    def test_product_identity_outside_twenty_day_window_is_not_loaded(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "history.json"
+            old_date = (
+                datetime.now(timezone(timedelta(hours=9))).date() - timedelta(days=20)
+            ).isoformat()
+            write_json(
+                path,
+                {
+                    "posted": [
+                        {
+                            "asin": "B000000001",
+                            "status": "reserved",
+                            "reserved_at": old_date,
+                            "product_identity": {
+                                "brand_model_keys": ["SONY::WH1000XM5"],
+                            },
+                        }
+                    ]
+                },
+            )
+            registry = load_product_exclusion_registry(
+                str(path), 20, include_scraped=False, include_product_identities=True
+            )
+            self.assertEqual(set(), registry.asins)
+            self.assertEqual(set(), registry.brand_model_keys)
 
     def test_popular_mode_does_not_append_scraped_candidates(self):
         with tempfile.TemporaryDirectory() as temp:

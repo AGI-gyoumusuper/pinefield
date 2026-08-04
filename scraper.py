@@ -22,6 +22,11 @@ from urllib.parse import parse_qsl, unquote, urlencode, urlparse, urlunparse
 import yaml
 from playwright.async_api import async_playwright, Page, BrowserContext
 
+from product_identity import (
+    ProductIdentityRegistry,
+    extract_product_identity,
+)
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -117,8 +122,13 @@ def load_config(path: str = CONFIG_PATH) -> dict:
         return yaml.safe_load(f)
 
 
-def load_posted_asins(path: str, within_days: int = 0, include_scraped: bool = True) -> set:
-    """投稿済み/予約済みASINの除外集合を返す（v2.1で全面改修）。
+def load_product_exclusion_registry(
+    path: str,
+    within_days: int = 0,
+    include_scraped: bool = True,
+    include_product_identities: bool = True,
+) -> ProductIdentityRegistry:
+    """投稿済み/予約済み商品の高確度な除外識別子を返す。
 
     - within_days=0: 全期間（過去に一度でも紹介したASINをすべて除外）
     - within_days=N: JSTの「今日」を含む直近N日に紹介済みのASINを除外。
@@ -131,16 +141,16 @@ def load_posted_asins(path: str, within_days: int = 0, include_scraped: bool = T
     full_path = os.path.join(os.path.dirname(__file__), path) if not os.path.isabs(path) else path
     if not os.path.exists(full_path):
         logger.warning(f"ASIN履歴が見つかりません（除外なしで続行）: {full_path}")
-        return set()
+        return ProductIdentityRegistry()
     try:
         with open(full_path, "r", encoding="utf-8-sig") as f:
             data = json.load(f)
     except Exception as e:
         logger.error(f"ASIN履歴の読込に失敗（除外なしで続行）: {e}")
-        return set()
+        return ProductIdentityRegistry()
     entries = data.get("posted", []) if isinstance(data, dict) else data
     if not isinstance(entries, list):
-        return set()
+        return ProductIdentityRegistry()
 
     def date_part(value) -> str:
         m = re.match(r"(\d{4}-\d{2}-\d{2})", str(value or "").strip())
@@ -149,7 +159,7 @@ def load_posted_asins(path: str, within_days: int = 0, include_scraped: bool = T
     from datetime import datetime, timedelta, timezone
     today_jst = datetime.now(timezone(timedelta(hours=9))).date()
     cutoff = (today_jst - timedelta(days=max(within_days - 1, 0))).isoformat()
-    result = set()
+    registry = ProductIdentityRegistry()
     for p in entries:
         if not isinstance(p, dict):
             continue
@@ -161,15 +171,26 @@ def load_posted_asins(path: str, within_days: int = 0, include_scraped: bool = T
         status = str(p.get("status", "")).strip().lower()
         if not include_scraped and status not in {"posted", "published", "reserved", "scheduled"}:
             continue
-        if within_days <= 0:
-            result.add(asin)
+        active = within_days <= 0
+        if not active:
+            base = max(date_part(p.get("posted_at")), date_part(p.get("reserved_at")))
+            active = not base or base >= cutoff  # 日付不明と未来予約は安全側で除外
+        if not active:
             continue
-        base = max(date_part(p.get("posted_at")), date_part(p.get("reserved_at")))
-        if not base:
-            result.add(asin)  # 日付不明は安全側で除外
-        elif base >= cutoff:  # 未来の予約日もこの条件で除外される
-            result.add(asin)
-    return result
+        registry.asins.add(asin)
+        if include_product_identities:
+            registry.add_identity(extract_product_identity(p))
+    return registry
+
+
+def load_posted_asins(path: str, within_days: int = 0, include_scraped: bool = True) -> set:
+    """後方互換用。投稿済み/予約済みASINだけを返す。"""
+    return load_product_exclusion_registry(
+        path,
+        within_days,
+        include_scraped,
+        include_product_identities=False,
+    ).asins
 
 
 # ============================================
@@ -501,26 +522,16 @@ def load_rotation_state(path: str) -> dict:
         return {}
 
 
-def select_category_round_robin(
-    products: List[Product],
-    categories: List[dict],
-    max_total: int,
-    rotation_state_file: str,
-) -> List[Product]:
-    """各カテゴリの評価数首位を、前回使用カテゴリの次から順番に採用する。"""
+def ordered_rotation_categories(
+    categories: List[dict], rotation_state_file: str
+) -> Tuple[List[dict], str]:
+    """Return active categories in the saved round-robin order."""
     active_categories = [
         category for category in categories
         if str(category.get("name", "")).strip() and str(category.get("url", "")).strip()
     ]
     if not active_categories:
-        return []
-
-    grouped: dict[str, List[Product]] = {}
-    for product in products:
-        name = (product.category or "").split("#")[0]
-        grouped.setdefault(name, []).append(product)
-    for candidates in grouped.values():
-        candidates.sort(key=review_num, reverse=True)
+        return [], "なし"
 
     state = load_rotation_state(rotation_state_file)
     keys = [category_key(category) for category in active_categories]
@@ -545,8 +556,31 @@ def select_category_round_robin(
             saved_next_position = 1
         start_index = max(saved_next_position - 1, 0) % len(active_categories)
 
-    ordered_categories = active_categories[start_index:] + active_categories[:start_index]
-    limit = len(active_categories) if max_total <= 0 else min(max_total, len(active_categories))
+    ordered = active_categories[start_index:] + active_categories[:start_index]
+    return ordered, last_name or last_key or "なし"
+
+
+def select_category_round_robin(
+    products: List[Product],
+    categories: List[dict],
+    max_total: int,
+    rotation_state_file: str,
+) -> List[Product]:
+    """各カテゴリの評価数首位を、前回使用カテゴリの次から順番に採用する。"""
+    ordered_categories, previous = ordered_rotation_categories(categories, rotation_state_file)
+    if not ordered_categories:
+        return []
+
+    grouped: dict[str, List[Product]] = {}
+    for product in products:
+        name = (product.category or "").split("#")[0]
+        grouped.setdefault(name, []).append(product)
+    for candidates in grouped.values():
+        candidates.sort(key=review_num, reverse=True)
+
+    names = [str(category.get("name", "")).strip() for category in ordered_categories]
+    active_count = len(ordered_categories)
+    limit = active_count if max_total <= 0 else min(max_total, active_count)
     selected: List[Product] = []
     missing: List[str] = []
     for category in ordered_categories:
@@ -561,11 +595,11 @@ def select_category_round_robin(
 
     logger.info(
         "カテゴリ循環選定: 有効=%d 開始=%s 採用=%d/%d 前回=%s",
-        len(active_categories),
-        names[start_index],
+        active_count,
+        names[0],
         len(selected),
         limit,
-        last_name or last_key or "なし",
+        previous,
     )
     if missing:
         logger.warning(f"有効商品なしカテゴリ: {', '.join(missing)}")
@@ -761,23 +795,113 @@ async def scrape_product_detail(page: Page, asin: str) -> Tuple[str, str]:
         return "", ""
 
 
+async def enrich_product(page: Page, product: Product) -> bool:
+    """Populate one product's detail fields and report whether any were found."""
+    try:
+        description, specs = await scrape_product_detail(page, product.asin)
+        product.description = description
+        product.specs = specs
+        return bool(description or specs)
+    except Exception as e:
+        logger.error(f"  enrich failed for {product.asin}: {e}")
+        product.description = ""
+        product.specs = ""
+        return False
+
+
 async def enrich_products(page: Page, products: List[Product]) -> None:
     total = len(products)
     success = 0
     for i, p in enumerate(products):
         logger.info(f"  [{i+1}/{total}] enrich {p.asin} - {p.title[:40]}")
-        try:
-            desc, specs = await scrape_product_detail(page, p.asin)
-            p.description = desc
-            p.specs = specs
-            if desc or specs:
-                success += 1
-        except Exception as e:
-            logger.error(f"  enrich failed for {p.asin}: {e}")
-            p.description = ""
-            p.specs = ""
+        if await enrich_product(page, p):
+            success += 1
         await asyncio.sleep(random.uniform(2, 4))
     logger.info(f"enrich完了: {success}/{total} 件で説明文/スペック取得成功")
+
+
+async def select_enrich_unique_products(
+    page: Page,
+    products: List[Product],
+    registry: ProductIdentityRegistry,
+    categories: List[dict],
+    max_total: int,
+    selection_mode: str,
+    rotation_state_file: str,
+    stats: dict,
+) -> List[Product]:
+    """Enrich candidates in rank order, excluding stable-identifier matches.
+
+    In category round-robin mode, an excluded category leader is replaced by
+    the next ranked item from the same category.  Thus an identity exclusion
+    does not consume one of the requested output slots.
+    """
+    selected: List[Product] = []
+    skipped_reasons: dict[str, int] = {}
+
+    def record_skip(product: Product, reason: str) -> None:
+        prefix = reason.split(":", 1)[0]
+        skipped_reasons[prefix] = skipped_reasons.get(prefix, 0) + 1
+        logger.info(f"同一商品識別子で除外: {product.asin} ({reason})")
+
+    async def consider(candidate: Product) -> bool:
+        logger.info(f"  identity check {candidate.asin} - {candidate.title[:40]}")
+        if not candidate.specs:
+            await enrich_product(page, candidate)
+        identity = extract_product_identity(candidate)
+        reason = registry.match_identity(identity)
+        if reason:
+            record_skip(candidate, reason)
+            await asyncio.sleep(random.uniform(2, 4))
+            return False
+        selected.append(candidate)
+        registry.add_identity(identity)  # 同一スクレイピング内の別ASIN重複も防ぐ
+        await asyncio.sleep(random.uniform(2, 4))
+        return True
+
+    if selection_mode == "category_round_robin":
+        ordered_categories, previous = ordered_rotation_categories(categories, rotation_state_file)
+        grouped: dict[str, List[Product]] = {}
+        for product in products:
+            name = (product.category or "").split("#")[0]
+            grouped.setdefault(name, []).append(product)
+        for candidates in grouped.values():
+            candidates.sort(key=review_num, reverse=True)
+
+        limit = len(ordered_categories) if max_total <= 0 else min(max_total, len(ordered_categories))
+        missing: List[str] = []
+        for category in ordered_categories:
+            name = str(category.get("name", "")).strip()
+            candidates = grouped.get(name, [])
+            accepted = False
+            for candidate in candidates:
+                if await consider(candidate):
+                    accepted = True
+                    break
+            if not accepted:
+                missing.append(name)
+            if len(selected) >= limit:
+                break
+        logger.info(
+            "識別子対応カテゴリ循環選定: 有効=%d 開始=%s 採用=%d/%d 前回=%s",
+            len(ordered_categories),
+            str(ordered_categories[0].get("name", "")) if ordered_categories else "なし",
+            len(selected),
+            limit,
+            previous,
+        )
+        if missing:
+            logger.warning(f"同一商品除外後も有効商品なしカテゴリ: {', '.join(missing)}")
+    else:
+        limit = len(products) if max_total <= 0 else max_total
+        for candidate in products:
+            await consider(candidate)
+            if len(selected) >= limit:
+                break
+
+    stats["_skipped_product_identity"] = sum(skipped_reasons.values())
+    stats["_skipped_product_identity_reasons"] = skipped_reasons
+    return selected
 
 
 # ============================================
@@ -896,8 +1020,23 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
     posted_path = excl.get("posted_asins_file", "posted_asins.json")
     within_days = int(excl.get("exclude_within_days", 0))
     include_scraped = bool(excl.get("exclude_scraped_candidates", True))  # ver4.3: false=浚っただけの候補は焼かない（人気順用）
-    posted_asins = load_posted_asins(posted_path, within_days, include_scraped)
-    logger.info(f"投稿済みASIN: {len(posted_asins)} 件読込（除外窓 {within_days} 日 / {posted_path}）")
+    exclude_product_identifiers = bool(excl.get("exclude_product_identifiers", False))
+    product_registry = load_product_exclusion_registry(
+        posted_path,
+        within_days,
+        include_scraped,
+        include_product_identities=exclude_product_identifiers,
+    )
+    posted_asins = product_registry.asins
+    logger.info(
+        "投稿済み商品除外: ASIN=%d GTIN=%d ブランド型番=%d "
+        "（除外窓 %d 日 / %s）",
+        len(posted_asins),
+        len(product_registry.global_trade_numbers),
+        len(product_registry.brand_model_keys),
+        within_days,
+        posted_path,
+    )
     # ver2.8: 恒久除外リスト（運用裁定 2026-07-12: カテゴリ誤登録商品等、二度と扱わないASIN）
     blocked_asins = {str(a).strip().upper() for a in excl.get("blocked_asins", []) or []
                      if re.fullmatch(r"[A-Z0-9]{10}", str(a).strip().upper())}
@@ -905,7 +1044,11 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
         posted_asins |= blocked_asins
         logger.info(f"恒久除外ASIN: {len(blocked_asins)} 件（blocked_asins）")
     all_products: List[Product] = []
-    scrape_stats: dict = {"_excluded_loaded": len(posted_asins)}
+    scrape_stats: dict = {
+        "_excluded_loaded": len(posted_asins),
+        "_excluded_gtins_loaded": len(product_registry.global_trade_numbers),
+        "_excluded_brand_models_loaded": len(product_registry.brand_model_keys),
+    }
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         async def new_context_and_page(short_warmup: bool = False) -> Tuple[BrowserContext, Page]:
@@ -970,28 +1113,61 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
                 await asyncio.sleep(random.uniform(2, 4))
         logger.info(f"全カテゴリ合計: {len(all_products)} 件")
         # Phase 2: 重複除去・価格フィルタ・ソート
-        filtered = filter_and_sort(
-            all_products,
-            min_price=min_price,
-            max_price=max_price,
-            sort_order=sort_order,
-            max_total=max_total,
-            posted_asins=posted_asins,
-            min_discount_pct=min_discount_pct,
-            max_per_category=max_per_category,
-            exclude_title_patterns=exclude_title_patterns,
-            selection_mode=selection_mode,
-            categories=cats,
-            rotation_state_file=rotation_state_file,
-            category_min_prices=category_min_prices,
-        )
-        # Phase 3: 個別商品ページから description / specs を取得
-        if filtered:
-            if reset_context_each_category:
+        if exclude_product_identifiers:
+            # 全候補を残し、仕様取得後の識別子除外で首位が落ちたカテゴリは
+            # 同じカテゴリの次点を繰り上げる。
+            candidates = filter_and_sort(
+                all_products,
+                min_price=min_price,
+                max_price=max_price,
+                sort_order=sort_order,
+                max_total=0,
+                posted_asins=posted_asins,
+                min_discount_pct=min_discount_pct,
+                max_per_category=0,
+                exclude_title_patterns=exclude_title_patterns,
+                selection_mode="",
+                categories=cats,
+                rotation_state_file=rotation_state_file,
+                category_min_prices=category_min_prices,
+            )
+            if candidates and reset_context_each_category:
                 await context.close()
                 context, page = await new_context_and_page(short_warmup=True)
-            logger.info(f"=== 個別商品ページ取得開始: {len(filtered)} 件 ===")
-            await enrich_products(page, filtered)
+            logger.info(f"=== 商品識別子確認開始: 候補 {len(candidates)} 件 ===")
+            filtered = await select_enrich_unique_products(
+                page,
+                candidates,
+                product_registry,
+                cats,
+                max_total,
+                selection_mode,
+                rotation_state_file,
+                scrape_stats,
+            )
+        else:
+            filtered = filter_and_sort(
+                all_products,
+                min_price=min_price,
+                max_price=max_price,
+                sort_order=sort_order,
+                max_total=max_total,
+                posted_asins=posted_asins,
+                min_discount_pct=min_discount_pct,
+                max_per_category=max_per_category,
+                exclude_title_patterns=exclude_title_patterns,
+                selection_mode=selection_mode,
+                categories=cats,
+                rotation_state_file=rotation_state_file,
+                category_min_prices=category_min_prices,
+            )
+            # Phase 3: 個別商品ページから description / specs を取得
+            if filtered:
+                if reset_context_each_category:
+                    await context.close()
+                    context, page = await new_context_and_page(short_warmup=True)
+                logger.info(f"=== 個別商品ページ取得開始: {len(filtered)} 件 ===")
+                await enrich_products(page, filtered)
         await browser.close()
     return filtered, scrape_stats
 
@@ -1013,6 +1189,10 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
         "date": date_tag,
         "total_taken": len(products),
         "excluded_loaded": scrape_stats.pop("_excluded_loaded", 0),
+        "excluded_gtins_loaded": scrape_stats.pop("_excluded_gtins_loaded", 0),
+        "excluded_brand_models_loaded": scrape_stats.pop("_excluded_brand_models_loaded", 0),
+        "skipped_product_identity": scrape_stats.pop("_skipped_product_identity", 0),
+        "skipped_product_identity_reasons": scrape_stats.pop("_skipped_product_identity_reasons", {}),
         "categories": scrape_stats,
     }
     with open(summary_path, "w", encoding="utf-8") as f:

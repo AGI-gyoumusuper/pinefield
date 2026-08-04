@@ -103,4 +103,5 @@ exclusion:
   posted_asins_file: "data/account4/asin_history.json"
   exclude_within_days: 20  # 投稿・予約成功ASINを20日間除外。履歴は予約ランナーから自動同期
   exclude_scraped_candidates: false   # 浚っただけの候補は焼かず、投稿・予約成功分のみ20日出禁
+  exclude_product_identifiers: true  # GTIN系・ブランド＋正規化メーカー型番も完全一致で自動除外
   blocked_asins: []        # ver2.8: 恒久除外（構造を①に同期。account4固有の悪質出品者ASINが出たらここへ追記）

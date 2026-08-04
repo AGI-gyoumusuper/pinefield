@@ -17,6 +17,7 @@ try {
     Copy-Item -LiteralPath (Join-Path $SourceRepo 'scripts\sync_asin_history1.ps1') -Destination (Join-Path $Seed 'scripts\sync_asin_history1.ps1')
     Copy-Item -LiteralPath (Join-Path $SourceRepo 'scripts\sync_asin_history.py') -Destination (Join-Path $Seed 'scripts\sync_asin_history.py')
     Copy-Item -LiteralPath (Join-Path $SourceRepo 'scripts\update_category_rotation.py') -Destination (Join-Path $Seed 'scripts\update_category_rotation.py')
+    Copy-Item -LiteralPath (Join-Path $SourceRepo 'product_identity.py') -Destination (Join-Path $Seed 'product_identity.py')
     @'
 categories:
   - name: C1
