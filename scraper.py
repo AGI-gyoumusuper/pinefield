@@ -437,15 +437,18 @@ async def scrape_search(page: Page, url: str, category: str, max_items: int = 10
                     title_text = (await page.title()) or ""
                 except Exception:
                     pass
-                if ("ご迷惑" in title_text or "申し訳" in title_text) and attempt == 1:
+                is_error_page = "ご迷惑" in title_text or "申し訳" in title_text
+                if is_error_page:
                     cat_stats["error_page_hits"] = cat_stats.get("error_page_hits", 0) + 1
-                    logger.warning(f"[{category}] p{page_no}: Amazonエラーページ検出。トップページ経由で再試行")
-                    try:  # v2.3: 直リロードでなくトップページを踏み直してセッション信頼を回復
-                        await page.goto("https://www.amazon.co.jp/", wait_until="domcontentloaded", timeout=45000)
-                    except Exception:
-                        pass
-                    await page.wait_for_timeout(random.randint(7000, 12000))
-                    continue
+                    if attempt == 1:
+                        logger.warning(f"[{category}] p{page_no}: Amazonエラーページ検出。トップページ経由で再試行")
+                        try:  # v2.3: 直リロードでなくトップページを踏み直してセッション信頼を回復
+                            await page.goto("https://www.amazon.co.jp/", wait_until="domcontentloaded", timeout=45000)
+                        except Exception:
+                            pass
+                        await page.wait_for_timeout(random.randint(7000, 12000))
+                        continue
+                    cat_stats.setdefault("error_page_exhausted_pages", []).append(page_no)
                 break
             logger.info(f"[{category}] p{page_no}: s-search-result {len(cards)} 件")
             cat_stats["pages"].append(len(cards))
@@ -458,18 +461,54 @@ async def scrape_search(page: Page, url: str, category: str, max_items: int = 10
                 break
             await _consume_cards(cards)
 
-        cat_stats["taken"] = len(products)
-        logger.info(
-            f"[{category}] 取得 {len(products)} 件"
-            f"（割引表示 {sum(1 for p in products if p.discount_rate)} 件・"
-            f"投稿済スキップ {cat_stats['skipped_posted']} 件）"
-        )
     except Exception as e:
         cat_stats["error"] = str(e)[:150]
         logger.error(f"scrape_search error for [{category}]: {e}")
+    cat_stats["taken"] = len(products)
+    logger.info(
+        f"[{category}] 取得 {len(products)} 件"
+        f"（割引表示 {sum(1 for p in products if p.discount_rate)} 件・"
+        f"投稿済スキップ {cat_stats['skipped_posted']} 件）"
+    )
     if stats is not None:
         stats[category] = cat_stats
     return products
+
+
+def needs_deferred_search_retry(cat_stats: dict) -> bool:
+    """Retry a zero-result search after an exhausted Amazon page or transient error."""
+    return (
+        int(cat_stats.get("taken", 0) or 0) == 0
+        and bool(cat_stats.get("error_page_exhausted_pages") or cat_stats.get("error"))
+    )
+
+
+def merge_deferred_search_stats(initial: dict, retry: dict, unique_added: int) -> dict:
+    """Preserve first-pass diagnostics while recording the deferred retry result."""
+    initial_snapshot = dict(initial)
+    retry_snapshot = dict(retry)
+    merged = dict(initial_snapshot)
+    merged["pages"] = list(initial_snapshot.get("pages", [])) + list(retry_snapshot.get("pages", []))
+    merged["taken"] = int(initial_snapshot.get("taken", 0) or 0) + int(unique_added)
+    merged["skipped_posted"] = (
+        int(initial_snapshot.get("skipped_posted", 0) or 0)
+        + int(retry_snapshot.get("skipped_posted", 0) or 0)
+    )
+    merged["error_page_hits"] = (
+        int(initial_snapshot.get("error_page_hits", 0) or 0)
+        + int(retry_snapshot.get("error_page_hits", 0) or 0)
+    )
+    merged["deferred_retry_attempted"] = True
+    merged["deferred_retry_recovered"] = unique_added > 0
+    merged["deferred_retry_unique_added"] = int(unique_added)
+    merged["deferred_retry"] = {
+        "attempted": True,
+        "recovered": unique_added > 0,
+        "unique_added": int(unique_added),
+        "initial": initial_snapshot,
+        "retry": retry_snapshot,
+    }
+    return merged
 
 
 def review_num(product: Product) -> int:
@@ -1015,7 +1054,6 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
     if rotation_state_file and not os.path.isabs(rotation_state_file):
         rotation_state_file = os.path.join(os.path.dirname(config_path), rotation_state_file)
     exclude_title_patterns = [str(pattern) for pattern in flt.get("exclude_title_patterns", []) or []]
-    reset_context_each_category = bool(flt.get("reset_context_each_category", False))
     excl = config.get("exclusion", {})
     posted_path = excl.get("posted_asins_file", "posted_asins.json")
     within_days = int(excl.get("exclude_within_days", 0))
@@ -1051,7 +1089,7 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
     }
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
-        async def new_context_and_page(short_warmup: bool = False) -> Tuple[BrowserContext, Page]:
+        async def new_context_and_page() -> Tuple[BrowserContext, Page]:
             context = await browser.new_context(
                 user_agent=USER_AGENT,
                 locale="ja-JP",
@@ -1066,23 +1104,16 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
             page = await context.new_page()
             try:
                 await page.goto("https://www.amazon.co.jp/", wait_until="domcontentloaded", timeout=45000)
-                if short_warmup:
-                    await page.wait_for_timeout(random.randint(1200, 2200))
-                    await page.evaluate("window.scrollBy(0, window.innerHeight)")
-                    await page.wait_for_timeout(random.randint(400, 900))
-                else:
-                    await page.wait_for_timeout(random.randint(4000, 6000))
-                    await page.evaluate("window.scrollBy(0, window.innerHeight)")
-                    await page.wait_for_timeout(random.randint(1500, 2500))
+                await page.wait_for_timeout(random.randint(4000, 6000))
+                await page.evaluate("window.scrollBy(0, window.innerHeight)")
+                await page.wait_for_timeout(random.randint(1500, 2500))
             except Exception as e:
                 logger.warning(f"ウォームアップ失敗（続行）: {e}")
             return context, page
 
         context, page = await new_context_and_page()
-        if reset_context_each_category:
-            logger.info("カテゴリごとにブラウザ状態を初期化（連続アクセス制限対策）")
         # Phase 1: 各カテゴリから商品リスト収集
-        for cat_index, cat in enumerate(cats):
+        for cat in cats:
             name = cat.get("name", "unknown")
             url = cat.get("url", "")
             max_items = int(cat.get("max_items", 5))
@@ -1105,12 +1136,68 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
                 logger.info(f"=== {name} 完了: {len(products)} 件 ===")
             except Exception as e:
                 logger.error(f"=== {name} 失敗: {e} ===")
-            if reset_context_each_category and cat_index < len(cats) - 1:
-                await context.close()
-                context, page = await new_context_and_page(short_warmup=True)
-                await asyncio.sleep(random.uniform(0.5, 1.2))
-            else:
-                await asyncio.sleep(random.uniform(2, 4))
+            await asyncio.sleep(random.uniform(2, 4))
+
+        deferred_retry_categories = [
+            cat
+            for cat in cats
+            if bool(cat.get("is_search"))
+            and bool(cat.get("url"))
+            and needs_deferred_search_retry(
+                scrape_stats.get(str(cat.get("name", "unknown")), {})
+            )
+        ]
+        if deferred_retry_categories:
+            logger.warning(
+                "Amazonエラーページ未回復カテゴリを遅延再巡回: %d 件",
+                len(deferred_retry_categories),
+            )
+            await context.close()
+            await asyncio.sleep(random.uniform(30, 45))
+            context, page = await new_context_and_page()
+            known_asins = {product.asin for product in all_products}
+
+            for retry_index, cat in enumerate(deferred_retry_categories):
+                name = str(cat.get("name", "unknown"))
+                url = str(cat.get("url", ""))
+                max_items = int(cat.get("max_items", 5))
+                category_min_price = category_min_prices.get(name, min_price)
+                retry_stats: dict = {}
+                try:
+                    retried = await scrape_search(
+                        page,
+                        search_url_with_min_price(url, category_min_price),
+                        name,
+                        max_items,
+                        associate_tag,
+                        excluded=posted_asins,
+                        stats=retry_stats,
+                    )
+                except Exception as exc:
+                    retried = []
+                    retry_stats[name] = {
+                        "pages": [],
+                        "taken": 0,
+                        "skipped_posted": 0,
+                        "error": str(exc)[:150],
+                    }
+
+                unique_retried = [product for product in retried if product.asin not in known_asins]
+                all_products.extend(unique_retried)
+                known_asins.update(product.asin for product in unique_retried)
+                scrape_stats[name] = merge_deferred_search_stats(
+                    scrape_stats.get(name, {}),
+                    retry_stats.get(name, {}),
+                    len(unique_retried),
+                )
+                logger.info(
+                    "[%s] 遅延再巡回: 新規 %d 件 / 回復=%s",
+                    name,
+                    len(unique_retried),
+                    bool(unique_retried),
+                )
+                if retry_index < len(deferred_retry_categories) - 1:
+                    await asyncio.sleep(random.uniform(3, 6))
         logger.info(f"全カテゴリ合計: {len(all_products)} 件")
         # Phase 2: 重複除去・価格フィルタ・ソート
         if exclude_product_identifiers:
@@ -1131,9 +1218,6 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
                 rotation_state_file=rotation_state_file,
                 category_min_prices=category_min_prices,
             )
-            if candidates and reset_context_each_category:
-                await context.close()
-                context, page = await new_context_and_page(short_warmup=True)
             logger.info(f"=== 商品識別子確認開始: 候補 {len(candidates)} 件 ===")
             filtered = await select_enrich_unique_products(
                 page,
@@ -1163,9 +1247,6 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
             )
             # Phase 3: 個別商品ページから description / specs を取得
             if filtered:
-                if reset_context_each_category:
-                    await context.close()
-                    context, page = await new_context_and_page(short_warmup=True)
                 logger.info(f"=== 個別商品ページ取得開始: {len(filtered)} 件 ===")
                 await enrich_products(page, filtered)
         await browser.close()

@@ -49,15 +49,10 @@ jobs:
 
       - name: Validate account1 output
         run: |
+          python ensure_daily_scrape.py --validate-only --account account1
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           OUT="data/account1/products_${DATE}.json"
-          if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
-            python -c "import json; d=json.load(open('$OUT', encoding='utf-8-sig')); print(f'account1 total {len(d)} items'); [print(f'{p.get(\"price\", \"\")} - {p.get(\"title\", \"\")[:50]} ({p.get(\"category\", \"\")})') for p in d[:5]]"
-          else
-            echo "$OUT was not created"
-            exit 1
-          fi
+          python -c "import json; d=json.load(open('$OUT', encoding='utf-8-sig')); print(f'account1 total {len(d)} items'); [print(f'{p.get(\"price\", \"\")} - {p.get(\"title\", \"\")[:50]} ({p.get(\"category\", \"\")})') for p in d[:5]]"
 
       - name: Commit account1 output
         run: |
@@ -98,15 +93,10 @@ jobs:
 
       - name: Validate account2 output
         run: |
+          python ensure_daily_scrape.py --validate-only --account account2
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           OUT="data/account2/products_${DATE}.json"
-          if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
-            python -c "import json; d=json.load(open('$OUT', encoding='utf-8-sig')); print(f'account2 total {len(d)} items'); [print(f'{p.get(\"price\", \"\")} - {p.get(\"title\", \"\")[:50]} ({p.get(\"category\", \"\")})') for p in d[:5]]"
-          else
-            echo "$OUT was not created"
-            exit 1
-          fi
+          python -c "import json; d=json.load(open('$OUT', encoding='utf-8-sig')); print(f'account2 total {len(d)} items'); [print(f'{p.get(\"price\", \"\")} - {p.get(\"title\", \"\")[:50]} ({p.get(\"category\", \"\")})') for p in d[:5]]"
 
       - name: Commit account2 output
         run: |
@@ -184,15 +174,7 @@ jobs:
       - name: Scrape account3
         run: python scrape_main3.py
       - name: Validate account3 output
-        run: |
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
-          OUT="data/account3/products_${DATE}.json"
-          if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
-          else
-            echo "$OUT was not created"
-            exit 1
-          fi
+        run: python ensure_daily_scrape.py --validate-only --account account3
       - name: Commit account3 output
         run: |
           git config user.name "github-actions[bot]"
@@ -227,15 +209,7 @@ jobs:
       - name: Scrape account4
         run: python scrape_main4.py
       - name: Validate account4 output
-        run: |
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
-          OUT="data/account4/products_${DATE}.json"
-          if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
-          else
-            echo "$OUT was not created"
-            exit 1
-          fi
+        run: python ensure_daily_scrape.py --validate-only --account account4
       - name: Commit account4 output
         run: |
           git config user.name "github-actions[bot]"
@@ -270,15 +244,7 @@ jobs:
       - name: Scrape account5
         run: python scrape_main5.py
       - name: Validate account5 output
-        run: |
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
-          OUT="data/account5/products_${DATE}.json"
-          if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
-          else
-            echo "$OUT was not created"
-            exit 1
-          fi
+        run: python ensure_daily_scrape.py --validate-only --account account5
       - name: Commit account5 output
         run: |
           git config user.name "github-actions[bot]"
