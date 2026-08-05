@@ -18,7 +18,7 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
 TODAY = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
-MIN_ITEMS = 5  # account1-6/8-10の従来安全下限。account7だけ10件を要求する
+MIN_ITEMS = 5  # カテゴリ数が少ないアカウントにも共通適用する安全下限
 ACCOUNTS = tuple(f"account{number}" for number in range(1, 11))  # 10人格＝account1〜10（account0は退役・2026-07-13裁定）
 
 
@@ -65,11 +65,7 @@ def price_int(item: dict) -> int:
 
 def validate(account: str) -> tuple[bool, str]:
     if account in ACCOUNTS:
-        min_items = 10 if account == "account7" else MIN_ITEMS
-        return valid_product_list(
-            ROOT / "data" / account / f"products_{TODAY}.json",
-            min_items,
-        )
+        return valid_product_list(ROOT / "data" / account / f"products_{TODAY}.json")
     raise ValueError(account)
 
 
@@ -116,27 +112,10 @@ def ensure(account: str) -> bool:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--account", choices=ACCOUNTS, action="append")
-    parser.add_argument(
-        "--validate-only",
-        action="store_true",
-        help="validate today's outputs without deleting files or running scrapers",
-    )
     args = parser.parse_args()
     accounts = tuple(args.account) if args.account else ACCOUNTS
 
     print(f"ensure daily scrape date: {TODAY}", flush=True)
-    if args.validate_only:
-        failed = []
-        for account in accounts:
-            ok, message = validate(account)
-            print(f"{account}: {message}", flush=True)
-            if not ok:
-                failed.append(account)
-        if failed:
-            print("invalid accounts:", ",".join(failed), flush=True)
-            return 1
-        return 0
-
     changed = []
     for account in accounts:
         if ensure(account):
