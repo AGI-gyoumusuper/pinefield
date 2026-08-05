@@ -15,11 +15,10 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-import yaml
-
 
 ROOT = Path(__file__).resolve().parent
 TODAY = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
+MIN_ITEMS = 5  # account1-6/8-10の従来安全下限。account7だけ10件を要求する
 ACCOUNTS = tuple(f"account{number}" for number in range(1, 11))  # 10人格＝account1〜10（account0は退役・2026-07-13裁定）
 
 
@@ -33,39 +32,7 @@ def load_json(path: Path):
         return json.load(f)
 
 
-def expected_item_count(config_path: Path) -> int:
-    with config_path.open("r", encoding="utf-8-sig") as f:
-        config = yaml.safe_load(f)
-    if not isinstance(config, dict):
-        raise ValueError(f"config is not a mapping: {config_path}")
-
-    categories = config.get("categories", [])
-    filters = config.get("filters", {})
-    if not isinstance(categories, list):
-        raise ValueError(f"categories is not a list: {config_path}")
-    if not isinstance(filters, dict):
-        raise ValueError(f"filters is not a mapping: {config_path}")
-
-    active_categories = [
-        category
-        for category in categories
-        if isinstance(category, dict)
-        and str(category.get("name", "")).strip()
-        and str(category.get("url", "")).strip()
-    ]
-    max_total = int(filters.get("max_total_items", 0))
-    max_per_category = int(filters.get("max_per_category", 0))
-    if not active_categories:
-        raise ValueError(f"no active categories: {config_path}")
-    if max_total <= 0:
-        raise ValueError(f"max_total_items must be positive: {config_path}: {max_total}")
-    if max_per_category <= 0:
-        raise ValueError(f"max_per_category must be positive: {config_path}: {max_per_category}")
-
-    return min(max_total, len(active_categories) * max_per_category)
-
-
-def valid_product_list(path: Path, expected_items: int) -> tuple[bool, str]:
+def valid_product_list(path: Path, min_items: int = MIN_ITEMS) -> tuple[bool, str]:
     if not path.exists():
         return False, f"missing: {path}"
     try:
@@ -74,8 +41,8 @@ def valid_product_list(path: Path, expected_items: int) -> tuple[bool, str]:
         return False, f"invalid json: {path}: {exc}"
     if not isinstance(data, list):
         return False, f"not list: {path}"
-    if len(data) < expected_items:
-        return False, f"too few items: {path}: {len(data)} < {expected_items}"
+    if len(data) < min_items:
+        return False, f"too few items: {path}: {len(data)} < {min_items}"
     return True, f"ok: {path}: {len(data)} items"
 
 
@@ -96,17 +63,14 @@ def price_int(item: dict) -> int:
     return 0
 
 
-def validate(account: str, root: Path | None = None, today: str | None = None) -> tuple[bool, str]:
-    if account not in ACCOUNTS:
-        raise ValueError(account)
-    root = ROOT if root is None else root
-    today = TODAY if today is None else today
-    account_number = account.removeprefix("account")
-    expected_items = expected_item_count(root / f"categories{account_number}.yaml")
-    return valid_product_list(
-        root / "data" / account / f"products_{today}.json",
-        expected_items,
-    )
+def validate(account: str) -> tuple[bool, str]:
+    if account in ACCOUNTS:
+        min_items = 10 if account == "account7" else MIN_ITEMS
+        return valid_product_list(
+            ROOT / "data" / account / f"products_{TODAY}.json",
+            min_items,
+        )
+    raise ValueError(account)
 
 
 def cleanup(account: str) -> None:

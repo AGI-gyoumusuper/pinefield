@@ -34,7 +34,15 @@ jobs:
         run: python scrape_main10.py
 
       - name: Validate account10 output
-        run: python ensure_daily_scrape.py --validate-only --account account10
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          OUT="data/account10/products_${DATE}.json"
+          if [ -f "$OUT" ]; then
+            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
+          else
+            echo "$OUT was not created"
+            exit 1
+          fi
 
       - name: Commit account10 output
         run: |

@@ -293,7 +293,17 @@ async def scrape_timesale(page: Page, url: str, category: str, max_items: int = 
 # 各商品カードがマークアップされており、ベストセラー/タイムセールページより
 # 構造が安定している。人気順などの検索結果URL用。
 
-async def scrape_search(page: Page, url: str, category: str, max_items: int = 10, associate_tag: str = ASSOCIATE_TAG, excluded: Optional[set] = None, stats: Optional[dict] = None) -> List[Product]:
+async def scrape_search(
+    page: Page,
+    url: str,
+    category: str,
+    max_items: int = 10,
+    associate_tag: str = ASSOCIATE_TAG,
+    excluded: Optional[set] = None,
+    stats: Optional[dict] = None,
+    *,
+    track_exhausted_error_pages: bool = False,
+) -> List[Product]:
     """Amazon検索結果ページ (/s?rh=...) から商品を取得する。
 
     - s-search-result カードを順に走査
@@ -438,16 +448,17 @@ async def scrape_search(page: Page, url: str, category: str, max_items: int = 10
                 except Exception:
                     pass
                 is_error_page = "ご迷惑" in title_text or "申し訳" in title_text
-                if is_error_page:
+                if is_error_page and attempt == 1:
                     cat_stats["error_page_hits"] = cat_stats.get("error_page_hits", 0) + 1
-                    if attempt == 1:
-                        logger.warning(f"[{category}] p{page_no}: Amazonエラーページ検出。トップページ経由で再試行")
-                        try:  # v2.3: 直リロードでなくトップページを踏み直してセッション信頼を回復
-                            await page.goto("https://www.amazon.co.jp/", wait_until="domcontentloaded", timeout=45000)
-                        except Exception:
-                            pass
-                        await page.wait_for_timeout(random.randint(7000, 12000))
-                        continue
+                    logger.warning(f"[{category}] p{page_no}: Amazonエラーページ検出。トップページ経由で再試行")
+                    try:  # v2.3: 直リロードでなくトップページを踏み直してセッション信頼を回復
+                        await page.goto("https://www.amazon.co.jp/", wait_until="domcontentloaded", timeout=45000)
+                    except Exception:
+                        pass
+                    await page.wait_for_timeout(random.randint(7000, 12000))
+                    continue
+                if is_error_page and track_exhausted_error_pages:
+                    cat_stats["error_page_hits"] = cat_stats.get("error_page_hits", 0) + 1
                     cat_stats.setdefault("error_page_exhausted_pages", []).append(page_no)
                 break
             logger.info(f"[{category}] p{page_no}: s-search-result {len(cards)} 件")
@@ -461,15 +472,17 @@ async def scrape_search(page: Page, url: str, category: str, max_items: int = 10
                 break
             await _consume_cards(cards)
 
+        cat_stats["taken"] = len(products)
+        logger.info(
+            f"[{category}] 取得 {len(products)} 件"
+            f"（割引表示 {sum(1 for p in products if p.discount_rate)} 件・"
+            f"投稿済スキップ {cat_stats['skipped_posted']} 件）"
+        )
     except Exception as e:
         cat_stats["error"] = str(e)[:150]
         logger.error(f"scrape_search error for [{category}]: {e}")
-    cat_stats["taken"] = len(products)
-    logger.info(
-        f"[{category}] 取得 {len(products)} 件"
-        f"（割引表示 {sum(1 for p in products if p.discount_rate)} 件・"
-        f"投稿済スキップ {cat_stats['skipped_posted']} 件）"
-    )
+        if track_exhausted_error_pages:
+            cat_stats["taken"] = len(products)
     if stats is not None:
         stats[category] = cat_stats
     return products
@@ -1049,6 +1062,7 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
     max_total = int(flt.get("max_total_items", 50))
     min_discount_pct = int(flt.get("min_discount_pct", 0))
     max_per_category = int(flt.get("max_per_category", 0))
+    deferred_retry_failed_searches = bool(flt.get("deferred_retry_failed_searches", False))
     selection_mode = str(flt.get("selection_mode", "")).strip()
     rotation_state_file = str(flt.get("rotation_state_file", "")).strip()
     if rotation_state_file and not os.path.isabs(rotation_state_file):
@@ -1127,7 +1141,16 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
             try:
                 if is_search:
                     search_url = search_url_with_min_price(url, category_min_price)
-                    products = await scrape_search(page, search_url, name, max_items, associate_tag, excluded=posted_asins, stats=scrape_stats)
+                    products = await scrape_search(
+                        page,
+                        search_url,
+                        name,
+                        max_items,
+                        associate_tag,
+                        excluded=posted_asins,
+                        stats=scrape_stats,
+                        track_exhausted_error_pages=deferred_retry_failed_searches,
+                    )
                 elif is_timesale:
                     products = await scrape_timesale(page, url, name, max_items, associate_tag)
                 else:
@@ -1138,15 +1161,19 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
                 logger.error(f"=== {name} 失敗: {e} ===")
             await asyncio.sleep(random.uniform(2, 4))
 
-        deferred_retry_categories = [
-            cat
-            for cat in cats
-            if bool(cat.get("is_search"))
-            and bool(cat.get("url"))
-            and needs_deferred_search_retry(
-                scrape_stats.get(str(cat.get("name", "unknown")), {})
-            )
-        ]
+        deferred_retry_categories = (
+            [
+                cat
+                for cat in cats
+                if bool(cat.get("is_search"))
+                and bool(cat.get("url"))
+                and needs_deferred_search_retry(
+                    scrape_stats.get(str(cat.get("name", "unknown")), {})
+                )
+            ]
+            if deferred_retry_failed_searches
+            else []
+        )
         if deferred_retry_categories:
             logger.warning(
                 "Amazonエラーページ未回復カテゴリを遅延再巡回: %d 件",
@@ -1172,6 +1199,7 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
                         associate_tag,
                         excluded=posted_asins,
                         stats=retry_stats,
+                        track_exhausted_error_pages=True,
                     )
                 except Exception as exc:
                     retried = []

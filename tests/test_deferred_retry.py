@@ -1,7 +1,10 @@
 import unittest
 from copy import deepcopy
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import AsyncMock
+
+import yaml
 
 from scraper import (
     merge_deferred_search_stats,
@@ -11,6 +14,18 @@ from scraper import (
 
 
 class DeferredRetryHelperTests(unittest.TestCase):
+    def test_deferred_retry_is_enabled_only_for_account7(self):
+        root = Path(__file__).resolve().parents[1]
+        for account_number in range(1, 11):
+            with (root / f"categories{account_number}.yaml").open(
+                "r", encoding="utf-8-sig"
+            ) as config_file:
+                config = yaml.safe_load(config_file)
+            enabled = bool(
+                config.get("filters", {}).get("deferred_retry_failed_searches", False)
+            )
+            self.assertEqual(account_number == 7, enabled, f"account{account_number}")
+
     def test_zero_result_exhausted_apology_is_retryable(self):
         self.assertTrue(
             needs_deferred_search_retry(
@@ -110,6 +125,7 @@ class ScrapeSearchApologyTests(unittest.IsolatedAsyncioTestCase):
             "口紅",
             max_items=1,
             stats=stats,
+            track_exhausted_error_pages=True,
         )
 
         self.assertEqual([], products)
@@ -121,6 +137,28 @@ class ScrapeSearchApologyTests(unittest.IsolatedAsyncioTestCase):
             [search_url, "https://www.amazon.co.jp/", search_url],
             [call.args[0] for call in page.goto.await_args_list],
         )
+
+    async def test_default_path_keeps_the_other_accounts_legacy_error_stats(self):
+        page = SimpleNamespace(
+            goto=AsyncMock(),
+            wait_for_timeout=AsyncMock(),
+            evaluate=AsyncMock(),
+            query_selector_all=AsyncMock(side_effect=[[], []]),
+            title=AsyncMock(return_value="ご迷惑をおかけしています！"),
+        )
+        stats = {}
+
+        products = await scrape_search(
+            page,
+            "https://www.amazon.co.jp/s?rh=n%3A2356841051",
+            "他アカウント",
+            max_items=1,
+            stats=stats,
+        )
+
+        self.assertEqual([], products)
+        self.assertEqual(1, stats["他アカウント"]["error_page_hits"])
+        self.assertNotIn("error_page_exhausted_pages", stats["他アカウント"])
 
 
 if __name__ == "__main__":
