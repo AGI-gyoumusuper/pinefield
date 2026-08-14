@@ -1,4 +1,4 @@
-"""⑥AAA（系統未定・骨格）スクレイピング入口。"""
+"""account6（撮影・カメラ／ふーけい）スクレイピング入口。"""
 
 from datetime import datetime
 from pathlib import Path

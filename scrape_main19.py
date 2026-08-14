@@ -1,4 +1,4 @@
-"""account19（撮影・カメラ）スクレイピング入口。"""
+"""account19（食器・キッチン）スクレイピング入口。"""
 
 from datetime import datetime
 from pathlib import Path

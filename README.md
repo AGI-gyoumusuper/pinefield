@@ -7,7 +7,9 @@ Daily GitHub Actions workflows collect items from configured category shelves
 
 Active account axes are:
 
-- account1-8: existing production axes
+- account1-5: existing production axes
+- account6: photography and cameras
+- account7-8: existing production axes
 - account9: furniture, interiors, and bedding
 - account10: baby and childcare
 - account11: cars, motorcycles, and bicycles
@@ -18,7 +20,7 @@ Active account axes are:
 - account16: study and stationery
 - account17: golf and fishing
 - account18: maker tools and electronics
-- account19: photography and cameras
+- account19: tableware and kitchen tools
 - account20: Nintendo Switch 2 and PS5 game software
 
 Popular-ranking mode selects the highest-review eligible product from each

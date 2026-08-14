@@ -9,6 +9,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED_COUNTS = {
+    6: 17,
     9: 23,
     10: 15,
     11: 33,
@@ -19,7 +20,7 @@ EXPECTED_COUNTS = {
     16: 14,
     17: 17,
     18: 15,
-    19: 17,
+    19: 15,
     20: 2,
 }
 
@@ -88,7 +89,7 @@ class AccountConfigTests(unittest.TestCase):
     def test_manual_removals_stay_removed_and_additions_are_present(self):
         selected = {
             account: {node_id(category["url"]) for category in load_config(account)["categories"]}
-            for account in range(9, 21)
+            for account in range(6, 21)
         }
         removed = {
             11: {"2045249051", "2045203051", "3891441051"},
@@ -105,7 +106,8 @@ class AccountConfigTests(unittest.TestCase):
         self.assertNotIn("5341881051", selected[9])
         self.assertTrue({"5341882051", "2378230051"}.issubset(selected[9]))
         self.assertIn("15322441", selected[17])
-        self.assertTrue({"2285020051", "14616589051"}.issubset(selected[19]))
+        self.assertTrue({"2285020051", "14616589051"}.issubset(selected[6]))
+        self.assertTrue({"251680011", "13938591"}.issubset(selected[19]))
         self.assertEqual({"206233864051", "8019286051"}, selected[20])
 
     def test_account_files_exist_and_history_is_valid(self):
