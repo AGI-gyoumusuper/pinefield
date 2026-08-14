@@ -58,9 +58,9 @@ def make_affiliate_url(asin: str, associate_tag: str = ASSOCIATE_TAG) -> str:
 
 
 def expected_associate_tag(output_path: str, config_path: str) -> str:
-    """Return the account-specific tag for an active account1-account10 run."""
-    output_match = re.search(r"(?:^|[\\/])account(10|[1-9])(?:[\\/]|$)", output_path)
-    config_match = re.search(r"categories(10|[1-9])\.ya?ml$", os.path.basename(config_path))
+    """Return the account-specific tag for an active account1-account20 run."""
+    output_match = re.search(r"(?:^|[\\/])account(20|1[0-9]|[1-9])(?:[\\/]|$)", output_path)
+    config_match = re.search(r"categories(20|1[0-9]|[1-9])\.ya?ml$", os.path.basename(config_path))
 
     output_account = output_match.group(1) if output_match else None
     config_account = config_match.group(1) if config_match else None
@@ -738,6 +738,16 @@ def filter_and_sort(
             rotation_state_file,
         )
 
+    if selection_mode == "category_quota":
+        if low_pool:
+            filtered = filtered + low_pool
+        return select_category_quota(
+            filtered,
+            categories or [],
+            max_total,
+            max_per_category,
+        )
+
     if sort_order == "sale_first":
         filtered.sort(key=lambda p: (1 if p.discount_rate else 0, discount_pct(p), p.price_int), reverse=True)
     elif sort_order == "amount_first":  # v2.4実装: ①割引有無 → ②割引"額"(円) → ③価格
@@ -781,6 +791,59 @@ def filter_and_sort(
     elif max_total > 0:
         filtered = filtered[:max_total]
     return filtered
+
+
+def select_category_quota(
+    products: List[Product],
+    categories: List[dict],
+    max_total: int,
+    max_per_category: int,
+) -> List[Product]:
+    """Take a fixed quota from each shelf, then fill shortages from overflow.
+
+    This is the intentional account20 game-software mode: normally two shelves
+    contribute five products each.  If one shelf has fewer eligible products,
+    unused slots are filled by the other shelf without duplicating ASINs.
+    """
+    limit = len(products) if max_total <= 0 else max_total
+    quota = max_per_category if max_per_category > 0 else limit
+    # account20 deliberately ranks every shelf by review count before applying
+    # its five-item quota.
+    products = sorted(products, key=review_num, reverse=True)
+    category_names = [str(category.get("name", "")).strip() for category in categories]
+    grouped: dict[str, List[Product]] = {name: [] for name in category_names if name}
+    for product in products:
+        name = (product.category or "").split("#")[0]
+        grouped.setdefault(name, []).append(product)
+
+    selected: List[Product] = []
+    selected_asins: set[str] = set()
+    for name in category_names:
+        for candidate in grouped.get(name, [])[:quota]:
+            if candidate.asin in selected_asins:
+                continue
+            selected.append(candidate)
+            selected_asins.add(candidate.asin)
+            if len(selected) >= limit:
+                return selected
+
+    if len(selected) < limit:
+        for candidate in products:
+            if candidate.asin in selected_asins:
+                continue
+            selected.append(candidate)
+            selected_asins.add(candidate.asin)
+            if len(selected) >= limit:
+                break
+
+    logger.info(
+        "カテゴリ定員選定: 棚=%d 定員=%d 採用=%d/%d",
+        len(category_names),
+        quota,
+        len(selected),
+        limit,
+    )
+    return selected
 
 
 # ============================================
@@ -878,6 +941,7 @@ async def select_enrich_unique_products(
     registry: ProductIdentityRegistry,
     categories: List[dict],
     max_total: int,
+    max_per_category: int,
     selection_mode: str,
     rotation_state_file: str,
     stats: dict,
@@ -944,6 +1008,46 @@ async def select_enrich_unique_products(
         )
         if missing:
             logger.warning(f"同一商品除外後も有効商品なしカテゴリ: {', '.join(missing)}")
+    elif selection_mode == "category_quota":
+        limit = len(products) if max_total <= 0 else max_total
+        quota = max_per_category if max_per_category > 0 else limit
+        category_names = [str(category.get("name", "")).strip() for category in categories]
+        grouped: dict[str, List[Product]] = {name: [] for name in category_names if name}
+        for product in products:
+            name = (product.category or "").split("#")[0]
+            grouped.setdefault(name, []).append(product)
+
+        attempted: set[str] = set()
+        accepted_by_category: dict[str, int] = {}
+        for name in category_names:
+            accepted_by_category[name] = 0
+            for candidate in grouped.get(name, []):
+                attempted.add(candidate.asin)
+                if await consider(candidate):
+                    accepted_by_category[name] += 1
+                    if accepted_by_category[name] >= quota:
+                        break
+                if len(selected) >= limit:
+                    break
+            if len(selected) >= limit:
+                break
+
+        if len(selected) < limit:
+            for candidate in products:
+                if candidate.asin in attempted:
+                    continue
+                attempted.add(candidate.asin)
+                await consider(candidate)
+                if len(selected) >= limit:
+                    break
+        logger.info(
+            "識別子対応カテゴリ定員選定: 棚=%d 定員=%d 採用=%d/%d 内訳=%s",
+            len(category_names),
+            quota,
+            len(selected),
+            limit,
+            accepted_by_category,
+        )
     else:
         limit = len(products) if max_total <= 0 else max_total
         for candidate in products:
@@ -1253,6 +1357,7 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
                 product_registry,
                 cats,
                 max_total,
+                max_per_category,
                 selection_mode,
                 rotation_state_file,
                 scrape_stats,

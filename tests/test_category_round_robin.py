@@ -154,6 +154,42 @@ class CategoryRoundRobinTests(unittest.TestCase):
         self.assertEqual("node:1006", state["last_category_key"])
         self.assertEqual("node:1007", state["next_category_key"])
 
+    def test_category_quota_takes_five_from_each_game_shelf(self):
+        products = [product(category, rank, 1000 - rank) for category in (1, 2) for rank in range(1, 8)]
+        selected = filter_and_sort(
+            products,
+            min_price=800,
+            sort_order="review_desc",
+            max_total=10,
+            max_per_category=5,
+            selection_mode="category_quota",
+            categories=categories(2),
+        )
+        counts = {
+            name: sum(item.category.split("#")[0] == name for item in selected)
+            for name in ("C1", "C2")
+        }
+        self.assertEqual({"C1": 5, "C2": 5}, counts)
+        self.assertEqual(10, len({item.asin for item in selected}))
+
+    def test_category_quota_fills_short_shelf_from_other_shelf(self):
+        products = [product(1, rank, 1000 - rank) for rank in range(1, 3)]
+        products += [product(2, rank, 900 - rank) for rank in range(1, 10)]
+        selected = filter_and_sort(
+            products,
+            min_price=800,
+            sort_order="review_desc",
+            max_total=10,
+            max_per_category=5,
+            selection_mode="category_quota",
+            categories=categories(2),
+        )
+        counts = {
+            name: sum(item.category.split("#")[0] == name for item in selected)
+            for name in ("C1", "C2")
+        }
+        self.assertEqual({"C1": 2, "C2": 8}, counts)
+
 
 if __name__ == "__main__":
     unittest.main()

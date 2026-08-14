@@ -47,6 +47,22 @@ class AffiliateTagTests(unittest.TestCase):
             "noteamazon10-22",
         )
 
+    def test_expected_tag_supports_account20(self):
+        self.assertEqual(
+            expected_associate_tag(
+                r"C:\work\data\account20\products_2026-08-14.json",
+                r"C:\work\categories20.yaml",
+            ),
+            "noteamazon20-22",
+        )
+
+    def test_route_rejects_account11_output_with_account20_config(self):
+        with self.assertRaisesRegex(ValueError, "Account routing mismatch"):
+            expected_associate_tag(
+                r"C:\work\data\account11\products.json",
+                r"C:\work\categories20.yaml",
+            )
+
     def test_one_output_check_accepts_matching_urls(self):
         products = [make_product("B000000001", "noteamazon6-22")]
         validate_affiliate_output(
@@ -87,7 +103,7 @@ class AffiliateTagTests(unittest.TestCase):
             )
 
     def test_active_entrypoints_have_exact_account_tags(self):
-        for account in range(1, 11):
+        for account in range(1, 21):
             path = REPO_ROOT / f"scrape_main{account}.py"
             tree = ast.parse(path.read_text(encoding="utf-8"))
             calls = [

@@ -1,0 +1,83 @@
+# account14 単品定番パントリー Amazon正式カテゴリ設定
+categories:
+  - name: "はちみつ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A71158051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "菓子・スナック"
+    url: "https://www.amazon.co.jp/s?rh=n%3A71314051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "塩"
+    url: "https://www.amazon.co.jp/s?rh=n%3A71220051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "シリアル"
+    url: "https://www.amazon.co.jp/s?rh=n%3A22017433051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "茶葉・粉末ティー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A71505051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "酢・ビネガー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A71221051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "コーヒー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A71498051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "白米・胚芽米"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2421961051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "漬物・梅干し"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3964607051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ラーメン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2140640051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "パスタ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2140647051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "香辛料・スパイス"
+    url: "https://www.amazon.co.jp/s?rh=n%3A71238051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ナッツ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A71328051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "乾物"
+    url: "https://www.amazon.co.jp/s?rh=n%3A71167051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "めんつゆ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A71212051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+filters:
+  selection_mode: "category_round_robin"
+  rotation_state_file: "data/account14/category_rotation.json"
+  min_price: 3000
+  max_price: 0
+  sort_order: "review_desc"
+  max_total_items: 10
+  max_per_category: 1
+  # 単品・箱買いを許容し、異種商品の詰め合わせだけを除外する。
+  exclude_title_patterns:
+    - '詰め合わせ'
+    - 'アソート'
+    - '福袋'
+
+exclusion:
+  posted_asins_file: "data/account14/asin_history.json"
+  exclude_within_days: 20
+  exclude_scraped_candidates: false
+  exclude_product_identifiers: true
+  blocked_asins: []

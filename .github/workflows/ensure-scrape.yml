@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: ensure-daily-scrape-${{ github.ref }}
+  group: daily-scrape-repair-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      max-parallel: 4
       matrix:
         include:
           - account: account1
@@ -41,6 +42,26 @@ jobs:
             schedule: "0 16 * * *"
           - account: account10
             schedule: "0 16 * * *"
+          - account: account11
+            schedule: "0 16 * * *"
+          - account: account12
+            schedule: "0 16 * * *"
+          - account: account13
+            schedule: "0 16 * * *"
+          - account: account14
+            schedule: "0 16 * * *"
+          - account: account15
+            schedule: "0 16 * * *"
+          - account: account16
+            schedule: "0 16 * * *"
+          - account: account17
+            schedule: "0 16 * * *"
+          - account: account18
+            schedule: "0 16 * * *"
+          - account: account19
+            schedule: "0 16 * * *"
+          - account: account20
+            schedule: "0 16 * * *"
     steps:
       - name: Checkout repository
         if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
@@ -60,7 +81,13 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           MAX_WAIT_SECONDS: "1200"
           POLL_SECONDS: "20"
-        run: python wait_for_regular_scrape.py
+        run: python wait_for_regular_scrape.py --account "${{ matrix.account }}"
+
+      - name: Refresh checkout after wait
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
 
       - name: Install scraper dependencies
         if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
@@ -84,9 +111,19 @@ jobs:
           git add "data/${ACCOUNT}/scrape_summary_${DATE}.json" || true
           git add "data/${ACCOUNT}/asin_history.json"
           git diff --staged --quiet || git commit -m "Auto-ensure ${{ matrix.account }} scrape outputs ${DATE}"
+          push_succeeded=false
           for i in 1 2 3; do
-            git push && break
-            echo "push failed (attempt $i), pulling --rebase and retrying..."
-            git pull --rebase origin main
-            sleep 5
+            if git push; then
+              push_succeeded=true
+              break
+            fi
+            echo "push failed (attempt $i)"
+            if [ "$i" -lt 3 ]; then
+              git pull --rebase origin main
+              sleep 5
+            fi
           done
+          if [ "$push_succeeded" != "true" ]; then
+            echo "git push failed after 3 attempts"
+            exit 1
+          fi

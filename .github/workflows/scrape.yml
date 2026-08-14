@@ -68,12 +68,22 @@ jobs:
           git add "data/account1/scrape_summary_${DATE}.json" || true
           git add "data/account1/asin_history.json"
           git diff --staged --quiet || git commit -m "Auto-scrape account1 products ${DATE}"
+          push_succeeded=false
           for i in 1 2 3; do
-            git push && break
-            echo "push failed (attempt $i), pulling --rebase and retrying..."
-            git pull --rebase origin main
-            sleep 5
+            if git push; then
+              push_succeeded=true
+              break
+            fi
+            echo "push failed (attempt $i)"
+            if [ "$i" -lt 3 ]; then
+              git pull --rebase origin main
+              sleep 5
+            fi
           done
+          if [ "$push_succeeded" != "true" ]; then
+            echo "git push failed after 3 attempts"
+            exit 1
+          fi
 
   scrape_account2:
     if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account2]')) || (github.event_name == 'workflow_dispatch' && (inputs.account == 'all' || inputs.account == 'account2')) }}
@@ -117,12 +127,22 @@ jobs:
           git add "data/account2/scrape_summary_${DATE}.json" || true
           git add "data/account2/asin_history.json"
           git diff --staged --quiet || git commit -m "Auto-scrape account2 products ${DATE}"
+          push_succeeded=false
           for i in 1 2 3; do
-            git push && break
-            echo "push failed (attempt $i), pulling --rebase and retrying..."
-            git pull --rebase origin main
-            sleep 5
+            if git push; then
+              push_succeeded=true
+              break
+            fi
+            echo "push failed (attempt $i)"
+            if [ "$i" -lt 3 ]; then
+              git pull --rebase origin main
+              sleep 5
+            fi
           done
+          if [ "$push_succeeded" != "true" ]; then
+            echo "git push failed after 3 attempts"
+            exit 1
+          fi
 
   scrape_account0:
     if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account0]')) || (github.event_name == 'workflow_dispatch' && (inputs.account == 'all' || inputs.account == 'account0')) }}
@@ -202,12 +222,22 @@ jobs:
           git add "data/account3/scrape_summary_${DATE}.json" || true
           git add "data/account3/asin_history.json"
           git diff --staged --quiet || git commit -m "Auto-scrape account3 products ${DATE}"
+          push_succeeded=false
           for i in 1 2 3; do
-            git push && break
-            echo "push failed (attempt $i), pulling --rebase and retrying..."
-            git pull --rebase origin main
-            sleep 5
+            if git push; then
+              push_succeeded=true
+              break
+            fi
+            echo "push failed (attempt $i)"
+            if [ "$i" -lt 3 ]; then
+              git pull --rebase origin main
+              sleep 5
+            fi
           done
+          if [ "$push_succeeded" != "true" ]; then
+            echo "git push failed after 3 attempts"
+            exit 1
+          fi
 
   scrape_account4:
     if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account4]')) || (github.event_name == 'workflow_dispatch' && (inputs.account == 'all' || inputs.account == 'account4')) }}
@@ -245,12 +275,22 @@ jobs:
           git add "data/account4/scrape_summary_${DATE}.json" || true
           git add "data/account4/asin_history.json"
           git diff --staged --quiet || git commit -m "Auto-scrape account4 products ${DATE}"
+          push_succeeded=false
           for i in 1 2 3; do
-            git push && break
-            echo "push failed (attempt $i), pulling --rebase and retrying..."
-            git pull --rebase origin main
-            sleep 5
+            if git push; then
+              push_succeeded=true
+              break
+            fi
+            echo "push failed (attempt $i)"
+            if [ "$i" -lt 3 ]; then
+              git pull --rebase origin main
+              sleep 5
+            fi
           done
+          if [ "$push_succeeded" != "true" ]; then
+            echo "git push failed after 3 attempts"
+            exit 1
+          fi
 
   scrape_account5:
     if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account5]')) || (github.event_name == 'workflow_dispatch' && (inputs.account == 'all' || inputs.account == 'account5')) }}
@@ -288,9 +328,19 @@ jobs:
           git add "data/account5/scrape_summary_${DATE}.json" || true
           git add "data/account5/asin_history.json"
           git diff --staged --quiet || git commit -m "Auto-scrape account5 products ${DATE}"
+          push_succeeded=false
           for i in 1 2 3; do
-            git push && break
-            echo "push failed (attempt $i), pulling --rebase and retrying..."
-            git pull --rebase origin main
-            sleep 5
+            if git push; then
+              push_succeeded=true
+              break
+            fi
+            echo "push failed (attempt $i)"
+            if [ "$i" -lt 3 ]; then
+              git pull --rebase origin main
+              sleep 5
+            fi
           done
+          if [ "$push_succeeded" != "true" ]; then
+            echo "git push failed after 3 attempts"
+            exit 1
+          fi

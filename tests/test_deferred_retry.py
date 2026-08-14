@@ -16,7 +16,7 @@ from scraper import (
 class DeferredRetryHelperTests(unittest.TestCase):
     def test_deferred_retry_is_enabled_only_for_account7(self):
         root = Path(__file__).resolve().parents[1]
-        for account_number in range(1, 11):
+        for account_number in range(1, 21):
             with (root / f"categories{account_number}.yaml").open(
                 "r", encoding="utf-8-sig"
             ) as config_file:

@@ -1,0 +1,94 @@
+# account19 撮影・カメラ Amazon正式カテゴリ設定
+categories:
+  - name: "三脚"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2285024051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "SDカード"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3482011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "アクションカメラ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2680377051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "一眼レフカメラレンズ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A14616581051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "フォトプリンタ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2152005051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "USB顕微鏡"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2680471051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "カメラ用ストラップ・ホルダー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A675636011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "フィルム"
+    url: "https://www.amazon.co.jp/s?rh=n%3A11071571%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "屈折望遠鏡"
+    url: "https://www.amazon.co.jp/s?rh=n%3A14616568051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "カメラ用バックパック"
+    url: "https://www.amazon.co.jp/s?rh=n%3A14616571051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "カメラ用バッテリーパック"
+    url: "https://www.amazon.co.jp/s?rh=n%3A675633011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ライトスタンド"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2285062051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "保護フィルター"
+    url: "https://www.amazon.co.jp/s?rh=n%3A44283011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "コンパクトデジタルカメラ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A387455011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "防湿庫"
+    url: "https://www.amazon.co.jp/s?rh=n%3A675782011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ミラーレス一眼"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2285020051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ハンドヘルドスタビライザー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A14616589051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+filters:
+  selection_mode: "category_round_robin"
+  rotation_state_file: "data/account19/category_rotation.json"
+  min_price: 3000
+  max_price: 0
+  sort_order: "review_desc"
+  max_total_items: 10
+  max_per_category: 1
+  exclude_title_patterns:
+    - 'セット'
+    - 'まとめ買い'
+    - 'まとめ売り'
+    - '詰め合わせ'
+    - 'アソート'
+    - '福袋'
+    - '(?<!\d)×\s?[2-9](?!\d)'
+
+exclusion:
+  posted_asins_file: "data/account19/asin_history.json"
+  exclude_within_days: 20
+  exclude_scraped_candidates: false
+  exclude_product_identifiers: true
+  blocked_asins: []

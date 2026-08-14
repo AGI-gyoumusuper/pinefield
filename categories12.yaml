@@ -1,0 +1,78 @@
+# account12 大人の室内遊戯 Amazon正式カテゴリ設定
+categories:
+  - name: "バランスゲーム"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2189621051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "トランプ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A10357036051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "すごろく"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2189608051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "チェス"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2189606051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "バックギャモン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2189616051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "リバーシ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2189607051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "エアガン本体"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2409184051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "BB弾"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2409186051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "カジノ用品"
+    url: "https://www.amazon.co.jp/s?rh=n%3A5361895051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ボードゲーム"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2189603051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "麻雀"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2189615051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ダーツボード"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2201356051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "将棋"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2189610051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+filters:
+  selection_mode: "category_round_robin"
+  rotation_state_file: "data/account12/category_rotation.json"
+  min_price: 3000
+  max_price: 0
+  sort_order: "review_desc"
+  max_total_items: 10
+  max_per_category: 1
+  exclude_title_patterns:
+    - 'セット'
+    - 'まとめ買い'
+    - 'まとめ売り'
+    - '詰め合わせ'
+    - 'アソート'
+    - '福袋'
+    - '(?<!\d)×\s?[2-9](?!\d)'
+
+exclusion:
+  posted_asins_file: "data/account12/asin_history.json"
+  exclude_within_days: 20
+  exclude_scraped_candidates: false
+  exclude_product_identifiers: true
+  blocked_asins: []

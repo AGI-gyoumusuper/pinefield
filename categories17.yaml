@@ -1,0 +1,94 @@
+# account17 ゴルフ・釣り Amazon正式カテゴリ設定
+categories:
+  - name: "メンズゴルフシャツ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2131644051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ゴルフ距離計"
+    url: "https://www.amazon.co.jp/s?rh=n%3A8517947051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "クラブケース"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15320071%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ゴルフボール"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15314411%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ゴルフ用ボストンバッグ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A4440306051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ゴルフシューズ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2221126051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ゴルフ用クリーナー・リペア用品"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15314441%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ゴルフシューズ用スパイク"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15320241%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ゴルフ練習ボール"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3256951051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "スイング練習機"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15320191%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ゴルフ練習ネット"
+    url: "https://www.amazon.co.jp/s?rh=n%3A10353037051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ピッチングウェッジ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2201136051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ゴルフグリップ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15319971%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "フィッシュグリップ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15685521%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "タックルボックス"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15384811%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "バッカン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2201189051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ライフジャケット"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15322441%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+filters:
+  selection_mode: "category_round_robin"
+  rotation_state_file: "data/account17/category_rotation.json"
+  min_price: 3000
+  max_price: 0
+  sort_order: "review_desc"
+  max_total_items: 10
+  max_per_category: 1
+  exclude_title_patterns:
+    - 'セット'
+    - 'まとめ買い'
+    - 'まとめ売り'
+    - '詰め合わせ'
+    - 'アソート'
+    - '福袋'
+    - '(?<!\d)×\s?[2-9](?!\d)'
+
+exclusion:
+  posted_asins_file: "data/account17/asin_history.json"
+  exclude_within_days: 20
+  exclude_scraped_candidates: false
+  exclude_product_identifiers: true
+  blocked_asins: []

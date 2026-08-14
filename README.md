@@ -5,6 +5,22 @@ Playwright-based scraper for Amazon.co.jp category listings.
 Daily GitHub Actions workflows collect items from configured category shelves
 (`categoriesN.yaml`) and store JSON snapshots under `data/`.
 
+Active account axes are:
+
+- account1-8: existing production axes
+- account9: furniture, interiors, and bedding
+- account10: baby and childcare
+- account11: cars, motorcycles, and bicycles
+- account12: adult indoor games
+- account13: supplements and nutrition
+- account14: staple pantry foods
+- account15: large appliances, video, and audio
+- account16: study and stationery
+- account17: golf and fishing
+- account18: maker tools and electronics
+- account19: photography and cameras
+- account20: Nintendo Switch 2 and PS5 game software
+
 Popular-ranking mode selects the highest-review eligible product from each
 category. Output order resumes after the category recorded in
 `data/accountN/category_rotation.json`, wraps at the actual configured category
@@ -28,3 +44,12 @@ leader is replaced by the next ranked product from that category.
 An optional `min_price` on an individual category overrides the global floor.
 The scraper applies it to the Amazon search URL and validates the parsed product
 price again before category-leader selection.
+
+Accounts 10-20 use official Amazon Browse Nodes and a 3,000-yen floor.
+Accounts 10-19 use `category_round_robin`, normally selecting one category
+leader per shelf until ten products are collected. Account20 is an intentional
+exception: `category_quota` selects five products from each of its two game
+software shelves, and fills a shortage from the other shelf so the target
+remains ten. Repeating the same shelf URL is neither required nor supported.
+Console hardware, prepaid codes, and controllers appearing in those official
+Amazon shelves are intentional valid results and must not be title-filtered.

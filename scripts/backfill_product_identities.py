@@ -99,7 +99,7 @@ def backfill(repo_dir: Path, legacy_path: Path | None = None) -> dict[str, Any]:
     total_updated = 0
     total_usable = 0
     accounts: dict[str, dict[str, int]] = {}
-    for number in range(1, 11):
+    for number in range(1, 21):
         account_id = f"account{number}"
         account_dir = repo_dir / "data" / account_id
         history_path = account_dir / "asin_history.json"

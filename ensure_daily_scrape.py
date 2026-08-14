@@ -19,7 +19,8 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parent
 TODAY = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
 MIN_ITEMS = 5  # カテゴリ数が少ないアカウントにも共通適用する安全下限
-ACCOUNTS = tuple(f"account{number}" for number in range(1, 11))  # 10人格＝account1〜10（account0は退役・2026-07-13裁定）
+ACCOUNTS = tuple(f"account{number}" for number in range(1, 21))  # account1〜20（account0は退役）
+MIN_ITEMS_BY_ACCOUNT = {"account20": 10}  # 2棚×5件の意図的な固定定員
 
 
 def run(command: list[str]) -> None:
@@ -65,7 +66,10 @@ def price_int(item: dict) -> int:
 
 def validate(account: str) -> tuple[bool, str]:
     if account in ACCOUNTS:
-        return valid_product_list(ROOT / "data" / account / f"products_{TODAY}.json")
+        return valid_product_list(
+            ROOT / "data" / account / f"products_{TODAY}.json",
+            MIN_ITEMS_BY_ACCOUNT.get(account, MIN_ITEMS),
+        )
     raise ValueError(account)
 
 

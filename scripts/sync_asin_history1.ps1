@@ -21,8 +21,8 @@ if ([string]::IsNullOrWhiteSpace($ScriptRoot)) {
 }
 $RepoDir = Split-Path -Parent $ScriptRoot
 if ([string]::IsNullOrWhiteSpace($HistoryAccount)) { $HistoryAccount = $AccountId }
-if ($HistoryAccount -notmatch '^account([1-9]|10)$') {
-    throw "HistoryAccount must be account1..account10: $HistoryAccount"
+if ($HistoryAccount -notmatch '^account([1-9]|1[0-9]|20)$') {
+    throw "HistoryAccount must be account1..account20: $HistoryAccount"
 }
 
 function Resolve-InputFiles {

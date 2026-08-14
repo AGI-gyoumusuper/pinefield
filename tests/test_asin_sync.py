@@ -149,6 +149,66 @@ class VerifiedAsinSyncTests(unittest.TestCase):
             self.assertEqual(2, rotation["last_category_position"])
             self.assertEqual(1, rotation["next_category_position"])
 
+    def test_category_quota_account_updates_history_without_rotation_cursor(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            self.make_repo(root)
+            (root / "categories1.yaml").write_text(
+                "categories:\n"
+                "  - name: C1\n"
+                "    url: https://www.amazon.co.jp/s?rh=n%3A1001\n"
+                "  - name: C2\n"
+                "    url: https://www.amazon.co.jp/s?rh=n%3A1002\n"
+                "filters:\n"
+                "  selection_mode: category_quota\n",
+                encoding="utf-8",
+            )
+            source = root / "results.json"
+            products = root / "products.json"
+            write_json(
+                source,
+                [{
+                    "asin": "B000000001",
+                    "status": "reserved",
+                    "reserved_at": "2026-08-01T07:00:00+09:00",
+                    "reserved_list_confirmed": True,
+                }],
+            )
+            write_json(products, [{"asin": "B000000001", "category": "C1#1"}])
+            result = sync(root, "account1", "account1", [source], [products], True, False)
+            history = json.loads((root / "data" / "account1" / "asin_history.json").read_text(encoding="utf-8"))
+            self.assertEqual(["B000000001"], [row["asin"] for row in history["posted"]])
+            self.assertFalse((root / "data" / "account1" / "category_rotation.json").exists())
+            self.assertFalse(result["rotation_changed"])
+
+    def test_unknown_selection_mode_is_fatal_before_write(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            self.make_repo(root)
+            (root / "categories1.yaml").write_text(
+                "categories:\n"
+                "  - name: C1\n"
+                "    url: https://www.amazon.co.jp/s?rh=n%3A1001\n"
+                "filters:\n"
+                "  selection_mode: typo_mode\n",
+                encoding="utf-8",
+            )
+            history_path = root / "data" / "account1" / "asin_history.json"
+            before = history_path.read_bytes()
+            source = root / "results.json"
+            write_json(
+                source,
+                [{
+                    "asin": "B000000001",
+                    "status": "reserved",
+                    "reserved_at": "2026-08-01T07:00:00+09:00",
+                    "reserved_list_confirmed": True,
+                }],
+            )
+            with self.assertRaisesRegex(SyncError, "unsupported selection_mode"):
+                sync(root, "account1", "account1", [source], [], False, False)
+            self.assertEqual(before, history_path.read_bytes())
+
     def test_existing_duplicate_event_key_is_fatal_instead_of_dropped(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

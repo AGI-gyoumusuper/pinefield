@@ -1,0 +1,86 @@
+# account13 サプリ・栄養 Amazon正式カテゴリ設定
+categories:
+  - name: "ミネラル"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3456990051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "プロテイン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3457068051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ビタミンC"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3456982051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "食物繊維"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3457081051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "鉄分"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3457004051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "MCTオイル"
+    url: "https://www.amazon.co.jp/s?rh=n%3A205101807051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "睡眠サプリ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A10407598051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "クレアチン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3457022051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "酵素"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3457103051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "プロバイオティクス"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3457097051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "必須脂肪酸DHA・EPA"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3457025051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ダイエットシェイク"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3456962051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "HMB"
+    url: "https://www.amazon.co.jp/s?rh=n%3A6432787051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "グルコサミン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3457092051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "コラーゲン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3457082051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+filters:
+  selection_mode: "category_round_robin"
+  rotation_state_file: "data/account13/category_rotation.json"
+  min_price: 3000
+  max_price: 0
+  sort_order: "review_desc"
+  max_total_items: 10
+  max_per_category: 1
+  exclude_title_patterns:
+    - 'セット'
+    - 'まとめ買い'
+    - 'まとめ売り'
+    - '詰め合わせ'
+    - 'アソート'
+    - '福袋'
+    - '(?<!\d)×\s?[2-9](?!\d)'
+
+exclusion:
+  posted_asins_file: "data/account13/asin_history.json"
+  exclude_within_days: 20
+  exclude_scraped_candidates: false
+  exclude_product_identifiers: true
+  blocked_asins: []

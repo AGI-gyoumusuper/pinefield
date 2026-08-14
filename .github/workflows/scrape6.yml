@@ -53,9 +53,19 @@ jobs:
           git add "data/account6/scrape_summary_${DATE}.json" || true
           git add "data/account6/asin_history.json"
           git diff --staged --quiet || git commit -m "Auto-scrape account6 products ${DATE}"
+          push_succeeded=false
           for i in 1 2 3; do
-            git push && break
-            echo "push failed (attempt $i), pulling --rebase and retrying..."
-            git pull --rebase origin main
-            sleep 5
+            if git push; then
+              push_succeeded=true
+              break
+            fi
+            echo "push failed (attempt $i)"
+            if [ "$i" -lt 3 ]; then
+              git pull --rebase origin main
+              sleep 5
+            fi
           done
+          if [ "$push_succeeded" != "true" ]; then
+            echo "git push failed after 3 attempts"
+            exit 1
+          fi

@@ -120,11 +120,97 @@ class ProductIdentitySelectionTests(unittest.IsolatedAsyncioTestCase):
                     registry,
                     [{"name": "ヘッドホン", "url": "https://example.com"}],
                     1,
+                    1,
                     "category_round_robin",
                     str(Path(temp) / "rotation.json"),
                     {},
                 )
         self.assertEqual(["B000000002"], [item.asin for item in selected])
+
+    async def test_category_quota_refills_rejected_candidate_inside_same_shelf(self):
+        registry = ProductIdentityRegistry()
+        registry.add_identity(identity_from_key("GAME::DUPLICATE"))
+
+        def candidate(category: str, index: int, model: str) -> Product:
+            asin = f"B{category[-1]}{index:08d}"[:10]
+            return Product(
+                asin=asin,
+                title=f"{category} game {index}",
+                price="￥5,000",
+                price_int=5000,
+                original_price="",
+                discount_rate="",
+                image_url="",
+                affiliate_url="",
+                category=f"{category}#{index}",
+                rating="4.5",
+                review_count=str(10000 - index),
+                specs=f"ブランド名 GAME メーカー型番 {model}",
+            )
+
+        products = [candidate("C1", 1, "DUPLICATE")]
+        products += [candidate("C1", index, f"C1-{index}") for index in range(2, 7)]
+        products += [candidate("C2", index, f"C2-{index}") for index in range(1, 7)]
+        with patch("scraper.asyncio.sleep", new=AsyncMock()):
+            selected = await select_enrich_unique_products(
+                None,
+                products,
+                registry,
+                [{"name": "C1"}, {"name": "C2"}],
+                10,
+                5,
+                "category_quota",
+                "",
+                {},
+            )
+        counts = {
+            name: sum(item.category.split("#")[0] == name for item in selected)
+            for name in ("C1", "C2")
+        }
+        self.assertEqual({"C1": 5, "C2": 5}, counts)
+        self.assertNotIn("B100000001", {item.asin for item in selected})
+
+    async def test_category_quota_combines_short_shelf_identity_skip_and_overflow(self):
+        registry = ProductIdentityRegistry()
+        registry.add_identity(identity_from_key("GAME::DUPLICATE"))
+
+        def candidate(category: str, index: int, model: str) -> Product:
+            asin = f"B{category[-1]}{index:08d}"[:10]
+            return Product(
+                asin=asin,
+                title=f"{category} game {index}",
+                price="￥5,000",
+                price_int=5000,
+                original_price="",
+                discount_rate="",
+                image_url="",
+                affiliate_url="",
+                category=f"{category}#{index}",
+                rating="4.5",
+                review_count=str(10000 - index),
+                specs=f"ブランド名 GAME メーカー型番 {model}",
+            )
+
+        products = [candidate("C1", 1, "DUPLICATE"), candidate("C1", 2, "ONLY")]
+        products += [candidate("C2", index, f"C2-{index}") for index in range(1, 11)]
+        with patch("scraper.asyncio.sleep", new=AsyncMock()):
+            selected = await select_enrich_unique_products(
+                None,
+                products,
+                registry,
+                [{"name": "C1"}, {"name": "C2"}],
+                10,
+                5,
+                "category_quota",
+                "",
+                {},
+            )
+        counts = {
+            name: sum(item.category.split("#")[0] == name for item in selected)
+            for name in ("C1", "C2")
+        }
+        self.assertEqual({"C1": 1, "C2": 9}, counts)
+        self.assertEqual(10, len(selected))
 
 
 if __name__ == "__main__":

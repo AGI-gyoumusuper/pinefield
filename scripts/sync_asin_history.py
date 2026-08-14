@@ -360,6 +360,11 @@ def sync(
     with config_path.open("r", encoding="utf-8-sig") as file:
         config = yaml.safe_load(file) or {}
     categories = config.get("categories", [])
+    selection_mode = str(
+        config.get("filters", {}).get("selection_mode", "category_round_robin")
+    ).strip()
+    if selection_mode not in {"category_round_robin", "category_quota"}:
+        raise SyncError(f"unsupported selection_mode: {selection_mode or '(empty)'}")
     active_names = {
         normalize_category(category.get("name"))
         for category in categories
@@ -398,7 +403,11 @@ def sync(
     rotation_changed = False
     rotation_warning = None
     matched_asins: list[str] = []
-    if missing:
+    if selection_mode == "category_quota":
+        # Fixed-quota accounts (currently account20) do not use a shelf cursor.
+        # Their successful posts still update the ASIN ledger normally.
+        matched_asins = []
+    elif missing:
         rotation_warning = "cursor unchanged because some successful ASINs lack an active category: " + ",".join(missing)
     else:
         ordered_accepted = [
@@ -473,7 +482,7 @@ def sync(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-dir", required=True)
-    parser.add_argument("--account", required=True, choices=[f"account{i}" for i in range(1, 11)])
+    parser.add_argument("--account", required=True, choices=[f"account{i}" for i in range(1, 21)])
     parser.add_argument("--account-name", default="")
     parser.add_argument("--source-json", action="append", required=True)
     parser.add_argument("--product-json", action="append", default=[])

@@ -10,13 +10,13 @@ permissions:
   contents: write
 
 concurrency:
-  group: late-repair-daily-scrape-${{ github.ref }}
+  group: daily-scrape-repair-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   repair:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 360
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -42,15 +42,25 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
-          for ACCOUNT in account1 account2 account3 account4 account5 account6 account7 account8 account9 account10; do
+          for ACCOUNT in account1 account2 account3 account4 account5 account6 account7 account8 account9 account10 account11 account12 account13 account14 account15 account16 account17 account18 account19 account20; do
             git add "data/${ACCOUNT}/products_${DATE}.json" || true
             git add "data/${ACCOUNT}/scrape_summary_${DATE}.json" || true
             git add "data/${ACCOUNT}/asin_history.json" || true
           done
           git diff --staged --quiet || git commit -m "Auto-late-repair daily scrape outputs ${DATE}"
+          push_succeeded=false
           for i in 1 2 3; do
-            git push && break
-            echo "push failed (attempt $i), pulling --rebase and retrying..."
-            git pull --rebase origin main
-            sleep 5
+            if git push; then
+              push_succeeded=true
+              break
+            fi
+            echo "push failed (attempt $i)"
+            if [ "$i" -lt 3 ]; then
+              git pull --rebase origin main
+              sleep 5
+            fi
           done
+          if [ "$push_succeeded" != "true" ]; then
+            echo "git push failed after 3 attempts"
+            exit 1
+          fi

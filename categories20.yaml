@@ -1,0 +1,36 @@
+# account20 ゲームソフト Amazon正式カテゴリ設定
+# 意図的な例外: 2カテゴリから各5商品を採用し、不足分は他方から補充して合計10商品とする。
+# Amazon正式棚に含まれる本体・プリペイド番号・コントローラーも正常な候補として許容する。
+categories:
+  - name: "Nintendo Switch 2"
+    url: "https://www.amazon.co.jp/s?rh=n%3A206233864051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "PS5ゲームソフト"
+    url: "https://www.amazon.co.jp/s?rh=n%3A8019286051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+filters:
+  selection_mode: "category_quota"
+  rotation_state_file: "data/account20/category_rotation.json"
+  min_price: 3000
+  max_price: 0
+  sort_order: "review_desc"
+  max_total_items: 10
+  max_per_category: 5
+  exclude_title_patterns:
+    - 'セット'
+    - 'まとめ買い'
+    - 'まとめ売り'
+    - '詰め合わせ'
+    - 'アソート'
+    - '福袋'
+    - '(?<!\d)×\s?[2-9](?!\d)'
+
+exclusion:
+  posted_asins_file: "data/account20/asin_history.json"
+  exclude_within_days: 20
+  exclude_scraped_candidates: false
+  exclude_product_identifiers: true
+  blocked_asins: []

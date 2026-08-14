@@ -1,0 +1,82 @@
+# account15 大物家電・映像音響 Amazon正式カテゴリ設定
+categories:
+  - name: "保温冷温庫"
+    url: "https://www.amazon.co.jp/s?rh=n%3A13989771%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "スピーカー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A171351011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "オーディオアンプ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2795019051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "プロジェクター"
+    url: "https://www.amazon.co.jp/s?rh=n%3A137613011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "イヤホン・ヘッドホン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A6061792051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ストリーミング端末"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2285132051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "オーディオプレーヤー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3477831%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "標準冷蔵庫"
+    url: "https://www.amazon.co.jp/s?rh=n%3A219651127051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "DVDプレーヤー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3371441%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "TVチューナー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2249542051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "洗濯機"
+    url: "https://www.amazon.co.jp/s?rh=n%3A16299421%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "CDラジオ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A171356011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "BDレコーダー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A615955011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "テレビ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3477491%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+filters:
+  selection_mode: "category_round_robin"
+  rotation_state_file: "data/account15/category_rotation.json"
+  min_price: 3000
+  max_price: 0
+  sort_order: "review_desc"
+  max_total_items: 10
+  max_per_category: 1
+  exclude_title_patterns:
+    - 'セット'
+    - 'まとめ買い'
+    - 'まとめ売り'
+    - '詰め合わせ'
+    - 'アソート'
+    - '福袋'
+    - '(?<!\d)×\s?[2-9](?!\d)'
+
+exclusion:
+  posted_asins_file: "data/account15/asin_history.json"
+  exclude_within_days: 20
+  exclude_scraped_candidates: false
+  exclude_product_identifiers: true
+  blocked_asins: []

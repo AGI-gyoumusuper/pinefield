@@ -1,4 +1,4 @@
-"""⑩EEE（系統未定・骨格）スクレイピング入口。"""
+"""account10（ベビー・育児）スクレイピング入口。"""
 
 from datetime import datetime
 from pathlib import Path

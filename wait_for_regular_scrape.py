@@ -1,4 +1,4 @@
-"""Wait for the regular scrape workflow if it is still running.
+"""Wait for the matching regular scrape workflow if it is still running.
 
 The insurance workflow is scheduled shortly after account3. If the normal
 scrape is still queued or running, wait instead of starting a duplicate repair.
@@ -7,6 +7,7 @@ scrape is still queued or running, wait instead of starting a duplicate repair.
 from __future__ import annotations
 
 import json
+import argparse
 import os
 import sys
 import time
@@ -15,7 +16,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 
-REPO = os.environ.get("GITHUB_REPOSITORY", "AGI-gyoumusuper/note-amazon-auto")
+REPO = os.environ.get("GITHUB_REPOSITORY", "AGI-gyoumusuper/pinefield")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 CURRENT_RUN_ID = os.environ.get("GITHUB_RUN_ID", "")
 MAX_WAIT_SECONDS = int(os.environ.get("MAX_WAIT_SECONDS", "1200"))
@@ -34,11 +35,19 @@ def api_json(url: str) -> dict:
         return json.loads(response.read().decode("utf-8"))
 
 
-def active_regular_runs() -> list[dict]:
+def workflow_for_account(account: str) -> str:
+    number = int(account.removeprefix("account"))
+    if number < 1 or number > 20 or account != f"account{number}":
+        raise ValueError(f"unsupported account: {account}")
+    return "scrape.yml" if number <= 5 else f"scrape{number}.yml"
+
+
+def active_regular_runs(account: str) -> list[dict]:
     # The account3 schedule is JST 00:24, i.e. UTC 15:24 on the previous day.
     # A 3-hour UTC window is enough to catch delayed queued/running scrape runs.
     since = datetime.now(timezone.utc) - timedelta(hours=3)
-    url = f"https://api.github.com/repos/{REPO}/actions/workflows/scrape.yml/runs?per_page=20"
+    workflow = workflow_for_account(account)
+    url = f"https://api.github.com/repos/{REPO}/actions/workflows/{workflow}/runs?per_page=20"
     data = api_json(url)
     active = []
     for run in data.get("workflow_runs", []):
@@ -53,6 +62,9 @@ def active_regular_runs() -> list[dict]:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--account", required=True, choices=[f"account{i}" for i in range(1, 21)])
+    args = parser.parse_args()
     if not TOKEN:
         print("GITHUB_TOKEN is not set; skipping regular-scrape wait.", flush=True)
         return 0
@@ -60,7 +72,7 @@ def main() -> int:
     deadline = time.monotonic() + MAX_WAIT_SECONDS
     while True:
         try:
-            active = active_regular_runs()
+            active = active_regular_runs(args.account)
         except (HTTPError, URLError) as exc:
             print(f"Could not query regular scrape runs; continuing without wait: {exc}", flush=True)
             return 0

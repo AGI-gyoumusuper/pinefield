@@ -1,0 +1,19 @@
+"""account19（撮影・カメラ）スクレイピング入口。"""
+
+from datetime import datetime
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+from scraper import fetch_and_save
+
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
+if __name__ == "__main__":
+    today = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
+    fetch_and_save(
+        output_path=str(BASE_DIR / "data" / "account19" / f"products_{today}.json"),
+        config_path=str(BASE_DIR / "categories19.yaml"),
+        associate_tag="noteamazon19-22",
+    )

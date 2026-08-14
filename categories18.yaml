@@ -1,0 +1,86 @@
+# account18 メイカー Amazon正式カテゴリ設定
+categories:
+  - name: "テスター"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2541712051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "シングルボードコンピュータ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A8117237051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "卓上ボール盤"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3374238051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "コンジット・電気ボックス"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3332581051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ヒートガン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2459364051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "風速計"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2486560051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "3Dプリンタアクセサリ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2680374051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "コンパクトルーター"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2038947051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "端子台"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3332570051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "はんだごて"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2039403051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "基板"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3332718051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "電気カンナ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2038981051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "3Dプリンタ本体"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2680372051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "3Dプリンタ用フィラメント"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3489859051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "電子工作キット"
+    url: "https://www.amazon.co.jp/s?rh=n%3A5271082051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+filters:
+  selection_mode: "category_round_robin"
+  rotation_state_file: "data/account18/category_rotation.json"
+  min_price: 3000
+  max_price: 0
+  sort_order: "review_desc"
+  max_total_items: 10
+  max_per_category: 1
+  exclude_title_patterns:
+    - 'セット'
+    - 'まとめ買い'
+    - 'まとめ売り'
+    - '詰め合わせ'
+    - 'アソート'
+    - '福袋'
+    - '(?<!\d)×\s?[2-9](?!\d)'
+
+exclusion:
+  posted_asins_file: "data/account18/asin_history.json"
+  exclude_within_days: 20
+  exclude_scraped_candidates: false
+  exclude_product_identifiers: true
+  blocked_asins: []

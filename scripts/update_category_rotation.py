@@ -102,7 +102,7 @@ def atomic_write_json(path: Path, value: dict) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--account", required=True, choices=[f"account{i}" for i in range(1, 11)])
+    parser.add_argument("--account", required=True, choices=[f"account{i}" for i in range(1, 21)])
     parser.add_argument("--asin", action="append", default=[])
     parser.add_argument("--repo-dir", default=str(Path(__file__).resolve().parents[1]))
     parser.add_argument("--dry-run", action="store_true")

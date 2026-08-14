@@ -91,7 +91,7 @@ def main() -> int:
     args = parser.parse_args()
     today = datetime.now(ZoneInfo("Asia/Tokyo")).date()
     repo_dir = Path(args.repo_dir).resolve()
-    for number in range(1, 11):
+    for number in range(1, 21):
         path = repo_dir / "data" / f"account{number}" / "asin_history.json"
         before, after = prune_file(path, today, args.days)
         print(f"account{number}: {before} -> {after} entries (keep {args.days} days)")

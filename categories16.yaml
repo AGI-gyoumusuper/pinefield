@@ -1,0 +1,82 @@
+# account16 書斎・文具 Amazon正式カテゴリ設定
+categories:
+  - name: "金銭管理・会計用品"
+    url: "https://www.amazon.co.jp/s?rh=n%3A89099051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "スマートノート"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2496783051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ホワイトボード"
+    url: "https://www.amazon.co.jp/s?rh=n%3A89238051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "PC・OA掃除用品"
+    url: "https://www.amazon.co.jp/s?rh=n%3A89100051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "電子辞書・翻訳機"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2496785051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ノート"
+    url: "https://www.amazon.co.jp/s?rh=n%3A89313051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "純正インクカートリッジ"
+    url: "https://www.amazon.co.jp/s?rh=n%3A12722661051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "机上用品・文具収納"
+    url: "https://www.amazon.co.jp/s?rh=n%3A89094051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "電動シュレッダー"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3483181%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ラベルライター"
+    url: "https://www.amazon.co.jp/s?rh=n%3A196991011%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "付箋"
+    url: "https://www.amazon.co.jp/s?rh=n%3A89319051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "電卓"
+    url: "https://www.amazon.co.jp/s?rh=n%3A89359051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "プリンター"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2152000051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+  - name: "ペン"
+    url: "https://www.amazon.co.jp/s?rh=n%3A89415051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    max_items: 10
+    is_search: true
+
+filters:
+  selection_mode: "category_round_robin"
+  rotation_state_file: "data/account16/category_rotation.json"
+  min_price: 3000
+  max_price: 0
+  sort_order: "review_desc"
+  max_total_items: 10
+  max_per_category: 1
+  exclude_title_patterns:
+    - 'セット'
+    - 'まとめ買い'
+    - 'まとめ売り'
+    - '詰め合わせ'
+    - 'アソート'
+    - '福袋'
+    - '(?<!\d)×\s?[2-9](?!\d)'
+
+exclusion:
+  posted_asins_file: "data/account16/asin_history.json"
+  exclude_within_days: 20
+  exclude_scraped_candidates: false
+  exclude_product_identifiers: true
+  blocked_asins: []

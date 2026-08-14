@@ -18,21 +18,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
       - name: Install scraper dependencies
         run: |
           pip install -r requirements.txt
           playwright install chromium
           playwright install-deps chromium
-
       - name: Scrape account11
         run: python scrape_main11.py
-
       - name: Validate account11 output
         run: |
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
@@ -43,7 +39,6 @@ jobs:
             echo "$OUT was not created"
             exit 1
           fi
-
       - name: Commit account11 output
         run: |
           git config user.name "github-actions[bot]"
@@ -51,10 +46,21 @@ jobs:
           DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
           git add "data/account11/products_${DATE}.json"
           git add "data/account11/scrape_summary_${DATE}.json" || true
+          git add "data/account11/asin_history.json"
           git diff --staged --quiet || git commit -m "Auto-scrape account11 products ${DATE}"
+          push_succeeded=false
           for i in 1 2 3; do
-            git push && break
-            echo "push failed (attempt $i), pulling --rebase and retrying..."
-            git pull --rebase origin main
-            sleep 5
+            if git push; then
+              push_succeeded=true
+              break
+            fi
+            echo "push failed (attempt $i)"
+            if [ "$i" -lt 3 ]; then
+              git pull --rebase origin main
+              sleep 5
+            fi
           done
+          if [ "$push_succeeded" != "true" ]; then
+            echo "git push failed after 3 attempts"
+            exit 1
+          fi
