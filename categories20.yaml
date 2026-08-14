@@ -19,6 +19,7 @@ filters:
   sort_order: "review_desc"
   max_total_items: 10
   max_per_category: 5
+  deferred_retry_failed_searches: true  # Amazon拒否で0件になった正式棚は新しい文脈で遅延再巡回する。
   exclude_title_patterns:
     - 'セット'
     - 'まとめ買い'

@@ -14,7 +14,7 @@ from scraper import (
 
 
 class DeferredRetryHelperTests(unittest.TestCase):
-    def test_deferred_retry_is_enabled_only_for_account7(self):
+    def test_deferred_retry_is_enabled_only_for_accounts7_and20(self):
         root = Path(__file__).resolve().parents[1]
         for account_number in range(1, 21):
             with (root / f"categories{account_number}.yaml").open(
@@ -24,7 +24,7 @@ class DeferredRetryHelperTests(unittest.TestCase):
             enabled = bool(
                 config.get("filters", {}).get("deferred_retry_failed_searches", False)
             )
-            self.assertEqual(account_number == 7, enabled, f"account{account_number}")
+            self.assertEqual(account_number in {7, 20}, enabled, f"account{account_number}")
 
     def test_zero_result_exhausted_apology_is_retryable(self):
         self.assertTrue(
