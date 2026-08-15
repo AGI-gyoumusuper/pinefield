@@ -1,7 +1,7 @@
 {
   "schema": "note-amazon-asin-history-v1",
-  "updated_at": "2026-07-24T07:04:25+09:00",
-  "description": "Single source of truth for account10 ASIN exclusion. Scraped and posted ASINs are retained for the configured exclusion window.",
+  "updated_at": "2026-08-16T05:40:03+09:00",
+  "description": "Canonical ASIN ledger for account10. Popular-ranking exclusion uses only verified note posts/reservations; scraped and rejected legacy rows are not exclusion evidence.",
   "posted": [
     {
       "asin": "B07X83J3T5",
@@ -362,6 +362,26 @@
       "thumbnail_path": null,
       "source_file": "/home/runner/work/pinefield/pinefield/data/account10/products_2026-07-24.json",
       "source_index": 4
+    },
+    {
+      "asin": "B07LD1FFJL",
+      "status": "reserved",
+      "posted_at": null,
+      "reserved_at": "2026-08-16T08:36:00+09:00",
+      "account_id": "account10",
+      "account_name": "__sa_ya",
+      "category": "おしゃぶり・歯がため",
+      "product_identity": {
+        "brand": "AVENT",
+        "manufacturer_model": "SCF347/02",
+        "brand_model_keys": [
+          "AVENT::SCF347/02"
+        ],
+        "global_trade_numbers": [
+          "00075020078315",
+          "20075020080336"
+        ]
+      }
     }
   ]
 }
