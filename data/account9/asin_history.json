@@ -1,7 +1,7 @@
 {
   "schema": "note-amazon-asin-history-v1",
-  "updated_at": "2026-07-24T07:03:31+09:00",
-  "description": "Single source of truth for account9 ASIN exclusion. Scraped and posted ASINs are retained for the configured exclusion window.",
+  "updated_at": "2026-08-16T05:39:17+09:00",
+  "description": "Canonical ASIN ledger for account9. Popular-ranking exclusion uses only verified note posts/reservations; scraped and rejected legacy rows are not exclusion evidence.",
   "posted": [
     {
       "asin": "B00AZFYXAS",
@@ -334,6 +334,15 @@
       "thumbnail_path": null,
       "source_file": "/home/runner/work/pinefield/pinefield/data/account9/products_2026-07-24.json",
       "source_index": 7
+    },
+    {
+      "asin": "B07RW1ZKMD",
+      "status": "reserved",
+      "posted_at": null,
+      "reserved_at": "2026-08-16T08:22:00+09:00",
+      "account_id": "account9",
+      "account_name": "stylie",
+      "category": "ベッドマットレス"
     }
   ]
 }
