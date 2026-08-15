@@ -1,6 +1,26 @@
 {
   "schema": "note-amazon-asin-history-v1",
-  "updated_at": "2026-08-14T00:00:00+09:00",
-  "description": "Single source of truth for account18 ASIN exclusion. Posted and reserved ASINs are retained for the configured exclusion window.",
-  "posted": []
+  "updated_at": "2026-08-16T05:46:12+09:00",
+  "description": "Canonical ASIN ledger for account18. Popular-ranking exclusion uses only verified note posts/reservations; scraped and rejected legacy rows are not exclusion evidence.",
+  "posted": [
+    {
+      "asin": "B00068P48O",
+      "status": "reserved",
+      "posted_at": null,
+      "reserved_at": "2026-08-16T10:28:00+09:00",
+      "account_id": "account18",
+      "account_name": "crafty_",
+      "category": "卓上ボール盤",
+      "product_identity": {
+        "brand": "Dremel",
+        "manufacturer_model": "220-01",
+        "brand_model_keys": [
+          "DREMEL::22001"
+        ],
+        "global_trade_numbers": [
+          "00080596022624"
+        ]
+      }
+    }
+  ]
 }
