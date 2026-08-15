@@ -1,6 +1,23 @@
 {
   "schema": "note-amazon-asin-history-v1",
-  "updated_at": "2026-08-14T00:00:00+09:00",
-  "description": "Single source of truth for account19 ASIN exclusion. Posted and reserved ASINs are retained for the configured exclusion window.",
-  "posted": []
+  "updated_at": "2026-08-16T05:46:57+09:00",
+  "description": "Canonical ASIN ledger for account19. Popular-ranking exclusion uses only verified note posts/reservations; scraped and rejected legacy rows are not exclusion evidence.",
+  "posted": [
+    {
+      "asin": "B0F5PL7DQ5",
+      "status": "reserved",
+      "posted_at": null,
+      "reserved_at": "2026-08-16T10:42:00+09:00",
+      "account_id": "account19",
+      "account_name": "diner__",
+      "category": "フライパン",
+      "product_identity": {
+        "brand": "SENSARTE 魚種 炒め物、煮込み パック数 1",
+        "manufacturer_model": "JP-SA-SJ5728",
+        "brand_model_keys": [
+          "SENSARTE魚種炒め物、煮込みパック数1::JPSASJ5728"
+        ]
+      }
+    }
+  ]
 }
