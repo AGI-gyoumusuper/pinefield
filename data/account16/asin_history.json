@@ -1,6 +1,27 @@
 {
   "schema": "note-amazon-asin-history-v1",
-  "updated_at": "2026-08-14T00:00:00+09:00",
-  "description": "Single source of truth for account16 ASIN exclusion. Posted and reserved ASINs are retained for the configured exclusion window.",
-  "posted": []
+  "updated_at": "2026-08-16T05:44:40+09:00",
+  "description": "Canonical ASIN ledger for account16. Popular-ranking exclusion uses only verified note posts/reservations; scraped and rejected legacy rows are not exclusion evidence.",
+  "posted": [
+    {
+      "asin": "B00426HI4Y",
+      "status": "reserved",
+      "posted_at": null,
+      "reserved_at": "2026-08-16T10:00:00+09:00",
+      "account_id": "account16",
+      "account_name": "counter_",
+      "category": "金銭管理・会計用品",
+      "product_identity": {
+        "brand": "アイリスオーヤマ(IRIS OHYAMA)",
+        "manufacturer_model": "SBX-A5S",
+        "brand_model_keys": [
+          "IRISOHYAMA::SBXA5S",
+          "アイリスオーヤマ::SBXA5S"
+        ],
+        "global_trade_numbers": [
+          "00699234150935"
+        ]
+      }
+    }
+  ]
 }
