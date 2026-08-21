@@ -40,13 +40,25 @@ function Resolve-InputFiles {
 
 function Invoke-Git {
     param([string]$Directory, [string[]]$Arguments, [switch]$Capture)
-    if ($Capture) {
+    $previousErrorActionPreference = $ErrorActionPreference
+    $previousConsoleOutputEncoding = [Console]::OutputEncoding
+    try {
+        # Native git writes harmless warnings (for example LF/CRLF notices) to
+        # stderr. With the script-wide Stop policy those warnings became
+        # terminating PowerShell errors before LASTEXITCODE could be checked.
+        # Windows PowerShell 5.1 otherwise decodes UTF-8 JSON from `git show`
+        # with the active OEM code page and corrupts Japanese category names.
+        $ErrorActionPreference = 'Continue'
+        [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
         $value = & git -C $Directory @Arguments 2>&1
-        if ($LASTEXITCODE -ne 0) { throw "git $($Arguments -join ' ') failed: $value" }
-        return ($value -join "`n")
+        $exitCode = $LASTEXITCODE
+    } finally {
+        [Console]::OutputEncoding = $previousConsoleOutputEncoding
+        $ErrorActionPreference = $previousErrorActionPreference
     }
-    & git -C $Directory @Arguments
-    if ($LASTEXITCODE -ne 0) { throw "git $($Arguments -join ' ') failed" }
+    if ($exitCode -ne 0) { throw "git $($Arguments -join ' ') failed: $value" }
+    if ($Capture) { return ($value -join "`n") }
+    foreach ($line in @($value)) { Write-Host $line }
 }
 
 function Invoke-CoreSync {
