@@ -2,9 +2,14 @@ name: Ensure Daily Scrape Outputs
 
 on:
   schedule:
-    # JST 01:00. GitHub Actions cron uses UTC.
-    - cron: "0 16 * * *"
+    # JST 23:30. Validate the next JST business date prepared by the evening wave.
+    - cron: "30 14 * * *"
   workflow_dispatch:
+    inputs:
+      target_date:
+        description: "JST artifact date (YYYY-MM-DD); blank means today"
+        required: false
+        type: string
 
 permissions:
   actions: read
@@ -15,53 +20,85 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      target_date: ${{ steps.target.outputs.date }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Resolve target date once
+        id: target
+        shell: bash
+        env:
+          REQUESTED_TARGET_DATE: ${{ inputs.target_date }}
+        run: |
+          set -euo pipefail
+          if [ -n "$REQUESTED_TARGET_DATE" ]; then
+            TARGET_DATE="$REQUESTED_TARGET_DATE"
+          elif [ "$GITHUB_EVENT_NAME" = "schedule" ]; then
+            TARGET_DATE=$(date -u -d '+1 day' +%F)
+          else
+            TARGET_DATE=$(TZ=Asia/Tokyo date +%F)
+          fi
+          PINEFIELD_TARGET_DATE="$TARGET_DATE" \
+            python scrape_target_date.py --account account1 >/dev/null
+          echo "date=$TARGET_DATE" >> "$GITHUB_OUTPUT"
+
   ensure:
+    needs: prepare
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      max-parallel: 4
+      max-parallel: 1
       matrix:
         include:
           - account: account1
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account2
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account3
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account4
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account5
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account6
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account7
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account8
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account9
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account10
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account11
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account12
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account13
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account14
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account15
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account16
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account17
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account18
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account19
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
           - account: account20
-            schedule: "0 16 * * *"
+            schedule: "30 14 * * *"
     steps:
       - name: Checkout repository
         if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
@@ -89,23 +126,39 @@ jobs:
           git fetch origin main
           git checkout -B main origin/main
 
-      - name: Install scraper dependencies
+      - name: Check target-date outputs before installing scraper dependencies
+        id: precheck
         if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
+        run: |
+          if python ensure_daily_scrape.py \
+            --account "${{ matrix.account }}" \
+            --date "${{ needs.prepare.outputs.target_date }}" \
+            --validate-only; then
+            echo "needs_repair=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "needs_repair=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install scraper dependencies
+        if: ${{ (github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule) && steps.precheck.outputs.needs_repair == 'true' }}
         run: |
           pip install -r requirements.txt
           playwright install chromium
           playwright install-deps chromium
 
-      - name: Ensure today's scrape outputs
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
-        run: python ensure_daily_scrape.py --account "${{ matrix.account }}"
+      - name: Ensure target-date scrape outputs
+        if: ${{ (github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule) && steps.precheck.outputs.needs_repair == 'true' }}
+        run: >-
+          python ensure_daily_scrape.py
+          --account "${{ matrix.account }}"
+          --date "${{ needs.prepare.outputs.target_date }}"
 
       - name: Commit repaired outputs
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule }}
+        if: ${{ (github.event_name == 'workflow_dispatch' || github.event.schedule == matrix.schedule) && steps.precheck.outputs.needs_repair == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE="${{ needs.prepare.outputs.target_date }}"
           ACCOUNT="${{ matrix.account }}"
           git add "data/${ACCOUNT}/products_${DATE}.json"
           git add "data/${ACCOUNT}/scrape_summary_${DATE}.json" || true

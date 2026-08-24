@@ -64,7 +64,8 @@ class WorkflowPushRetryTests(unittest.TestCase):
         text = (WORKFLOWS / "late-repair-scrape.yml").read_text(encoding="utf-8")
         required_in_order = (
             "continue-on-error: true",
-            'run: python ensure_daily_scrape.py --report "$REPAIR_REPORT"',
+            '--date "${{ steps.target.outputs.date }}"',
+            '--report "$REPAIR_REPORT"',
             "Commit successful repairs once",
             'for ACCOUNT in "${REPAIRED_ACCOUNTS[@]}"; do',
             "--validate-only",

@@ -156,7 +156,8 @@ class DailyScrapeRepairTests(unittest.TestCase):
 
             calls = []
 
-            def failing_scrape(account: str, scrape_root: Path) -> None:
+            def failing_scrape(account: str, scrape_root: Path, target_date: str) -> None:
+                self.assertEqual(TEST_DATE, target_date)
                 calls.append(account)
                 for path in paths:
                     path.write_bytes(f"changed-{len(calls)}".encode())
@@ -195,7 +196,8 @@ class DailyScrapeRepairTests(unittest.TestCase):
             original = {path: path.read_bytes() for path in (product_path, summary_path, history_path)}
             calls = []
 
-            def partial_scrape(account: str, scrape_root: Path) -> None:
+            def partial_scrape(account: str, scrape_root: Path, target_date: str) -> None:
+                self.assertEqual(TEST_DATE, target_date)
                 calls.append(account)
                 products = [make_product(account, index) for index in range(1, 6)]
                 product_path.write_text(json.dumps(products), encoding="utf-8")
@@ -227,7 +229,8 @@ class DailyScrapeRepairTests(unittest.TestCase):
             history_path.write_bytes(original_history)
             calls = []
 
-            def retrying_scrape(account: str, scrape_root: Path) -> None:
+            def retrying_scrape(account: str, scrape_root: Path, target_date: str) -> None:
+                self.assertEqual(TEST_DATE, target_date)
                 calls.append(account)
                 if len(calls) == 1:
                     product_path, summary_path, current_history = daily.account_artifact_paths(

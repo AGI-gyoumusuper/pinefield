@@ -43,9 +43,9 @@ def workflow_for_account(account: str) -> str:
 
 
 def active_regular_runs(account: str) -> list[dict]:
-    # The account3 schedule is JST 00:24, i.e. UTC 15:24 on the previous day.
-    # A 3-hour UTC window is enough to catch delayed queued/running scrape runs.
-    since = datetime.now(timezone.utc) - timedelta(hours=3)
+    # The evening wave starts at JST 20:00. Keep the whole wave visible to the
+    # JST 23:30 insurance run so a delayed regular job is never duplicated.
+    since = datetime.now(timezone.utc) - timedelta(hours=5)
     workflow = workflow_for_account(account)
     url = f"https://api.github.com/repos/{REPO}/actions/workflows/{workflow}/runs?per_page=20"
     data = api_json(url)

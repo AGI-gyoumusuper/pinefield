@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -41,9 +42,13 @@ REQUIRED_PRODUCT_FIELDS = frozenset(
 )
 
 
-def run(command: list[str], root: Path = ROOT) -> None:
+def run(
+    command: list[str],
+    root: Path = ROOT,
+    environment: dict[str, str] | None = None,
+) -> None:
     print("+", " ".join(command), flush=True)
-    subprocess.run(command, cwd=root, check=True)
+    subprocess.run(command, cwd=root, check=True, env=environment)
 
 
 def load_json(path: Path):
@@ -229,10 +234,16 @@ def cleanup(account: str, root: Path = ROOT, today: str = TODAY) -> None:
             print(f"removed partial output: {path}", flush=True)
 
 
-def scrape(account: str, root: Path = ROOT) -> None:
+def scrape(account: str, root: Path = ROOT, today: str = TODAY) -> None:
     if account in ACCOUNTS:
         account_number = account.removeprefix("account")
-        run([sys.executable, f"scrape_main{account_number}.py"], root)
+        environment = os.environ.copy()
+        environment["PINEFIELD_TARGET_DATE"] = today
+        run(
+            [sys.executable, f"scrape_main{account_number}.py"],
+            root,
+            environment,
+        )
     else:
         raise ValueError(account)
 
@@ -250,7 +261,7 @@ def ensure(account: str, root: Path = ROOT, today: str = TODAY) -> bool:
             print(f"{account}: repair attempt {attempt}/3 for {today}", flush=True)
             cleanup(account, root, today)
             try:
-                scrape(account, root)
+                scrape(account, root, today)
             except subprocess.CalledProcessError as exc:
                 print(f"{account}: scrape failed: {exc}", flush=True)
             ok, message = validate(account, root, today)

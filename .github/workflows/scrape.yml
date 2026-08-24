@@ -38,6 +38,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Resolve target date
+        run: |
+          TARGET_DATE=$(python scrape_target_date.py --account account1)
+          echo "PINEFIELD_TARGET_DATE=$TARGET_DATE" >> "$GITHUB_ENV"
+
       - name: Install scraper dependencies
         run: |
           pip install -r requirements.txt
@@ -49,7 +54,7 @@ jobs:
 
       - name: Validate account1 output
         run: |
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account1)
           OUT="data/account1/products_${DATE}.json"
           if [ -f "$OUT" ]; then
             OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
@@ -63,7 +68,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account1)
           git add "data/account1/products_${DATE}.json"
           git add "data/account1/scrape_summary_${DATE}.json" || true
           git add "data/account1/asin_history.json"
@@ -97,6 +102,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Resolve target date
+        run: |
+          TARGET_DATE=$(python scrape_target_date.py --account account2)
+          echo "PINEFIELD_TARGET_DATE=$TARGET_DATE" >> "$GITHUB_ENV"
+
       - name: Install scraper dependencies
         run: |
           pip install -r requirements.txt
@@ -108,7 +118,7 @@ jobs:
 
       - name: Validate account2 output
         run: |
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account2)
           OUT="data/account2/products_${DATE}.json"
           if [ -f "$OUT" ]; then
             OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
@@ -122,7 +132,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account2)
           git add "data/account2/products_${DATE}.json"
           git add "data/account2/scrape_summary_${DATE}.json" || true
           git add "data/account2/asin_history.json"
@@ -196,6 +206,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Resolve target date
+        run: |
+          TARGET_DATE=$(python scrape_target_date.py --account account3)
+          echo "PINEFIELD_TARGET_DATE=$TARGET_DATE" >> "$GITHUB_ENV"
       - name: Install scraper dependencies
         run: |
           pip install -r requirements.txt
@@ -205,7 +219,7 @@ jobs:
         run: python scrape_main3.py
       - name: Validate account3 output
         run: |
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account3)
           OUT="data/account3/products_${DATE}.json"
           if [ -f "$OUT" ]; then
             OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
@@ -217,7 +231,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account3)
           git add "data/account3/products_${DATE}.json"
           git add "data/account3/scrape_summary_${DATE}.json" || true
           git add "data/account3/asin_history.json"
@@ -249,6 +263,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Resolve target date
+        run: |
+          TARGET_DATE=$(python scrape_target_date.py --account account4)
+          echo "PINEFIELD_TARGET_DATE=$TARGET_DATE" >> "$GITHUB_ENV"
       - name: Install scraper dependencies
         run: |
           pip install -r requirements.txt
@@ -258,7 +276,7 @@ jobs:
         run: python scrape_main4.py
       - name: Validate account4 output
         run: |
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account4)
           OUT="data/account4/products_${DATE}.json"
           if [ -f "$OUT" ]; then
             OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
@@ -270,7 +288,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account4)
           git add "data/account4/products_${DATE}.json"
           git add "data/account4/scrape_summary_${DATE}.json" || true
           git add "data/account4/asin_history.json"
@@ -302,6 +320,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Resolve target date
+        run: |
+          TARGET_DATE=$(python scrape_target_date.py --account account5)
+          echo "PINEFIELD_TARGET_DATE=$TARGET_DATE" >> "$GITHUB_ENV"
       - name: Install scraper dependencies
         run: |
           pip install -r requirements.txt
@@ -311,7 +333,7 @@ jobs:
         run: python scrape_main5.py
       - name: Validate account5 output
         run: |
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account5)
           OUT="data/account5/products_${DATE}.json"
           if [ -f "$OUT" ]; then
             OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
@@ -323,7 +345,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account5)
           git add "data/account5/products_${DATE}.json"
           git add "data/account5/scrape_summary_${DATE}.json" || true
           git add "data/account5/asin_history.json"

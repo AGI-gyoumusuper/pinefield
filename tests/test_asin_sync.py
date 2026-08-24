@@ -325,6 +325,34 @@ class AsinExclusionTests(unittest.TestCase):
             self.assertEqual(set(), registry.asins)
             self.assertEqual(set(), registry.brand_model_keys)
 
+    def test_exclusion_window_uses_explicit_scrape_reference_date(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "history.json"
+            write_json(
+                path,
+                {
+                    "posted": [
+                        {
+                            "asin": "B000000001",
+                            "status": "reserved",
+                            "reserved_at": "2026-08-06",
+                        },
+                        {
+                            "asin": "B000000002",
+                            "status": "reserved",
+                            "reserved_at": "2026-08-05",
+                        },
+                    ]
+                },
+            )
+            registry = load_product_exclusion_registry(
+                str(path),
+                20,
+                include_scraped=False,
+                reference_date="2026-08-25",
+            )
+            self.assertEqual({"B000000001"}, registry.asins)
+
     def test_popular_mode_does_not_append_scraped_candidates(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

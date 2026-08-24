@@ -2,9 +2,14 @@ name: Late Repair Daily Scrape Outputs
 
 on:
   schedule:
-    # JST 02:00. This is a late fallback after the regular and insurance windows.
-    - cron: "0 17 * * *"
+    # JST 00:00. Recheck the business date prepared by the previous evening wave.
+    - cron: "0 15 * * *"
   workflow_dispatch:
+    inputs:
+      target_date:
+        description: "JST artifact date (YYYY-MM-DD); blank means today"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -30,6 +35,24 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Resolve target date
+        id: target
+        shell: bash
+        env:
+          REQUESTED_TARGET_DATE: ${{ inputs.target_date }}
+        run: |
+          set -euo pipefail
+          if [ -n "$REQUESTED_TARGET_DATE" ]; then
+            TARGET_DATE="$REQUESTED_TARGET_DATE"
+          elif [ "$GITHUB_EVENT_NAME" = "schedule" ]; then
+            TARGET_DATE=$(TZ=Asia/Tokyo date +%F)
+          else
+            TARGET_DATE=$(TZ=Asia/Tokyo date +%F)
+          fi
+          PINEFIELD_TARGET_DATE="$TARGET_DATE" \
+            python scrape_target_date.py --account account1 >/dev/null
+          echo "date=$TARGET_DATE" >> "$GITHUB_OUTPUT"
+
       - name: Install scraper dependencies
         id: install
         run: |
@@ -42,7 +65,10 @@ jobs:
         continue-on-error: true
         env:
           REPAIR_REPORT: ${{ runner.temp }}/late-repair-report.json
-        run: python ensure_daily_scrape.py --report "$REPAIR_REPORT"
+        run: >-
+          python ensure_daily_scrape.py
+          --date "${{ steps.target.outputs.date }}"
+          --report "$REPAIR_REPORT"
 
       - name: Commit successful repairs once
         id: commit
@@ -76,7 +102,7 @@ jobs:
             exit 0
           fi
 
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE="${{ steps.target.outputs.date }}"
           local_revalidation_failed=false
           VALID_REPAIRED_ACCOUNTS=()
           for ACCOUNT in "${REPAIRED_ACCOUNTS[@]}"; do
@@ -175,7 +201,7 @@ jobs:
           AUDIT_REPORT: ${{ runner.temp }}/late-repair-origin-main-audit.json
         run: |
           set -euo pipefail
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE="${{ steps.target.outputs.date }}"
           git fetch origin main
 
           AUDIT_PARENT=$(mktemp -d)

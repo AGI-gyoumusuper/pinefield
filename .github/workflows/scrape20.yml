@@ -22,6 +22,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Resolve target date
+        run: |
+          TARGET_DATE=$(python scrape_target_date.py --account account20)
+          echo "PINEFIELD_TARGET_DATE=$TARGET_DATE" >> "$GITHUB_ENV"
       - name: Install scraper dependencies
         run: |
           pip install -r requirements.txt
@@ -31,7 +35,7 @@ jobs:
         run: python scrape_main20.py
       - name: Validate account20 output
         run: |
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account20)
           OUT="data/account20/products_${DATE}.json"
           if [ -f "$OUT" ]; then
             OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count == 10, f'[ERROR] account20 quota output must be exactly 10: {out}: {count}'"
@@ -43,7 +47,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          DATE=$(python scrape_target_date.py --account account20)
           git add "data/account20/products_${DATE}.json"
           git add "data/account20/scrape_summary_${DATE}.json" || true
           git add "data/account20/asin_history.json"

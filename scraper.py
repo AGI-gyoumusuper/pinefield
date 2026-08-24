@@ -127,6 +127,7 @@ def load_product_exclusion_registry(
     within_days: int = 0,
     include_scraped: bool = True,
     include_product_identities: bool = True,
+    reference_date: str | None = None,
 ) -> ProductIdentityRegistry:
     """投稿済み/予約済み商品の高確度な除外識別子を返す。
 
@@ -157,7 +158,12 @@ def load_product_exclusion_registry(
         return m.group(1) if m else ""
 
     from datetime import datetime, timedelta, timezone
-    today_jst = datetime.now(timezone(timedelta(hours=9))).date()
+    if reference_date:
+        today_jst = datetime.strptime(reference_date, "%Y-%m-%d").date()
+        if today_jst.isoformat() != reference_date:
+            raise ValueError(f"invalid reference_date: {reference_date!r}")
+    else:
+        today_jst = datetime.now(timezone(timedelta(hours=9))).date()
     cutoff = (today_jst - timedelta(days=max(within_days - 1, 0))).isoformat()
     registry = ProductIdentityRegistry()
     for p in entries:
@@ -1151,7 +1157,11 @@ def save_scraped_asins_to_history(products: List[Product], config_path: str, dat
 # メイン処理：一覧→フィルタ→個別ページ取得
 # ============================================
 
-async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = ASSOCIATE_TAG) -> Tuple[List[Product], dict]:
+async def fetch_products(
+    config_path: str = CONFIG_PATH,
+    associate_tag: str = ASSOCIATE_TAG,
+    reference_date: str | None = None,
+) -> Tuple[List[Product], dict]:
     config = load_config(config_path)
     cats = config.get("categories", [])
     flt = config.get("filters", {})
@@ -1182,6 +1192,7 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
         within_days,
         include_scraped,
         include_product_identities=exclude_product_identifiers,
+        reference_date=reference_date,
     )
     posted_asins = product_registry.asins
     logger.info(
@@ -1388,7 +1399,11 @@ async def fetch_products(config_path: str = CONFIG_PATH, associate_tag: str = AS
 
 def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG_PATH, associate_tag: str = ASSOCIATE_TAG) -> List[Product]:
     logger.info(f"=== Playwright スクレイピング開始: {config_path} ===")
-    products, scrape_stats = asyncio.run(fetch_products(config_path, associate_tag))
+    output_date_match = re.search(r"(\d{4}-\d{2}-\d{2})", os.path.basename(output_path))
+    reference_date = output_date_match.group(1) if output_date_match else None
+    products, scrape_stats = asyncio.run(
+        fetch_products(config_path, associate_tag, reference_date)
+    )
     validate_affiliate_output(products, output_path, config_path, associate_tag)
     logger.info(f"Amazon affiliate URL check OK: {associate_tag} ({len(products)} items)")
     logger.info(f"最終取得: {len(products)} 件")
@@ -1396,8 +1411,7 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump([asdict(p) for p in products], f, ensure_ascii=False, indent=2)
     # v2.1: カテゴリ別の取得サマリを隣へ保存（死枠診断・運転記録用）
-    m = re.search(r"(\d{4}-\d{2}-\d{2})", os.path.basename(output_path))
-    date_tag = m.group(1) if m else "latest"
+    date_tag = reference_date or "latest"
     summary_path = os.path.join(os.path.dirname(output_path) or ".", f"scrape_summary_{date_tag}.json")
     summary = {
         "date": date_tag,
