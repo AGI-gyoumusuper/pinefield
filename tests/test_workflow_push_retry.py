@@ -60,6 +60,41 @@ class WorkflowPushRetryTests(unittest.TestCase):
                 name,
             )
 
+    def test_late_repair_isolates_failures_and_audits_origin_main(self):
+        text = (WORKFLOWS / "late-repair-scrape.yml").read_text(encoding="utf-8")
+        required_in_order = (
+            "continue-on-error: true",
+            'run: python ensure_daily_scrape.py --report "$REPAIR_REPORT"',
+            "Commit successful repairs once",
+            'for ACCOUNT in "${REPAIRED_ACCOUNTS[@]}"; do',
+            "--validate-only",
+            'VALID_REPAIRED_ACCOUNTS+=("$ACCOUNT")',
+            'for ACCOUNT in "${VALID_REPAIRED_ACCOUNTS[@]}"; do',
+            "git diff --cached --quiet --diff-filter=D",
+            'git commit -m "Auto-late-repair daily scrape outputs ${DATE}"',
+            "git stash push --include-untracked",
+            "Audit all origin main outputs",
+            "git fetch origin main",
+            'git worktree add --detach "$AUDIT_ROOT" origin/main',
+            "--validate-only",
+            'exit "$AUDIT_RC"',
+        )
+        position = -1
+        for marker in required_in_order:
+            next_position = text.find(marker, position + 1)
+            self.assertNotEqual(-1, next_position, f"missing {marker}")
+            position = next_position
+
+        self.assertEqual(
+            text.count('git commit -m "Auto-late-repair daily scrape outputs ${DATE}"'),
+            1,
+        )
+        self.assertGreaterEqual(text.count("!cancelled()"), 2)
+        self.assertNotIn(
+            "for ACCOUNT in account1 account2 account3 account4",
+            text,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

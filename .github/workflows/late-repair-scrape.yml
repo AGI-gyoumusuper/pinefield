@@ -19,35 +19,130 @@ jobs:
     timeout-minutes: 360
     steps:
       - name: Checkout repository
+        id: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
+        id: setup
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install scraper dependencies
+        id: install
         run: |
           pip install -r requirements.txt
           playwright install chromium
           playwright install-deps chromium
 
       - name: Repair missing or invalid outputs
-        run: python ensure_daily_scrape.py
+        id: repair
+        continue-on-error: true
+        env:
+          REPAIR_REPORT: ${{ runner.temp }}/late-repair-report.json
+        run: python ensure_daily_scrape.py --report "$REPAIR_REPORT"
 
-      - name: Commit repaired outputs
+      - name: Commit successful repairs once
+        id: commit
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' && steps.install.outcome == 'success' && steps.repair.outcome != 'skipped' }}
+        shell: bash
+        env:
+          REPAIR_REPORT: ${{ runner.temp }}/late-repair-report.json
+          REPAIRED_ACCOUNTS_FILE: ${{ runner.temp }}/late-repair-accounts.txt
         run: |
+          set -euo pipefail
+          if [ ! -s "$REPAIR_REPORT" ]; then
+            echo "repair report was not created: $REPAIR_REPORT"
+            exit 1
+          fi
+
+          python - "$REPAIR_REPORT" > "$REPAIRED_ACCOUNTS_FILE" <<'PY'
+          import json
+          import re
+          import sys
+
+          report = json.load(open(sys.argv[1], encoding="utf-8"))
+          for account in report.get("repaired_accounts", []):
+              if not re.fullmatch(r"account(?:[1-9]|1[0-9]|20)", account):
+                  raise SystemExit(f"invalid repaired account in report: {account!r}")
+              print(account)
+          PY
+
+          mapfile -t REPAIRED_ACCOUNTS < "$REPAIRED_ACCOUNTS_FILE"
+          if [ "${#REPAIRED_ACCOUNTS[@]}" -eq 0 ]; then
+            echo "No repaired account needs a commit."
+            exit 0
+          fi
+
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          local_revalidation_failed=false
+          VALID_REPAIRED_ACCOUNTS=()
+          for ACCOUNT in "${REPAIRED_ACCOUNTS[@]}"; do
+            if python ensure_daily_scrape.py \
+              --validate-only \
+              --account "$ACCOUNT" \
+              --date "$DATE" \
+              --root .; then
+              VALID_REPAIRED_ACCOUNTS+=("$ACCOUNT")
+              continue
+            fi
+
+            echo "$ACCOUNT failed save-time revalidation; restoring its checkout state."
+            local_revalidation_failed=true
+            for PATH_TO_RESTORE in \
+              "data/${ACCOUNT}/products_${DATE}.json" \
+              "data/${ACCOUNT}/scrape_summary_${DATE}.json" \
+              "data/${ACCOUNT}/asin_history.json"; do
+              if git ls-files --error-unmatch -- "$PATH_TO_RESTORE" >/dev/null 2>&1; then
+                git restore --source=HEAD --staged --worktree -- "$PATH_TO_RESTORE"
+              else
+                git clean -f -- "$PATH_TO_RESTORE"
+              fi
+            done
+          done
+
+          if [ "${#VALID_REPAIRED_ACCOUNTS[@]}" -eq 0 ]; then
+            echo "No locally revalidated repair can be committed."
+            exit 1
+          fi
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
-          for ACCOUNT in account1 account2 account3 account4 account5 account6 account7 account8 account9 account10 account11 account12 account13 account14 account15 account16 account17 account18 account19 account20; do
-            git add "data/${ACCOUNT}/products_${DATE}.json" || true
-            git add "data/${ACCOUNT}/scrape_summary_${DATE}.json" || true
-            git add "data/${ACCOUNT}/asin_history.json" || true
+          for ACCOUNT in "${VALID_REPAIRED_ACCOUNTS[@]}"; do
+            git add -- "data/${ACCOUNT}/products_${DATE}.json"
+            git add -- "data/${ACCOUNT}/scrape_summary_${DATE}.json"
+            git add -- "data/${ACCOUNT}/asin_history.json"
           done
-          git diff --staged --quiet || git commit -m "Auto-late-repair daily scrape outputs ${DATE}"
+
+          if ! git diff --cached --quiet --diff-filter=D; then
+            echo "Refusing to commit a deletion from late repair."
+            git diff --cached --name-status --diff-filter=D
+            exit 1
+          fi
+          if git diff --staged --quiet; then
+            echo "Reported repairs already match the checked-out revision."
+            if [ "$local_revalidation_failed" = "true" ]; then
+              exit 1
+            fi
+            exit 0
+          fi
+
+          git commit -m "Auto-late-repair daily scrape outputs ${DATE}"
+          unexpected_changes=false
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Isolating unreported changes left outside the repair commit."
+            git status --short
+            unexpected_changes=true
+            git stash push --include-untracked -m "late repair isolated leftovers ${DATE}"
+            if [ -n "$(git status --porcelain)" ]; then
+              echo "Unable to isolate all unreported changes safely."
+              git status --short
+              exit 1
+            fi
+          fi
+
           push_succeeded=false
           for i in 1 2 3; do
             if git push; then
@@ -64,3 +159,57 @@ jobs:
             echo "git push failed after 3 attempts"
             exit 1
           fi
+          if [ "$local_revalidation_failed" = "true" ]; then
+            echo "Valid repairs were saved, but at least one reported repair failed revalidation."
+            exit 1
+          fi
+          if [ "$unexpected_changes" = "true" ]; then
+            echo "Valid repairs were saved; unreported partial changes were isolated."
+            exit 1
+          fi
+
+      - name: Audit all origin main outputs
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' && steps.setup.outcome == 'success' }}
+        shell: bash
+        env:
+          AUDIT_REPORT: ${{ runner.temp }}/late-repair-origin-main-audit.json
+        run: |
+          set -euo pipefail
+          DATE=$(TZ=Asia/Tokyo date +%Y-%m-%d)
+          git fetch origin main
+
+          AUDIT_PARENT=$(mktemp -d)
+          AUDIT_ROOT="$AUDIT_PARENT/origin-main"
+          cleanup_audit_worktree() {
+            git worktree remove --force "$AUDIT_ROOT" >/dev/null 2>&1 || true
+            rmdir "$AUDIT_PARENT" >/dev/null 2>&1 || true
+          }
+          trap cleanup_audit_worktree EXIT
+          git worktree add --detach "$AUDIT_ROOT" origin/main
+
+          set +e
+          python ensure_daily_scrape.py \
+            --root "$AUDIT_ROOT" \
+            --date "$DATE" \
+            --validate-only \
+            --report "$AUDIT_REPORT"
+          AUDIT_RC=$?
+          set -e
+
+          python - "$AUDIT_REPORT" >> "$GITHUB_STEP_SUMMARY" <<'PY'
+          import json
+          import sys
+
+          report = json.load(open(sys.argv[1], encoding="utf-8"))
+          failed = report.get("failed_accounts", [])
+          print("## Late repair origin/main audit")
+          print()
+          print(f"- Date: {report.get('date')}")
+          print(f"- Valid: {len(report.get('valid_accounts', []))}/20")
+          print(f"- Failed: {len(failed)}")
+          for item in failed:
+              reason = str(item.get("reason", "")).replace("|", "\\|").replace("\n", " ")
+              print(f"  - {item.get('account')}: {reason}")
+          PY
+
+          exit "$AUDIT_RC"
