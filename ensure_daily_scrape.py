@@ -22,7 +22,10 @@ ROOT = Path(__file__).resolve().parent
 TODAY = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
 MIN_ITEMS = 5  # カテゴリ数が少ないアカウントにも共通適用する安全下限
 ACCOUNTS = tuple(f"account{number}" for number in range(1, 21))  # account1〜20（account0は退役）
-MIN_ITEMS_BY_ACCOUNT = {"account20": 10}  # 2棚×5件の意図的な固定定員
+MIN_ITEMS_BY_ACCOUNT = {
+    "account14": 4,  # account14工場は元順位1〜4が揃えば受入可能
+    "account20": 10,  # 2棚×5件の意図的な固定定員
+}
 REQUIRED_PRODUCT_FIELDS = frozenset(
     {
         "asin",

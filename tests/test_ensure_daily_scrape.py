@@ -67,13 +67,15 @@ def write_valid_output(root: Path, account: str, count: int = 5) -> None:
 
 
 class DailyScrapeValidationTests(unittest.TestCase):
-    def test_common_floor_and_account20_floor(self):
+    def test_common_floor_and_account_specific_floors(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             write_valid_output(root, "account1", 5)
+            write_valid_output(root, "account14", 4)
             write_valid_output(root, "account20", 9)
 
             self.assertTrue(daily.validate("account1", root, TEST_DATE)[0])
+            self.assertTrue(daily.validate("account14", root, TEST_DATE)[0])
             ok, message = daily.validate("account20", root, TEST_DATE)
             self.assertFalse(ok)
             self.assertIn("9 < 10", message)

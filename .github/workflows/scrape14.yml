@@ -31,8 +31,8 @@ jobs:
           pip install -r requirements.txt
           playwright install chromium
           playwright install-deps chromium
-      - name: Scrape account14
-        run: python scrape_main14.py
+      - name: Scrape account14 with recovery
+        run: python ensure_daily_scrape.py --account account14 --date "$PINEFIELD_TARGET_DATE"
       - name: Validate account14 output
         run: |
           DATE=$(python scrape_target_date.py --account account14)
