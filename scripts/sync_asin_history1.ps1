@@ -15,6 +15,10 @@ param(
 # push the current HEAD to origin/main, then prove the ASINs exist remotely.
 
 $ErrorActionPreference = 'Stop'
+# The Node reservation runner consumes ASIN_SYNC_RESULT as UTF-8 JSON.
+# Windows PowerShell 5.1 otherwise emits Japanese category names in CP932,
+# which corrupts the success marker when the runner decodes stdout as UTF-8.
+[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
 $ScriptRoot = $PSScriptRoot
 if ([string]::IsNullOrWhiteSpace($ScriptRoot)) {
     $ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
