@@ -180,6 +180,8 @@ class VerifiedAsinSyncTests(unittest.TestCase):
             self.assertEqual(["B000000001"], [row["asin"] for row in history["posted"]])
             self.assertFalse((root / "data" / "account1" / "category_rotation.json").exists())
             self.assertFalse(result["rotation_changed"])
+            self.assertFalse(result["rotation_applicable"])
+            self.assertEqual([], result["rotation_matched_asins"])
 
     def test_unknown_selection_mode_is_fatal_before_write(self):
         with tempfile.TemporaryDirectory() as temp:

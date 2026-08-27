@@ -465,6 +465,7 @@ def sync(
         "skipped": skipped,
         "history_changed": history_changed,
         "rotation_changed": rotation_changed,
+        "rotation_applicable": selection_mode != "category_quota",
         "rotation_matched_asins": matched_asins,
         "rotation_warning": rotation_warning,
         "rotation_state": {
