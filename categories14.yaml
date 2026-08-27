@@ -62,6 +62,7 @@ categories:
     is_search: true
 
 filters:
+  deferred_retry_failed_searches: true  # Amazon拒否で0件になった検索カテゴリを新しい文脈で遅延再巡回する。
   selection_mode: "category_round_robin"
   rotation_state_file: "data/account14/category_rotation.json"
   min_price: 3000
