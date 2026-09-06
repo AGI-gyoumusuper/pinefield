@@ -113,7 +113,39 @@ categories:
     $AfterBadHead = (& git --git-dir=$Remote rev-parse refs/heads/main).Trim()
     if ($AfterBadHead -ne $SecondRemoteHead) { throw 'failed sync changed remote main' }
 
-    Write-Host 'Git integration test passed: confirmed-only, HEAD:main, remote proof, rotation, idempotence, failure safety.'
+    $RotationBlobBeforeExternal = (& git --git-dir=$Remote rev-parse 'refs/heads/main:data/account1/category_rotation.json').Trim()
+    $ExternalResults = Join-Path $TempRoot 'external-results.json'
+    $ExternalProducts = Join-Path $TempRoot 'external-products.json'
+    @'
+[
+  {"asin":"B000000004","status":"reserved","reserved_list_confirmed":true,"reserved_at":"2026-08-02T07:00:00+09:00","category":"External category"},
+  {"asin":"B000000005","status":"reserved","reserved_list_confirmed":true,"reserved_at":"2026-08-02T11:30:00+09:00","category":"C1"}
+]
+'@ | Set-Content -LiteralPath $ExternalResults -Encoding UTF8
+    @'
+[
+  {"asin":"B000000004","category":"External category","account":1},
+  {"asin":"B000000005","category":"C1","account":1}
+]
+'@ | Set-Content -LiteralPath $ExternalProducts -Encoding UTF8
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $Sync -SourceJson $ExternalResults -ProductJson $ExternalProducts -AccountId account1 -AccountName test -ExternalSelection
+    if ($LASTEXITCODE -ne 0) { throw 'external-selection sync failed' }
+    $AfterExternalHead = (& git --git-dir=$Remote rev-parse refs/heads/main).Trim()
+    $RotationBlobAfterExternal = (& git --git-dir=$Remote rev-parse 'refs/heads/main:data/account1/category_rotation.json').Trim()
+    if ($RotationBlobAfterExternal -ne $RotationBlobBeforeExternal) { throw 'external selection changed the remote category cursor' }
+    $ExternalHistoryText = & git --git-dir=$Remote show 'refs/heads/main:data/account1/asin_history.json'
+    $ExternalHistory = ($ExternalHistoryText -join "`n") | ConvertFrom-Json
+    $ExternalEntry = @($ExternalHistory.posted | Where-Object asin -eq 'B000000004')
+    if ($ExternalEntry.Count -ne 1 -or $ExternalEntry[0].category -ne 'External category' -or $ExternalEntry[0].account_id -ne 'account1' -or $ExternalEntry[0].reserved_at -ne '2026-08-02T07:00:00+09:00') {
+        throw 'external event metadata was not preserved remotely'
+    }
+    if (@($ExternalHistory.posted | Where-Object asin -eq 'B000000005').Count -ne 1) { throw 'active-category external ASIN missing remotely' }
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $Sync -SourceJson $ExternalResults -ProductJson $ExternalProducts -AccountId account1 -AccountName test -ExternalSelection
+    if ($LASTEXITCODE -ne 0) { throw 'external idempotent sync failed' }
+    $AfterExternalRepeat = (& git --git-dir=$Remote rev-parse refs/heads/main).Trim()
+    if ($AfterExternalRepeat -ne $AfterExternalHead) { throw 'external idempotent sync created an unnecessary commit' }
+
+    Write-Host 'Git integration test passed: confirmed-only, HEAD:main, remote proof, default rotation, external metadata with unchanged cursor, idempotence, failure safety.'
 } finally {
     if (Test-Path -LiteralPath $TempRoot) {
         $resolvedTemp = [System.IO.Path]::GetFullPath($TempRoot)

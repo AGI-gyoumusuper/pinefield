@@ -7,6 +7,7 @@ param(
     [string]$AccountName = 'account1',
     [string]$HistoryAccount = '',
     [switch]$RequireCategory,
+    [switch]$ExternalSelection,
     [switch]$NoPush,
     [switch]$DryRun
 )
@@ -15,6 +16,9 @@ param(
 # push the current HEAD to origin/main, then prove the ASINs exist remotely.
 
 $ErrorActionPreference = 'Stop'
+if ($ExternalSelection -and $RequireCategory) {
+    throw 'ExternalSelection and RequireCategory cannot be combined'
+}
 # The Node reservation runner consumes ASIN_SYNC_RESULT as UTF-8 JSON.
 # Windows PowerShell 5.1 otherwise emits Japanese category names in CP932,
 # which corrupts the success marker when the runner decodes stdout as UTF-8.
@@ -78,6 +82,7 @@ function Invoke-CoreSync {
     foreach ($source in $Sources) { $arguments += @('--source-json', $source) }
     foreach ($product in $Products) { $arguments += @('--product-json', $product) }
     if ($RequireCategory) { $arguments += '--require-category' }
+    if ($ExternalSelection) { $arguments += '--external-selection' }
     if ($CoreDryRun) { $arguments += '--dry-run' }
     $output = & python @arguments 2>&1
     $exitCode = $LASTEXITCODE
@@ -90,6 +95,16 @@ function Invoke-CoreSync {
 
 function Test-RemoteLedger {
     param([string]$BaseRepo, $Summary)
+    if ($ExternalSelection -and (
+        $Summary.external_selection -ne $true -or
+        $Summary.rotation_applicable -ne $false -or
+        $Summary.rotation_changed -ne $false -or
+        @($Summary.rotation_matched_asins).Count -ne 0 -or
+        $Summary.rotation_warning -or
+        $Summary.rotation_skip_reason -ne 'external_selection'
+    )) {
+        throw 'external selection sync did not preserve the category cursor contract'
+    }
     Invoke-Git -Directory $BaseRepo -Arguments @('fetch', '--quiet', 'origin', 'main')
     $historyRel = "data/$HistoryAccount/asin_history.json"
     $remoteText = Invoke-Git -Directory $BaseRepo -Arguments @('show', "origin/main:$historyRel") -Capture
@@ -146,7 +161,7 @@ if ($NoPush) {
     $summary = Invoke-CoreSync -WorkingRepo $RepoDir -Sources $sources -Products $products
     $paths = @("data/$HistoryAccount/asin_history.json")
     $rotationPath = "data/$HistoryAccount/category_rotation.json"
-    if (Test-Path -LiteralPath (Join-Path $RepoDir $rotationPath)) { $paths += $rotationPath }
+    if (-not $ExternalSelection -and (Test-Path -LiteralPath (Join-Path $RepoDir $rotationPath))) { $paths += $rotationPath }
     Invoke-Git -Directory $RepoDir -Arguments (@('add', '--') + $paths)
     $staged = & git -C $RepoDir diff --staged --name-only
     if ($LASTEXITCODE -ne 0) { throw 'git staged inspection failed' }
@@ -173,7 +188,7 @@ try {
             $summary = Invoke-CoreSync -WorkingRepo $tempRoot -Sources $sources -Products $products
             $paths = @("data/$HistoryAccount/asin_history.json")
             $rotationPath = "data/$HistoryAccount/category_rotation.json"
-            if (Test-Path -LiteralPath (Join-Path $tempRoot $rotationPath)) { $paths += $rotationPath }
+            if (-not $ExternalSelection -and (Test-Path -LiteralPath (Join-Path $tempRoot $rotationPath))) { $paths += $rotationPath }
             Invoke-Git -Directory $tempRoot -Arguments (@('add', '--') + $paths)
 
             $staged = & git -C $tempRoot diff --staged --name-only

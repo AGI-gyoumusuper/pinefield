@@ -313,7 +313,10 @@ def sync(
     product_paths: list[Path],
     require_category: bool,
     dry_run: bool,
+    external_selection: bool = False,
 ) -> dict[str, Any]:
+    if external_selection and require_category:
+        raise SyncError("external-selection and require-category cannot be combined")
     account_number = account_id.removeprefix("account")
     account_dir = repo_dir / "data" / account_id
     history_path = account_dir / "asin_history.json"
@@ -322,6 +325,7 @@ def sync(
 
     accepted: list[dict[str, Any]] = []
     direct_categories: dict[str, str] = {}
+    external_source_categories: dict[str, str] = {}
     skipped = 0
     for source_path in source_paths:
         if not source_path.is_file():
@@ -332,6 +336,14 @@ def sync(
             if entry is None:
                 skipped += 1
                 continue
+            if external_selection:
+                validate_external_account(row, account_id, f"{source_path.name} row {index}")
+                raw_category = str(row.get("category") or "").strip()
+                prior = external_source_categories.get(entry["asin"])
+                if raw_category and prior and raw_category != prior:
+                    raise SyncError(f"conflicting result categories for {entry['asin']}")
+                if raw_category:
+                    external_source_categories[entry["asin"]] = raw_category
             accepted.append(entry)
             if category:
                 direct_categories[entry["asin"]] = category
@@ -350,7 +362,19 @@ def sync(
             "rotation_changed": False,
             "rotation_warning": None,
             "rotation_state": {},
+            **({
+                "external_selection": True,
+                "rotation_applicable": False,
+                "rotation_matched_asins": [],
+                "rotation_skip_reason": "external_selection",
+            } if external_selection else {}),
         }
+
+    if external_selection:
+        return sync_external_selection(
+            history_path, account_id, accepted, product_paths,
+            external_source_categories, skipped, dry_run,
+        )
 
     history = load_history(history_path, account_id)
     history_output, added, updated, history_changed = merge_history(history, accepted, account_id)
@@ -480,6 +504,87 @@ def sync(
     }
 
 
+def validate_external_account(row: dict[str, Any], account_id: str, label: str) -> None:
+    expected = account_id.removeprefix("account")
+    for key in ("account", "account_id", "assigned_account"):
+        value = row.get(key)
+        if value is not None and str(value).strip():
+            got = str(value).strip().removeprefix("account")
+            if got != expected:
+                raise SyncError(f"external selection account mismatch in {label}: {key}={value}")
+
+
+def sync_external_selection(
+    history_path: Path,
+    account_id: str,
+    accepted: list[dict[str, Any]],
+    product_paths: list[Path],
+    source_categories: dict[str, str],
+    skipped: int,
+    dry_run: bool,
+) -> dict[str, Any]:
+    """Record verified externally selected products without reading or moving a shelf cursor."""
+    if not product_paths:
+        raise SyncError("external selection requires explicit product JSON")
+    metadata: dict[str, dict[str, Any]] = {}
+    for product_path in product_paths:
+        for index, row in enumerate(array_items(read_json(product_path)), 1):
+            label = f"{product_path.name} row {index}"
+            validate_external_account(row, account_id, label)
+            asin = extract_asin(row)
+            category = str(row.get("category") or "").strip()
+            if not asin or not category:
+                raise SyncError(f"external selection product requires ASIN and nonempty category: {label}")
+            prior = metadata.get(asin)
+            if prior and str(prior.get("category") or "").strip() != category:
+                raise SyncError(f"conflicting external product categories for {asin}")
+            metadata[asin] = row
+
+    for entry in accepted:
+        asin = entry["asin"]
+        product = metadata.get(asin)
+        if product is None:
+            raise SyncError(f"verified external ASIN is absent from explicit product JSON: {asin}")
+        category = str(product["category"]).strip()
+        source_category = source_categories.get(asin)
+        if source_category and source_category != category:
+            raise SyncError(f"external result/product category mismatch for {asin}: {source_category} / {category}")
+        entry["category"] = category
+        identity = extract_product_identity(product)
+        if identity.usable:
+            entry["product_identity"] = identity.to_dict()
+
+    history = load_history(history_path, account_id)
+    output, added, updated, changed = merge_history(history, accepted, account_id)
+    if changed and not dry_run:
+        atomic_write_json(history_path, output)
+    return {
+        "ok": True,
+        "account": account_id,
+        "external_selection": True,
+        "accepted_count": len(accepted),
+        "accepted_asins": list(dict.fromkeys(entry["asin"] for entry in accepted)),
+        "accepted_events": [
+            {
+                "asin": entry["asin"], "status": entry["status"],
+                "posted_at": entry.get("posted_at"), "reserved_at": entry.get("reserved_at"),
+                "event_date": event_date(entry), "account_id": account_id,
+                "category": entry["category"],
+            }
+            for entry in accepted
+        ],
+        "added": added, "updated": updated, "skipped": skipped,
+        "history_changed": changed,
+        "rotation_changed": False,
+        "rotation_applicable": False,
+        "rotation_matched_asins": [],
+        "rotation_warning": None,
+        "rotation_skip_reason": "external_selection",
+        "rotation_state": {},
+        "dry_run": dry_run,
+    }
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-dir", required=True)
@@ -488,6 +593,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--source-json", action="append", required=True)
     parser.add_argument("--product-json", action="append", default=[])
     parser.add_argument("--require-category", action="store_true")
+    parser.add_argument("--external-selection", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
@@ -503,6 +609,7 @@ def main() -> int:
             product_paths=[Path(path).resolve() for path in args.product_json],
             require_category=args.require_category,
             dry_run=args.dry_run,
+            external_selection=args.external_selection,
         )
     except (OSError, ValueError, json.JSONDecodeError, yaml.YAMLError, SyncError) as error:
         print(f"ASIN_SYNC_ERROR={error}", file=sys.stderr)
