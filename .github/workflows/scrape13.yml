@@ -7,13 +7,19 @@ on:
     paths:
       - ".github/triggers/account13.json"
   workflow_dispatch:
+    inputs:
+      diagnose_delivery_country:
+        description: "Anonymous country-only diagnosis; no product scrape or Git writes"
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: write
 
 jobs:
   scrape_account13:
-    if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account13]')) || github.event_name == 'workflow_dispatch' }}
+    if: ${{ ((github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account13]')) || github.event_name == 'workflow_dispatch') && inputs.diagnose_delivery_country != true }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,6 +29,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Resolve target date
+        if: ${{ inputs.diagnose_delivery_country != true }}
         run: |
           TARGET_DATE=$(python scrape_target_date.py --account account13)
           echo "PINEFIELD_TARGET_DATE=$TARGET_DATE" >> "$GITHUB_ENV"
@@ -32,10 +39,12 @@ jobs:
           playwright install chromium
           playwright install-deps chromium
       - name: Scrape account13
+        if: ${{ inputs.diagnose_delivery_country != true }}
         env:
           PINEFIELD_SEARCH_DIAGNOSTICS_DIR: ${{ runner.temp }}/pinefield-search-diagnostics
         run: python scrape_main13.py
       - name: Validate account13 output
+        if: ${{ inputs.diagnose_delivery_country != true }}
         run: |
           DATE=$(python scrape_target_date.py --account account13)
           OUT="data/account13/products_${DATE}.json"
@@ -47,7 +56,7 @@ jobs:
           fi
       - name: Upload account13 public search failure evidence
         # The directory exists only after a search failure; recovered failures are useful too.
-        if: ${{ always() && !cancelled() }}
+        if: ${{ always() && !cancelled() && inputs.diagnose_delivery_country != true }}
         uses: actions/upload-artifact@v4
         with:
           name: account13-search-failures-${{ github.run_id }}-${{ github.run_attempt }}
@@ -55,6 +64,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 3
       - name: Commit account13 output
+        if: ${{ inputs.diagnose_delivery_country != true }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -79,3 +89,35 @@ jobs:
             echo "git push failed after 3 attempts"
             exit 1
           fi
+
+  diagnose_account13_delivery:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.diagnose_delivery_country == true }}
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository without persisted credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install diagnostic dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+      - name: Diagnose account13 anonymous delivery country only
+        timeout-minutes: 5
+        run: python scripts/diagnose_account13_delivery.py --output-dir "${{ runner.temp }}/account13-delivery-diagnosis"
+      - name: Upload account13 country-only diagnosis
+        if: ${{ always() && !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: account13-delivery-diagnosis-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/account13-delivery-diagnosis
+          if-no-files-found: error
+          retention-days: 3
