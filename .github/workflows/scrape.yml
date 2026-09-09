@@ -57,7 +57,7 @@ jobs:
           DATE=$(python scrape_target_date.py --account account1)
           OUT="data/account1/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
+            python ensure_daily_scrape.py --validate-only --account account1 --date "$DATE"
             python -c "import json; d=json.load(open('$OUT', encoding='utf-8-sig')); print(f'account1 total {len(d)} items'); [print(f'{p.get(\"price\", \"\")} - {p.get(\"title\", \"\")[:50]} ({p.get(\"category\", \"\")})') for p in d[:5]]"
           else
             echo "$OUT was not created"
@@ -121,7 +121,7 @@ jobs:
           DATE=$(python scrape_target_date.py --account account2)
           OUT="data/account2/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
+            python ensure_daily_scrape.py --validate-only --account account2 --date "$DATE"
             python -c "import json; d=json.load(open('$OUT', encoding='utf-8-sig')); print(f'account2 total {len(d)} items'); [print(f'{p.get(\"price\", \"\")} - {p.get(\"title\", \"\")[:50]} ({p.get(\"category\", \"\")})') for p in d[:5]]"
           else
             echo "$OUT was not created"
@@ -222,7 +222,7 @@ jobs:
           DATE=$(python scrape_target_date.py --account account3)
           OUT="data/account3/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
+            python ensure_daily_scrape.py --validate-only --account account3 --date "$DATE"
           else
             echo "$OUT was not created"
             exit 1
@@ -279,7 +279,7 @@ jobs:
           DATE=$(python scrape_target_date.py --account account4)
           OUT="data/account4/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
+            python ensure_daily_scrape.py --validate-only --account account4 --date "$DATE"
           else
             echo "$OUT was not created"
             exit 1
@@ -336,7 +336,7 @@ jobs:
           DATE=$(python scrape_target_date.py --account account5)
           OUT="data/account5/products_${DATE}.json"
           if [ -f "$OUT" ]; then
-            OUT="$OUT" python -c "import json, os; out=os.environ['OUT']; data=json.load(open(out, encoding='utf-8-sig')); count=len(data) if isinstance(data, list) else -1; assert isinstance(data, list) and count >= 5, f'[ERROR] too few scrape items: {out}: {count} < 5'"
+            python ensure_daily_scrape.py --validate-only --account account5 --date "$DATE"
           else
             echo "$OUT was not created"
             exit 1

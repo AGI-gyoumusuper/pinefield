@@ -40,6 +40,9 @@ def write_valid_output(root: Path, account: str, count: int = 5) -> None:
     account_root = root / "data" / account
     account_root.mkdir(parents=True, exist_ok=True)
     products = [make_product(account, index) for index in range(1, count + 1)]
+    if account == "account20":
+        for index, product in enumerate(products):
+            product["category"] = ("Nintendo Switch 2" if index < (count + 1) // 2 else "PS5ゲームソフト") + "#1"
     (account_root / f"products_{TEST_DATE}.json").write_text(
         json.dumps(products, ensure_ascii=False),
         encoding="utf-8",
@@ -92,18 +95,29 @@ class DailyScrapeValidationTests(unittest.TestCase):
                         self.assertFalse(ok)
                         self.assertIn("selection policy", reason)
 
-    def test_common_floor_and_account_specific_floors(self):
+    def test_four_product_floor_and_account20_shelf_allocation(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
-            write_valid_output(root, "account1", 5)
+            write_valid_output(root, "account1", 4)
             write_valid_output(root, "account14", 4)
             write_valid_output(root, "account20", 9)
 
             self.assertTrue(daily.validate("account1", root, TEST_DATE)[0])
             self.assertTrue(daily.validate("account14", root, TEST_DATE)[0])
+            self.assertTrue(daily.validate("account20", root, TEST_DATE)[0])
+            write_valid_output(root, "account20", 4)
+            self.assertTrue(daily.validate("account20", root, TEST_DATE)[0])
+            products_path = root / "data" / "account20" / f"products_{TEST_DATE}.json"
+            products = json.loads(products_path.read_text(encoding="utf-8"))
+            products[-1]["category"] = "Nintendo Switch 2#1"
+            products_path.write_text(json.dumps(products), encoding="utf-8")
             ok, message = daily.validate("account20", root, TEST_DATE)
             self.assertFalse(ok)
-            self.assertIn("9 < 10", message)
+            self.assertIn("2 to 5 products per category", message)
+            write_valid_output(root, "account1", 3)
+            self.assertIn("3 < 4", daily.validate("account1", root, TEST_DATE)[1])
+            write_valid_output(root, "account1", 11)
+            self.assertIn("11 > 10", daily.validate("account1", root, TEST_DATE)[1])
 
     def test_required_fields_affiliate_tag_and_duplicate_asin(self):
         with tempfile.TemporaryDirectory() as temp_dir:

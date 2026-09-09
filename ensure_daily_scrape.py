@@ -20,12 +20,9 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
 TODAY = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
-MIN_ITEMS = 5  # カテゴリ数が少ないアカウントにも共通適用する安全下限
+MIN_ITEMS = 4  # 現行20工場は4商品で運転。10件は取得目標であり必須件数ではない。
 ACCOUNTS = tuple(f"account{number}" for number in range(1, 21))  # account1〜20（account0は退役）
-MIN_ITEMS_BY_ACCOUNT = {
-    "account14": 4,  # account14工場は元順位1〜4が揃えば受入可能
-    "account20": 10,  # 2棚×5件の意図的な固定定員
-}
+MIN_ITEMS_BY_ACCOUNT = {}
 REQUIRED_PRODUCT_FIELDS = frozenset(
     {
         "asin",
@@ -74,6 +71,8 @@ def valid_product_list(
         return False, f"not list: {path}", []
     if len(data) < min_items:
         return False, f"too few items: {path}: {len(data)} < {min_items}", []
+    if len(data) > 10:
+        return False, f"too many items: {path}: {len(data)} > 10", []
 
     asins: list[str] = []
     account_number = account.removeprefix("account")
@@ -154,6 +153,16 @@ def validate(
     )
     if not ok:
         return False, message
+
+    if account == "account20":
+        shelves = {"Nintendo Switch 2": 0, "PS5ゲームソフト": 0}
+        for item in products:
+            category = re.sub(r"#\d+$", "", str(item["category"]).strip()).strip()
+            if category not in shelves:
+                return False, f"account20 has unexpected category: {category}"
+            shelves[category] += 1
+        if any(count < 2 or count > 5 for count in shelves.values()):
+            return False, f"account20 needs 2 to 5 products per category: {shelves}"
 
     summary_path = root / "data" / account / f"scrape_summary_{today}.json"
     if not summary_path.exists():
