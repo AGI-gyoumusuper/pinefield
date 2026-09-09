@@ -113,7 +113,13 @@ class DailyScrapeValidationTests(unittest.TestCase):
             products_path.write_text(json.dumps(products), encoding="utf-8")
             ok, message = daily.validate("account20", root, TEST_DATE)
             self.assertFalse(ok)
-            self.assertIn("2 to 5 products per category", message)
+            self.assertIn("at least 2 products per category", message)
+            write_valid_output(root, "account20", 10)
+            products = json.loads(products_path.read_text(encoding="utf-8"))
+            products[3]["category"] = "PS5ゲームソフト#1"
+            products[4]["category"] = "PS5ゲームソフト#1"
+            products_path.write_text(json.dumps(products), encoding="utf-8")
+            self.assertTrue(daily.validate("account20", root, TEST_DATE)[0])
             write_valid_output(root, "account1", 3)
             self.assertIn("3 < 4", daily.validate("account1", root, TEST_DATE)[1])
             write_valid_output(root, "account1", 11)

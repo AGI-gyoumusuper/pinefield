@@ -113,7 +113,9 @@ def parse_price(price_str: str) -> int:
 def calc_discount_rate(price_int: int, original_int: int) -> str:
     if original_int <= 0 or price_int <= 0 or original_int <= price_int:
         return ""
-    rate = int((1 - price_int / original_int) * 100)
+    # Match the displayed whole-percent discount; truncation understated 31% as
+    # 30% (3172 / 4580) and made verified sale input disagree with Amazon.
+    rate = ((original_int - price_int) * 200 + original_int) // (2 * original_int)
     return f"{rate}%OFF"
 
 

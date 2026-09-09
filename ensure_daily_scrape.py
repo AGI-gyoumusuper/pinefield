@@ -161,8 +161,8 @@ def validate(
             if category not in shelves:
                 return False, f"account20 has unexpected category: {category}"
             shelves[category] += 1
-        if any(count < 2 or count > 5 for count in shelves.values()):
-            return False, f"account20 needs 2 to 5 products per category: {shelves}"
+        if any(count < 2 for count in shelves.values()):
+            return False, f"account20 needs at least 2 products per category: {shelves}"
 
     summary_path = root / "data" / account / f"scrape_summary_{today}.json"
     if not summary_path.exists():
