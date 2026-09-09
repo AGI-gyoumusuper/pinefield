@@ -3,11 +3,11 @@
 # Amazon正式棚に含まれる本体・プリペイド番号・コントローラーも正常な候補として許容する。
 categories:
   - name: "Nintendo Switch 2"
-    url: "https://www.amazon.co.jp/s?rh=n%3A206233864051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A206233864051%2Cp_36%3A300000-%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
   - name: "PS5ゲームソフト"
-    url: "https://www.amazon.co.jp/s?rh=n%3A8019286051%2Cp_36%3A300000-&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A8019286051%2Cp_36%3A300000-%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
@@ -16,7 +16,7 @@ filters:
   rotation_state_file: "data/account20/category_rotation.json"
   min_price: 3000
   max_price: 0
-  sort_order: "review_desc"
+  sort_order: "sale_first"   # セール優先→割引率→価格の降順
   max_total_items: 10
   max_per_category: 5
   deferred_retry_failed_searches: true  # Amazon拒否で0件になった正式棚は新しい文脈で遅延再巡回する。

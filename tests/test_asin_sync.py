@@ -1,4 +1,6 @@
 import json
+import shutil
+import subprocess
 import tempfile
 import unittest
 from datetime import date, datetime, timedelta, timezone
@@ -20,14 +22,15 @@ def write_json(path: Path, value) -> None:
 
 
 class VerifiedAsinSyncTests(unittest.TestCase):
-    def make_repo(self, root: Path) -> None:
+    def make_repo(self, root: Path, selection_mode: str | None = None) -> None:
         (root / "data" / "account1").mkdir(parents=True)
         (root / "categories1.yaml").write_text(
             "categories:\n"
             "  - name: C1\n"
             "    url: https://www.amazon.co.jp/s?rh=n%3A1001\n"
             "  - name: C2\n"
-            "    url: https://www.amazon.co.jp/s?rh=n%3A1002\n",
+            "    url: https://www.amazon.co.jp/s?rh=n%3A1002\n"
+            + (f"filters:\n  selection_mode: {selection_mode}\n" if selection_mode else ""),
             encoding="utf-8",
         )
         write_json(
@@ -210,6 +213,132 @@ class VerifiedAsinSyncTests(unittest.TestCase):
             with self.assertRaisesRegex(SyncError, "unsupported selection_mode"):
                 sync(root, "account1", "account1", [source], [], False, False)
             self.assertEqual(before, history_path.read_bytes())
+
+    def test_cursorless_modes_record_verified_events_and_identity_without_changing_cursor(self):
+        for mode in ("global_ranked", "category_quota"):
+            for existing_cursor in (False, True):
+                with self.subTest(mode=mode, existing_cursor=existing_cursor), tempfile.TemporaryDirectory() as temp:
+                    root = Path(temp)
+                    self.make_repo(root, mode)
+                    cursor = root / "data/account1/category_rotation.json"
+                    old_cursor = b'{"last_category_position":2,"last_asin":"B000000009"}\n'
+                    if existing_cursor:
+                        cursor.write_bytes(old_cursor)
+                    source, products = root / "results.json", root / "products.json"
+                    write_json(source, [
+                        {"asin": "B000000001", "status": "reserved", "reserved_at": "2026-08-01T07:00:00+09:00", "reserved_list_confirmed": True},
+                        {"asin": "B000000002", "status": "posted", "posted_at": "2026-08-01T08:00:00+09:00", "management_list_confirmed": True},
+                        {"asin": "B000000003", "status": "draft"},
+                        {"asin": "B000000004", "status": "scraped"},
+                        {"asin": "B000000005", "status": "skipped_past_slot"},
+                    ])
+                    write_json(products, [
+                        {"asin": "B000000001", "category": "C1#1", "specs": "ブランド名 Sony メーカー型番 WH-1000XM5 UPC 077924051524"},
+                        {"asin": "B000000002", "category": "C2#1"},
+                    ])
+                    result = sync(root, "account1", "account1", [source], [products], True, False)
+                    history = json.loads((root / "data/account1/asin_history.json").read_text(encoding="utf-8"))
+                    rows = sorted(history["posted"], key=lambda row: row["asin"])
+                    self.assertEqual(["B000000001", "B000000002"], [row["asin"] for row in rows])
+                    self.assertEqual(["reserved", "posted"], [row["status"] for row in rows])
+                    self.assertEqual(["C1", "C2"], [row["category"] for row in rows])
+                    self.assertEqual(["SONY::WH1000XM5"], rows[0]["product_identity"]["brand_model_keys"])
+                    self.assertEqual(["00077924051524"], rows[0]["product_identity"]["global_trade_numbers"])
+                    self.assertEqual(3, result["skipped"])
+                    self.assertFalse(result["rotation_changed"])
+                    self.assertFalse(result["rotation_applicable"])
+                    self.assertEqual([], result["rotation_matched_asins"])
+                    self.assertIsNone(result["rotation_warning"])
+                    self.assertEqual(old_cursor if existing_cursor else None, cursor.read_bytes() if cursor.exists() else None)
+
+    def test_global_ranked_requires_active_category_even_without_require_flag(self):
+        for require_category in (False, True):
+            for category in (None, "removed_category#1"):
+                with self.subTest(require_category=require_category, category=category), tempfile.TemporaryDirectory() as temp:
+                    root = Path(temp)
+                    self.make_repo(root, "global_ranked")
+                    history = root / "data/account1/asin_history.json"
+                    before = history.read_bytes()
+                    cursor = root / "data/account1/category_rotation.json"
+                    cursor.write_bytes(b'{"last_category_position":2}\n')
+                    cursor_before = cursor.read_bytes()
+                    source, products = root / "results.json", root / "products.json"
+                    write_json(source, [{"asin": "B000000001", "status": "reserved", "reserved_at": "2026-08-01T07:00:00+09:00", "reserved_list_confirmed": True}])
+                    write_json(products, [{"asin": "B000000001", "category": category}])
+                    with self.assertRaisesRegex(SyncError, "no active category mapping"):
+                        sync(root, "account1", "account1", [source], [products], require_category, False)
+                    self.assertEqual(before, history.read_bytes())
+                    self.assertEqual(cursor_before, cursor.read_bytes())
+
+    def test_global_ranked_rejects_unconfirmed_reserved_and_posted_rows(self):
+        for status, time_field in (("reserved", "reserved_at"), ("posted", "posted_at")):
+            with self.subTest(status=status), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                self.make_repo(root, "global_ranked")
+                history = root / "data/account1/asin_history.json"
+                before = history.read_bytes()
+                source = root / "results.json"
+                write_json(source, [{"asin": "B000000001", "status": status, time_field: "2026-08-01T07:00:00+09:00", "category": "C1"}])
+                with self.assertRaisesRegex(SyncError, "not confirmed"):
+                    sync(root, "account1", "account1", [source], [], True, False)
+                self.assertEqual(before, history.read_bytes())
+
+    def test_global_ranked_dry_run_preserves_history_and_unused_cursor_bytes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            self.make_repo(root, "global_ranked")
+            history = root / "data/account1/asin_history.json"
+            before = history.read_bytes()
+            cursor = root / "data/account1/category_rotation.json"
+            cursor.write_bytes(b'legacy cursor is no longer an input\n')
+            source, products = root / "results.json", root / "products.json"
+            write_json(source, [{"asin": "B000000001", "status": "reserved", "reserved_at": "2026-08-01T07:00:00+09:00", "reserved_list_confirmed": True}])
+            write_json(products, [{"asin": "B000000001", "category": "C1#1"}])
+            result = sync(root, "account1", "account1", [source], [products], True, True)
+            self.assertTrue(result["history_changed"])
+            self.assertFalse(result["rotation_applicable"])
+            self.assertEqual(before, history.read_bytes())
+            self.assertEqual(b'legacy cursor is no longer an input\n', cursor.read_bytes())
+
+    @unittest.skipUnless(shutil.which("powershell.exe") and shutil.which("git"), "requires Windows PowerShell and local git")
+    def test_powershell_no_push_stages_cursor_only_for_round_robin(self):
+        source_repo = Path(__file__).resolve().parents[1]
+        for mode in ("global_ranked", "category_quota", "category_round_robin"):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                self.make_repo(root, mode)
+                (root / "scripts").mkdir()
+                for filename in ("sync_asin_history.py", "sync_asin_history1.ps1", "update_category_rotation.py"):
+                    shutil.copyfile(source_repo / "scripts" / filename, root / "scripts" / filename)
+                shutil.copyfile(source_repo / "product_identity.py", root / "product_identity.py")
+                cursor = root / "data/account1/category_rotation.json"
+                cursor.write_bytes(b'{"last_category_position":2}\n')
+                before = cursor.read_bytes()
+                source, products = root / "results.json", root / "products.json"
+                write_json(source, [{"asin": "B000000001", "status": "reserved", "reserved_at": "2026-08-01T07:00:00+09:00", "reserved_list_confirmed": True}])
+                write_json(products, [{"asin": "B000000001", "category": "C1#1", "specs": "ブランド名 Sony メーカー型番 WH-1000XM5"}])
+                subprocess.run(["git", "init", "--quiet", str(root)], check=True, capture_output=True)
+                # No commit, remote or network: exercise the real wrapper's staging branch.
+                completed = subprocess.run([
+                    "powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
+                    str(root / "scripts/sync_asin_history1.ps1"), "-SourceJson", str(source),
+                    "-ProductJson", str(products), "-AccountId", "account1", "-RequireCategory", "-NoPush",
+                ], capture_output=True, encoding="utf-8", errors="replace", timeout=30)
+                self.assertEqual(0, completed.returncode, completed.stdout + completed.stderr)
+                markers = [line for line in completed.stdout.splitlines() if line.startswith("ASIN_SYNC_RESULT=")]
+                self.assertTrue(markers, completed.stdout)
+                result = json.loads(markers[-1].split("=", 1)[1])
+                self.assertEqual(mode == "category_round_robin", result["rotation_applicable"])
+                staged = subprocess.check_output(["git", "-C", str(root), "diff", "--staged", "--name-only"], text=True).splitlines()
+                expected = ["data/account1/asin_history.json"]
+                if mode == "category_round_robin":
+                    expected.append("data/account1/category_rotation.json")
+                    self.assertEqual("B000000001", json.loads(cursor.read_text(encoding="utf-8"))["last_asin"])
+                else:
+                    self.assertEqual(before, cursor.read_bytes())
+                self.assertEqual(expected, staged)
+                history = json.loads((root / "data/account1/asin_history.json").read_text(encoding="utf-8"))
+                self.assertEqual(["SONY::WH1000XM5"], history["posted"][0]["product_identity"]["brand_model_keys"])
 
     def test_existing_duplicate_event_key_is_fatal_instead_of_dropped(self):
         with tempfile.TemporaryDirectory() as temp:

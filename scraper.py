@@ -1,11 +1,11 @@
 """
-Amazon 人気順商品スクレイパー (Playwright版)
+Amazon 商品スクレイパー (Playwright版)
 
 - categoriesN.yaml で巡回カテゴリと価格フィルタを管理
-- Amazon検索結果を人気順で巡回し、カテゴリ内レビュー件数順で代表商品を選定
-- 割引率・元値は商品情報として取得するが、採用条件には使用しない
+- 設定された検索URL・順位規則で、カテゴリごとの商品を選定
+- sale_firstでは割引率と元値が両方ない候補を除外（タイムセール参加の証明とは別）
 - 投稿済みASIN除外
-- 投稿・予約済みカテゴリの次から可変カテゴリ数で循環
+- category_round_robin設定時は投稿・予約済みカテゴリの次から循環
 - 個別商品ページから商品説明文・スペック欄も取得（v2追加）
 """
 
@@ -115,6 +115,24 @@ def calc_discount_rate(price_int: int, original_int: int) -> str:
         return ""
     rate = int((1 - price_int / original_int) * 100)
     return f"{rate}%OFF"
+
+
+async def extract_original_price(card) -> str:
+    """Read explicit reference/struck prices; a-text-price alone also marks unit prices."""
+    for selector in (
+        "[data-testid='original-price'] .a-offscreen",
+        "[data-testid='original-price']",
+        "[data-a-strike='true'] .a-offscreen",
+        "[data-a-strike='true']",
+        ".a-text-strike .a-offscreen",
+        ".a-text-strike",
+    ):
+        element = await card.query_selector(selector)
+        if element:
+            text = (await element.inner_text()).strip()
+            if text:
+                return text
+    return ""
 
 
 def load_config(path: str = CONFIG_PATH) -> dict:
@@ -262,8 +280,7 @@ async def scrape_timesale(page: Page, url: str, category: str, max_items: int = 
                 price_el = await card.query_selector("[data-testid='price'], .a-price .a-offscreen, .a-price-whole, .p13n-sc-price")
                 price = (await price_el.inner_text()).strip() if price_el else ""
                 price_int = parse_price(price)
-                orig_el = await card.query_selector("[data-testid='original-price'], .a-text-strike, .a-text-price .a-offscreen")
-                original_price = (await orig_el.inner_text()).strip() if orig_el else ""
+                original_price = await extract_original_price(card)
                 original_int = parse_price(original_price)
                 discount_text_el = await card.query_selector("[data-testid='discount'], [class*='savingPriceDiscount'], [class*='Discount'], .savingsPercentage")
                 discount_rate = ""
@@ -309,6 +326,7 @@ async def scrape_search(
     stats: Optional[dict] = None,
     *,
     track_exhausted_error_pages: bool = False,
+    require_sale_info: bool = False,
 ) -> List[Product]:
     """Amazon検索結果ページ (/s?rh=...) から商品を取得する。
 
@@ -322,6 +340,8 @@ async def scrape_search(
     seen_asins = set()
     excluded = excluded or set()
     cat_stats: dict = {"pages": [], "taken": 0, "skipped_posted": 0, "error": ""}
+    if require_sale_info:
+        cat_stats["skipped_nosale"] = 0
 
     async def _consume_cards(cards) -> None:
         for card in cards:
@@ -360,11 +380,7 @@ async def scrape_search(
                 price_int = parse_price(price)
 
                 # 元値（取り消し線）
-                orig_el = await card.query_selector(
-                    ".a-text-price .a-offscreen, .a-text-strike, "
-                    "[data-a-strike='true'] .a-offscreen"
-                )
-                original_price = (await orig_el.inner_text()).strip() if orig_el else ""
+                original_price = await extract_original_price(card)
                 original_int = parse_price(original_price)
 
                 # 割引率（バッジ/テキスト）
@@ -415,6 +431,12 @@ async def scrape_search(
                 if price_int <= 0:
                     continue
 
+                # Restore the pre-163176f candidate gate only for sale ordering.
+                # Price/discount information alone does not verify sale participation.
+                if require_sale_info and not discount_rate and not original_price:
+                    cat_stats["skipped_nosale"] += 1
+                    continue
+
                 seen_asins.add(asin)
                 products.append(Product(
                     asin=asin,
@@ -433,6 +455,18 @@ async def scrape_search(
                 continue
 
     try:
+        required_deal_types = []
+        if require_sale_info:
+            for key, refinements in parse_qsl(urlparse(url).query):
+                if key != "rh":
+                    continue
+                for refinement in refinements.split(","):
+                    if refinement.startswith("p_n_deal_type:"):
+                        value = refinement.split(":", 1)[1]
+                        if value and not re.fullmatch(r"\d+", value):
+                            raise ValueError("invalid requested deal filter value")
+                        if value and value not in required_deal_types:
+                            required_deal_types.append(value)
         for page_no in (1, 2):  # v2.1: 最大2ページまで巡回して鮮度を確保
             if len(products) >= max_items:
                 break
@@ -469,6 +503,17 @@ async def scrape_search(
                 break
             logger.info(f"[{category}] p{page_no}: s-search-result {len(cards)} 件")
             cat_stats["pages"].append(len(cards))
+            for deal_type in required_deal_types:
+                try:
+                    active = await page.query_selector(
+                        f'[id="p_n_deal_type/{deal_type}"] a[aria-current="true"]'
+                    )
+                except Exception:
+                    products.clear()
+                    raise
+                if not active:
+                    products.clear()
+                    raise ValueError(f"requested deal filter not active: p_n_deal_type/{deal_type}")
             if not cards:
                 if page_no == 1:
                     try:
@@ -513,6 +558,11 @@ def merge_deferred_search_stats(initial: dict, retry: dict, unique_added: int) -
         int(initial_snapshot.get("skipped_posted", 0) or 0)
         + int(retry_snapshot.get("skipped_posted", 0) or 0)
     )
+    if "skipped_nosale" in initial_snapshot or "skipped_nosale" in retry_snapshot:
+        merged["skipped_nosale"] = (
+            int(initial_snapshot.get("skipped_nosale", 0) or 0)
+            + int(retry_snapshot.get("skipped_nosale", 0) or 0)
+        )
     merged["error_page_hits"] = (
         int(initial_snapshot.get("error_page_hits", 0) or 0)
         + int(retry_snapshot.get("error_page_hits", 0) or 0)
@@ -532,6 +582,44 @@ def merge_deferred_search_stats(initial: dict, retry: dict, unique_added: int) -
 
 def review_num(product: Product) -> int:
     return int(re.sub(r"[^\d]", "", product.review_count or "") or 0)
+
+
+def discount_pct(product: Product) -> int:
+    match = re.search(r"(\d+)%", product.discount_rate or "")
+    return int(match.group(1)) if match else 0
+
+
+def discount_amount(product: Product) -> int:
+    """Keep the existing amount-order calculation separate from sale_first."""
+    original = parse_price(product.original_price)
+    if original > product.price_int > 0:
+        return original - product.price_int
+    percentage = discount_pct(product)
+    if 0 < percentage < 100 and product.price_int > 0:
+        return int(product.price_int * percentage / (100 - percentage))
+    return 0
+
+
+def sort_products(products: List[Product], sort_order: str) -> List[Product]:
+    """Rank candidates without mutating the input; callers control shelf order.
+
+    sale_first preserves the approved key: discount presence, percentage, then
+    current price, all descending. Equal keys retain the input order.
+    """
+    if sort_order == "sale_first":
+        key = lambda product: (1 if product.discount_rate else 0, discount_pct(product), product.price_int)
+    elif sort_order == "amount_first":
+        key = lambda product: (1 if product.discount_rate else 0, discount_amount(product), product.price_int)
+    elif sort_order == "review_desc":
+        # Reviews only: star rating is not a ranking key; ties keep input order.
+        key = review_num
+    elif sort_order in {"price_desc", "price_asc"}:
+        key = lambda product: product.price_int
+    elif sort_order == "discount_desc":
+        key = discount_pct
+    else:
+        return list(products)
+    return sorted(products, key=key, reverse=sort_order != "price_asc")
 
 
 def category_key(category: dict) -> str:
@@ -623,8 +711,9 @@ def select_category_round_robin(
     categories: List[dict],
     max_total: int,
     rotation_state_file: str,
+    sort_order: str = "review_desc",
 ) -> List[Product]:
-    """各カテゴリの評価数首位を、前回使用カテゴリの次から順番に採用する。"""
+    """各カテゴリの指定順位首位を、前回使用カテゴリの次から順番に採用する。"""
     ordered_categories, previous = ordered_rotation_categories(categories, rotation_state_file)
     if not ordered_categories:
         return []
@@ -633,8 +722,8 @@ def select_category_round_robin(
     for product in products:
         name = (product.category or "").split("#")[0]
         grouped.setdefault(name, []).append(product)
-    for candidates in grouped.values():
-        candidates.sort(key=review_num, reverse=True)
+    for name, candidates in grouped.items():
+        grouped[name] = sort_products(candidates, sort_order)
 
     names = [str(category.get("name", "")).strip() for category in ordered_categories]
     active_count = len(ordered_categories)
@@ -712,20 +801,6 @@ def filter_and_sort(
         filtered.append(p)
     logger.info(f"フィルタ後: {len(filtered)} 件")
 
-    def discount_pct(p: Product) -> int:
-        m = re.search(r"(\d+)%", p.discount_rate or "")
-        return int(m.group(1)) if m else 0
-
-    def discount_amount(p: Product) -> int:
-        """割引額（円）。元値があれば実額、無ければ割引率から逆算する。"""
-        orig = parse_price(p.original_price)
-        if orig > p.price_int > 0:
-            return orig - p.price_int
-        pct = discount_pct(p)
-        if 0 < pct < 100 and p.price_int > 0:
-            return int(p.price_int * pct / (100 - pct))
-        return 0
-
     low_pool: List[Product] = []
     if min_discount_pct > 0:
         # ver2.6: 下限をソフト化。10%未満は「除外」ではなく後備に降格し、
@@ -742,6 +817,7 @@ def filter_and_sort(
             categories or [],
             max_total,
             rotation_state_file,
+            sort_order=sort_order,
         )
 
     if selection_mode == "category_quota":
@@ -752,27 +828,13 @@ def filter_and_sort(
             categories or [],
             max_total,
             max_per_category,
+            sort_order=sort_order,
         )
 
-    if sort_order == "sale_first":
-        filtered.sort(key=lambda p: (1 if p.discount_rate else 0, discount_pct(p), p.price_int), reverse=True)
-    elif sort_order == "amount_first":  # v2.4実装: ①割引有無 → ②割引"額"(円) → ③価格
-        filtered.sort(key=lambda p: (1 if p.discount_rate else 0, discount_amount(p), p.price_int), reverse=True)
-    elif sort_order == "review_desc":
-        # ver4.0（2026-07-24運用裁定・人気順運転）: 各棚の人気上位を「レビュー数」ただ一つで横断番付する。
-        # 棚同士の1位は素では比較不能のため、レビュー数を人気の近似に用いる。
-        # 評価（★）は水増し警戒で不使用（収集は継続＝分析用）。第二鍵も置かない——1万の位で同数はまず起きず、
-        # 万一の同数は浚った順のまま（安定ソート＝決定的で説明可能。ランダムは再現性が消えるため不採用）。
-        filtered.sort(key=review_num, reverse=True)
-    elif sort_order == "price_desc":
-        filtered.sort(key=lambda x: x.price_int, reverse=True)
-    elif sort_order == "price_asc":
-        filtered.sort(key=lambda x: x.price_int)
-    elif sort_order == "discount_desc":
-        filtered.sort(key=discount_pct, reverse=True)
+    filtered = sort_products(filtered, sort_order)
     if low_pool:
         # 後備は常に「割引有無→割引額→価格」で並べ、正規プールの後ろへ接続
-        low_pool.sort(key=lambda p: (1 if p.discount_rate else 0, discount_amount(p), p.price_int), reverse=True)
+        low_pool = sort_products(low_pool, "amount_first")
         filtered = filtered + low_pool
     if max_per_category > 0 and max_total > 0:
         # ver2.5: 同一カテゴリの独占防止（額順は高単価カテゴリが上位を占めやすいため）
@@ -804,6 +866,7 @@ def select_category_quota(
     categories: List[dict],
     max_total: int,
     max_per_category: int,
+    sort_order: str = "review_desc",
 ) -> List[Product]:
     """Take a fixed quota from each shelf, then fill shortages from overflow.
 
@@ -813,9 +876,7 @@ def select_category_quota(
     """
     limit = len(products) if max_total <= 0 else max_total
     quota = max_per_category if max_per_category > 0 else limit
-    # account20 deliberately ranks every shelf by review count before applying
-    # its five-item quota.
-    products = sorted(products, key=review_num, reverse=True)
+    products = sort_products(products, sort_order)
     category_names = [str(category.get("name", "")).strip() for category in categories]
     grouped: dict[str, List[Product]] = {name: [] for name in category_names if name}
     for product in products:
@@ -951,6 +1012,7 @@ async def select_enrich_unique_products(
     selection_mode: str,
     rotation_state_file: str,
     stats: dict,
+    sort_order: str = "review_desc",
 ) -> List[Product]:
     """Enrich candidates in rank order, excluding stable-identifier matches.
 
@@ -987,8 +1049,8 @@ async def select_enrich_unique_products(
         for product in products:
             name = (product.category or "").split("#")[0]
             grouped.setdefault(name, []).append(product)
-        for candidates in grouped.values():
-            candidates.sort(key=review_num, reverse=True)
+        for name, candidates in grouped.items():
+            grouped[name] = sort_products(candidates, sort_order)
 
         limit = len(ordered_categories) if max_total <= 0 else min(max_total, len(ordered_categories))
         missing: List[str] = []
@@ -1015,6 +1077,7 @@ async def select_enrich_unique_products(
         if missing:
             logger.warning(f"同一商品除外後も有効商品なしカテゴリ: {', '.join(missing)}")
     elif selection_mode == "category_quota":
+        products = sort_products(products, sort_order)
         limit = len(products) if max_total <= 0 else max_total
         quota = max_per_category if max_per_category > 0 else limit
         category_names = [str(category.get("name", "")).strip() for category in categories]
@@ -1054,6 +1117,27 @@ async def select_enrich_unique_products(
             limit,
             accepted_by_category,
         )
+    elif selection_mode == "global_ranked":
+        # Keep the full ranked pool until identity checks finish. The category
+        # cap counts accepted products only; excess candidates can fill a short run.
+        ranked = sort_products(products, sort_order)
+        limit = len(ranked) if max_total <= 0 else max_total
+        accepted_by_category: dict[str, int] = {}
+        overflow: List[Product] = []
+        for candidate in ranked:
+            name = (candidate.category or "").split("#")[0]
+            if max_per_category > 0 and accepted_by_category.get(name, 0) >= max_per_category:
+                overflow.append(candidate)
+                continue
+            if await consider(candidate):
+                accepted_by_category[name] = accepted_by_category.get(name, 0) + 1
+            if len(selected) >= limit:
+                break
+        if len(selected) < limit:
+            for candidate in overflow:
+                await consider(candidate)
+                if len(selected) >= limit:
+                    break
     else:
         limit = len(products) if max_total <= 0 else max_total
         for candidate in products:
@@ -1173,6 +1257,7 @@ async def fetch_products(
     }
     max_price = int(flt.get("max_price", 0))
     sort_order = str(flt.get("sort_order", "price_desc"))
+    require_sale_info = sort_order == "sale_first"
     max_total = int(flt.get("max_total_items", 50))
     min_discount_pct = int(flt.get("min_discount_pct", 0))
     max_per_category = int(flt.get("max_per_category", 0))
@@ -1212,6 +1297,13 @@ async def fetch_products(
         logger.info(f"恒久除外ASIN: {len(blocked_asins)} 件（blocked_asins）")
     all_products: List[Product] = []
     scrape_stats: dict = {
+        "_selection_policy": {
+            "selection_mode": selection_mode,
+            "sort_order": sort_order,
+            "require_sale_info": require_sale_info,
+            "max_per_category": max_per_category,
+            "max_total_items": max_total,
+        },
         "_excluded_loaded": len(posted_asins),
         "_excluded_gtins_loaded": len(product_registry.global_trade_numbers),
         "_excluded_brand_models_loaded": len(product_registry.brand_model_keys),
@@ -1265,6 +1357,7 @@ async def fetch_products(
                         excluded=posted_asins,
                         stats=scrape_stats,
                         track_exhausted_error_pages=deferred_retry_failed_searches,
+                        require_sale_info=require_sale_info,
                     )
                 elif is_timesale:
                     products = await scrape_timesale(page, url, name, max_items, associate_tag)
@@ -1315,6 +1408,7 @@ async def fetch_products(
                         excluded=posted_asins,
                         stats=retry_stats,
                         track_exhausted_error_pages=True,
+                        require_sale_info=require_sale_info,
                     )
                 except Exception as exc:
                     retried = []
@@ -1372,6 +1466,7 @@ async def fetch_products(
                 selection_mode,
                 rotation_state_file,
                 scrape_stats,
+                sort_order=sort_order,
             )
         else:
             filtered = filter_and_sort(
@@ -1416,6 +1511,7 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
     summary = {
         "date": date_tag,
         "total_taken": len(products),
+        "selection_policy": scrape_stats.pop("_selection_policy"),
         "excluded_loaded": scrape_stats.pop("_excluded_loaded", 0),
         "excluded_gtins_loaded": scrape_stats.pop("_excluded_gtins_loaded", 0),
         "excluded_brand_models_loaded": scrape_stats.pop("_excluded_brand_models_loaded", 0),

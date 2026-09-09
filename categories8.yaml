@@ -1,75 +1,75 @@
 # account8 DIY・工具 Amazon実カテゴリ設定
 # 2026-07-29: キーワード検索を全廃し、Amazonの実在Browse Nodeだけへ置換
-# URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank
+# URL形式: /s?rh=n%3A{node_id}%2Cp_n_deal_type%3A10343614051
 categories:
   - name: "作業用手袋"
-    url: "https://www.amazon.co.jp/s?rh=n%3A10532418051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A10532418051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "工具収納・ツールボックス"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2039476051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2039476051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "インパクトドライバー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2038982051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2038982051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "ドリルドライバー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2038983051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2038983051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "エアコンプレッサー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2039484051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2039484051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "電動工具用バッテリー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A6766139051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A6766139051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "工具セット"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2039475051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2039475051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "ソケット・駆動工具"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2039427051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2039427051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "スチールラック"
-    url: "https://www.amazon.co.jp/s?rh=n%3A13946971&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A13946971%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "散水用品"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2486532051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2486532051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "高圧洗浄機"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2459361051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2459361051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "DIY・工具・ガーデン"
-    url: "https://www.amazon.co.jp/s?i=diy&rh=n%3A2016929051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?i=diy&rh=n%3A2016929051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
 filters:
-  selection_mode: "category_round_robin"
-  rotation_state_file: "data/account8/category_rotation.json"
+  selection_mode: "global_ranked"  # 全カテゴリ横断でsale_first順に採用
+  rotation_state_file: "data/account8/category_rotation.json"  # 既存パスを保持。global_rankedでは未使用
   min_price: 2950        # 2026-07-31: 人間検査済みカテゴリ運用の一律下限
   max_price: 0
-  sort_order: "review_desc"   # 各カテゴリ内を評価数順にし、最上位1商品を採用
+  sort_order: "sale_first"   # セール優先→割引率→価格の降順
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
-  max_per_category: 1    # ver4.2: 1棚1粒＝各カテゴリの顔役だけ（2026-07-24運用裁定・セール版へ戻す時は2）
+  max_per_category: 2    # 同カテゴリ2件までを優先し、10件未満なら上限を超えて補充
   exclude_title_patterns:   # ver3.0: セット・複数個口・詰め合わせの除外（2026-07-19運用裁定）
     - 'セット'
     - 'まとめ買い'

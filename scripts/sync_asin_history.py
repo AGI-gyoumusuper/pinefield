@@ -287,7 +287,7 @@ def merge_history(
     output = dict(history)
     output["schema"] = "note-amazon-asin-history-v1"
     output["description"] = (
-        f"Canonical ASIN ledger for {account_id}. Popular-ranking exclusion uses only verified "
+        f"Canonical ASIN ledger for {account_id}. Product exclusion uses only verified "
         "note posts/reservations; scraped and rejected legacy rows are not exclusion evidence."
     )
     output["posted"] = rows
@@ -387,8 +387,9 @@ def sync(
     selection_mode = str(
         config.get("filters", {}).get("selection_mode", "category_round_robin")
     ).strip()
-    if selection_mode not in {"category_round_robin", "category_quota"}:
+    if selection_mode not in {"category_round_robin", "category_quota", "global_ranked"}:
         raise SyncError(f"unsupported selection_mode: {selection_mode or '(empty)'}")
+    rotation_applicable = selection_mode == "category_round_robin"
     active_names = {
         normalize_category(category.get("name"))
         for category in categories
@@ -417,19 +418,19 @@ def sync(
         else:
             missing.append(asin)
     missing = list(dict.fromkeys(missing))
-    if require_category and missing:
+    if missing and (require_category or selection_mode == "global_ranked"):
         raise SyncError("successful ASINs have no active category mapping: " + ",".join(missing))
 
     # Re-merge after category resolution so the ledger records the exact shelf used.
     history_output, added, updated, history_changed = merge_history(history, accepted, account_id)
-    current_state = read_json(rotation_path) if rotation_path.exists() else {}
+    current_state = read_json(rotation_path) if rotation_applicable and rotation_path.exists() else {}
     rotation_output = current_state
     rotation_changed = False
     rotation_warning = None
     matched_asins: list[str] = []
-    if selection_mode == "category_quota":
-        # Fixed-quota accounts (currently account20) do not use a shelf cursor.
-        # Their successful posts still update the ASIN ledger normally.
+    if not rotation_applicable:
+        # Global ranking and fixed quotas do not use a shelf cursor. Preserve
+        # any old cursor file while recording verified posts and their identity.
         matched_asins = []
     elif missing:
         rotation_warning = "cursor unchanged because some successful ASINs lack an active category: " + ",".join(missing)
@@ -489,7 +490,7 @@ def sync(
         "skipped": skipped,
         "history_changed": history_changed,
         "rotation_changed": rotation_changed,
-        "rotation_applicable": selection_mode != "category_quota",
+        "rotation_applicable": rotation_applicable,
         "rotation_matched_asins": matched_asins,
         "rotation_warning": rotation_warning,
         "rotation_state": {

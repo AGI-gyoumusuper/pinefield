@@ -1,90 +1,90 @@
 # account4 アウトドア・スポーツ・宅トレ Amazon実カテゴリ設定
 # 2026-07-29: キーワード検索を全廃し、Amazonの実在Browse Nodeだけへ置換
-# URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank
+# URL形式: /s?rh=n%3A{node_id}%2Cp_n_deal_type%3A10343614051
 categories:
   - name: "テント"
-    url: "https://www.amazon.co.jp/s?rh=n%3A15325801&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325801%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "寝袋"
-    url: "https://www.amazon.co.jp/s?rh=n%3A14916951&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A14916951%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "キャンプチェア"
-    url: "https://www.amazon.co.jp/s?rh=n%3A15325891&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325891%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "アウトドアテーブル"
-    url: "https://www.amazon.co.jp/s?rh=n%3A15325901&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325901%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "ランタン"
-    url: "https://www.amazon.co.jp/s?rh=n%3A14917021&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A14917021%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "キャンプ用グリル・スモーカー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A15325691&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325691%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "キャンプストーブ・バーナー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A15347711&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15347711%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "キャンプ用クッカー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A15325651&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15325651%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "クーラーボックス"
-    url: "https://www.amazon.co.jp/s?rh=n%3A14916931&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A14916931%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "シースナイフ"
-    url: "https://www.amazon.co.jp/s?rh=n%3A15326401&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A15326401%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "フィットネスバイク"
-    url: "https://www.amazon.co.jp/s?rh=n%3A344957011&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A344957011%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "ルームランナー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A344958011&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A344958011%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "トレーニングベンチ"
-    url: "https://www.amazon.co.jp/s?rh=n%3A344929011&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A344929011%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "懸垂器具"
-    url: "https://www.amazon.co.jp/s?rh=n%3A344936011&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A344936011%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "ランニング用品"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2247235051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2247235051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
 filters:
-  selection_mode: "category_round_robin"
-  rotation_state_file: "data/account4/category_rotation.json"
+  selection_mode: "global_ranked"  # 全カテゴリ横断でsale_first順に採用
+  rotation_state_file: "data/account4/category_rotation.json"  # 既存パスを保持。global_rankedでは未使用
   min_price: 2950        # 2026-07-31: 人間検査済みカテゴリ運用の一律下限
   max_price: 0
-  sort_order: "review_desc"   # 各カテゴリ内を評価数順にし、最上位1商品を採用
+  sort_order: "sale_first"   # セール優先→割引率→価格の降順
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
-  max_per_category: 1    # ver4.2: 1棚1粒＝各カテゴリの顔役だけ（2026-07-24運用裁定・セール版へ戻す時は2）
+  max_per_category: 2    # 同カテゴリ2件までを優先し、10件未満なら上限を超えて補充
   exclude_title_patterns:   # ver3.0: セット・複数個口・詰め合わせの除外（2026-07-19運用裁定）
     - 'セット'
     - 'まとめ買い'

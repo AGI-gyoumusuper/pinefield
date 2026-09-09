@@ -9,7 +9,14 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED_COUNTS = {
+    1: 20,
+    2: 19,
+    3: 17,
+    4: 15,
+    5: 12,
     6: 17,
+    7: 17,
+    8: 12,
     9: 23,
     10: 15,
     11: 33,
@@ -41,6 +48,8 @@ def node_id(url: str) -> str:
 
 class AccountConfigTests(unittest.TestCase):
     def test_final_category_counts_and_official_node_urls(self):
+        self.assertEqual(20, len(EXPECTED_COUNTS))
+        self.assertEqual(320, sum(EXPECTED_COUNTS.values()))
         for account, expected_count in EXPECTED_COUNTS.items():
             config = load_config(account)
             categories = config["categories"]
@@ -52,8 +61,16 @@ class AccountConfigTests(unittest.TestCase):
                 parsed = urlparse(category["url"])
                 self.assertEqual("www.amazon.co.jp", parsed.netloc)
                 self.assertEqual("/s", parsed.path)
-                self.assertEqual(["exact-aware-popularity-rank"], parse_qs(parsed.query).get("s"))
+                query = parse_qs(parsed.query)
+                self.assertNotIn("s", query)
+                self.assertEqual(1, len(query.get("rh", [])))
+                self.assertEqual(1, query["rh"][0].split(",").count("p_n_deal_type:10343614051"))
+                self.assertNotIn("p_n_deal_type:23534876051", query["rh"][0])
                 node_id(category["url"])
+
+    def test_all_accounts_use_sale_ranking(self):
+        for account in range(1, 21):
+            self.assertEqual("sale_first", load_config(account)["filters"]["sort_order"], f"account{account}")
 
     def test_new_accounts_use_three_thousand_yen_floor(self):
         for account in range(10, 21):
@@ -64,10 +81,10 @@ class AccountConfigTests(unittest.TestCase):
                 self.assertIn("p_36:300000-", rh, f"account{account} {category['name']}")
 
     def test_selection_modes_match_the_approved_design(self):
-        for account in range(10, 20):
+        for account in range(1, 20):
             filters = load_config(account)["filters"]
-            self.assertEqual("category_round_robin", filters["selection_mode"])
-            self.assertEqual(1, filters["max_per_category"])
+            self.assertEqual("global_ranked", filters["selection_mode"])
+            self.assertEqual(2, filters["max_per_category"])
             self.assertEqual(10, filters["max_total_items"])
         filters = load_config(20)["filters"]
         self.assertEqual("category_quota", filters["selection_mode"])

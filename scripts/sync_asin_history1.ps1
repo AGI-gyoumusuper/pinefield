@@ -161,7 +161,7 @@ if ($NoPush) {
     $summary = Invoke-CoreSync -WorkingRepo $RepoDir -Sources $sources -Products $products
     $paths = @("data/$HistoryAccount/asin_history.json")
     $rotationPath = "data/$HistoryAccount/category_rotation.json"
-    if (-not $ExternalSelection -and (Test-Path -LiteralPath (Join-Path $RepoDir $rotationPath))) { $paths += $rotationPath }
+    if ($summary.rotation_applicable -eq $true -and (Test-Path -LiteralPath (Join-Path $RepoDir $rotationPath))) { $paths += $rotationPath }
     Invoke-Git -Directory $RepoDir -Arguments (@('add', '--') + $paths)
     $staged = & git -C $RepoDir diff --staged --name-only
     if ($LASTEXITCODE -ne 0) { throw 'git staged inspection failed' }
@@ -188,7 +188,7 @@ try {
             $summary = Invoke-CoreSync -WorkingRepo $tempRoot -Sources $sources -Products $products
             $paths = @("data/$HistoryAccount/asin_history.json")
             $rotationPath = "data/$HistoryAccount/category_rotation.json"
-            if (-not $ExternalSelection -and (Test-Path -LiteralPath (Join-Path $tempRoot $rotationPath))) { $paths += $rotationPath }
+            if ($summary.rotation_applicable -eq $true -and (Test-Path -LiteralPath (Join-Path $tempRoot $rotationPath))) { $paths += $rotationPath }
             Invoke-Git -Directory $tempRoot -Arguments (@('add', '--') + $paths)
 
             $staged = & git -C $tempRoot diff --staged --name-only

@@ -1,9 +1,9 @@
-# Amazon 人気順巡回カテゴリ設定
-# 方針：「高級ソフトウェアエンジニアが買いそうな商品」20カテゴリ × 人気順
+# Amazon セール品の全カテゴリ横断設定
+# 方針：「高級ソフトウェアエンジニアが買いそうな商品」20カテゴリ × セール品
 # ASIN除外はGitHub側へ一本化（20日・data/account1/asin_history.json）
 #                    scrape_searchは最大2ページ巡回・カテゴリ別サマリをdataへ保存
-# URL形式: /s?rh=n%3A{node_id}&s=exact-aware-popularity-rank
-#   = カテゴリノード × Amazon人気順（割引の有無は採用条件にしない）
+# URL形式: /s?rh=n%3A{node_id}%2Cp_n_deal_type%3A10343614051
+#   = カテゴリノード × Amazon本日のタイムセール絞り込み
 # is_search: true により scraper.py の scrape_search() を使用
 
 categories:
@@ -11,112 +11,112 @@ categories:
   # 新規セッションの最初の1〜2リクエストはボット判定でエラーページを踏みやすいため、
   # 低重要度カテゴリを先頭に置いて判定を吸収させ、主力（PC本体）を安全圏に置く。
   - name: "マウスパッド"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2151873051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151873051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "ドローン"
-    url: "https://www.amazon.co.jp/s?rh=n%3A3308532051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3308532051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   # ---------- PC本体 ----------
   - name: "ノートPC"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2151981051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151981051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "タブレット"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2152014051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2152014051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   # ---------- PC周辺機器（入出力） ----------
   - name: "PCモニター"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2151982051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151982051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "キーボード"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2151977051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151977051%2Cp_n_deal_type%3A10343614051"
     min_price: 7000
     max_items: 10
     is_search: true
 
   - name: "マウス"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2151978051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151978051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "マイク"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2152017051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2152017051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   # ---------- オーディオ ----------
   - name: "PCスピーカー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2151999051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151999051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "スマートスピーカー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A6905036051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A6905036051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   # ---------- ストレージ ----------
   - name: "NAS（ネットワークストレージ）"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2151968051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151968051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "USBメモリ・フラッシュドライブ"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2151969051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151969051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   # ---------- スマートデバイス ----------
   - name: "スマートフォン本体"
-    url: "https://www.amazon.co.jp/s?rh=n%3A128188011&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A128188011%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "スマートウォッチ"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2725002051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2725002051%2Cp_n_deal_type%3A10343614051"
     min_price: 2950
     max_items: 10
     is_search: true
 
   - name: "電子書籍リーダー（Kindle等）"
-    url: "https://www.amazon.co.jp/s?rh=n%3A45726011&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A45726011%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "VRヘッドセット"
-    url: "https://www.amazon.co.jp/s?rh=n%3A8459822051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A8459822051%2Cp_n_deal_type%3A10343614051"
     min_price: 20000
     max_items: 10
     is_search: true
 
   # ---------- ゲーミング ----------
   - name: "ゲーミングコントローラー"
-    url: "https://www.amazon.co.jp/s?rh=n%3A2151971051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A2151971051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "ゲーミングヘッドセット"
-    url: "https://www.amazon.co.jp/s?rh=n%3A4817937051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A4817937051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   - name: "ゲーミングチェア"
-    url: "https://www.amazon.co.jp/s?rh=n%3A5341900051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A5341900051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
   # ---------- 家具 ----------
   - name: "デスク・テーブル"
-    url: "https://www.amazon.co.jp/s?rh=n%3A3578366051&s=exact-aware-popularity-rank"
+    url: "https://www.amazon.co.jp/s?rh=n%3A3578366051%2Cp_n_deal_type%3A10343614051"
     max_items: 10
     is_search: true
 
@@ -124,13 +124,13 @@ categories:
 # 共通フィルタ（既存と同じ）
 # ============================================
 filters:
-  selection_mode: "category_round_robin"  # 各カテゴリ評価数1位を、投稿済みカテゴリの次から循環採用
-  rotation_state_file: "data/account1/category_rotation.json"
+  selection_mode: "global_ranked"  # 全カテゴリ横断でsale_first順に採用
+  rotation_state_file: "data/account1/category_rotation.json"  # 既存パスを保持。global_rankedでは未使用
   min_price: 2950        # 2026-07-31: 人間検査済みカテゴリ運用の一律下限
   max_price: 0           # 0=上限なし
-  sort_order: "review_desc"   # 各カテゴリ内を評価数順にし、最上位1商品を採用
+  sort_order: "sale_first"   # セール優先→割引率→価格の降順
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
-  max_per_category: 1    # ver4.0: 1棚1粒＝各カテゴリの顔役だけ（2026-07-24運用裁定。収穫は棚10件のまま＝1位が履歴休みの日は2位が繰り上がり自然回転）
+  max_per_category: 2    # 同カテゴリ2件までを優先し、10件未満なら上限を超えて補充
   exclude_title_patterns:   # ver3.0: セット・複数個口・詰め合わせの除外（2026-07-19運用裁定）
     - 'セット'
     - 'まとめ買い'
