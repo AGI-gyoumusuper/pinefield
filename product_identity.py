@@ -52,6 +52,7 @@ _SPEC_LABELS = (
     "GTIN (Global Trade Identification Number)",
     "Global Trade Identification Number",
     "商品モデル番号",
+    "製造元リファレンス",
     "メーカー型番",
     "品番・型番",
     "ブランド名",
@@ -65,6 +66,7 @@ _SPEC_LABELS = (
     "UPC",
     "GTIN",
     "メーカー名",
+    "メーカー",
     "お客様の年齢層",
     "商品の推奨用途",
     "商品の用途",
@@ -183,8 +185,11 @@ def canonical_gtin(value: Any) -> str:
 
 
 def _labeled_value(specs: str, label: str) -> str:
+    # detailBullets uses colon-delimited lines with invisible direction marks;
+    # table text uses whitespace. Keep either format inside its own field/line.
+    specs = re.sub(r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]", "", specs)
     pattern = re.compile(
-        rf"(?:^|\s){re.escape(label)}\s+(.+?)(?=\s+(?:{_LABEL_BOUNDARY})(?:\s|$)|$)",
+        rf"(?:^|\s){re.escape(label)}(?:[^\S\r\n]*[:：][^\S\r\n]*|[^\S\r\n]+)(.+?)(?=\r?\n|\s+(?:{_LABEL_BOUNDARY})(?:\s|[:：]|$)|$)",
         re.IGNORECASE,
     )
     match = pattern.search(specs)
@@ -315,6 +320,9 @@ def extract_product_identity(value: Any) -> ProductIdentity:
     if not brand and specs:
         brand = _labeled_value(specs, "ブランド名") or _labeled_value(specs, "ブランド")
 
+    # A manufacturer is not generally a brand. Use it only with the explicit
+    # manufacturer-reference field when the listing supplies no brand.
+    manufacturer_reference = _labeled_value(specs, "製造元リファレンス") if specs else ""
     manufacturer_model = _mapping_value(
         data,
         "manufacturer_model",
@@ -324,11 +332,15 @@ def extract_product_identity(value: Any) -> ProductIdentity:
         "modelNumber",
     )
     if not manufacturer_model and specs:
-        for label in ("メーカー型番", "商品モデル番号", "品番・型番", "型番"):
+        for label in ("メーカー型番", "商品モデル番号", "品番・型番", "型番", "製造元リファレンス"):
             candidate = _labeled_value(specs, label)
             if _valid_model(candidate):
                 manufacturer_model = candidate
                 break
+
+    if (not brand and _valid_model(manufacturer_reference)
+            and normalize_model(manufacturer_model) == normalize_model(manufacturer_reference)):
+        brand = _labeled_value(specs, "メーカー名") or _labeled_value(specs, "メーカー")
 
     brand_model_keys: set[str] = set()
     if brand and _valid_model(manufacturer_model):
