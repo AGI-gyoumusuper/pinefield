@@ -10,15 +10,19 @@ Amazon 商品スクレイパー (Playwright版)
 """
 
 import asyncio
+import hashlib
 import json
 import logging
 import os
 import random
 import re
 from dataclasses import dataclass, asdict
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import List, Optional, Tuple
-from urllib.parse import parse_qsl, unquote, urlencode, urlparse, urlunparse
+from urllib.parse import parse_qsl, unquote, urlencode, urljoin, urlparse, urlunparse
 
+from bs4 import BeautifulSoup, Comment
 import yaml
 from playwright.async_api import async_playwright, Page, BrowserContext
 
@@ -33,6 +37,145 @@ logger = logging.getLogger(__name__)
 ASSOCIATE_TAG = "noteamazon1-22"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "categories1.yaml")
+
+# Opt-in evidence only. Never read cookies, browser storage, request headers or HAR.
+SEARCH_DIAGNOSTICS_ENV = "PINEFIELD_SEARCH_DIAGNOSTICS_DIR"
+_PRIVATE_DIAGNOSTIC_SELECTORS = (
+    "script, style, noscript, iframe, object, embed, input, textarea, "
+    "header, nav, footer, #navbar, #nav-belt, #nav-main, #navFooter, "
+    "#glow-ingress-block, #nav-tools, [hidden], [aria-hidden='true'], "
+    "[id*='csrf'], [id*='token'], [id*='session'], [name*='token']"
+)
+_PRIVATE_SCREENSHOT_SELECTORS = (
+    "input, textarea, header, nav, footer, #navbar, #nav-belt, #nav-main, #navFooter, "
+    "#glow-ingress-block, #nav-tools, [id*='csrf'], [id*='token'], [id*='session'], [name*='token']"
+)
+
+
+def public_diagnostic_url(value: str) -> str:
+    """Keep public search refinements, discarding credentials and tracking/session queries."""
+    parsed = urlparse(str(value))
+    if parsed.scheme not in {"http", "https"}:
+        return ""
+    query = [(key, val) for key, val in parse_qsl(parsed.query)
+             if key in {"rh", "k", "i", "s", "page", "keywords", "node"}]
+    path = re.sub(r"/ref=.*$", "", parsed.path)
+    return urlunparse((parsed.scheme, parsed.hostname or "", path, "", urlencode(query), ""))
+
+
+def _public_diagnostic_text(value: str) -> str:
+    value = re.sub(r"[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}", "[email removed]", str(value))
+    return re.sub(r"(?i)\b(?:csrf[-_]?token|session[-_]?id|access[-_]?token|authorization|password)\s*[:=]\s*[^\s<]+",
+                  "[credential value removed]", value)
+
+
+def sanitize_public_diagnostic_html(raw_html: str) -> str:
+    """Retain public layout/facet attributes only; embedded state and form values are removed."""
+    soup = BeautifulSoup(raw_html, "html.parser")
+    for node in soup.select(_PRIVATE_DIAGNOSTIC_SELECTORS):
+        node.decompose()
+    for node in soup.find_all(style=True):
+        if re.search(r"(?:display\s*:\s*none|visibility\s*:\s*hidden)", str(node.get("style")), re.I):
+            node.decompose()
+    for node in soup.find_all(string=lambda text: isinstance(text, Comment)):
+        node.extract()
+    allowed = {"id", "class", "role", "aria-current", "aria-label", "alt", "title",
+               "data-asin", "data-component-type", "data-a-strike"}
+    for node in soup.find_all(True):
+        attrs = {}
+        for key, value in node.attrs.items():
+            if key in allowed:
+                attrs[key] = _public_diagnostic_text(" ".join(value) if isinstance(value, list) else value)
+            elif key == "href":
+                attrs[key] = public_diagnostic_url(urljoin("https://www.amazon.co.jp", str(value)))
+            elif key == "src":
+                image = urlparse(urljoin("https://www.amazon.co.jp", str(value)))
+                if (image.hostname or "").endswith((".media-amazon.com", ".ssl-images-amazon.com")):
+                    attrs[key] = urlunparse(("https", image.hostname, image.path, "", "", ""))
+        node.attrs = attrs
+    for node in soup.find_all(string=True):
+        node.replace_with(_public_diagnostic_text(str(node)))
+    return ('<!doctype html><meta charset="utf-8">'
+            '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src https://*.media-amazon.com https://*.ssl-images-amazon.com">'
+            + str(soup))
+
+
+async def save_search_failure_diagnostic(page: Page, *, requested_url: str, category: str,
+                                         page_no: int, attempt: int, reason: str,
+                                         response_status: int | None = None) -> bool:
+    """Save at most two failed public page captures in an explicitly enabled directory."""
+    destination = os.environ.get(SEARCH_DIAGNOSTICS_ENV, "").strip()
+    if not destination:
+        return False
+    metadata = None
+    capture_dir = None
+    try:
+        root = Path(destination)
+        root.mkdir(parents=True, exist_ok=True)
+        # Directory reservation is atomic, and an existing run is never overwritten.
+        for number in (1, 2):
+            candidate = root / f"failure-{number:02d}"
+            try:
+                candidate.mkdir()
+                capture_dir = candidate
+                break
+            except FileExistsError:
+                continue
+        if capture_dir is None:
+            return False
+        actual_url = str(page.url)
+        parsed = urlparse(actual_url)
+        metadata = {
+            "captured_at_utc": datetime.now(timezone.utc).isoformat(),
+            "reason": reason, "category": category, "page_no": page_no, "attempt": attempt,
+            "requested_url": public_diagnostic_url(requested_url),
+            "page_url": public_diagnostic_url(actual_url),
+            "http_status": response_status if isinstance(response_status, int) else None,
+            "page_title": "",
+            "sanitized_public_dom": True, "files_sha256": {},
+        }
+        if not ((parsed.hostname or "") in {"amazon.co.jp", "www.amazon.co.jp"}) or re.match(
+                r"/(?:ap/|gp/(?:css|your-account|your-orders)/)", parsed.path):
+            metadata["capture_omitted"] = "non_public_destination"
+            return True
+        metadata["page_title"] = _public_diagnostic_text(await page.title())
+        visible = await page.evaluate("""(privateSelectors) => {
+            const root = document.querySelector('#search') || document.body;
+            const clone = root.cloneNode(true);
+            clone.querySelectorAll(privateSelectors).forEach(node => node.remove());
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+            const text = [];
+            while (walker.nextNode()) {
+                const node = walker.currentNode, parent = node.parentElement;
+                if (!parent || parent.closest(privateSelectors)) continue;
+                const style = getComputedStyle(parent);
+                if (style.display === 'none' || style.visibility === 'hidden' || !parent.getClientRects().length) continue;
+                const value = node.textContent.trim();
+                if (value) text.push(value);
+            }
+            return {html: clone.outerHTML, text: text.join('\\n'), scope: root.id === 'search' ? '#search' : 'body'};
+        }""", _PRIVATE_DIAGNOSTIC_SELECTORS)
+        metadata["scope"] = visible["scope"]
+        (capture_dir / "page.html").write_text(sanitize_public_diagnostic_html(visible["html"]), encoding="utf-8")
+        (capture_dir / "page.txt").write_text(_public_diagnostic_text(visible["text"]), encoding="utf-8")
+        await page.screenshot(path=str(capture_dir / "page.png"), full_page=True,
+                              mask=[page.locator(_PRIVATE_SCREENSHOT_SELECTORS)], timeout=10000)
+        logger.info("Saved opt-in public search failure evidence: %s", capture_dir.name)
+        return True
+    except Exception as exc:
+        if metadata is not None:
+            metadata["capture_error_type"] = type(exc).__name__
+        logger.warning("Search failure diagnostic capture unavailable: %s", type(exc).__name__)
+        return capture_dir is not None
+    finally:
+        if capture_dir is not None and metadata is not None:
+            try:
+                for artifact in capture_dir.iterdir():
+                    if artifact.name in {"page.html", "page.txt", "page.png"}:
+                        metadata["files_sha256"][artifact.name] = hashlib.sha256(artifact.read_bytes()).hexdigest()
+                (capture_dir / "metadata.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            except Exception as exc:
+                logger.warning("Search failure diagnostic metadata unavailable: %s", type(exc).__name__)
 
 
 @dataclass
@@ -342,6 +485,7 @@ async def scrape_search(
     seen_asins = set()
     excluded = excluded or set()
     cat_stats: dict = {"pages": [], "taken": 0, "skipped_posted": 0, "error": ""}
+    page_no, attempt, response_status, diagnostic_captured = 0, 0, None, False
     if require_sale_info:
         cat_stats["skipped_nosale"] = 0
 
@@ -475,7 +619,9 @@ async def scrape_search(
             page_url = url if page_no == 1 else f"{url}&page={page_no}"
             cards = []
             for attempt in (1, 2):  # v2.2: エラーページ（ご迷惑をおかけしています）検出時は1回だけ再試行
-                await page.goto(page_url, wait_until="domcontentloaded", timeout=45000)
+                diagnostic_captured = False
+                response = await page.goto(page_url, wait_until="domcontentloaded", timeout=45000)
+                response_status = getattr(response, "status", None)
                 await page.wait_for_timeout(random.randint(2500, 4500))
                 # 検索結果は遅延読込されることがあるので軽くスクロール
                 for _ in range(4):
@@ -490,6 +636,10 @@ async def scrape_search(
                 except Exception:
                     pass
                 is_error_page = "ご迷惑" in title_text or "申し訳" in title_text
+                if is_error_page:
+                    diagnostic_captured = await save_search_failure_diagnostic(
+                        page, requested_url=page_url, category=category, page_no=page_no, attempt=attempt,
+                        reason="amazon_error_page", response_status=response_status)
                 if is_error_page and attempt == 1:
                     cat_stats["error_page_hits"] = cat_stats.get("error_page_hits", 0) + 1
                     logger.warning(f"[{category}] p{page_no}: Amazonエラーページ検出。トップページ経由で再試行")
@@ -515,8 +665,16 @@ async def scrape_search(
                     raise
                 if not active:
                     products.clear()
+                    if not diagnostic_captured:
+                        diagnostic_captured = await save_search_failure_diagnostic(
+                            page, requested_url=page_url, category=category, page_no=page_no, attempt=attempt,
+                            reason="requested_deal_filter_not_active", response_status=response_status)
                     raise ValueError(f"requested deal filter not active: p_n_deal_type/{deal_type}")
             if not cards:
+                if not diagnostic_captured:
+                    diagnostic_captured = await save_search_failure_diagnostic(
+                        page, requested_url=page_url, category=category, page_no=page_no, attempt=attempt,
+                        reason="no_search_results", response_status=response_status)
                 if page_no == 1:
                     try:
                         cat_stats["page1_title"] = ((await page.title()) or "")[:80]
@@ -532,6 +690,9 @@ async def scrape_search(
             f"投稿済スキップ {cat_stats['skipped_posted']} 件）"
         )
     except Exception as e:
+        if not diagnostic_captured:
+            await save_search_failure_diagnostic(page, requested_url=url, category=category,
+                page_no=page_no, attempt=attempt, reason="search_exception", response_status=response_status)
         cat_stats["error"] = str(e)[:150]
         logger.error(f"scrape_search error for [{category}]: {e}")
         if track_exhausted_error_pages:
