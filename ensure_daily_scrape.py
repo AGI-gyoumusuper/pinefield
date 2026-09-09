@@ -175,6 +175,22 @@ def validate(
     if not isinstance(summary.get("categories"), dict):
         return False, f"summary categories is not an object: {summary_path}"
 
+    # The safety net must not accept an older popularity/rotation snapshot as
+    # today's discount-first result just because its date and count are valid.
+    expected_policy = {
+        "selection_mode": "category_quota" if account == "account20" else "global_ranked",
+        "sort_order": "sale_first",
+        "require_sale_info": True,
+        "max_per_category": 5 if account == "account20" else 2,
+        "max_total_items": 10,
+    }
+    policy = summary.get("selection_policy")
+    if not isinstance(policy, dict) or any(
+        type(policy.get(key)) is not type(expected) or policy.get(key) != expected
+        for key, expected in expected_policy.items()
+    ):
+        return False, f"summary selection policy is not current discount-first mode: {summary_path}"
+
     history_path = root / "data" / account / "asin_history.json"
     if not history_path.exists():
         return False, f"missing: {history_path}"

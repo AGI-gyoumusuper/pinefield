@@ -46,7 +46,13 @@ def write_valid_output(root: Path, account: str, count: int = 5) -> None:
     )
     (account_root / f"scrape_summary_{TEST_DATE}.json").write_text(
         json.dumps(
-            {"date": TEST_DATE, "total_taken": count, "categories": {"test": {}}},
+            {"date": TEST_DATE, "total_taken": count, "categories": {"test": {}},
+             "selection_policy": {
+                 "selection_mode": "category_quota" if account == "account20" else "global_ranked",
+                 "sort_order": "sale_first", "require_sale_info": True,
+                 "max_per_category": 5 if account == "account20" else 2,
+                 "max_total_items": 10,
+             }},
             ensure_ascii=False,
         ),
         encoding="utf-8",
@@ -67,6 +73,25 @@ def write_valid_output(root: Path, account: str, count: int = 5) -> None:
 
 
 class DailyScrapeValidationTests(unittest.TestCase):
+    def test_old_popularity_output_is_rejected_and_current_modes_are_accepted(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            for account in ("account1", "account20"):
+                with self.subTest(account=account):
+                    write_valid_output(root, account, 10)
+                    self.assertTrue(daily.validate(account, root, TEST_DATE)[0])
+                    summary_path = root / "data" / account / f"scrape_summary_{TEST_DATE}.json"
+                    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+                    current = summary["selection_policy"]
+                    for stale in (None, {**current, "sort_order": "review_desc"},
+                                  {**current, "require_sale_info": 1},
+                                  {**current, "max_per_category": 3}):
+                        summary["selection_policy"] = stale
+                        summary_path.write_text(json.dumps(summary), encoding="utf-8")
+                        ok, reason = daily.validate(account, root, TEST_DATE)
+                        self.assertFalse(ok)
+                        self.assertIn("selection policy", reason)
+
     def test_common_floor_and_account_specific_floors(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
