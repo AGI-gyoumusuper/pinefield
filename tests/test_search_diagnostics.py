@@ -96,7 +96,7 @@ class SearchDiagnosticCaptureTests(unittest.IsolatedAsyncioTestCase):
             with patch.object(Path, 'write_text', side_effect=OSError('synthetic failure')):
                 self.assertTrue(await self.capture(diagnostic_page()))
 
-    async def test_facet_failure_still_returns_no_products_and_is_recorded_once(self):
+    async def test_empty_response_still_returns_no_products_and_is_recorded_once(self):
         page = SimpleNamespace(goto=AsyncMock(return_value=SimpleNamespace(status=200)),
             wait_for_timeout=AsyncMock(), evaluate=AsyncMock(), query_selector_all=AsyncMock(return_value=[]),
             title=AsyncMock(return_value='Amazon.co.jp: synthetic'), query_selector=AsyncMock(return_value=None))
@@ -104,9 +104,10 @@ class SearchDiagnosticCaptureTests(unittest.IsolatedAsyncioTestCase):
         with patch.object(scraper, 'save_search_failure_diagnostic', new=AsyncMock(return_value=True)) as capture:
             products = await scraper.scrape_search(page, PUBLIC_URL, 'fixture', require_sale_info=True, stats=stats)
         self.assertEqual(products, [])
-        self.assertIn('requested deal filter not active', stats['fixture']['error'])
+        self.assertIn('search_results_unavailable', stats['fixture']['error'])
+        self.assertEqual(stats['fixture']['requested_deal_filter_state'], 'unknown')
         self.assertEqual(capture.await_count, 1)
-        self.assertEqual(capture.call_args.kwargs['reason'], 'requested_deal_filter_not_active')
+        self.assertEqual(capture.call_args.kwargs['reason'], 'search_results_unavailable')
 
     async def test_error_page_is_captured_before_existing_homepage_retry(self):
         trace = []

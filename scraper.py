@@ -75,6 +75,10 @@ def sanitize_public_diagnostic_html(raw_html: str) -> str:
     for node in soup.select(_PRIVATE_DIAGNOSTIC_SELECTORS):
         node.decompose()
     for node in soup.find_all(style=True):
+        # find_all returns a snapshot: removing a hidden parent also decomposes
+        # its children, which may still occur later in this list.
+        if node.attrs is None:
+            continue
         if re.search(r"(?:display\s*:\s*none|visibility\s*:\s*hidden)", str(node.get("style")), re.I):
             node.decompose()
     for node in soup.find_all(string=lambda text: isinstance(text, Comment)):
@@ -665,10 +669,18 @@ async def scrape_search(
                     raise
                 if not active:
                     products.clear()
+                    # An empty/error response cannot establish an inactive facet.
+                    # Keep the same rejection and retry path, but preserve this
+                    # distinction in both the summary and saved page diagnostics.
+                    failure_kind = "requested_deal_filter_not_active" if cards else "search_results_unavailable"
+                    cat_stats["error_kind"] = failure_kind
+                    cat_stats["requested_deal_filter_state"] = "inactive" if cards else "unknown"
                     if not diagnostic_captured:
                         diagnostic_captured = await save_search_failure_diagnostic(
                             page, requested_url=page_url, category=category, page_no=page_no, attempt=attempt,
-                            reason="requested_deal_filter_not_active", response_status=response_status)
+                            reason=failure_kind, response_status=response_status)
+                    if not cards:
+                        raise ValueError(f"search_results_unavailable: requested deal filter state unknown: p_n_deal_type/{deal_type}")
                     raise ValueError(f"requested deal filter not active: p_n_deal_type/{deal_type}")
             if not cards:
                 if not diagnostic_captured:

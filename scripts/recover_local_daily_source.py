@@ -215,10 +215,29 @@ def validate_output(commands, worktree, account, target_date, log):
     return len(products)
 
 
+def existing_valid_output(commands, worktree, account, target_date, output, base, paths):
+    if not all((worktree / name).is_file() for name in paths):
+        return None
+    try:
+        count = validate_output(commands, worktree, account, target_date, output / 'existing_validation.log')
+    except RecoveryStop as exc:
+        if str(exc) not in {'canonical_output_validation_failed', 'products_must_keep_exact_13_fields'}:
+            raise
+        return None
+    # Preserve the exact fetched Git blobs; a valid source needs no new scrape or push.
+    blobs = {name: commands.git(worktree, 'show', f'{base}:{name}').stdout for name in paths}
+    for name, content in blobs.items():
+        (output / Path(name).name).write_bytes(content)
+    return {'status': 'UNCHANGED_VALIDATED', 'reused_existing_valid_output': True,
+            'product_count': count, 'remote_commit': base, 'published_commit': base,
+            'artifact_source': 'origin/main_readback_confirmed',
+            'files_sha256': {name: digest(content) for name, content in blobs.items()}}
+
+
 def scrape_once(worktree, account, target_date, timeout, log):
     env = os.environ.copy()
     env.update(PINEFIELD_TARGET_DATE=target_date, PYTHONUTF8='1', PYTHONIOENCODING='utf-8', PYTHONDONTWRITEBYTECODE='1')
-    env.pop('PINEFIELD_SEARCH_DIAGNOSTICS_DIR', None)
+    env['PINEFIELD_SEARCH_DIAGNOSTICS_DIR'] = str(log.parent / 'public-search-diagnostics')
     options = {'creationflags': subprocess.CREATE_NO_WINDOW} if os.name == 'nt' else {'start_new_session': True}
     with log.open('wb') as stream:
         process = subprocess.Popen([sys.executable, '-B', '-u', f'scrape_main{account}.py'], cwd=worktree,
@@ -292,8 +311,6 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
         attempt = control / f'account{account}_{target_date}.attempt.json'
         with account_lock(control / f'account{account}_{target_date}.lock'):
             check_source(factory, account, target_date)
-            if attempt.exists():
-                raise RecoveryStop('same_account_date_already_attempted')
             with factory_locks(factory, account, target_date, execute):
                 check_source(factory, account, target_date)
                 commands.git(repo, 'fetch', 'origin', 'main')
@@ -313,7 +330,12 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                              f'data/account{account}/category_rotation.json']
                 protected_before = {name: digest((worktree / name).read_bytes()) if (worktree / name).exists() else None for name in protected}
                 result['protected_sha256'] = protected_before
-                if not execute:
+                existing = existing_valid_output(commands, worktree, account, target_date, output, base, paths)
+                if existing is not None:
+                    result.update(existing)
+                elif attempt.exists():
+                    raise RecoveryStop('same_account_date_already_attempted')
+                elif not execute:
                     result['status'] = 'PREFLIGHT_PASS'
                 else:
                     validate_date(account, target_date)

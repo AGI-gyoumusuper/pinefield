@@ -125,6 +125,63 @@ class RecoveryFixtureTests(unittest.TestCase):
         path=other/relative;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(value,encoding='utf-8')
         git(other,'add','--',relative);git(other,'commit','-qm','independent fixture update');git(other,'push','-q','origin','HEAD:main')
 
+    def publish_valid_fixture(self, account):
+        environment = os.environ.copy()
+        environment.update(PINEFIELD_TARGET_DATE=DATE, PYTHONDONTWRITEBYTECODE='1')
+        subprocess.run([sys.executable, '-B', f'scrape_main{account}.py'], cwd=self.seed,
+                       env=environment, check=True)
+        self.counter.unlink()
+        paths = [f'data/account{account}/products_{DATE}.json', f'data/account{account}/scrape_summary_{DATE}.json']
+        git(self.seed, 'add', '--', *paths)
+        git(self.seed, 'commit', '-qm', 'valid existing fixture')
+        git(self.seed, 'push', '-q', 'origin', 'main')
+        return git(self.bare, 'rev-parse', 'main'), paths
+
+    def test_existing_valid_git_source_is_reused_without_scrape_attempt_or_push(self):
+        for account in (1, 20):
+            with self.subTest(account=account):
+                base, paths = self.publish_valid_fixture(account)
+                before = {name: subprocess.check_output(['git', '-C', str(self.bare), 'show', 'main:' + name]) for name in paths}
+                result = self.execute(account=account)
+                self.assertEqual(result['status'], 'UNCHANGED_VALIDATED')
+                self.assertTrue(result['reused_existing_valid_output'])
+                self.assertEqual(result['product_count'], 4)
+                self.assertEqual((result['scrape_runs'], result['push_attempts'], self.count()), (0, 0, 0))
+                self.assertEqual(result['source_origin_commit'], base)
+                self.assertEqual(result['remote_commit'], base)
+                self.assertEqual(git(self.bare, 'rev-parse', 'main'), base)
+                self.assertEqual(result['artifact_source'], 'origin/main_readback_confirmed')
+                self.assertTrue(result['worktree_removed'])
+                self.assertFalse((Path(result['output_dir']).parent / f'.control/account{account}_{DATE}.attempt.json').exists())
+                for name, content in before.items():
+                    self.assertEqual(result['files_sha256'][name], hashlib.sha256(content).hexdigest().upper())
+                    self.assertEqual((Path(result['output_dir']) / Path(name).name).read_bytes(), content)
+
+    def test_invalid_existing_policy_is_repaired_instead_of_reused(self):
+        _, paths = self.publish_valid_fixture(1)
+        summary = json.loads((self.seed / paths[1]).read_text(encoding='utf-8'))
+        summary['selection_policy']['sort_order'] = 'review_desc'
+        self.advance(paths[1], json.dumps(summary))
+        result = self.execute()
+        self.assertEqual(result['status'], 'PUBLISHED')
+        self.assertNotIn('reused_existing_valid_output', result)
+        self.assertEqual((result['scrape_runs'], self.count()), (1, 1))
+
+    def test_scrape_uses_its_own_diagnostic_directory_instead_of_inherited_path(self):
+        actual = recovery.subprocess.Popen
+        observed = []
+        inherited = self.root / 'untrusted-inherited-diagnostics'
+        def inspect(arguments, **kwargs):
+            if 'scrape_main1.py' in arguments:
+                observed.append(kwargs['env']['PINEFIELD_SEARCH_DIAGNOSTICS_DIR'])
+            return actual(arguments, **kwargs)
+        with patch.dict(os.environ, {'PINEFIELD_SEARCH_DIAGNOSTICS_DIR': str(inherited)}), \
+             patch.object(recovery.subprocess, 'Popen', side_effect=inspect):
+            result = self.execute()
+        self.assertEqual(result['status'], 'PUBLISHED')
+        self.assertEqual(observed, [str(Path(result['output_dir']) / 'public-search-diagnostics')])
+        self.assertFalse(inherited.exists())
+
     def test_default_preflight_never_scrapes_pushes_or_claims_attempt(self):
         result=self.execute(execute=False,cloud_run_completed=False)
         self.assertEqual(result['status'],'PREFLIGHT_PASS');self.assertEqual(self.count(),0)
@@ -316,7 +373,10 @@ class RecoveryFixtureTests(unittest.TestCase):
         other=self.root/'separate-clone'
         subprocess.run(['git','clone','--quiet',str(self.bare),str(other)],check=True)
         second=recovery.recover(account=1,target_date=DATE,repo=other,execute=True,cloud_run_completed=True)
-        self.assertEqual(second['reason'],'same_account_date_already_attempted')
+        self.assertEqual(second['status'],'UNCHANGED_VALIDATED')
+        self.assertTrue(second['reused_existing_valid_output'])
+        self.assertEqual(second['scrape_runs'],0)
+        self.assertEqual(second['push_attempts'],0)
         self.assertEqual(self.count(),1)
 
 
