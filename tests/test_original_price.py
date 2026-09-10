@@ -1,7 +1,7 @@
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, patch
 
 from bs4 import BeautifulSoup
 
@@ -153,6 +153,23 @@ class SelectedDealFilterTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(0, stats['fixture']['taken'])
         self.assertIn('requested deal filter not active', stats['fixture']['error'])
         self.assertEqual(2, page.goto.await_count)
+
+    async def test_selected_filter_with_empty_second_page_preserves_products_and_failure_budget(self):
+        page = fake_page([price_card()])
+        page.query_selector = AsyncMock(return_value=object())
+        stats = {}
+        with patch('scraper.save_search_failure_diagnostic', AsyncMock(return_value=True)) as capture:
+            products = await scrape_search(page,
+                'https://example.test/search?rh=n%3A123%2Cp_n_deal_type%3A10343614051', 'fixture',
+                max_items=2, require_sale_info=True, stats=stats)
+        self.assertEqual(['B000000001'], [item.asin for item in products])
+        self.assertEqual(stats['fixture']['pages'], [1, 0])
+        self.assertEqual(stats['fixture']['taken'], 1)
+        self.assertEqual(stats['fixture']['error'], '')
+        self.assertFalse(needs_deferred_search_retry(stats['fixture']))
+        self.assertEqual(page.goto.await_count, 2)
+        self.assertEqual(page.query_selector.await_count, 2)
+        capture.assert_not_awaited()
 
 
 if __name__ == '__main__':

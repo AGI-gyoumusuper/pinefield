@@ -16,6 +16,12 @@ jobs:
     if: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account15]')) || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Configure failure diagnostics
+        continue-on-error: true
+        run: |
+          echo "PINEFIELD_FAILURE_ARTIFACTS_DIR=$RUNNER_TEMP/pinefield-failures" >> "$GITHUB_ENV"
+          echo "PINEFIELD_SEARCH_DIAGNOSTICS_DIR=$RUNNER_TEMP/pinefield-failures/public-search" >> "$GITHUB_ENV"
+
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up Python
@@ -68,3 +74,20 @@ jobs:
             echo "git push failed after 3 attempts"
             exit 1
           fi
+
+      - name: Preserve failure candidates
+        if: ${{ failure() && env.PINEFIELD_TARGET_DATE != '' }}
+        continue-on-error: true
+        run: >-
+          python ensure_daily_scrape.py --archive-failure --account account15
+          --date "$PINEFIELD_TARGET_DATE"
+
+      - name: Upload short-lived scrape diagnostics
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: scrape-account15-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/pinefield-failures/
+          retention-days: 3
+          if-no-files-found: ignore

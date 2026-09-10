@@ -22,6 +22,12 @@ jobs:
     if: ${{ ((github.event_name == 'push' && contains(github.event.head_commit.message, '[scrape:account13]')) || github.event_name == 'workflow_dispatch') && inputs.diagnose_delivery_country != true }}
     runs-on: ubuntu-latest
     steps:
+      - name: Configure failure diagnostics
+        continue-on-error: true
+        run: |
+          echo "PINEFIELD_FAILURE_ARTIFACTS_DIR=$RUNNER_TEMP/pinefield-failures" >> "$GITHUB_ENV"
+          echo "PINEFIELD_SEARCH_DIAGNOSTICS_DIR=$RUNNER_TEMP/pinefield-failures/public-search" >> "$GITHUB_ENV"
+
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up Python
@@ -40,8 +46,6 @@ jobs:
           playwright install-deps chromium
       - name: Scrape account13
         if: ${{ inputs.diagnose_delivery_country != true }}
-        env:
-          PINEFIELD_SEARCH_DIAGNOSTICS_DIR: ${{ runner.temp }}/pinefield-search-diagnostics
         run: python scrape_main13.py
       - name: Validate account13 output
         if: ${{ inputs.diagnose_delivery_country != true }}
@@ -54,15 +58,6 @@ jobs:
             echo "$OUT was not created"
             exit 1
           fi
-      - name: Upload account13 public search failure evidence
-        # The directory exists only after a search failure; recovered failures are useful too.
-        if: ${{ always() && !cancelled() && inputs.diagnose_delivery_country != true }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: account13-search-failures-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/pinefield-search-diagnostics
-          if-no-files-found: ignore
-          retention-days: 3
       - name: Commit account13 output
         if: ${{ inputs.diagnose_delivery_country != true }}
         run: |
@@ -89,6 +84,23 @@ jobs:
             echo "git push failed after 3 attempts"
             exit 1
           fi
+
+      - name: Preserve failure candidates
+        if: ${{ failure() && env.PINEFIELD_TARGET_DATE != '' }}
+        continue-on-error: true
+        run: >-
+          python ensure_daily_scrape.py --archive-failure --account account13
+          --date "$PINEFIELD_TARGET_DATE"
+
+      - name: Upload short-lived scrape diagnostics
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: scrape-account13-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/pinefield-failures/
+          retention-days: 3
+          if-no-files-found: ignore
 
   diagnose_account13_delivery:
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.diagnose_delivery_country == true }}

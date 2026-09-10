@@ -683,7 +683,9 @@ async def scrape_search(
                         raise ValueError(f"search_results_unavailable: requested deal filter state unknown: p_n_deal_type/{deal_type}")
                     raise ValueError(f"requested deal filter not active: p_n_deal_type/{deal_type}")
             if not cards:
-                if not diagnostic_captured:
+                # Page 2 with every requested facet still selected is normal
+                # exhaustion, not a failure: retain the limited capture budget.
+                if not diagnostic_captured and not (page_no == 2 and required_deal_types):
                     diagnostic_captured = await save_search_failure_diagnostic(
                         page, requested_url=page_url, category=category, page_no=page_no, attempt=attempt,
                         reason="no_search_results", response_status=response_status)

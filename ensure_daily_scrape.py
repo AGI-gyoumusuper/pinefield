@@ -7,6 +7,7 @@ missing or invalid files are recreated for today's JST date only.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -40,6 +41,8 @@ REQUIRED_PRODUCT_FIELDS = frozenset(
         "specs",
     }
 )
+FAILURE_ARTIFACTS_ENV = "PINEFIELD_FAILURE_ARTIFACTS_DIR"
+SEARCH_DIAGNOSTICS_ENV = "PINEFIELD_SEARCH_DIAGNOSTICS_DIR"
 
 
 def run(
@@ -54,6 +57,52 @@ def run(
 def load_json(path: Path):
     with path.open("r", encoding="utf-8-sig") as f:
         return json.load(f)
+
+
+def annotate_search_diagnostics(account: str, today: str, attempt: int | str) -> None:
+    """Label new public captures without resetting the scraper's shared two-page budget."""
+    configured = os.environ.get(SEARCH_DIAGNOSTICS_ENV, "").strip()
+    if not configured:
+        return
+    try:
+        for number in (1, 2):
+            capture = Path(configured) / f"failure-{number:02d}"
+            context = capture / "context.json"
+            if capture.is_dir() and not context.exists():
+                write_report(context, {"account": account, "date": today, "attempt": attempt})
+    except OSError as exc:
+        print(f"public diagnostic context unavailable: {type(exc).__name__}", flush=True)
+
+
+def archive_failure_candidate(account: str, root: Path, today: str, attempt: int | str,
+                              *, valid: bool, reason: str, scrape_exit_code: int | None = None) -> bool:
+    """Opt-in diagnostic copy only: never archive a ledger or promote a candidate."""
+    configured = os.environ.get(FAILURE_ARTIFACTS_ENV, "").strip()
+    if not configured:
+        return False
+    if account not in ACCOUNTS or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", today):
+        return False
+    label = f"attempt-{attempt:02d}" if type(attempt) is int else "final"
+    destination = Path(configured) / account / today / label
+    try:
+        destination.mkdir(parents=True, exist_ok=True)
+        files = {}
+        for name in (f"products_{today}.json", f"scrape_summary_{today}.json"):
+            source = root / "data" / account / name
+            if source.is_file() and not source.is_symlink():
+                content = source.read_bytes()
+                (destination / name).write_bytes(content)
+                files[name] = {"sha256": hashlib.sha256(content).hexdigest(), "bytes": len(content)}
+        write_report(destination / "validation.json", {
+            "schema": "pinefield-failure-candidate-v1", "account": account, "date": today,
+            "attempt": attempt, "validation_valid": valid, "reason": reason,
+            "scrape_exit_code": scrape_exit_code, "diagnostic_only": True, "files": files,
+        })
+        return True
+    except OSError as exc:
+        # Evidence storage must not change scrape acceptance or retry behavior.
+        print(f"{account}: failure candidate archive unavailable: {type(exc).__name__}", flush=True)
+        return False
 
 
 def valid_product_list(
@@ -288,14 +337,20 @@ def ensure(account: str, root: Path = ROOT, today: str = TODAY) -> bool:
             restore_artifacts(snapshot)
             print(f"{account}: repair attempt {attempt}/3 for {today}", flush=True)
             cleanup(account, root, today)
+            scrape_exit_code = 0
             try:
                 scrape(account, root, today)
             except subprocess.CalledProcessError as exc:
+                scrape_exit_code = exc.returncode
                 print(f"{account}: scrape failed: {exc}", flush=True)
+            finally:
+                annotate_search_diagnostics(account, today, attempt)
             ok, message = validate(account, root, today)
             print(f"{account}: {message}", flush=True)
             if ok:
                 return True
+            archive_failure_candidate(account, root, today, attempt, valid=False,
+                                      reason=message, scrape_exit_code=scrape_exit_code)
             if attempt < 3:
                 time.sleep(30)
 
@@ -366,9 +421,23 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--report", type=Path)
     parser.add_argument("--validate-only", action="store_true")
+    parser.add_argument("--archive-failure", action="store_true",
+                        help="Copy current candidates and validation reason to the configured failure artifact directory; never scrape.")
     args = parser.parse_args(argv)
     accounts = tuple(args.account) if args.account else ACCOUNTS
     root = args.root.resolve()
+
+    if args.archive_failure:
+        saved = []
+        for account in accounts:
+            try:
+                ok, reason = validate(account, root, args.date)
+            except Exception as exc:
+                ok, reason = False, f"validation raised {type(exc).__name__}"
+            saved.append(archive_failure_candidate(account, root, args.date, "final", valid=ok, reason=reason))
+        if len(accounts) == 1:
+            annotate_search_diagnostics(accounts[0], args.date, "final")
+        return 0 if all(saved) else 1
 
     print(f"ensure daily scrape date: {args.date}", flush=True)
     print(f"ensure daily scrape root: {root}", flush=True)

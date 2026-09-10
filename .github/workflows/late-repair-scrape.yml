@@ -23,6 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
+      - name: Configure failure diagnostics
+        continue-on-error: true
+        run: |
+          echo "PINEFIELD_FAILURE_ARTIFACTS_DIR=$RUNNER_TEMP/pinefield-failures" >> "$GITHUB_ENV"
+          echo "PINEFIELD_SEARCH_DIAGNOSTICS_DIR=$RUNNER_TEMP/pinefield-failures/public-search" >> "$GITHUB_ENV"
+
       - name: Checkout repository
         id: checkout
         uses: actions/checkout@v4
@@ -239,3 +245,20 @@ jobs:
           PY
 
           exit "$AUDIT_RC"
+
+      - name: Preserve failure candidates
+        if: ${{ failure() && steps.target.outputs.date != '' }}
+        continue-on-error: true
+        run: >-
+          python ensure_daily_scrape.py --archive-failure
+          --date "${{ steps.target.outputs.date }}"
+
+      - name: Upload short-lived scrape diagnostics
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: late-repair-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/pinefield-failures/
+          retention-days: 3
+          if-no-files-found: ignore
