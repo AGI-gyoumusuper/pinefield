@@ -140,6 +140,8 @@ def audit_remote(repo, target_date):
         prefix = f'data/account{account}/'
         names = [prefix + f'products_{target_date}.json', prefix + f'scrape_summary_{target_date}.json',
                  prefix + 'asin_history.json']
+        if account == 20:
+            names.extend(['categories20.yaml', 'detail_offer.py'])
         files = {}
         for name in names:
             content = git(repo, 'show', f'{commit}:{name}', missing_ok=True)

@@ -26,6 +26,8 @@ from bs4 import BeautifulSoup, Comment
 import yaml
 from playwright.async_api import async_playwright, Page, BrowserContext
 
+from detail_offer import observe_detail_offer, without_search_price_filter
+
 from product_identity import (
     ProductIdentityRegistry,
     extract_product_identity,
@@ -476,6 +478,7 @@ async def scrape_search(
     *,
     track_exhausted_error_pages: bool = False,
     require_sale_info: bool = False,
+    defer_offer_validation: bool = False,
 ) -> List[Product]:
     """Amazon検索結果ページ (/s?rh=...) から商品を取得する。
 
@@ -578,12 +581,12 @@ async def scrape_search(
                         rating = rm.group(1) if rm else ""
 
                 # 価格0は除外（広告枠やSponsoredで価格未取得のケース）
-                if price_int <= 0:
+                if price_int <= 0 and not defer_offer_validation:
                     continue
 
                 # Restore the pre-163176f candidate gate only for sale ordering.
                 # Price/discount information alone does not verify sale participation.
-                if require_sale_info and not discount_rate and not original_price:
+                if require_sale_info and not defer_offer_validation and not discount_rate and not original_price:
                     cat_stats["skipped_nosale"] += 1
                     continue
 
@@ -1190,6 +1193,7 @@ async def select_enrich_unique_products(
     rotation_state_file: str,
     stats: dict,
     sort_order: str = "review_desc",
+    pre_enriched_asins: Optional[set] = None,
 ) -> List[Product]:
     """Enrich candidates in rank order, excluding stable-identifier matches.
 
@@ -1207,7 +1211,7 @@ async def select_enrich_unique_products(
 
     async def consider(candidate: Product) -> bool:
         logger.info(f"  identity check {candidate.asin} - {candidate.title[:40]}")
-        if not candidate.specs:
+        if not candidate.specs and candidate.asin not in (pre_enriched_asins or set()):
             await enrich_product(page, candidate)
         identity = extract_product_identity(candidate)
         reason = registry.match_identity(identity)
@@ -1418,6 +1422,55 @@ def save_scraped_asins_to_history(products: List[Product], config_path: str, dat
 # メイン処理：一覧→フィルタ→個別ページ取得
 # ============================================
 
+async def _read_verified_product_details(page: Page) -> Tuple[str, str]:
+    # Read the original description/spec selectors from the already verified page.
+    for _ in range(3):
+        await page.evaluate("window.scrollBy(0, window.innerHeight)")
+        await page.wait_for_timeout(400)
+    return (await _try_selectors(page, DESCRIPTION_SELECTORS),
+            await _try_selectors(page, SPECS_SELECTORS))
+
+
+async def verify_candidate_offers(page: Page, products: List[Product], stats: dict) -> List[Product]:
+    """Verify every collected unique candidate before price/ranking/quota selection."""
+    accepted, observations, seen = [], [], set()
+    aborted_reason = None
+    for product in products:
+        if product.asin in seen:
+            continue
+        seen.add(product.asin)
+        record = await observe_detail_offer(page, product, _read_verified_product_details)
+        observations.append(record)
+        if record["status"] == "accepted":
+            accepted.append(product)
+        else:
+            logger.info("PDP offer rejected: %s (%s)", product.asin, record["reason"])
+        if record["reason"] == "detail_challenge":
+            # Do not attempt other ASINs or rotate contexts after a CAPTCHA.
+            aborted_reason = "detail_challenge"
+            break
+        await asyncio.sleep(random.uniform(2, 4))
+    reasons = {}
+    for record in observations:
+        if record["reason"]:
+            reasons[record["reason"]] = reasons.get(record["reason"], 0) + 1
+    stats["_detail_offer_verification"] = {
+        "schema_version": 1, "enabled": True, "raw_candidate_count": len(products),
+        "candidate_count": len(observations), "accepted_count": len(accepted),
+        "rejected_count": len(observations) - len(accepted),
+        "rejection_reasons": reasons, "observations": observations,
+    }
+    if aborted_reason:
+        stats["_detail_offer_verification"].update(
+            aborted_reason=aborted_reason,
+            unobserved_candidates=[{"asin": product.asin, "category": product.category,
+                                    "reason": "detail_not_observed_after_challenge"}
+                                   for product in products if product.asin not in seen],
+        )
+        return []  # A partial, interrupted batch cannot become a daily success.
+    return accepted
+
+
 async def fetch_products(
     config_path: str = CONFIG_PATH,
     associate_tag: str = ASSOCIATE_TAG,
@@ -1435,6 +1488,11 @@ async def fetch_products(
     max_price = int(flt.get("max_price", 0))
     sort_order = str(flt.get("sort_order", "price_desc"))
     require_sale_info = sort_order == "sale_first"
+    verify_detail_offer = flt.get("verify_detail_offer", False)
+    if not isinstance(verify_detail_offer, bool):
+        raise ValueError("verify_detail_offer must be a boolean")
+    if verify_detail_offer and os.path.basename(config_path) != "categories20.yaml":
+        raise ValueError("PDP offer verification is restricted to categories20.yaml")
     max_total = int(flt.get("max_total_items", 50))
     min_discount_pct = int(flt.get("min_discount_pct", 0))
     max_per_category = int(flt.get("max_per_category", 0))
@@ -1485,6 +1543,8 @@ async def fetch_products(
         "_excluded_gtins_loaded": len(product_registry.global_trade_numbers),
         "_excluded_brand_models_loaded": len(product_registry.brand_model_keys),
     }
+    if verify_detail_offer:
+        scrape_stats["_selection_policy"]["verify_detail_offer"] = True
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         async def new_context_and_page() -> Tuple[BrowserContext, Page]:
@@ -1524,7 +1584,8 @@ async def fetch_products(
             logger.info(f"=== {name} 開始 ===")
             try:
                 if is_search:
-                    search_url = search_url_with_min_price(url, category_min_price)
+                    search_url = (without_search_price_filter(url) if verify_detail_offer
+                                  else search_url_with_min_price(url, category_min_price))
                     products = await scrape_search(
                         page,
                         search_url,
@@ -1535,6 +1596,7 @@ async def fetch_products(
                         stats=scrape_stats,
                         track_exhausted_error_pages=deferred_retry_failed_searches,
                         require_sale_info=require_sale_info,
+                        **({"defer_offer_validation": True} if verify_detail_offer else {}),
                     )
                 elif is_timesale:
                     products = await scrape_timesale(page, url, name, max_items, associate_tag)
@@ -1578,7 +1640,8 @@ async def fetch_products(
                 try:
                     retried = await scrape_search(
                         page,
-                        search_url_with_min_price(url, category_min_price),
+                        (without_search_price_filter(url) if verify_detail_offer
+                         else search_url_with_min_price(url, category_min_price)),
                         name,
                         max_items,
                         associate_tag,
@@ -1586,6 +1649,7 @@ async def fetch_products(
                         stats=retry_stats,
                         track_exhausted_error_pages=True,
                         require_sale_info=require_sale_info,
+                        **({"defer_offer_validation": True} if verify_detail_offer else {}),
                     )
                 except Exception as exc:
                     retried = []
@@ -1613,6 +1677,12 @@ async def fetch_products(
                 if retry_index < len(deferred_retry_categories) - 1:
                     await asyncio.sleep(random.uniform(3, 6))
         logger.info(f"全カテゴリ合計: {len(all_products)} 件")
+        # account20 opt-in: all bounded search candidates are verified first.
+        # Identity registration remains exclusively in final selection below.
+        pre_enriched_asins = None
+        if verify_detail_offer:
+            all_products = await verify_candidate_offers(page, all_products, scrape_stats)
+            pre_enriched_asins = {product.asin for product in all_products}
         # Phase 2: 重複除去・価格フィルタ・ソート
         if exclude_product_identifiers:
             # 全候補を残し、仕様取得後の識別子除外で首位が落ちたカテゴリは
@@ -1644,6 +1714,7 @@ async def fetch_products(
                 rotation_state_file,
                 scrape_stats,
                 sort_order=sort_order,
+                **({"pre_enriched_asins": pre_enriched_asins} if verify_detail_offer else {}),
             )
         else:
             filtered = filter_and_sort(
@@ -1662,9 +1733,19 @@ async def fetch_products(
                 category_min_prices=category_min_prices,
             )
             # Phase 3: 個別商品ページから description / specs を取得
-            if filtered:
+            if filtered and not verify_detail_offer:
                 logger.info(f"=== 個別商品ページ取得開始: {len(filtered)} 件 ===")
                 await enrich_products(page, filtered)
+        if verify_detail_offer:
+            verification = scrape_stats["_detail_offer_verification"]
+            verification["final_selected_count"] = len(filtered)
+            verification["categories"] = {
+                str(cat["name"]): {
+                    "collected_candidates": sum(record["category"].split("#")[0] == cat["name"] for record in verification["observations"]),
+                    "verified_candidates": sum(product.category.split("#")[0] == cat["name"] for product in all_products),
+                    "final_selected": sum(product.category.split("#")[0] == cat["name"] for product in filtered),
+                } for cat in cats
+            }
         await browser.close()
     return filtered, scrape_stats
 
@@ -1685,6 +1766,7 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
     # v2.1: カテゴリ別の取得サマリを隣へ保存（死枠診断・運転記録用）
     date_tag = reference_date or "latest"
     summary_path = os.path.join(os.path.dirname(output_path) or ".", f"scrape_summary_{date_tag}.json")
+    detail_verification = scrape_stats.pop("_detail_offer_verification", None)
     summary = {
         "date": date_tag,
         "total_taken": len(products),
@@ -1696,6 +1778,8 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
         "skipped_product_identity_reasons": scrape_stats.pop("_skipped_product_identity_reasons", {}),
         "categories": scrape_stats,
     }
+    if detail_verification is not None:
+        summary["detail_offer_verification"] = detail_verification
     with open(summary_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
     logger.info(f"カテゴリ別サマリ保存: {summary_path}")

@@ -7,6 +7,7 @@ missing or invalid files are recreated for today's JST date only.
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import os
@@ -249,6 +250,10 @@ def validate(
     ):
         return False, f"summary selection policy is not current discount-first mode: {summary_path}"
 
+    ok, message = validate_detail_offer_summary(account, root, products, summary)
+    if not ok:
+        return False, message
+
     history_path = root / "data" / account / "asin_history.json"
     if not history_path.exists():
         return False, f"missing: {history_path}"
@@ -274,6 +279,131 @@ def validate(
         True,
         f"ok: {products_path}: {len(products)} items; summary and history matched",
     )
+
+
+def validate_detail_offer_summary(account: str, root: Path, products: list[dict],
+                                  summary: dict) -> tuple[bool, str]:
+    """Bind account20's opt-in PDP verification to the saved 13-field output.
+
+    This checks the scraper's record, not the live offer again. A source date
+    can be the next JST day, so observation date is not equated to source date.
+    """
+    if account != "account20":
+        return True, "detail offer verification not required"
+    config_path = root / "categories20.yaml"
+    if not config_path.exists():
+        return True, "detail offer verification not configured"
+    try:
+        import yaml
+        with config_path.open("r", encoding="utf-8-sig") as file:
+            config = yaml.safe_load(file)
+        if not isinstance(config, dict) or not isinstance(config.get("filters", {}), dict):
+            raise ValueError("invalid filters")
+        enabled = config.get("filters", {}).get("verify_detail_offer", False)
+        if type(enabled) is not bool:
+            raise ValueError("verify_detail_offer must be boolean")
+    except Exception as exc:
+        return False, f"detail offer verification config invalid: {config_path}: {exc}"
+    if not enabled:
+        return True, "detail offer verification not required"
+
+    def failure(reason: str) -> tuple[bool, str]:
+        return False, f"detail offer verification invalid: {reason}"
+
+    # The root may be the controller's read-only Git-blob view. Resolve the
+    # shared parser from that same root, never from an older local sys.path.
+    detail_module = root / "detail_offer.py"
+    try:
+        namespace = {"__name__": "_pinefield_recorded_detail_offer", "__file__": str(detail_module)}
+        code = detail_module.read_text(encoding="utf-8-sig")
+        exec(compile(code, str(detail_module), "exec"), namespace)
+        validate_offer = namespace["validate_offer"]
+        if not callable(validate_offer):
+            raise ValueError("validate_offer is not callable")
+    except Exception as exc:
+        return failure(f"shared PDP validator unavailable: {type(exc).__name__}")
+
+    verification = summary.get("detail_offer_verification")
+    if (not isinstance(verification, dict) or type(verification.get("schema_version")) is not int
+            or verification.get("schema_version") != 1 or verification.get("enabled") is not True):
+        return failure("missing or unsupported summary")
+    if verification.get("aborted_reason"):
+        return failure("PDP observation batch was aborted")
+    observations = verification.get("observations")
+    if not isinstance(observations, list):
+        return failure("observations is not a list")
+    counts = {name: verification.get(name) for name in ("candidate_count", "accepted_count", "rejected_count")}
+    if any(type(value) is not int or value < 0 for value in counts.values()):
+        return failure("invalid counts")
+    if counts["candidate_count"] != len(observations):
+        return failure("candidate count mismatch")
+    accepted = {}
+    seen = set()
+    rejected_count = 0
+    offer_fields = ("price", "price_int", "original_price", "discount_rate")
+    for record in observations:
+        if not isinstance(record, dict):
+            return failure("observation is not an object")
+        asin = record.get("asin")
+        if not isinstance(asin, str) or not re.fullmatch(r"[A-Z0-9]{10}", asin) or asin in seen:
+            return failure("invalid or duplicate observation ASIN")
+        seen.add(asin)
+        if record.get("status") == "rejected":
+            rejected_count += 1
+            continue
+        if record.get("status") != "accepted" or record.get("reason") is not None:
+            return failure(f"unsupported observation status: {asin}")
+        offer = record.get("pdp_offer")
+        if (not isinstance(offer, dict) or set(offer) != set(offer_fields)
+                or type(offer.get("price_int")) is not int or offer["price_int"] <= 0
+                or any(not isinstance(offer.get(key), str) for key in offer_fields if key != "price_int")):
+            return failure(f"invalid PDP offer: {asin}")
+        evidence = record.get("evidence")
+        if not isinstance(evidence, dict):
+            return failure(f"missing evidence: {asin}")
+        try:
+            serialized = json.dumps(evidence, ensure_ascii=False, sort_keys=True,
+                                    separators=(",", ":"), allow_nan=False).encode("utf-8")
+        except (TypeError, ValueError):
+            return failure(f"invalid evidence JSON: {asin}")
+        if record.get("evidence_sha256") != hashlib.sha256(serialized).hexdigest().upper():
+            return failure(f"evidence SHA mismatch: {asin}")
+        selected = evidence.get("selected_asins")
+        page_asins = evidence.get("page_asins")
+        if (type(evidence.get("schema_version")) is not int or evidence.get("schema_version") != 1
+                or evidence.get("requested_asin") != asin
+                or not isinstance(selected, list) or not selected or any(value != asin for value in selected)
+                or not isinstance(page_asins, list) or any(value != asin for value in page_asins)
+                or type(evidence.get("http_status")) is not int or evidence.get("http_status") != 200
+                or evidence.get("challenge_detected") is not False
+                or evidence.get("evidence_kind") not in ("label", "deal_countdown")
+                or not isinstance(record.get("checked_at"), str) or not record["checked_at"]
+                or evidence.get("checked_at") != record["checked_at"]):
+            return failure(f"evidence identity/status mismatch: {asin}")
+        try:
+            observed_at = datetime.fromisoformat(record["checked_at"].replace("Z", "+00:00"))
+            if observed_at.tzinfo is None:
+                raise ValueError("timezone missing")
+            replayed_evidence = copy.deepcopy(evidence)
+            replayed_offer, rejection = validate_offer(replayed_evidence)
+        except Exception:
+            return failure(f"recorded PDP verification failed: {asin}")
+        if rejection or replayed_offer != offer or replayed_evidence != evidence:
+            return failure(f"recorded PDP offer mismatch: {asin}")
+        accepted[asin] = record
+    if (counts["accepted_count"] != len(accepted) or counts["rejected_count"] != rejected_count
+            or counts["candidate_count"] != len(accepted) + rejected_count):
+        return failure("accepted/rejected count mismatch")
+    for product in products:
+        record = accepted.get(product["asin"])
+        if record is None:
+            return failure(f"output ASIN has no accepted PDP record: {product['asin']}")
+        if record.get("category") != product.get("category"):
+            return failure(f"output category mismatch: {product['asin']}")
+        if any(type(record["pdp_offer"][key]) is not type(product.get(key))
+               or record["pdp_offer"][key] != product.get(key) for key in offer_fields):
+            return failure(f"output offer mismatch: {product['asin']}")
+    return True, "detail offer verification matched"
 
 
 def account_artifact_paths(account: str, root: Path, today: str) -> tuple[Path, ...]:
