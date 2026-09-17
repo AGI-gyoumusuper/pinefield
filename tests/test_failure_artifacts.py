@@ -23,7 +23,7 @@ class FailureCandidateTests(unittest.TestCase):
             calls = []
             def scrape(account, worktree, date):
                 calls.append(account)
-                write_valid_output(worktree, account, len(calls))
+                write_valid_output(worktree, account, 3 + len(calls))
                 products_path = worktree / 'data' / account / f'products_{date}.json'
                 products = json.loads(products_path.read_text(encoding='utf-8'))
                 products[0]['title'] = ''  # A real invalid field, not a valid partial result.
@@ -37,7 +37,7 @@ class FailureCandidateTests(unittest.TestCase):
                 saved = artifacts / 'account6' / TEST_DATE / f'attempt-{attempt:02d}'
                 candidate = saved / f'products_{TEST_DATE}.json'
                 report = json.loads((saved / 'validation.json').read_text())
-                self.assertEqual(len(json.loads(candidate.read_text())), attempt)
+                self.assertEqual(len(json.loads(candidate.read_text())), 3 + attempt)
                 self.assertIn('empty ASIN or title', report['reason'])
                 self.assertFalse(report['validation_valid'])
                 self.assertTrue(report['diagnostic_only'])
@@ -53,7 +53,7 @@ class FailureCandidateTests(unittest.TestCase):
             calls = []
             def scrape(account, worktree, date):
                 calls.append(account)
-                write_valid_output(worktree, account, 0 if len(calls) == 1 else 1)
+                write_valid_output(worktree, account, 0 if len(calls) == 1 else 4)
             with patch.dict(os.environ, {daily.FAILURE_ARTIFACTS_ENV: str(artifacts), daily.SEARCH_DIAGNOSTICS_ENV: ''}), \
                  patch.object(daily, 'scrape', side_effect=scrape), patch.object(daily.time, 'sleep'):
                 self.assertTrue(daily.ensure('account10', root, TEST_DATE))
@@ -81,12 +81,12 @@ class FailureCandidateTests(unittest.TestCase):
                 if saved.is_file():
                     self.assertNotIn(b'PRIVATE_', saved.read_bytes())
             report = json.loads((artifacts / 'account12' / TEST_DATE / 'final/validation.json').read_text())
-            self.assertIn('0 < 1', report['reason'])
+            self.assertIn('0 < 4', report['reason'])
 
     def test_existing_valid_source_produces_no_failure_archive(self):
         with tempfile.TemporaryDirectory() as temporary:
             root, artifacts = Path(temporary) / 'repo', Path(temporary) / 'artifacts'
-            write_valid_output(root, 'account1', 1)
+            write_valid_output(root, 'account1', 4)
             with patch.dict(os.environ, {daily.FAILURE_ARTIFACTS_ENV: str(artifacts)}), patch.object(daily, 'scrape') as scrape:
                 self.assertFalse(daily.ensure('account1', root, TEST_DATE))
             scrape.assert_not_called()

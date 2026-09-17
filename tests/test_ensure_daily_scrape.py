@@ -95,13 +95,11 @@ class DailyScrapeValidationTests(unittest.TestCase):
                         self.assertFalse(ok)
                         self.assertIn("selection policy", reason)
 
-    def test_nonempty_partial_results_are_accepted_without_rescraping(self):
+    def test_four_to_ten_products_are_accepted_without_rescraping(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             for account in daily.ACCOUNTS:
-                if account == "account20":
-                    continue  # The two-per-shelf business allocation remains separate.
-                for count in range(1, 11):
+                for count in range(4, 11):
                     with self.subTest(account=account, count=count):
                         write_valid_output(root, account, count)
                         paths = daily.account_artifact_paths(account, root, TEST_DATE)
@@ -111,7 +109,8 @@ class DailyScrapeValidationTests(unittest.TestCase):
                             self.assertFalse(daily.ensure(account, root, TEST_DATE))
                             scrape.assert_not_called()
                         self.assertEqual(before, {path: path.read_bytes() for path in paths})
-                for count, expected in ((0, "0 < 1"), (11, "11 > 10")):
+                for count, expected in ((0, "0 < 4"), (1, "1 < 4"), (2, "2 < 4"),
+                                        (3, "3 < 4"), (11, "11 > 10")):
                     with self.subTest(account=account, count=count):
                         write_valid_output(root, account, count)
                         ok, message = daily.validate(account, root, TEST_DATE)
@@ -147,7 +146,7 @@ class DailyScrapeValidationTests(unittest.TestCase):
                 write_valid_output(root, "account20", count)
                 ok, message = daily.validate("account20", root, TEST_DATE)
                 self.assertFalse(ok)
-                self.assertIn("at least 2 products per category", message)
+                self.assertIn(f"{count} < 4", message)
 
     def test_required_fields_affiliate_tag_and_duplicate_asin(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -211,6 +210,24 @@ class DailyScrapeValidationTests(unittest.TestCase):
 
 
 class DailyScrapeRepairTests(unittest.TestCase):
+    def test_one_product_triggers_recovery_until_four_are_available(self):
+        for account in ("account10", "account12", "account13"):
+            with self.subTest(account=account), tempfile.TemporaryDirectory() as temp_dir:
+                root = Path(temp_dir)
+                write_valid_output(root, account, 1)
+                history_path = root / "data" / account / "asin_history.json"
+                original_history = history_path.read_bytes()
+
+                def recover(scrape_account: str, scrape_root: Path, target_date: str) -> None:
+                    self.assertEqual((scrape_account, target_date), (account, TEST_DATE))
+                    write_valid_output(scrape_root, scrape_account, 4)
+
+                with patch.object(daily, "scrape", side_effect=recover) as scrape:
+                    self.assertTrue(daily.ensure(account, root, TEST_DATE))
+                    scrape.assert_called_once_with(account, root, TEST_DATE)
+                self.assertTrue(daily.validate(account, root, TEST_DATE)[0])
+                self.assertEqual(history_path.read_bytes(), original_history)
+
     def test_failed_repair_restores_products_summary_and_history(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
