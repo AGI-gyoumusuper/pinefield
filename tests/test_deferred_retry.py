@@ -14,7 +14,7 @@ from scraper import (
 
 
 class DeferredRetryHelperTests(unittest.TestCase):
-    def test_deferred_retry_is_enabled_only_for_accounts7_14_and20(self):
+    def test_deferred_retry_is_enabled_for_all_twenty_accounts(self):
         root = Path(__file__).resolve().parents[1]
         for account_number in range(1, 21):
             with (root / f"categories{account_number}.yaml").open(
@@ -24,7 +24,7 @@ class DeferredRetryHelperTests(unittest.TestCase):
             enabled = bool(
                 config.get("filters", {}).get("deferred_retry_failed_searches", False)
             )
-            self.assertEqual(account_number in {7, 14, 20}, enabled, f"account{account_number}")
+            self.assertTrue(enabled, f"account{account_number}")
 
     def test_zero_result_exhausted_apology_is_retryable(self):
         self.assertTrue(
@@ -38,17 +38,23 @@ class DeferredRetryHelperTests(unittest.TestCase):
             )
         )
 
-    def test_nonzero_result_is_not_retryable(self):
-        self.assertFalse(
+    def test_partial_result_with_exhausted_page_is_retryable(self):
+        self.assertTrue(
             needs_deferred_search_retry(
                 {
                     "taken": 1,
                     "error": "",
                     "error_page_hits": 2,
-                    "error_page_exhausted_pages": [1],
+                    "error_page_exhausted_pages": [2],
                 }
             )
         )
+
+    def test_partial_result_with_transient_error_is_retryable(self):
+        self.assertTrue(needs_deferred_search_retry({"taken": 1, "error": "network timeout"}))
+
+    def test_partial_result_without_failure_is_not_retryable(self):
+        self.assertFalse(needs_deferred_search_retry({"taken": 1, "error": "", "pages": [1, 0]}))
 
     def test_zero_result_transient_error_is_retryable(self):
         self.assertTrue(

@@ -95,7 +95,7 @@ filters:
   sort_order: "sale_first"   # セール優先→割引率→価格の降順
   max_total_items: 10    # ver3.1: 10件体制（2026-07-19運用裁定・34→8→10 同日再裁定）
   max_per_category: 2    # 同カテゴリ2件までを優先し、10件未満なら上限を超えて補充
-  deferred_retry_failed_searches: true  # account7のみ: Amazon拒否で0件になった検索カテゴリを最後に再巡回
+  deferred_retry_failed_searches: true  # 検索失敗カテゴリ（部分取得を含む）を新しいブラウザ文脈で一度だけ遅延再巡回する。
   exclude_title_patterns:
     - 'セット'
     - '(?:詰め合わせ|まとめ買い)'

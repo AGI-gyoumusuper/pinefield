@@ -663,15 +663,12 @@ async def scrape_search(
             logger.info(f"[{category}] p{page_no}: s-search-result {len(cards)} 件")
             cat_stats["pages"].append(len(cards))
             for deal_type in required_deal_types:
-                try:
-                    active = await page.query_selector(
-                        f'[id="p_n_deal_type/{deal_type}"] a[aria-current="true"]'
-                    )
-                except Exception:
-                    products.clear()
-                    raise
+                active = await page.query_selector(
+                    f'[id="p_n_deal_type/{deal_type}"] a[aria-current="true"]'
+                )
                 if not active:
-                    products.clear()
+                    # Reject this page before consuming its cards, but retain
+                    # products from earlier pages whose filters were verified.
                     # An empty/error response cannot establish an inactive facet.
                     # Keep the same rejection and retry path, but preserve this
                     # distinction in both the summary and saved page diagnostics.
@@ -712,19 +709,15 @@ async def scrape_search(
                 page_no=page_no, attempt=attempt, reason="search_exception", response_status=response_status)
         cat_stats["error"] = str(e)[:150]
         logger.error(f"scrape_search error for [{category}]: {e}")
-        if track_exhausted_error_pages:
-            cat_stats["taken"] = len(products)
+    cat_stats["taken"] = len(products)
     if stats is not None:
         stats[category] = cat_stats
     return products
 
 
 def needs_deferred_search_retry(cat_stats: dict) -> bool:
-    """Retry a zero-result search after an exhausted Amazon page or transient error."""
-    return (
-        int(cat_stats.get("taken", 0) or 0) == 0
-        and bool(cat_stats.get("error_page_exhausted_pages") or cat_stats.get("error"))
-    )
+    """Retry failed searches, including failures after valid partial results."""
+    return bool(cat_stats.get("error_page_exhausted_pages") or cat_stats.get("error"))
 
 
 def merge_deferred_search_stats(initial: dict, retry: dict, unique_added: int) -> dict:
@@ -1623,7 +1616,7 @@ async def fetch_products(
         )
         if deferred_retry_categories:
             logger.warning(
-                "Amazonエラーページ未回復カテゴリを遅延再巡回: %d 件",
+                "検索失敗カテゴリを遅延再巡回（部分取得を含む）: %d 件",
                 len(deferred_retry_categories),
             )
             await context.close()
@@ -1660,11 +1653,18 @@ async def fetch_products(
                         "error": str(exc)[:150],
                     }
 
-                unique_retried = [product for product in retried if product.asin not in known_asins]
+                initial_stats = scrape_stats.get(name, {})
+                remaining = max(0, max_items - int(initial_stats.get("taken", 0) or 0))
+                unique_retried = []
+                for product in retried:
+                    if len(unique_retried) >= remaining:
+                        break
+                    if product.asin not in known_asins:
+                        unique_retried.append(product)
+                        known_asins.add(product.asin)
                 all_products.extend(unique_retried)
-                known_asins.update(product.asin for product in unique_retried)
                 scrape_stats[name] = merge_deferred_search_stats(
-                    scrape_stats.get(name, {}),
+                    initial_stats,
                     retry_stats.get(name, {}),
                     len(unique_retried),
                 )

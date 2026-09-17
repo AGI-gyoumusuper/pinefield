@@ -63,6 +63,7 @@ categories:
     is_search: true
 
 filters:
+  deferred_retry_failed_searches: true  # 検索失敗カテゴリ（部分取得を含む）を新しいブラウザ文脈で一度だけ遅延再巡回する。
   selection_mode: "global_ranked"  # 全カテゴリ横断でsale_first順に採用
   rotation_state_file: "data/account5/category_rotation.json"  # 既存パスを保持。global_rankedでは未使用
   min_price: 3000

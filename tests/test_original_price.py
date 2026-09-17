@@ -141,7 +141,7 @@ class SelectedDealFilterTests(unittest.IsolatedAsyncioTestCase):
                 self.assertEqual('', stats['error'])
                 page.query_selector.assert_not_awaited()
 
-    async def test_lost_filter_on_second_page_discards_the_whole_category(self):
+    async def test_lost_filter_on_second_page_preserves_verified_first_page(self):
         page = fake_page([price_card()])
         page.query_selector_all = AsyncMock(side_effect=[[price_card()], [price_card()]])
         page.query_selector = AsyncMock(side_effect=[object(), None])
@@ -149,9 +149,10 @@ class SelectedDealFilterTests(unittest.IsolatedAsyncioTestCase):
         products = await scrape_search(page,
             'https://example.test/search?rh=n%3A123%2Cp_n_deal_type%3A10343614051', 'fixture',
             max_items=2, require_sale_info=True, stats=stats)
-        self.assertEqual([], products)
-        self.assertEqual(0, stats['fixture']['taken'])
+        self.assertEqual(['B000000001'], [item.asin for item in products])
+        self.assertEqual(1, stats['fixture']['taken'])
         self.assertIn('requested deal filter not active', stats['fixture']['error'])
+        self.assertTrue(needs_deferred_search_retry(stats['fixture']))
         self.assertEqual(2, page.goto.await_count)
 
     async def test_selected_filter_with_empty_second_page_preserves_products_and_failure_budget(self):
