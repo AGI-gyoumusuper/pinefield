@@ -22,7 +22,7 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
 TODAY = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
-MIN_ITEMS = 4  # 現行20工場は4商品で運転。10件は取得目標であり必須件数ではない。
+MIN_ITEMS = 1  # 非空の取得結果を保持。account20の棚別2件条件はvalidateで別途確認する。
 ACCOUNTS = tuple(f"account{number}" for number in range(1, 21))  # account1〜20（account0は退役）
 MIN_ITEMS_BY_ACCOUNT = {}
 REQUIRED_PRODUCT_FIELDS = frozenset(

@@ -17,13 +17,17 @@ class FailureCandidateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / 'repo'
             artifacts = Path(temporary) / 'artifacts'
-            write_valid_output(root, 'account6', 3)
+            write_valid_output(root, 'account6', 0)
             paths = daily.account_artifact_paths('account6', root, TEST_DATE)
             original = {path: path.read_bytes() for path in paths}
             calls = []
             def scrape(account, worktree, date):
                 calls.append(account)
                 write_valid_output(worktree, account, len(calls))
+                products_path = worktree / 'data' / account / f'products_{date}.json'
+                products = json.loads(products_path.read_text(encoding='utf-8'))
+                products[0]['title'] = ''  # A real invalid field, not a valid partial result.
+                products_path.write_text(json.dumps(products), encoding='utf-8')
             with patch.dict(os.environ, {daily.FAILURE_ARTIFACTS_ENV: str(artifacts), daily.SEARCH_DIAGNOSTICS_ENV: ''}), \
                  patch.object(daily, 'scrape', side_effect=scrape), patch.object(daily.time, 'sleep'):
                 with self.assertRaisesRegex(RuntimeError, 'failed to create valid output'):
@@ -34,7 +38,7 @@ class FailureCandidateTests(unittest.TestCase):
                 candidate = saved / f'products_{TEST_DATE}.json'
                 report = json.loads((saved / 'validation.json').read_text())
                 self.assertEqual(len(json.loads(candidate.read_text())), attempt)
-                self.assertIn(f'{attempt} < 4', report['reason'])
+                self.assertIn('empty ASIN or title', report['reason'])
                 self.assertFalse(report['validation_valid'])
                 self.assertTrue(report['diagnostic_only'])
                 self.assertEqual(report['files'][candidate.name]['sha256'], hashlib.sha256(candidate.read_bytes()).hexdigest())
@@ -49,7 +53,7 @@ class FailureCandidateTests(unittest.TestCase):
             calls = []
             def scrape(account, worktree, date):
                 calls.append(account)
-                write_valid_output(worktree, account, 1 if len(calls) == 1 else 4)
+                write_valid_output(worktree, account, 0 if len(calls) == 1 else 1)
             with patch.dict(os.environ, {daily.FAILURE_ARTIFACTS_ENV: str(artifacts), daily.SEARCH_DIAGNOSTICS_ENV: ''}), \
                  patch.object(daily, 'scrape', side_effect=scrape), patch.object(daily.time, 'sleep'):
                 self.assertTrue(daily.ensure('account10', root, TEST_DATE))
@@ -60,7 +64,7 @@ class FailureCandidateTests(unittest.TestCase):
     def test_archive_cli_is_read_only_and_copies_only_two_candidate_files(self):
         with tempfile.TemporaryDirectory() as temporary:
             root, artifacts = Path(temporary) / 'repo', Path(temporary) / 'artifacts'
-            write_valid_output(root, 'account12', 1)
+            write_valid_output(root, 'account12', 0)
             account_root = root / 'data/account12'
             (account_root / 'cookies.json').write_text('PRIVATE_COOKIE')
             history = account_root / 'asin_history.json'
@@ -77,12 +81,12 @@ class FailureCandidateTests(unittest.TestCase):
                 if saved.is_file():
                     self.assertNotIn(b'PRIVATE_', saved.read_bytes())
             report = json.loads((artifacts / 'account12' / TEST_DATE / 'final/validation.json').read_text())
-            self.assertIn('1 < 4', report['reason'])
+            self.assertIn('0 < 1', report['reason'])
 
     def test_existing_valid_source_produces_no_failure_archive(self):
         with tempfile.TemporaryDirectory() as temporary:
             root, artifacts = Path(temporary) / 'repo', Path(temporary) / 'artifacts'
-            write_valid_output(root, 'account1', 4)
+            write_valid_output(root, 'account1', 1)
             with patch.dict(os.environ, {daily.FAILURE_ARTIFACTS_ENV: str(artifacts)}), patch.object(daily, 'scrape') as scrape:
                 self.assertFalse(daily.ensure('account1', root, TEST_DATE))
             scrape.assert_not_called()
