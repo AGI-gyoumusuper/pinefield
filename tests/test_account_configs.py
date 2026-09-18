@@ -56,7 +56,7 @@ class AccountConfigTests(unittest.TestCase):
             self.assertEqual(expected_count, len(categories), f"account{account}")
             for category in categories:
                 self.assertTrue(category.get("name"), f"account{account}")
-                self.assertEqual(10, category.get("max_items"), category.get("name"))
+                self.assertEqual(100 if account == 20 else 10, category.get("max_items"), category.get("name"))
                 self.assertIs(True, category.get("is_search"), category.get("name"))
                 parsed = urlparse(category["url"])
                 self.assertEqual("www.amazon.co.jp", parsed.netloc)
