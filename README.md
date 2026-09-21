@@ -5,6 +5,16 @@ Playwright-based scraper for Amazon.co.jp category listings.
 Daily GitHub Actions workflows collect items from configured category shelves
 (`categoriesN.yaml`) and store JSON snapshots under `data/`.
 
+Ordinary product-detail enrichment retries only when both description and
+specifications are empty. Each ASIN gets at most one extra visit, with a
+15-second timeout for the whole retry and a shared 60-second retry budget per
+account run. Products with either field present receive no extra visit. Retry
+outcomes are logged and saved as `detail_retry` in the daily scrape summary;
+remaining empty fields do not trigger a full scrape or a new product rejection.
+Recovered specifications still pass through the existing identity exclusions.
+Account20's separate same-visit price/time-sale/detail verification is unchanged
+and does not use this retry path.
+
 Active account axes are:
 
 - account1-5: existing production axes

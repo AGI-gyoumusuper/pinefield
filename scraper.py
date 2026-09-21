@@ -16,7 +16,8 @@ import logging
 import os
 import random
 import re
-from dataclasses import dataclass, asdict
+import time
+from dataclasses import dataclass, asdict, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Optional, Tuple
@@ -1150,26 +1151,89 @@ async def scrape_product_detail(page: Page, asin: str) -> Tuple[str, str]:
         return "", ""
 
 
-async def enrich_product(page: Page, product: Product) -> bool:
+@dataclass
+class DetailRetryBudget:
+    """Bound extra detail visits for one account run; never retry usable fields."""
+
+    timeout_seconds: float = 15.0
+    budget_seconds: float = 60.0
+    spent_seconds: float = 0.0
+    handled_asins: set = field(default_factory=set)
+    observations: List[dict] = field(default_factory=list)
+
+    async def retry(self, page: Page, product: Product) -> None:
+        if product.description.strip() or product.specs.strip():
+            return
+        if product.asin in self.handled_asins:
+            return
+        self.handled_asins.add(product.asin)
+        limit = min(self.timeout_seconds, self.budget_seconds - self.spent_seconds)
+        record = {"asin": product.asin, "outcome": "budget_exhausted", "elapsed_seconds": 0.0}
+        if limit > 0:
+            logger.info("Detail retry: %s (one attempt, limit %.2fs)", product.asin, limit)
+            started = time.monotonic()
+            try:
+                description, specs = await asyncio.wait_for(
+                    scrape_product_detail(page, product.asin), timeout=limit,
+                )
+                if description.strip() or specs.strip():
+                    product.description, product.specs = description, specs
+                    record["outcome"] = "recovered"
+                else:
+                    record["outcome"] = "empty"
+            except asyncio.TimeoutError:
+                record["outcome"] = "timeout"
+            except Exception as exc:
+                record.update(outcome="error", error_type=type(exc).__name__)
+            finally:
+                elapsed = time.monotonic() - started
+                self.spent_seconds += elapsed
+                record["elapsed_seconds"] = round(elapsed, 3)
+        self.observations.append(record)
+        log = logger.info if record["outcome"] == "recovered" else logger.warning
+        log("Detail retry result: %s outcome=%s elapsed=%.3fs",
+            product.asin, record["outcome"], record["elapsed_seconds"])
+
+    def summary(self) -> dict:
+        return {
+            "attempt_limit_per_asin": 1,
+            "timeout_seconds": self.timeout_seconds,
+            "budget_seconds": self.budget_seconds,
+            "spent_seconds": round(self.spent_seconds, 3),
+            "attempted_count": sum(row["outcome"] != "budget_exhausted" for row in self.observations),
+            "recovered_count": sum(row["outcome"] == "recovered" for row in self.observations),
+            "observations": self.observations,
+        }
+
+
+async def enrich_product(
+    page: Page, product: Product, retry_budget: Optional[DetailRetryBudget] = None,
+) -> bool:
     """Populate one product's detail fields and report whether any were found."""
     try:
         description, specs = await scrape_product_detail(page, product.asin)
         product.description = description
         product.specs = specs
-        return bool(description or specs)
     except Exception as e:
         logger.error(f"  enrich failed for {product.asin}: {e}")
         product.description = ""
         product.specs = ""
-        return False
+    if retry_budget is None:
+        retry_budget = DetailRetryBudget()
+    await retry_budget.retry(page, product)
+    return bool(product.description.strip() or product.specs.strip())
 
 
-async def enrich_products(page: Page, products: List[Product]) -> None:
+async def enrich_products(
+    page: Page, products: List[Product], retry_budget: Optional[DetailRetryBudget] = None,
+) -> None:
+    if retry_budget is None:
+        retry_budget = DetailRetryBudget()
     total = len(products)
     success = 0
     for i, p in enumerate(products):
         logger.info(f"  [{i+1}/{total}] enrich {p.asin} - {p.title[:40]}")
-        if await enrich_product(page, p):
+        if await enrich_product(page, p, retry_budget=retry_budget):
             success += 1
         await asyncio.sleep(random.uniform(2, 4))
     logger.info(f"enrich完了: {success}/{total} 件で説明文/スペック取得成功")
@@ -1187,6 +1251,7 @@ async def select_enrich_unique_products(
     stats: dict,
     sort_order: str = "review_desc",
     pre_enriched_asins: Optional[set] = None,
+    retry_budget: Optional[DetailRetryBudget] = None,
 ) -> List[Product]:
     """Enrich candidates in rank order, excluding stable-identifier matches.
 
@@ -1196,6 +1261,8 @@ async def select_enrich_unique_products(
     """
     selected: List[Product] = []
     skipped_reasons: dict[str, int] = {}
+    if retry_budget is None:
+        retry_budget = DetailRetryBudget()
 
     def record_skip(product: Product, reason: str) -> None:
         prefix = reason.split(":", 1)[0]
@@ -1205,7 +1272,7 @@ async def select_enrich_unique_products(
     async def consider(candidate: Product) -> bool:
         logger.info(f"  identity check {candidate.asin} - {candidate.title[:40]}")
         if not candidate.specs and candidate.asin not in (pre_enriched_asins or set()):
-            await enrich_product(page, candidate)
+            await enrich_product(page, candidate, retry_budget=retry_budget)
         identity = extract_product_identity(candidate)
         reason = registry.match_identity(identity)
         if reason:
@@ -1524,6 +1591,7 @@ async def fetch_products(
         posted_asins |= blocked_asins
         logger.info(f"恒久除外ASIN: {len(blocked_asins)} 件（blocked_asins）")
     all_products: List[Product] = []
+    detail_retry_budget = DetailRetryBudget()
     scrape_stats: dict = {
         "_selection_policy": {
             "selection_mode": selection_mode,
@@ -1714,6 +1782,7 @@ async def fetch_products(
                 rotation_state_file,
                 scrape_stats,
                 sort_order=sort_order,
+                retry_budget=detail_retry_budget,
                 **({"pre_enriched_asins": pre_enriched_asins} if verify_detail_offer else {}),
             )
         else:
@@ -1735,7 +1804,7 @@ async def fetch_products(
             # Phase 3: 個別商品ページから description / specs を取得
             if filtered and not verify_detail_offer:
                 logger.info(f"=== 個別商品ページ取得開始: {len(filtered)} 件 ===")
-                await enrich_products(page, filtered)
+                await enrich_products(page, filtered, retry_budget=detail_retry_budget)
         if verify_detail_offer:
             verification = scrape_stats["_detail_offer_verification"]
             verification["final_selected_count"] = len(filtered)
@@ -1746,6 +1815,8 @@ async def fetch_products(
                     "final_selected": sum(product.category.split("#")[0] == cat["name"] for product in filtered),
                 } for cat in cats
             }
+        if not verify_detail_offer:
+            scrape_stats["_detail_retry"] = detail_retry_budget.summary()
         await browser.close()
     return filtered, scrape_stats
 
@@ -1767,6 +1838,7 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
     date_tag = reference_date or "latest"
     summary_path = os.path.join(os.path.dirname(output_path) or ".", f"scrape_summary_{date_tag}.json")
     detail_verification = scrape_stats.pop("_detail_offer_verification", None)
+    detail_retry = scrape_stats.pop("_detail_retry", None)
     summary = {
         "date": date_tag,
         "total_taken": len(products),
@@ -1780,6 +1852,8 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
     }
     if detail_verification is not None:
         summary["detail_offer_verification"] = detail_verification
+    if detail_retry is not None:
+        summary["detail_retry"] = detail_retry
     with open(summary_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
     logger.info(f"カテゴリ別サマリ保存: {summary_path}")
