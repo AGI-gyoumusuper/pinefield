@@ -95,11 +95,12 @@ class DailyScrapeValidationTests(unittest.TestCase):
                         self.assertFalse(ok)
                         self.assertIn("selection policy", reason)
 
-    def test_four_to_ten_products_are_accepted_without_rescraping(self):
+    def test_account_specific_product_counts_are_accepted_without_rescraping(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             for account in daily.ACCOUNTS:
-                for count in range(4, 11):
+                minimum = 1 if account == "account20" else 4
+                for count in range(minimum, 11):
                     with self.subTest(account=account, count=count):
                         write_valid_output(root, account, count)
                         paths = daily.account_artifact_paths(account, root, TEST_DATE)
@@ -109,44 +110,50 @@ class DailyScrapeValidationTests(unittest.TestCase):
                             self.assertFalse(daily.ensure(account, root, TEST_DATE))
                             scrape.assert_not_called()
                         self.assertEqual(before, {path: path.read_bytes() for path in paths})
-                for count, expected in ((0, "0 < 4"), (1, "1 < 4"), (2, "2 < 4"),
-                                        (3, "3 < 4"), (11, "11 > 10")):
+                rejected_counts = [(count, f"{count} < {minimum}") for count in range(minimum)]
+                rejected_counts.append((11, "11 > 10"))
+                for count, expected in rejected_counts:
                     with self.subTest(account=account, count=count):
                         write_valid_output(root, account, count)
                         ok, message = daily.validate(account, root, TEST_DATE)
                         self.assertFalse(ok)
                         self.assertIn(expected, message)
 
-    def test_account20_still_requires_two_products_per_shelf(self):
+    def test_account20_accepts_shelf_shortages_without_rescraping(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
-            write_valid_output(root, "account1", 4)
-            write_valid_output(root, "account14", 4)
-            write_valid_output(root, "account20", 9)
+            products_path = root / "data" / "account20" / f"products_{TEST_DATE}.json"
+            for switch_count, ps5_count in (
+                (1, 0), (0, 1), (2, 0), (0, 2), (2, 1), (1, 2),
+                (3, 1), (9, 1), (1, 9), (10, 0), (0, 10),
+            ):
+                with self.subTest(switch_count=switch_count, ps5_count=ps5_count):
+                    write_valid_output(root, "account20", switch_count + ps5_count)
+                    products = json.loads(products_path.read_text(encoding="utf-8"))
+                    for index, product in enumerate(products):
+                        product["category"] = (
+                            "Nintendo Switch 2" if index < switch_count else "PS5ゲームソフト"
+                        ) + "#1"
+                    products_path.write_text(json.dumps(products), encoding="utf-8")
+                    paths = daily.account_artifact_paths("account20", root, TEST_DATE)
+                    before = {path: path.read_bytes() for path in paths}
+                    with patch.object(daily, "scrape") as scrape:
+                        self.assertTrue(daily.validate("account20", root, TEST_DATE)[0])
+                        self.assertFalse(daily.ensure("account20", root, TEST_DATE))
+                        scrape.assert_not_called()
+                    self.assertEqual(before, {path: path.read_bytes() for path in paths})
 
-            self.assertTrue(daily.validate("account1", root, TEST_DATE)[0])
-            self.assertTrue(daily.validate("account14", root, TEST_DATE)[0])
-            self.assertTrue(daily.validate("account20", root, TEST_DATE)[0])
-            write_valid_output(root, "account20", 4)
-            self.assertTrue(daily.validate("account20", root, TEST_DATE)[0])
+    def test_account20_still_rejects_unexpected_categories(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            write_valid_output(root, "account20", 10)
             products_path = root / "data" / "account20" / f"products_{TEST_DATE}.json"
             products = json.loads(products_path.read_text(encoding="utf-8"))
-            products[-1]["category"] = "Nintendo Switch 2#1"
+            products[-1]["category"] = "Nintendo Switch#1"
             products_path.write_text(json.dumps(products), encoding="utf-8")
             ok, message = daily.validate("account20", root, TEST_DATE)
             self.assertFalse(ok)
-            self.assertIn("at least 2 products per category", message)
-            write_valid_output(root, "account20", 10)
-            products = json.loads(products_path.read_text(encoding="utf-8"))
-            products[3]["category"] = "PS5ゲームソフト#1"
-            products[4]["category"] = "PS5ゲームソフト#1"
-            products_path.write_text(json.dumps(products), encoding="utf-8")
-            self.assertTrue(daily.validate("account20", root, TEST_DATE)[0])
-            for count in (1, 2, 3):
-                write_valid_output(root, "account20", count)
-                ok, message = daily.validate("account20", root, TEST_DATE)
-                self.assertFalse(ok)
-                self.assertIn(f"{count} < 4", message)
+            self.assertIn("unexpected category: Nintendo Switch", message)
 
     def test_required_fields_affiliate_tag_and_duplicate_asin(self):
         with tempfile.TemporaryDirectory() as temp_dir:

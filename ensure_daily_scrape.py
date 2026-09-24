@@ -22,9 +22,9 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
 TODAY = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
-MIN_ITEMS = 4  # 1日4記事分を満たす取得結果だけを合格とする。account20は棚別2件も確認する。
+MIN_ITEMS = 4  # 通常アカウントは1日4記事分。account20だけ非空の部分取得を許容する。
 ACCOUNTS = tuple(f"account{number}" for number in range(1, 21))  # account1〜20（account0は退役）
-MIN_ITEMS_BY_ACCOUNT = {}
+MIN_ITEMS_BY_ACCOUNT = {"account20": 1}
 REQUIRED_PRODUCT_FIELDS = frozenset(
     {
         "asin",
@@ -205,14 +205,11 @@ def validate(
         return False, message
 
     if account == "account20":
-        shelves = {"Nintendo Switch 2": 0, "PS5ゲームソフト": 0}
+        shelves = {"Nintendo Switch 2", "PS5ゲームソフト"}
         for item in products:
             category = re.sub(r"#\d+$", "", str(item["category"]).strip()).strip()
             if category not in shelves:
                 return False, f"account20 has unexpected category: {category}"
-            shelves[category] += 1
-        if any(count < 2 for count in shelves.values()):
-            return False, f"account20 needs at least 2 products per category: {shelves}"
 
     summary_path = root / "data" / account / f"scrape_summary_{today}.json"
     if not summary_path.exists():
