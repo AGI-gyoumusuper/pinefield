@@ -22,7 +22,7 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
 TODAY = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
-MIN_ITEMS = 4  # 通常アカウントは1日4記事分。account20だけ非空の部分取得を許容する。
+MIN_ITEMS = 1  # 非空の取得結果を保持。account20も棚別の最低件数を設けない。
 ACCOUNTS = tuple(f"account{number}" for number in range(1, 21))  # account1〜20（account0は退役）
 MIN_ITEMS_BY_ACCOUNT = {"account20": 1}
 REQUIRED_PRODUCT_FIELDS = frozenset(

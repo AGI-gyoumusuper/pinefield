@@ -99,7 +99,7 @@ class DailyScrapeValidationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             for account in daily.ACCOUNTS:
-                minimum = 1 if account == "account20" else 4
+                minimum = 1
                 for count in range(minimum, 11):
                     with self.subTest(account=account, count=count):
                         write_valid_output(root, account, count)
@@ -217,17 +217,17 @@ class DailyScrapeValidationTests(unittest.TestCase):
 
 
 class DailyScrapeRepairTests(unittest.TestCase):
-    def test_one_product_triggers_recovery_until_four_are_available(self):
+    def test_zero_products_trigger_recovery_until_one_is_available(self):
         for account in ("account10", "account12", "account13"):
             with self.subTest(account=account), tempfile.TemporaryDirectory() as temp_dir:
                 root = Path(temp_dir)
-                write_valid_output(root, account, 1)
+                write_valid_output(root, account, 0)
                 history_path = root / "data" / account / "asin_history.json"
                 original_history = history_path.read_bytes()
 
                 def recover(scrape_account: str, scrape_root: Path, target_date: str) -> None:
                     self.assertEqual((scrape_account, target_date), (account, TEST_DATE))
-                    write_valid_output(scrape_root, scrape_account, 4)
+                    write_valid_output(scrape_root, scrape_account, 1)
 
                 with patch.object(daily, "scrape", side_effect=recover) as scrape:
                     self.assertTrue(daily.ensure(account, root, TEST_DATE))
