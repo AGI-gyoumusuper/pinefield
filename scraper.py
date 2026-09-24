@@ -1491,7 +1491,7 @@ async def _read_verified_product_details(page: Page) -> Tuple[str, str]:
             await _try_selectors(page, SPECS_SELECTORS))
 
 
-async def verify_candidate_offers(page: Page, products: List[Product], stats: dict) -> List[Product]:
+async def verify_candidate_offers(page: Page, products: List[Product], stats: dict, *, offer_scope="time_sale") -> List[Product]:
     """Verify every collected unique candidate before price/ranking/quota selection."""
     accepted, observations, seen = [], [], set()
     aborted_reason = None
@@ -1499,7 +1499,8 @@ async def verify_candidate_offers(page: Page, products: List[Product], stats: di
         if product.asin in seen:
             continue
         seen.add(product.asin)
-        record = await observe_detail_offer(page, product, _read_verified_product_details)
+        options = {"offer_scope": offer_scope} if offer_scope != "time_sale" else {}
+        record = await observe_detail_offer(page, product, _read_verified_product_details, **options)
         observations.append(record)
         if record["status"] == "accepted":
             accepted.append(product)
@@ -1520,6 +1521,8 @@ async def verify_candidate_offers(page: Page, products: List[Product], stats: di
         "rejected_count": len(observations) - len(accepted),
         "rejection_reasons": reasons, "observations": observations,
     }
+    if offer_scope == "all_discounts":
+        stats["_detail_offer_verification"].update(offer_scope=offer_scope, sale_name="Amazon セール")
     if aborted_reason:
         stats["_detail_offer_verification"].update(
             aborted_reason=aborted_reason,
@@ -1553,6 +1556,11 @@ async def fetch_products(
         raise ValueError("verify_detail_offer must be a boolean")
     if verify_detail_offer and os.path.basename(config_path) != "categories20.yaml":
         raise ValueError("PDP offer verification is restricted to categories20.yaml")
+    offer_scope = flt.get("offer_scope", "time_sale")
+    if offer_scope not in ("time_sale", "all_discounts"):
+        raise ValueError("offer_scope must be time_sale or all_discounts")
+    if offer_scope == "all_discounts" and (not verify_detail_offer or os.path.basename(config_path) != "categories20.yaml"):
+        raise ValueError("all_discounts is restricted to verified categories20.yaml")
     max_total = int(flt.get("max_total_items", 50))
     min_discount_pct = int(flt.get("min_discount_pct", 0))
     max_per_category = int(flt.get("max_per_category", 0))
@@ -1606,6 +1614,8 @@ async def fetch_products(
     }
     if verify_detail_offer:
         scrape_stats["_selection_policy"]["verify_detail_offer"] = True
+        if offer_scope == "all_discounts":
+            scrape_stats["_selection_policy"]["offer_scope"] = offer_scope
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         async def new_context_and_page() -> Tuple[BrowserContext, Page]:
@@ -1749,7 +1759,7 @@ async def fetch_products(
         # Identity registration remains exclusively in final selection below.
         pre_enriched_asins = None
         if verify_detail_offer:
-            all_products = await verify_candidate_offers(page, all_products, scrape_stats)
+            all_products = await verify_candidate_offers(page, all_products, scrape_stats, offer_scope=offer_scope)
             pre_enriched_asins = {product.asin for product in all_products}
         # Phase 2: 重複除去・価格フィルタ・ソート
         if exclude_product_identifiers:
@@ -1852,6 +1862,8 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
     }
     if detail_verification is not None:
         summary["detail_offer_verification"] = detail_verification
+        if summary["selection_policy"].get("offer_scope") == "all_discounts":
+            summary["sale_name"] = "Amazon セール"
     if detail_retry is not None:
         summary["detail_retry"] = detail_retry
     with open(summary_path, "w", encoding="utf-8") as f:

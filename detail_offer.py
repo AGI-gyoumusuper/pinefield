@@ -107,8 +107,10 @@ def public_evidence(observed, asin, url, http_status, checked_at):
     return evidence
 
 
-def validate_offer(evidence):
+def validate_offer(evidence, *, offer_scope="time_sale"):
     """Return (canonical offer, rejection code), using only the recorded PDP."""
+    if offer_scope not in ("time_sale", "all_discounts"):
+        return None, "detail_offer_scope_invalid"
     asin = evidence["requested_asin"]
     if evidence.get("challenge_detected") is not False:
         return None, "detail_challenge"
@@ -140,8 +142,22 @@ def validate_offer(evidence):
         calculated_rate = ((reference - price) * 200 + reference) // (2 * reference)
         if calculated_rate != rate:
             return None, "detail_discount_reference_inconsistent"
+    if offer_scope == "all_discounts" and reference is None:
+        return None, "detail_reference_missing"
+    sale_rejection = _validate_time_sale(evidence)
+    if sale_rejection:
+        if offer_scope != "all_discounts":
+            return None, sale_rejection
+        # Verified price/reference/rate is sufficient for an ordinary discount.
+        # Never infer a time-sale badge or a countdown from a discounted price.
+        evidence["evidence_kind"] = "ordinary_discount"
+        evidence["countdown"] = None
+    return {"price": f"￥{price:,}", "price_int": price, "original_price": f"￥{reference:,}" if reference else "", "discount_rate": f"{rate}%OFF"}, None
+
+
+def _validate_time_sale(evidence):
     if evidence.get("sale_region_count") != 1 or evidence.get("sale_region_selector") != "#dealBadge_feature_div":
-        return None, "detail_sale_region_missing_or_ambiguous"
+        return "detail_sale_region_missing_or_ambiguous"
     label = _text(evidence.get("sale_label", ""))
     if re.fullmatch(r"(?:Amazon)?タイムセール", label):
         evidence["evidence_kind"] = "label"
@@ -150,29 +166,29 @@ def validate_offer(evidence):
         if evidence.get("timer_count") != 1 or not isinstance(timer, dict) or timer.get("timer_selector") not in {
             "#detailpage-dealBadge-countdown-timer", ".detailpage-dealBadge-countdown-timer"
         }:
-            return None, "detail_time_sale_unverified"
+            return "detail_time_sale_unverified"
         duration = re.fullmatch(r"(\d{1,3}):([0-5]\d):([0-5]\d)", _text(timer.get("timer_text", "")))
         if not duration or not re.search(r"終了まで[:：]", label) or duration.group(0) not in label:
-            return None, "detail_countdown_invalid"
+            return "detail_countdown_invalid"
         seconds = int(duration[1]) * 3600 + int(duration[2]) * 60 + int(duration[3])
         if seconds <= 0:
-            return None, "detail_countdown_expired"
+            return "detail_countdown_expired"
         try:
             checked = datetime.fromisoformat(evidence["checked_at"])
             if checked.tzinfo is None:
                 raise ValueError("timezone missing")
         except (TypeError, ValueError):
-            return None, "detail_observation_time_invalid"
+            return "detail_observation_time_invalid"
         evidence["evidence_kind"] = "deal_countdown"
         evidence["countdown"] = {**timer, "remaining_seconds": seconds, "expires_at": (checked + timedelta(seconds=seconds)).isoformat()}
-    return {"price": f"￥{price:,}", "price_int": price, "original_price": f"￥{reference:,}" if reference else "", "discount_rate": f"{rate}%OFF"}, None
+    return None
 
 
 def offer_fields(product):
     return {key: getattr(product, key) for key in ("price", "price_int", "original_price", "discount_rate")}
 
 
-async def observe_detail_offer(page, product, description_reader):
+async def observe_detail_offer(page, product, description_reader, *, offer_scope="time_sale"):
     """One same-ASIN visit; description/specs and accepted offer share that page."""
     status, observed = None, {}
     checked = datetime.now(timezone.utc).isoformat()
@@ -183,7 +199,7 @@ async def observe_detail_offer(page, product, description_reader):
         observed = await page.evaluate(OBSERVE_OFFER_JS)
         checked = datetime.now(timezone.utc).isoformat()
         evidence = public_evidence(observed, product.asin, page.url, status, checked)
-        offer, reason = validate_offer(evidence)
+        offer, reason = validate_offer(evidence, offer_scope=offer_scope)
         if offer:
             description, specs = await description_reader(page)
             # A variant switch while lazy content loads invalidates the visit.

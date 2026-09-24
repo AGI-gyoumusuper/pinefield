@@ -299,6 +299,11 @@ def validate_detail_offer_summary(account: str, root: Path, products: list[dict]
         enabled = config.get("filters", {}).get("verify_detail_offer", False)
         if type(enabled) is not bool:
             raise ValueError("verify_detail_offer must be boolean")
+        configured_scope = config.get("filters", {}).get("offer_scope", "time_sale")
+        if configured_scope not in ("time_sale", "all_discounts"):
+            raise ValueError("offer_scope must be time_sale or all_discounts")
+        if configured_scope == "all_discounts" and not enabled:
+            raise ValueError("all_discounts requires PDP verification")
     except Exception as exc:
         return False, f"detail offer verification config invalid: {config_path}: {exc}"
     if not enabled:
@@ -326,6 +331,17 @@ def validate_detail_offer_summary(account: str, root: Path, products: list[dict]
         return failure("missing or unsupported summary")
     if verification.get("aborted_reason"):
         return failure("PDP observation batch was aborted")
+    # Older daily inputs remain governed by their original time-sale evidence.
+    offer_scope = summary.get("selection_policy", {}).get("offer_scope", "time_sale")
+    if offer_scope not in ("time_sale", "all_discounts"):
+        return failure("unsupported offer scope")
+    if offer_scope == "all_discounts":
+        if (configured_scope != "all_discounts" or verification.get("offer_scope") != offer_scope
+                or verification.get("sale_name") != "Amazon セール" or summary.get("sale_name") != "Amazon セール"):
+            return failure("ordinary discount scope/label mismatch")
+    elif verification.get("offer_scope", "time_sale") != "time_sale":
+        return failure("offer scope mismatch")
+    evidence_kinds = ("label", "deal_countdown", "ordinary_discount") if offer_scope == "all_discounts" else ("label", "deal_countdown")
     observations = verification.get("observations")
     if not isinstance(observations, list):
         return failure("observations is not a list")
@@ -373,7 +389,7 @@ def validate_detail_offer_summary(account: str, root: Path, products: list[dict]
                 or not isinstance(page_asins, list) or any(value != asin for value in page_asins)
                 or type(evidence.get("http_status")) is not int or evidence.get("http_status") != 200
                 or evidence.get("challenge_detected") is not False
-                or evidence.get("evidence_kind") not in ("label", "deal_countdown")
+                or evidence.get("evidence_kind") not in evidence_kinds
                 or not isinstance(record.get("checked_at"), str) or not record["checked_at"]
                 or evidence.get("checked_at") != record["checked_at"]):
             return failure(f"evidence identity/status mismatch: {asin}")
@@ -382,7 +398,8 @@ def validate_detail_offer_summary(account: str, root: Path, products: list[dict]
             if observed_at.tzinfo is None:
                 raise ValueError("timezone missing")
             replayed_evidence = copy.deepcopy(evidence)
-            replayed_offer, rejection = validate_offer(replayed_evidence)
+            replayed_offer, rejection = (validate_offer(replayed_evidence, offer_scope=offer_scope)
+                                         if offer_scope == "all_discounts" else validate_offer(replayed_evidence))
         except Exception:
             return failure(f"recorded PDP verification failed: {asin}")
         if rejection or replayed_offer != offer or replayed_evidence != evidence:
