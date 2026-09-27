@@ -1602,6 +1602,138 @@ async def verify_discount_candidates(page, candidates, stats, *, max_candidates=
     return accepted
 
 
+def daily_supply_slots(products, account, categories):
+    """Count usable daily positions, separately from source validity (one item)."""
+    if account == 20:
+        return sum(min(2, sum(p.category.split('#')[0] == cat['name'] for p in products))
+                   for cat in categories[:2])
+    return min(4, len(products))
+
+
+async def complete_discount_supply(
+    page, selected, search_pool, registry, cats, stats, *, account, min_price,
+    max_price, sort_order, max_total, min_discount_pct, max_per_category,
+    exclude_title_patterns, category_min_prices,
+):
+    """Use one more bounded PDP batch only when the first batch leaves empty slots.
+
+    This runs before publishing the source. It never refetches accepted products,
+    relaxes selection rules, writes the posted ledger, or changes a frozen source.
+    """
+    result = list(selected)
+    before = daily_supply_slots(result, account, cats)
+    supply = dict(required_slots=4, ready_before=before, ready_after=before,
+                  extra_batch_count=0, added_asins=[], reason='sufficient',
+                  max_extra_candidates=24, max_extra_seconds=240)
+    stats['_supply_completion'] = supply
+    if max_total < 4:
+        supply['reason'] = 'configured_output_limit'
+        return result
+    if before >= 4:
+        return result
+    previous = stats.get('_detail_offer_verification', {})
+    if previous.get('budget_stop_reason') == 'detail_challenge':
+        supply['reason'] = 'detail_challenge'
+        return result
+    observed = {row['asin'] for row in previous.get('observations', [])}
+    observed.update(p.asin for p in result)
+    pending = [p for p in search_pool if p.asin not in observed]
+    if account == 20:
+        missing_shelves = {cat['name'] for cat in cats[:2]
+                          if sum(p.category.split('#')[0] == cat['name'] for p in result) < 2}
+        pending = [p for p in pending if p.category.split('#')[0] in missing_shelves]
+    pending = filter_and_sort(
+        pending, min_price=min_price, max_price=max_price, sort_order=sort_order,
+        max_total=24, posted_asins=registry.asins, min_discount_pct=min_discount_pct,
+        max_per_category=2, exclude_title_patterns=exclude_title_patterns,
+        category_min_prices=category_min_prices)
+    supply['remaining_candidates'] = len(pending)
+    if not pending:
+        supply['reason'] = 'no_unverified_eligible_candidates'
+        return result
+    extra_stats = {}
+    try:
+        verified = await verify_discount_candidates(page, pending, extra_stats,
+                                                    max_candidates=24, timeout_seconds=240)
+    except Exception as exc:
+        # An optional completion failure must not discard initial usable products.
+        supply['extra_batch_count'] = 1
+        supply['reason'] = 'supplement_failed'
+        supply['error'] = str(exc)[:200]
+        logger.warning('追加候補の確認失敗（先に確認できた商品を保持）: %s', exc)
+        return result
+    extra = extra_stats['_detail_offer_verification']
+    supply['extra_batch_count'] = 1
+    supply['reason'] = extra.get('budget_stop_reason') or 'candidate_pool_exhausted'
+    # Keep every initial observation: the final contract must still prove its rows.
+    combined = dict(previous)
+    combined['observations'] = previous.get('observations', []) + extra['observations']
+    for key in ('candidate_count', 'raw_candidate_count', 'accepted_count',
+                'rejected_count', 'detail_visits_started', 'elapsed_seconds'):
+        combined[key] = previous.get(key, 0) + extra.get(key, 0)
+    combined['rejection_reasons'] = dict(previous.get('rejection_reasons', {}))
+    for reason, count in extra.get('rejection_reasons', {}).items():
+        combined['rejection_reasons'][reason] = combined['rejection_reasons'].get(reason, 0) + count
+    combined['batches'] = [dict(limits=previous.get('limits'),
+                                budget_stop_reason=previous.get('budget_stop_reason')),
+                           dict(limits=extra.get('limits'), budget_stop_reason=extra.get('budget_stop_reason'))]
+    combined['limits'] = {
+        key: previous.get('limits', {}).get(key, 0) + extra.get('limits', {}).get(key, 0)
+        for key in ('max_candidates', 'timeout_seconds')}
+    combined['budget_stop_reason'] = extra.get('budget_stop_reason')
+    stats['_detail_offer_verification'] = combined
+    verified = filter_and_sort(
+        verified, min_price=min_price, max_price=max_price, sort_order=sort_order,
+        max_total=0, posted_asins=registry.asins, min_discount_pct=min_discount_pct,
+        exclude_title_patterns=exclude_title_patterns, category_min_prices=category_min_prices)
+    overflow = []
+
+    def accept(candidate):
+        name = candidate.category.split('#')[0]
+        if account == 20 and sum(p.category.split('#')[0] == name for p in result) >= 2:
+            return
+        identity = extract_product_identity(candidate)
+        reason = registry.match_identity(identity)
+        if reason:
+            prefix = reason.split(':', 1)[0]
+            stats['_skipped_product_identity'] = stats.get('_skipped_product_identity', 0) + 1
+            reasons = stats.setdefault('_skipped_product_identity_reasons', {})
+            reasons[prefix] = reasons.get(prefix, 0) + 1
+            return
+        if len(result) >= max_total:
+            if account != 20:
+                return
+            # Before source publication only: replace an overflow item (>2 in its
+            # shelf) so the second shelf has its required two daily positions.
+            remove_index = next((i for i in range(len(result)-1, -1, -1)
+                                 if sum(p.category.split('#')[0] == result[i].category.split('#')[0]
+                                        for p in result) > 2), None)
+            if remove_index is None:
+                return
+            result.pop(remove_index)
+        result.append(candidate)
+        registry.add_identity(identity)
+        supply['added_asins'].append(candidate.asin)
+
+    for candidate in verified:
+        name = candidate.category.split('#')[0]
+        if account != 20 and max_per_category > 0 and sum(p.category.split('#')[0] == name for p in result) >= max_per_category:
+            overflow.append(candidate)
+            continue
+        accept(candidate)
+        if daily_supply_slots(result, account, cats) >= 4:
+            break
+    if daily_supply_slots(result, account, cats) < 4:
+        for candidate in overflow:
+            accept(candidate)
+            if daily_supply_slots(result, account, cats) >= 4:
+                break
+    supply['ready_after'] = daily_supply_slots(result, account, cats)
+    if supply['ready_after'] >= 4:
+        supply['reason'] = 'completed'
+    return result
+
+
 async def fetch_products(
     config_path: str = CONFIG_PATH,
     associate_tag: str = ASSOCIATE_TAG,
@@ -1867,6 +1999,7 @@ async def fetch_products(
         # account20 opt-in: all bounded search candidates are verified first.
         # Identity registration remains exclusively in final selection below.
         pre_enriched_asins = None
+        search_pool = list(all_products)
         if integrated_discounts:
             # Preserve category/price/exclusion policy and bound the final confirmation pool.
             short = filter_and_sort(
@@ -1933,13 +2066,23 @@ async def fetch_products(
             if filtered and not verify_detail_offer:
                 logger.info(f"=== 個別商品ページ取得開始: {len(filtered)} 件 ===")
                 await enrich_products(page, filtered, retry_budget=detail_retry_budget)
+        if integrated_discounts and exclude_product_identifiers:
+            account_match = re.fullmatch(r"categories(\d+)\.yaml", os.path.basename(config_path))
+            if account_match is None:
+                raise ValueError("versioned discounts require canonical account config name")
+            filtered = await complete_discount_supply(
+                page, filtered, search_pool, product_registry, cats, scrape_stats,
+                account=int(account_match[1]), min_price=min_price, max_price=max_price,
+                sort_order=sort_order, max_total=max_total, min_discount_pct=min_discount_pct,
+                max_per_category=max_per_category, exclude_title_patterns=exclude_title_patterns,
+                category_min_prices=category_min_prices)
         if verify_detail_offer:
             verification = scrape_stats["_detail_offer_verification"]
             verification["final_selected_count"] = len(filtered)
             verification["categories"] = {
                 str(cat["name"]): {
                     "collected_candidates": sum(record["category"].split("#")[0] == cat["name"] for record in verification["observations"]),
-                    "verified_candidates": sum(product.category.split("#")[0] == cat["name"] for product in all_products),
+                    "verified_candidates": sum(record["category"].split("#")[0] == cat["name"] and record["status"] == "accepted" for record in verification["observations"]),
                     "final_selected": sum(product.category.split("#")[0] == cat["name"] for product in filtered),
                 } for cat in cats
             }
@@ -1977,6 +2120,7 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
     detail_retry = scrape_stats.pop("_detail_retry", None)
     discount_contract = scrape_stats.pop("_discount_contract", None)
     coupon_search = scrape_stats.pop("_coupon_search", None)
+    supply_completion = scrape_stats.pop("_supply_completion", None)
     summary = {
         "date": date_tag,
         "total_taken": len(products),
@@ -1994,6 +2138,8 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
             summary["sale_name"] = "Amazon セール"
     if detail_retry is not None:
         summary["detail_retry"] = detail_retry
+    if supply_completion is not None:
+        summary["supply_completion"] = supply_completion
     if discount_contract is not None:
         discount_contract["date"] = date_tag
         summary["discount_contract"] = discount_contract

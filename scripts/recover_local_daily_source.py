@@ -7,7 +7,8 @@ from __future__ import annotations
 
 import argparse
 from contextlib import contextmanager
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
+import copy
 import hashlib
 import json
 import os
@@ -18,6 +19,7 @@ import socket
 import subprocess
 import sys
 import tempfile
+import types
 import uuid
 from zoneinfo import ZoneInfo
 
@@ -85,15 +87,113 @@ class Commands:
         return self.git(repo, *args).stdout.decode('utf-8').strip()
 
 
-def validate_date(account, target_date):
+def validate_date(account, target_date, *, allow_next_day=False):
     if type(account) is not int or not 1 <= account <= 20:
         raise RecoveryStop('account_must_be_1_to_20')
     try:
         valid = date.fromisoformat(target_date).isoformat() == target_date
     except (TypeError, ValueError):
         valid = False
-    if not valid or target_date != today_jst():
+    allowed = {today_jst()}
+    if allow_next_day:
+        allowed.add((date.fromisoformat(today_jst()) + timedelta(days=1)).isoformat())
+    if not valid or target_date not in allowed:
         raise RecoveryStop('target_must_be_JST_today')
+
+
+def postable_count(account, products):
+    """Readiness is separate from validity: keep every valid short source."""
+    if account != 20:
+        return min(4, len(products))
+    shelves = ('Nintendo Switch 2', 'PS5ゲームソフト')
+    return sum(min(2, sum(re.sub(r'#\d+$', '', str(p.get('category', '')).strip()).strip() == shelf
+                          for p in products)) for shelf in shelves)
+
+
+def merge_short_source(account, original_products, original_summary, fresh_products, fresh_summary,
+                       identity_module):
+    """Append only independently verified new identities; retain the exact original prefix."""
+    if original_summary.get('selection_policy') != fresh_summary.get('selection_policy'):
+        raise RecoveryStop('supplement_selection_policy_changed')
+    if not original_summary.get('discount_contract') or not fresh_summary.get('discount_contract'):
+        raise RecoveryStop('supplement_requires_verified_discount_contract')
+    products = copy.deepcopy(original_products)
+    summary = copy.deepcopy(original_summary)
+    registry = identity_module.ProductIdentityRegistry()
+    for item in products:
+        registry.add_identity(identity_module.extract_product_identity(item))
+    seen = {p['asin'] for p in products}
+    additions = []
+    fresh_rows = {p['asin']: p for p in fresh_summary['discount_contract']['products']}
+    fresh_observations = {p['asin']: p for p in fresh_summary['detail_offer_verification']['observations']}
+    for item in fresh_products:
+        if postable_count(account, products) >= 4 or len(products) >= 10:
+            break
+        if item['asin'] in seen:
+            continue
+        identity = identity_module.extract_product_identity(item)
+        if registry.match_identity(identity):
+            continue
+        # account20 additions must actually fill a missing shelf, never consume capacity otherwise.
+        if account == 20 and postable_count(account, products + [item]) == postable_count(account, products):
+            continue
+        record = fresh_observations.get(item['asin'])
+        row = fresh_rows.get(item['asin'])
+        if not record or record.get('status') != 'accepted' or not row:
+            raise RecoveryStop('supplement_new_item_has_no_verified_observation')
+        products.append(copy.deepcopy(item)); additions.append(item['asin']); seen.add(item['asin'])
+        registry.add_identity(identity)
+        row = copy.deepcopy(row); row['source_position'] = len(products)
+        summary['discount_contract']['products'].append(row)
+        observations = summary['detail_offer_verification']['observations']
+        previous = next((r for r in observations if r['asin'] == item['asin']), None)
+        # An earlier rejected candidate can later be accepted. Its original observation is archived.
+        if previous is not None:
+            summary.setdefault('local_supplement', {}).setdefault('superseded_observations', []).append(copy.deepcopy(previous))
+            observations.remove(previous)
+        observations.append(copy.deepcopy(record))
+    verification = summary['detail_offer_verification']
+    observations = verification['observations']
+    verification.update(candidate_count=len(observations),
+                        accepted_count=sum(r.get('status') == 'accepted' for r in observations),
+                        rejected_count=sum(r.get('status') == 'rejected' for r in observations),
+                        final_selected_count=len(products))
+    reasons = {}
+    for record in observations:
+        if record.get('status') == 'rejected':
+            reason = record.get('reason') or 'unspecified'
+            reasons[reason] = reasons.get(reason, 0) + 1
+    verification['rejection_reasons'] = reasons
+    verification['raw_candidate_count'] = max(len(observations), verification.get('raw_candidate_count', 0))
+    if isinstance(summary.get('supply_completion'), dict):
+        summary['supply_completion']['initial_scrape_report_only'] = True
+        summary['supply_completion']['final_after_local_supplement'] = postable_count(account, products)
+    for category, values in verification.get('categories', {}).items():
+        values['final_selected'] = sum(p['category'].split('#')[0] == category for p in products)
+    summary['total_taken'] = len(products)
+    summary.setdefault('local_supplement', {}).update(
+        schema_version=1, original_count=len(original_products), added_asins=additions,
+        original_prefix_preserved=products[:len(original_products)] == original_products,
+        postable_count=postable_count(account, products), fresh_summary_date=fresh_summary.get('date'))
+    if products[:len(original_products)] != original_products:
+        raise RecoveryStop('supplement_changed_original_prefix')
+    return products, summary
+
+
+def load_identity_module(worktree):
+    name = '_pinefield_recovery_identity_' + uuid.uuid4().hex
+    path = worktree / 'product_identity.py'
+    if not path.is_file():
+        raise RecoveryStop('canonical_identity_module_missing')
+    # Compile bytes in memory: ordinary Python invocation must not create an untracked .pyc in the checkout.
+    module = types.ModuleType(name)
+    module.__file__ = str(path)
+    sys.modules[name] = module
+    try:
+        exec(compile(path.read_text(encoding='utf-8-sig'), str(path), 'exec'), module.__dict__)
+    finally:
+        sys.modules.pop(name, None)
+    return module
 
 
 def factory_root(account):
@@ -211,7 +311,7 @@ def validate_output(commands, worktree, account, target_date, log):
     products = json.loads((worktree / 'data' / f'account{account}' / f'products_{target_date}.json').read_text(encoding='utf-8-sig'))
     if any(set(item) != PRODUCT_FIELDS for item in products):
         raise RecoveryStop('products_must_keep_exact_13_fields')
-    # The existing validator enforces 4..10, account20 2+2, routing, and current summary policy.
+    # Validity deliberately allows 1..10; postable_count separately tests four-slot readiness.
     return len(products)
 
 
@@ -288,18 +388,26 @@ def allocate_output(account, target_date):
     raise RecoveryStop('too_many_local_recovery_runs')
 
 
-def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_completed=False, timeout=1800):
-    validate_date(account, target_date)
+def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_completed=False, timeout=1800,
+            nightly=False, before_publish=None, deadline_utc=None):
+    validate_date(account, target_date, allow_next_day=nightly)
     if not 1 <= timeout <= 3600:
         raise RecoveryStop('timeout_must_be_1_to_3600_seconds')
     if execute and not cloud_run_completed:
         raise RecoveryStop('execute_requires_cloud_run_completed')
+    if nightly and execute and not callable(before_publish):
+        raise RecoveryStop('nightly_execute_requires_live_cloud_publish_guard')
+    def time_guard():
+        if deadline_utc is not None and datetime.now(timezone.utc) >= deadline_utc:
+            raise RecoveryStop('nightly_window_ended')
+    time_guard()
     factory = factory_root(account)
     output = allocate_output(account, target_date)
     commands = Commands(output / 'commands.jsonl')
     repo = Path(repo).resolve()
     result = {'schema': 'pinefield-local-recovery-v1', 'account': f'account{account}', 'date': target_date,
               'execute': execute, 'cloud_run_completed_declared': cloud_run_completed, 'scrape_runs': 0,
+              'nightly': nightly,
               'push_attempts': 0, 'rebase_attempts': 0, 'output_dir': str(output), 'started_at_utc': utc_now()}
     worktree = None
     try:
@@ -309,6 +417,7 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
         # Shared by all local checkouts/clones, not bypassed by passing a different --repo.
         control = output.parent / '.control'
         attempt = control / f'account{account}_{target_date}.attempt.json'
+        pending = control / f'account{account}_{target_date}.pending.json'
         with account_lock(control / f'account{account}_{target_date}.lock'):
             check_source(factory, account, target_date)
             with factory_locks(factory, account, target_date, execute):
@@ -331,22 +440,76 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                 protected_before = {name: digest((worktree / name).read_bytes()) if (worktree / name).exists() else None for name in protected}
                 result['protected_sha256'] = protected_before
                 existing = existing_valid_output(commands, worktree, account, target_date, output, base, paths)
-                if existing is not None:
+                original_products = json.loads((worktree / paths[0]).read_text(encoding='utf-8-sig')) if existing else None
+                original_summary = json.loads((worktree / paths[1]).read_text(encoding='utf-8-sig')) if existing else None
+                readiness = postable_count(account, original_products) if existing else 0
+                result['postable_before'] = readiness
+                supplement = bool(nightly and existing and readiness < 4 and len(original_products) < 10)
+                if existing is not None and not supplement:
                     result.update(existing)
-                elif attempt.exists():
+                    result['postable_after'] = readiness
+                    if nightly and readiness < 4:
+                        result['shortfall_reason'] = 'preserved_existing_source_at_maximum_capacity'
+                elif attempt.exists() and not (nightly and pending.exists()):
                     raise RecoveryStop('same_account_date_already_attempted')
                 elif not execute:
                     result['status'] = 'PREFLIGHT_PASS'
                 else:
-                    validate_date(account, target_date)
+                    validate_date(account, target_date, allow_next_day=nightly)
+                    time_guard()
                     check_source(factory, account, target_date)
-                    write_json(attempt, {'account': account, 'date': target_date, 'started_at_utc': utc_now(),
-                                       'output_dir': str(output), 'source_origin_commit': base}, exclusive=True)
-                    # Only the isolated checkout's two stale outputs are removed. A no-op child cannot reuse them.
-                    for name in paths:
-                        (worktree / name).unlink(missing_ok=True)
-                    result['scrape_runs'] = 1
-                    scrape_once(worktree, account, target_date, timeout, output / 'scrape.log')
+                    shared_inputs = ['scraper.py', 'detail_offer.py', 'product_identity.py', 'ensure_daily_scrape.py',
+                                     'scrape_target_date.py', f'scrape_main{account}.py']
+                    input_names = paths + protected + shared_inputs
+                    input_hashes = {name: digest((worktree / name).read_bytes()) if (worktree / name).is_file() else None
+                                    for name in input_names}
+                    reused_pending = False
+                    if nightly and pending.exists():
+                        saved = json.loads(pending.read_text(encoding='utf-8'))
+                        if (saved.get('account') != account or saved.get('date') != target_date
+                                or saved.get('input_sha256') != input_hashes):
+                            raise RecoveryStop('pending_candidate_inputs_changed_no_reuse')
+                        folder = Path(saved['output_dir']).resolve()
+                        if folder.parent != output.parent.resolve() or not re.fullmatch(r'run-\d+', folder.name):
+                            raise RecoveryStop('pending_candidate_path_invalid')
+                        for name in paths:
+                            content = (folder / ('pending-' + Path(name).name)).read_bytes()
+                            if digest(content) != saved['files_sha256'][name]:
+                                raise RecoveryStop('pending_candidate_hash_mismatch')
+                            (worktree / name).write_bytes(content)
+                        reused_pending = True
+                        result['reused_pending_candidate'] = str(folder)
+                    else:
+                        child_timeout = timeout
+                        if deadline_utc is not None:
+                            child_timeout = min(timeout, int((deadline_utc - datetime.now(timezone.utc)).total_seconds()) - 30)
+                            if child_timeout < 600:
+                                # Defer to the next safe window without consuming the one-scrape record.
+                                raise RecoveryStop('nightly_window_too_short_to_start_scrape')
+                        write_json(attempt, {'account': account, 'date': target_date, 'started_at_utc': utc_now(),
+                                           'output_dir': str(output), 'source_origin_commit': base}, exclusive=True)
+                        # Only our isolated two outputs are removed; the remote originals remain unchanged.
+                        for name in paths:
+                            (worktree / name).unlink(missing_ok=True)
+                        result['scrape_runs'] = 1
+                        scrape_once(worktree, account, target_date, child_timeout, output / 'scrape.log')
+                        validate_output(commands, worktree, account, target_date, output / 'fresh_validation.log')
+                        if supplement:
+                            fresh_products = json.loads((worktree / paths[0]).read_text(encoding='utf-8-sig'))
+                            fresh_summary = json.loads((worktree / paths[1]).read_text(encoding='utf-8-sig'))
+                            for name in paths:
+                                (output / ('fresh-' + Path(name).name)).write_bytes((worktree / name).read_bytes())
+                            merged_products, merged_summary = merge_short_source(account, original_products, original_summary,
+                                fresh_products, fresh_summary, load_identity_module(worktree))
+                            if merged_products == original_products:
+                                # Keep the exact old JSON blobs, including summary and whitespace, on a no-gain run.
+                                for name in paths:
+                                    (worktree / name).write_bytes(commands.git(worktree, 'show', f'{base}:{name}').stdout)
+                                result['shortfall_reason'] = 'no_additional_verified_distinct_products'
+                            else:
+                                write_json(worktree / paths[0], merged_products)
+                                write_json(worktree / paths[1], merged_summary)
+                            result['supplement_added_count'] = len(merged_products) - len(original_products)
                     for name in paths:
                         if not (worktree / name).is_file():
                             raise RecoveryStop('fresh_output_missing')
@@ -358,6 +521,16 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                     if not changed_paths(commands, worktree).issubset(set(paths)):
                         raise RecoveryStop('unexpected_scraper_file_change')
                     result['product_count'] = validate_output(commands, worktree, account, target_date, output / 'validation.log')
+                    final_products = json.loads((worktree / paths[0]).read_text(encoding='utf-8-sig'))
+                    if original_products is not None and nightly and final_products[:len(original_products)] != original_products:
+                        raise RecoveryStop('supplement_changed_original_prefix')
+                    result['postable_after'] = postable_count(account, final_products)
+                    if nightly:
+                        # Persist immutable candidates before a transient Cloud wait. Never re-scrape them on retry.
+                        for name in paths:
+                            (output / ('pending-' + Path(name).name)).write_bytes((worktree / name).read_bytes())
+                        write_json(pending, {'account': account, 'date': target_date, 'input_sha256': input_hashes,
+                            'output_dir': str(output), 'files_sha256': {name: digest((worktree / name).read_bytes()) for name in paths}})
                     check_source(factory, account, target_date)
                     commands.git(worktree, 'add', '--', *paths)
                     staged = changed_paths(commands, worktree, staged=True)
@@ -394,7 +567,8 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                         verify_policy(worktree, account)
                         result['product_count'] = validate_output(commands, worktree, account, target_date, output / 'validation_after_rebase.log')
                     result['publish_base_commit'] = remote
-                    validate_date(account, target_date)
+                    validate_date(account, target_date, allow_next_day=nightly)
+                    time_guard()
                     check_source(factory, account, target_date)
                     protected_after = {name: digest((worktree / name).read_bytes()) if (worktree / name).exists() else None for name in protected}
                     if protected_after != protected_before:
@@ -408,6 +582,13 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                     if committed != staged:
                         raise RecoveryStop('publish_commit_scope_changed')
                     if staged:
+                        if before_publish is not None:
+                            gate = before_publish()
+                            result['pre_publish_cloud_gate'] = gate
+                            if not isinstance(gate, dict) or gate.get('status') != 'READY':
+                                raise RecoveryStop('cloud_not_ready_before_publish_candidate_saved')
+                        time_guard()
+                        check_source(factory, account, target_date)
                         result['push_attempts'] = 1
                         try:
                             push = commands.git(worktree, 'push', 'origin', 'HEAD:main', check=False)
@@ -427,6 +608,8 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                     result['artifact_source'] = 'origin/main_readback_confirmed'
                     result['status'] = 'PUBLISHED' if staged else 'UNCHANGED_VALIDATED'
                     result['published_commit'] = commit
+                    if nightly and pending.exists():
+                        pending.unlink()
     except (RecoveryStop, subprocess.TimeoutExpired, OSError, ValueError, KeyError, TypeError) as exc:
         result['status'] = 'STOPPED'
         result['reason'] = str(exc) if isinstance(exc, RecoveryStop) else type(exc).__name__

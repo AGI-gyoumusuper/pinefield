@@ -25,17 +25,17 @@ if ($existing -and ($existing.Actions.Execute -ne $Pythonw -or $existing.Actions
 }
 # Start tomorrow to avoid an unreviewed missed-trigger run during installation.
 # A deliberate Start-ScheduledTask below the caller's verification tests today's path.
-$firstRun = (Get-Date).Date.AddDays(1).AddHours(7)
+$firstRun = (Get-Date).Date.AddDays(1).AddHours(20).AddMinutes(30)
 # Preserve the verified SID in XML. The CIM constructor resolves it back to a
 # short account name, which Task Scheduler cannot reliably resolve on this PC.
 $commandXml = [System.Security.SecurityElement]::Escape($Pythonw)
-$argumentsXml = [System.Security.SecurityElement]::Escape(('"{0}" --execute --repo "{1}" --max-runtime-seconds 10800' -f $wrapper, $RepoDir))
+$argumentsXml = [System.Security.SecurityElement]::Escape(('"{0}" --execute --nightly-preparation --repo "{1}" --max-runtime-seconds 10800' -f $wrapper, $RepoDir))
 $directoryXml = [System.Security.SecurityElement]::Escape($RepoDir)
 $startXml = $firstRun.ToString('yyyy-MM-ddTHH:mm:ss')
 $definition = @"
 <?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
-  <RegistrationInfo><Description>Audit 20 daily GitHub sources and recover only missing outputs after Cloud completes.</Description></RegistrationInfo>
+  <RegistrationInfo><Description>Before factory source freeze, audit four-slot supply and recover missing or partial outputs only after the relevant Cloud run completes.</Description></RegistrationInfo>
   <Triggers><CalendarTrigger><Repetition><Interval>PT30M</Interval><Duration>PT12H</Duration><StopAtDurationEnd>false</StopAtDurationEnd></Repetition><StartBoundary>$startXml</StartBoundary><Enabled>true</Enabled><ScheduleByDay><DaysInterval>1</DaysInterval></ScheduleByDay></CalendarTrigger></Triggers>
   <Principals><Principal id="Author"><UserId>$referenceUserId</UserId><LogonType>InteractiveToken</LogonType><RunLevel>LeastPrivilege</RunLevel></Principal></Principals>
   <Settings><MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy><DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries><StopIfGoingOnBatteries>false</StopIfGoingOnBatteries><AllowHardTerminate>true</AllowHardTerminate><StartWhenAvailable>true</StartWhenAvailable><RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable><IdleSettings><StopOnIdleEnd>false</StopOnIdleEnd><RestartOnIdle>false</RestartOnIdle></IdleSettings><AllowStartOnDemand>true</AllowStartOnDemand><Enabled>true</Enabled><Hidden>false</Hidden><RunOnlyIfIdle>false</RunOnlyIfIdle><WakeToRun>true</WakeToRun><ExecutionTimeLimit>PT4H</ExecutionTimeLimit><Priority>7</Priority></Settings>
@@ -52,7 +52,7 @@ $info = Get-ScheduledTaskInfo -InputObject $registered
     Execute = $registered.Actions.Execute
     Arguments = $registered.Actions.Arguments
     NextRunTime = $info.NextRunTime.ToString('o')
-    DailyStart = '07:00 Asia/Tokyo'
+    DailyStart = '20:30 Asia/Tokyo (next-day preparation; after midnight current day)'
     Repeat = 'Every 30 minutes for 12 hours'
     StartWhenAvailable = $registered.Settings.StartWhenAvailable
     WakeToRun = $registered.Settings.WakeToRun
