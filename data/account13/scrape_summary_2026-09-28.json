@@ -350,9 +350,9 @@
     "enabled": true,
     "offer_scope": "unified_discounts",
     "sale_name": "Amazon セール",
-    "candidate_count": 4,
-    "raw_candidate_count": 4,
-    "accepted_count": 4,
+    "candidate_count": 5,
+    "raw_candidate_count": 5,
+    "accepted_count": 5,
     "rejected_count": 0,
     "rejection_reasons": {},
     "observations": [
@@ -652,6 +652,100 @@
           }
         },
         "evidence_sha256": "F87503EB3B967A1641CC2DF0C6F2D72CF0BB2401913B4CEFE04EDC76DEB68BDE"
+      },
+      {
+        "asin": "B0DVYF3CGS",
+        "category": "睡眠サプリ#1",
+        "checked_at": "2026-09-27T13:22:25.931640+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥3,172",
+          "price_int": 3172,
+          "original_price": "￥4,880",
+          "discount_rate": "35%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥3,172",
+          "price_int": 3172,
+          "original_price": "￥4,880",
+          "discount_rate": "35%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DVYF3CGS",
+            "B0DVYF3CGS"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ダイケン ギャバ 睡眠サプリ【機能性表示食品】高濃度GABA 90% マグネシウム＆セサミン配合 医師監修、120粒 30日分",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "3,172"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-35%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥4,880\n￥4,880"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細\n2点買うと5% OFF 買い物をする\n無料ボーナスアイテム 2選択商品を購入する場合 無料アイテムを申し込む",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0DVYF3CGS",
+                "https://www.amazon.co.jp/promotion/psp/AWKU0O85MPIQP",
+                "https://www.amazon.co.jp/dp/B0DVYF3CGS",
+                "https://www.amazon.co.jp/promotion/psp/AWKU0O85MPIQP",
+                "https://www.amazon.co.jp/dp/B0DVYF3CGS",
+                "https://www.amazon.co.jp/promotion/psp/A1LBS93QOAVF0V",
+                "https://www.amazon.co.jp/promotion/psp/A3FB1FNFJT6Z62",
+                "https://www.amazon.co.jp/dp/B0DVYF3CGS"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0DVYF3CGS",
+          "url": "https://www.amazon.co.jp/dp/B0DVYF3CGS",
+          "http_status": 200,
+          "checked_at": "2026-09-27T13:22:25.931640+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 3172,
+            "application": "unknown",
+            "conditions": [
+              "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細\n2点買うと5% OFF 買い物をする\n無料ボーナスアイテム 2選択商品を購入する場合 無料アイテムを申し込む"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_unsupported_condition",
+            "evidence_text": "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細\n2点買うと5% OFF 買い物をする\n無料ボーナスアイテム 2選択商品を購入する場合 無料アイテムを申し込む",
+            "source_url": "https://www.amazon.co.jp/dp/B0DVYF3CGS",
+            "asin": "B0DVYF3CGS"
+          }
+        },
+        "evidence_sha256": "C9FD559C903E4DE2B6B4BC75502D1DC769CAA51A403D77660A05ACD4C2B775AF"
       }
     ],
     "limits": {
@@ -696,7 +790,7 @@
       "睡眠サプリ": {
         "collected_candidates": 0,
         "verified_candidates": 0,
-        "final_selected": 0
+        "final_selected": 1
       },
       "クレアチン": {
         "collected_candidates": 0,
@@ -721,7 +815,7 @@
       "ダイエットシェイク": {
         "collected_candidates": 1,
         "verified_candidates": 1,
-        "final_selected": 1
+        "final_selected": 0
       },
       "HMB": {
         "collected_candidates": 0,
@@ -760,41 +854,8 @@
     "date": "2026-09-28",
     "products": [
       {
-        "asin": "B0099AJP80",
-        "source_position": 1,
-        "observation_status": "verified",
-        "base_offer": {
-          "sale_price_yen": 3825,
-          "original_price_yen": 4620,
-          "discount_rate_percent": 17
-        },
-        "time_sale": {
-          "verified": false,
-          "label": null
-        },
-        "coupon": {
-          "status": "not_displayed",
-          "kind": null,
-          "value": null,
-          "basis_price_yen": 3825,
-          "application": "unknown",
-          "conditions": [],
-          "expires_at": null,
-          "expiry_status": "not_displayed",
-          "same_offer": false,
-          "stackable": false,
-          "final_price_yen": null,
-          "reason": null,
-          "evidence_text": "",
-          "source_url": "https://www.amazon.co.jp/dp/B0099AJP80",
-          "asin": "B0099AJP80"
-        },
-        "observed_at": "2026-09-27T13:07:10.531493+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B0099AJP80"
-      },
-      {
         "asin": "B000RYUMV6",
-        "source_position": 2,
+        "source_position": 1,
         "observation_status": "verified",
         "base_offer": {
           "sale_price_yen": 7239,
@@ -827,7 +888,7 @@
       },
       {
         "asin": "B07DJ1VXXG",
-        "source_position": 3,
+        "source_position": 2,
         "observation_status": "verified",
         "base_offer": {
           "sale_price_yen": 3880,
@@ -860,7 +921,7 @@
       },
       {
         "asin": "B0070SUSC0",
-        "source_position": 4,
+        "source_position": 3,
         "observation_status": "verified",
         "base_offer": {
           "sale_price_yen": 3388,
@@ -890,6 +951,41 @@
         },
         "observed_at": "2026-09-27T13:22:18.981886+00:00",
         "evidence_url": "https://www.amazon.co.jp/dp/B0070SUSC0"
+      },
+      {
+        "asin": "B0DVYF3CGS",
+        "source_position": 4,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 3172,
+          "original_price_yen": 4880,
+          "discount_rate_percent": 35
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "unverified",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 3172,
+          "application": "unknown",
+          "conditions": [
+            "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細\n2点買うと5% OFF 買い物をする\n無料ボーナスアイテム 2選択商品を購入する場合 無料アイテムを申し込む"
+          ],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": "coupon_unsupported_condition",
+          "evidence_text": "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細\n2点買うと5% OFF 買い物をする\n無料ボーナスアイテム 2選択商品を購入する場合 無料アイテムを申し込む",
+          "source_url": "https://www.amazon.co.jp/dp/B0DVYF3CGS",
+          "asin": "B0DVYF3CGS"
+        },
+        "observed_at": "2026-09-27T13:22:25.931640+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DVYF3CGS"
       }
     ]
   },
@@ -936,5 +1032,85 @@
     "original_prefix_preserved": true,
     "postable_count": 4,
     "fresh_summary_date": "2026-09-28"
-  }
+  },
+  "source_corrections": [
+    {
+      "id": "account13-2026-09-28-remove-B0099AJP80",
+      "removed_asin": "B0099AJP80",
+      "reason": "saved_title_description_specs_and_PDP_identify_care_tableware_not_diet_shake",
+      "origin_commit": "41d9092c9b4f8b24cfdd07bb602cbdc6a40d9f67",
+      "original_products_sha256": "CFE2AE966C95D49CB6EF87274FC42DCE08AAD5328499D7FB357C531FEE836D32",
+      "original_summary_sha256": "AB603449004845A6BAD806E2D916426FC1330DF4063B2A6F05B4DFBC45F6B17B",
+      "removed_product": {
+        "asin": "B0099AJP80",
+        "title": "介護用食器 らくらくゴックン おかゆ・ミキサー食用 250ml",
+        "price": "￥3,825",
+        "price_int": 3825,
+        "original_price": "￥4,620",
+        "discount_rate": "17%OFF",
+        "image_url": "https://m.media-amazon.com/images/I/31aiGU2Oa5L._AC_UL320_.jpg",
+        "affiliate_url": "https://www.amazon.co.jp/dp/B0099AJP80?tag=noteamazon13-22",
+        "category": "ダイエットシェイク#1",
+        "rating": "4.3",
+        "review_count": "59",
+        "description": "商品紹介\n\n●実際の介護の中で考案されたもので、食事介助が楽に出来ます。\n●口を開けづらくスプーンを噛む等、介助がしにくい方用でドロリとしたものを食べさせる食器です。\n●短時間で多くの量が食べられます。\n●ピストンを押しながらノズルゴムを親指と人差し指でしごく様にして与えて下さい。\n●ノズルゴム部に小サジスプーン1杯の量が入っています。1回で小サジ1杯、3回で大サジ1杯分の量が出ます。これは介助者が口に入っていく量を確認するためです\n●倒しても中のものがこぼれません\n●煮沸消毒が出来、電子レンジにも使用出来ます。\n●径6.7×高さ10.3cm\n●食器洗浄機・乾燥機(120度)対応。\n\n原材料・成分\n\n4936480100021\n\n続きを見る",
+        "specs": "メーカーにより製造中止になりました ‏ : ‎ いいえ\n梱包サイズ ‏ : ‎ 13.4 x 9.2 x 8.9 cm; 200 g\nメーカー ‏ : ‎ 斉藤工業\nASIN ‏ : ‎ B0099AJP80\n原産国名 ‏ : ‎ 日本\nカスタマーレビュー: 4.3 \n5つ星のうち4.3\n (59)"
+      },
+      "removed_contract_row": {
+        "asin": "B0099AJP80",
+        "source_position": 1,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 3825,
+          "original_price_yen": 4620,
+          "discount_rate_percent": 17
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 3825,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0099AJP80",
+          "asin": "B0099AJP80"
+        },
+        "observed_at": "2026-09-27T13:07:10.531493+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0099AJP80"
+      },
+      "retained_asins": [
+        "B000RYUMV6",
+        "B07DJ1VXXG",
+        "B0070SUSC0"
+      ],
+      "retained_fields_and_order_unchanged": true,
+      "added_asin": "B0DVYF3CGS",
+      "saved_candidate_directory": "D:\\_0NOTEKATU\\scraping\\2026-09-28\\local-recovery-account13\\run-01",
+      "saved_candidate_sha256": {
+        "fresh-products_2026-09-28.json": "29C6BE4C648D450CEA23C5FF616922F38859C150FB62FFF5B2B315F6910FBA9E",
+        "fresh-scrape_summary_2026-09-28.json": "18AA965A3948A37BF6CC424E62103F738893BDA22ECA10700D37917390842D66"
+      },
+      "merge_record": {
+        "schema_version": 1,
+        "original_count": 3,
+        "added_asins": [
+          "B0DVYF3CGS"
+        ],
+        "original_prefix_preserved": true,
+        "postable_count": 4,
+        "fresh_summary_date": "2026-09-28"
+      }
+    }
+  ]
 }
