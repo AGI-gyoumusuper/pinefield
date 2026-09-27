@@ -1,4 +1,5 @@
 """Offline fixtures only: no Amazon, real Git fetch/push, Cloud dispatch or browser."""
+import copy
 import json
 from pathlib import Path
 import subprocess
@@ -226,6 +227,56 @@ class ControllerTests(unittest.TestCase):
 
 
 class RemoteAuditTests(unittest.TestCase):
+    def test_all_accounts_replay_discount_contract_with_shared_parser_and_keep_one_item(self):
+        target_date = '2026-09-28'
+        code = (ROOT / 'ensure_daily_scrape.py').read_bytes()
+        fixture = json.loads((ROOT / 'tests/fixtures/discount_coupon_2026-09-27.json').read_text(encoding='utf-8'))
+        files = {'detail_offer.py': (ROOT / 'detail_offer.py').read_bytes()}
+        for n in range(1, 21):
+            prefix = f'data/account{n}/'
+            product = copy.deepcopy(fixture['raw_product'])
+            product.update(image_url='https://example.invalid/photo.png',
+                           affiliate_url=f'https://www.amazon.co.jp/dp/{product["asin"]}?tag=noteamazon{n}-22',
+                           category='Nintendo Switch 2#1' if n == 20 else 'fixture#1')
+            observation = copy.deepcopy(fixture['observation'])
+            observation['category'] = product['category']
+            summary = dict(date=target_date, total_taken=1, categories={},
+                selection_policy=dict(selection_mode='category_quota' if n == 20 else 'global_ranked',
+                    sort_order='sale_first', require_sale_info=True, max_per_category=5 if n == 20 else 2,
+                    max_total_items=10, verify_detail_offer=True, offer_scope='unified_discounts',
+                    discount_contract='amazon_direct_discounts_v1'),
+                discount_contract=dict(schema_version=1, policy='amazon_direct_discounts_v1', account=n,
+                    date=target_date, products=[copy.deepcopy(fixture['row'])]),
+                detail_offer_verification=dict(schema_version=1, enabled=True, offer_scope='unified_discounts',
+                    candidate_count=1, accepted_count=1, rejected_count=0, observations=[observation]))
+            files[prefix + f'products_{target_date}.json'] = json.dumps([product]).encode()
+            files[prefix + f'scrape_summary_{target_date}.json'] = json.dumps(summary).encode()
+            files[prefix + 'asin_history.json'] = b'{"schema":"note-amazon-asin-history-v1","posted":[]}'
+
+        def git(repo, *args, **kwargs):
+            if args[:2] == ('remote', 'get-url'): return b'https://github.com/AGI-gyoumusuper/pinefield.git'
+            if args[0] == 'fetch': return b''
+            if args[0] == 'rev-parse': return b'a' * 40
+            if args[0] == 'show':
+                name = args[1].split(':', 1)[1]
+                return code if name == 'ensure_daily_scrape.py' else files.get(name)
+            raise AssertionError(args)
+
+        with tempfile.TemporaryDirectory() as directory, patch.object(controller, 'git', side_effect=git):
+            result = controller.audit_remote(Path(directory), target_date)
+            self.assertEqual(result['valid_count'], 20, result['rows'])
+            self.assertTrue(all(row['count'] == 1 for row in result['rows']))
+            self.assertEqual(list(Path(directory).iterdir()), [])
+            # Supplying the shared parser must keep real evidence rejection in place.
+            key = f'data/account5/scrape_summary_{target_date}.json'
+            wrong = json.loads(files[key])
+            wrong['discount_contract']['products'][0]['observed_at'] = '2026-09-27T09:23:24+00:00'
+            files[key] = json.dumps(wrong).encode()
+            result = controller.audit_remote(Path(directory), target_date)
+            self.assertEqual(result['missing_accounts'], [5])
+            self.assertIn('discount output row mismatch', result['rows'][4]['reason'])
+            self.assertEqual(list(Path(directory).iterdir()), [])
+
     def test_current_validator_runs_in_memory_without_ledger_copy(self):
         code = (ROOT/'ensure_daily_scrape.py').read_bytes()
         files = {}

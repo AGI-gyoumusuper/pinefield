@@ -88,4 +88,5 @@ exclusion:
   exclude_within_days: 20  # 投稿・予約成功ASINを20日間除外。履歴は予約ランナーから自動同期
   exclude_scraped_candidates: false   # 浚っただけの候補は焼かず、投稿・予約成功分のみ20日出禁
   exclude_product_identifiers: true  # GTIN系・ブランド＋正規化メーカー型番も完全一致で自動除外
-  blocked_asins: []        # 恒久除外（ver2.8構造）
+  blocked_asins:           # 恒久除外（ver2.8構造）
+    - "B07NQ23493"   # 2026-09-27: 商品名5110-3CT/20-120Nmと写真5108-3CT/10-60Nmの相違が4日反復。投稿済み台帳には記帳しない。

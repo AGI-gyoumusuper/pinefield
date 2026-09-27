@@ -135,14 +135,16 @@ def audit_remote(repo, target_date):
     validator = types.ModuleType('_daily_controller_remote_validator')
     validator.__file__ = str(ROOT / 'ensure_daily_scrape.py')
     exec(compile(code.decode('utf-8-sig'), 'origin/main:ensure_daily_scrape.py', 'exec'), validator.__dict__)
+    # Unified discounts use this same pinned evidence parser for every account.
+    detail_code = git(repo, 'show', f'{commit}:detail_offer.py', missing_ok=True)
     rows = []
     for account in ACCOUNTS:
         prefix = f'data/account{account}/'
         names = [prefix + f'products_{target_date}.json', prefix + f'scrape_summary_{target_date}.json',
                  prefix + 'asin_history.json']
         if account == 20:
-            names.extend(['categories20.yaml', 'detail_offer.py'])
-        files = {}
+            names.append('categories20.yaml')
+        files = {'detail_offer.py': detail_code} if detail_code is not None else {}
         for name in names:
             content = git(repo, 'show', f'{commit}:{name}', missing_ok=True)
             if content is not None:
