@@ -12,8 +12,9 @@ categories:
     is_search: true
 
 filters:
+  discount_contract: "amazon_direct_discounts_v1"
   verify_detail_offer: true  # 可視PDPでASIN・現価・参考価格・割引率を確定してから既存選定。
-  offer_scope: "all_discounts"  # account20限定。通常割引も対象、タイムセールとは偽記しない。
+  offer_scope: "unified_discounts"  # 通常値下げ・Amazon内クーポンも同一経路で扱う。
   selection_mode: "category_quota"
   rotation_state_file: "data/account20/category_rotation.json"
   min_price: 3000

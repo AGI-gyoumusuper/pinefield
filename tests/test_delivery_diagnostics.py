@@ -16,7 +16,7 @@ SPEC = importlib.util.spec_from_file_location("delivery_diagnostic", ROOT / "scr
 diagnostic = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(diagnostic)
 logging.getLogger('asyncio').setLevel(logging.WARNING)
-URL = "https://www.amazon.co.jp/s?rh=n%3A3456990051%2Cp_n_deal_type%3A10343614051%2Cp_36%3A300000-"
+URL = "https://www.amazon.co.jp/s?rh=n%3A3456990051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A300000-"
 TARGET = {"category": "synthetic", "effective_url": URL}
 
 

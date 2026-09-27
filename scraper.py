@@ -27,7 +27,8 @@ from bs4 import BeautifulSoup, Comment
 import yaml
 from playwright.async_api import async_playwright, Page, BrowserContext
 
-from detail_offer import observe_detail_offer, without_search_price_filter
+from detail_offer import (DISCOUNT_POLICY, coupon_hint, discount_comparison_rate,
+                          discount_row, observe_detail_offer, without_search_price_filter)
 
 from product_identity import (
     ProductIdentityRegistry,
@@ -480,6 +481,10 @@ async def scrape_search(
     track_exhausted_error_pages: bool = False,
     require_sale_info: bool = False,
     defer_offer_validation: bool = False,
+    discount_integration: bool = False,
+    coupon_only: bool = False,
+    max_pages: int = 2,
+    max_attempts: int = 2,
 ) -> List[Product]:
     """Amazon検索結果ページ (/s?rh=...) から商品を取得する。
 
@@ -523,6 +528,12 @@ async def scrape_search(
                         title = (await img_el_for_alt.get_attribute("alt") or "").strip()
                 if not title:
                     continue
+                coupon_card_text = ""
+                if discount_integration:
+                    coupon_el = await card.query_selector(".s-coupon-highlight-color, [class*='coupon']")
+                    coupon_card_text = (await coupon_el.inner_text()).strip() if coupon_el else ""
+                    if coupon_only and coupon_hint(coupon_card_text) is None:
+                        continue
 
                 # 価格（販売価格）— .a-offscreen が最も汎用的
                 price_el = await card.query_selector(
@@ -540,14 +551,12 @@ async def scrape_search(
                 # 割引率（バッジ/テキスト）
                 discount_rate = ""
                 discount_el = await card.query_selector(
-                    "[class*='savingsPercentage'], [class*='savingPriceDiscount'], "
-                    ".a-color-price.s-coupon-highlight-color, "
-                    "span.a-color-price:not(.a-offscreen)"
+                    "[class*='savingsPercentage'], [class*='savingPriceDiscount']"
                 )
                 if discount_el:
                     raw = (await discount_el.inner_text()).strip()
                     # 「ポイント」を含むテキストはAmazonポイント還元率であり、値引き率ではないので無視
-                    if "ポイント" not in raw and ("%" in raw or "％" in raw):
+                    if not re.search(r"ポイント|クーポン|coupon", raw, re.I) and ("%" in raw or "％" in raw):
                         m = re.search(r"(\d+)\s*[%％]", raw)
                         if m:
                             discount_rate = f"{m.group(1)}%OFF"
@@ -605,6 +614,13 @@ async def scrape_search(
                     rating=rating,
                     review_count=review_count,
                 ))
+                if discount_integration:
+                    hint = coupon_hint(coupon_card_text)
+                    if hint:
+                        # Private in-memory rank only; dataclass serialization remains exactly 13 keys.
+                        hint.update(status="verified", final_price_yen=None)
+                        products[-1]._coupon_search_hint = True
+                        products[-1]._discount_comparison_rate = discount_comparison_rate(products[-1], hint)
             except Exception:
                 continue
 
@@ -621,12 +637,12 @@ async def scrape_search(
                             raise ValueError("invalid requested deal filter value")
                         if value and value not in required_deal_types:
                             required_deal_types.append(value)
-        for page_no in (1, 2):  # v2.1: 最大2ページまで巡回して鮮度を確保
+        for page_no in range(1, min(2, max_pages) + 1):  # Supplemental coupon search uses one page only.
             if len(products) >= max_items:
                 break
             page_url = url if page_no == 1 else f"{url}&page={page_no}"
             cards = []
-            for attempt in (1, 2):  # v2.2: エラーページ（ご迷惑をおかけしています）検出時は1回だけ再試行
+            for attempt in range(1, min(2, max_attempts) + 1):
                 diagnostic_captured = False
                 response = await page.goto(page_url, wait_until="domcontentloaded", timeout=45000)
                 response_status = getattr(response, "status", None)
@@ -648,7 +664,7 @@ async def scrape_search(
                     diagnostic_captured = await save_search_failure_diagnostic(
                         page, requested_url=page_url, category=category, page_no=page_no, attempt=attempt,
                         reason="amazon_error_page", response_status=response_status)
-                if is_error_page and attempt == 1:
+                if is_error_page and attempt < min(2, max_attempts):
                     cat_stats["error_page_hits"] = cat_stats.get("error_page_hits", 0) + 1
                     logger.warning(f"[{category}] p{page_no}: Amazonエラーページ検出。トップページ経由で再試行")
                     try:  # v2.3: 直リロードでなくトップページを踏み直してセッション信頼を回復
@@ -781,7 +797,8 @@ def sort_products(products: List[Product], sort_order: str) -> List[Product]:
     current price, all descending. Equal keys retain the input order.
     """
     if sort_order == "sale_first":
-        key = lambda product: (1 if product.discount_rate else 0, discount_pct(product), product.price_int)
+        key = lambda product: (1 if product.discount_rate or getattr(product, "_discount_comparison_rate", 0) > 0 else 0,
+                               getattr(product, "_discount_comparison_rate", discount_pct(product)), product.price_int)
     elif sort_order == "amount_first":
         key = lambda product: (1 if product.discount_rate else 0, discount_amount(product), product.price_int)
     elif sort_order == "review_desc":
@@ -1534,6 +1551,57 @@ async def verify_candidate_offers(page: Page, products: List[Product], stats: di
     return accepted
 
 
+def coupon_search_url(url):
+    parsed = urlparse(url)
+    query = []
+    for key, value in parse_qsl(parsed.query, keep_blank_values=True):
+        if key == "rh":
+            value = ",".join(part for part in value.split(",") if not part.startswith("p_n_deal_type:"))
+        if key != "page":
+            query.append((key, value))
+    return urlunparse(parsed._replace(query=urlencode(query)))
+
+
+async def verify_discount_candidates(page, candidates, stats, *, max_candidates=24, timeout_seconds=240):
+    """Bounded selection-stage PDP reads, reusing that visit for description/specs."""
+    started = time.monotonic()
+    observations, accepted = [], []
+    stop_reason = None
+    visits_started = 0
+    for product in candidates[:max_candidates]:
+        remaining = timeout_seconds - (time.monotonic() - started)
+        if remaining <= 0:
+            stop_reason = "detail_budget_exhausted"; break
+        try:
+            visits_started += 1
+            record = await asyncio.wait_for(observe_detail_offer(
+                page, product, _read_verified_product_details, offer_scope="unified_discounts"), timeout=remaining)
+        except asyncio.TimeoutError:
+            stop_reason = "detail_budget_exhausted"; break
+        observations.append(record)
+        if record["status"] == "accepted":
+            product._discount_comparison_rate = discount_comparison_rate(product, record["evidence"]["coupon"])
+            accepted.append(product)
+        if record["reason"] == "detail_challenge":
+            stop_reason = "detail_challenge"; break
+        if time.monotonic() - started + 2 < timeout_seconds:
+            await asyncio.sleep(2)
+    reasons = {}
+    for row in observations:
+        if row["reason"]:
+            reasons[row["reason"]] = reasons.get(row["reason"], 0) + 1
+    stats["_detail_offer_verification"] = dict(
+        schema_version=1, enabled=True, offer_scope="unified_discounts", sale_name="Amazon セール",
+        candidate_count=len(observations), raw_candidate_count=len(candidates),
+        accepted_count=len(accepted), rejected_count=len(observations) - len(accepted),
+        rejection_reasons=reasons, observations=observations,
+        limits=dict(max_candidates=max_candidates, timeout_seconds=timeout_seconds),
+        detail_visits_started=visits_started,
+        elapsed_seconds=round(time.monotonic()-started, 3), budget_stop_reason=stop_reason)
+    # A challenge stops navigation immediately. Previously verified products remain usable.
+    return accepted
+
+
 async def fetch_products(
     config_path: str = CONFIG_PATH,
     associate_tag: str = ASSOCIATE_TAG,
@@ -1552,15 +1620,18 @@ async def fetch_products(
     sort_order = str(flt.get("sort_order", "price_desc"))
     require_sale_info = sort_order == "sale_first"
     verify_detail_offer = flt.get("verify_detail_offer", False)
+    integrated_discounts = flt.get("discount_contract") == DISCOUNT_POLICY
     if not isinstance(verify_detail_offer, bool):
         raise ValueError("verify_detail_offer must be a boolean")
-    if verify_detail_offer and os.path.basename(config_path) != "categories20.yaml":
+    if verify_detail_offer and not integrated_discounts and os.path.basename(config_path) != "categories20.yaml":
         raise ValueError("PDP offer verification is restricted to categories20.yaml")
     offer_scope = flt.get("offer_scope", "time_sale")
-    if offer_scope not in ("time_sale", "all_discounts"):
+    if offer_scope not in ("time_sale", "all_discounts", "unified_discounts"):
         raise ValueError("offer_scope must be time_sale or all_discounts")
     if offer_scope == "all_discounts" and (not verify_detail_offer or os.path.basename(config_path) != "categories20.yaml"):
         raise ValueError("all_discounts is restricted to verified categories20.yaml")
+    if integrated_discounts != (offer_scope == "unified_discounts") or (integrated_discounts and not verify_detail_offer):
+        raise ValueError("unified_discounts requires its versioned contract and PDP verification")
     max_total = int(flt.get("max_total_items", 50))
     min_discount_pct = int(flt.get("min_discount_pct", 0))
     max_per_category = int(flt.get("max_per_category", 0))
@@ -1614,8 +1685,10 @@ async def fetch_products(
     }
     if verify_detail_offer:
         scrape_stats["_selection_policy"]["verify_detail_offer"] = True
-        if offer_scope == "all_discounts":
+        if offer_scope in {"all_discounts", "unified_discounts"}:
             scrape_stats["_selection_policy"]["offer_scope"] = offer_scope
+    if integrated_discounts:
+        scrape_stats["_selection_policy"]["discount_contract"] = DISCOUNT_POLICY
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         async def new_context_and_page() -> Tuple[BrowserContext, Page]:
@@ -1668,6 +1741,7 @@ async def fetch_products(
                         track_exhausted_error_pages=deferred_retry_failed_searches,
                         require_sale_info=require_sale_info,
                         **({"defer_offer_validation": True} if verify_detail_offer else {}),
+                        **({"discount_integration": True} if integrated_discounts else {}),
                     )
                 elif is_timesale:
                     products = await scrape_timesale(page, url, name, max_items, associate_tag)
@@ -1721,6 +1795,7 @@ async def fetch_products(
                         track_exhausted_error_pages=True,
                         require_sale_info=require_sale_info,
                         **({"defer_offer_validation": True} if verify_detail_offer else {}),
+                        **({"discount_integration": True} if integrated_discounts else {}),
                     )
                 except Exception as exc:
                     retried = []
@@ -1754,11 +1829,54 @@ async def fetch_products(
                 )
                 if retry_index < len(deferred_retry_categories) - 1:
                     await asyncio.sleep(random.uniform(3, 6))
+        if integrated_discounts:
+            # Two existing shelves per account/date, one unfiltered page each. Only public
+            # coupon cards enter the pool; this is discovery, never coupon verification.
+            search_categories = [cat for cat in cats if cat.get("is_search") and cat.get("url")]
+            discovered_coupons = sum(bool(getattr(product, "_coupon_search_hint", False)) for product in all_products)
+            supplement = {"page_limit": 2, "timeout_seconds": 60, "pages_attempted": 0, "unique_added": 0,
+                          "main_search_coupon_candidates": discovered_coupons,
+                          "reason": "main_search_had_no_coupon_candidate" if not discovered_coupons else "main_search_already_found_coupon"}
+            supplement_start = time.monotonic()
+            if search_categories and not discovered_coupons:
+                offset = sum(ord(c) for c in str(reference_date or "") + os.path.basename(config_path)) % len(search_categories)
+                chosen = (search_categories[offset:] + search_categories[:offset])[:2]
+                known = {p.asin for p in all_products}
+                for cat in chosen:
+                    remaining = 60 - (time.monotonic() - supplement_start)
+                    if remaining <= 0:
+                        break
+                    supplement["pages_attempted"] += 1
+                    secondary_stats = {}
+                    try:
+                        extra = await asyncio.wait_for(scrape_search(
+                            page, coupon_search_url(search_url_with_min_price(cat["url"], category_min_prices.get(cat["name"], min_price))),
+                            cat["name"], min(10, int(cat.get("max_items", 10))), associate_tag,
+                            excluded=posted_asins, stats=secondary_stats, defer_offer_validation=True,
+                            discount_integration=True, coupon_only=True, max_pages=1, max_attempts=1), timeout=min(30, remaining))
+                    except asyncio.TimeoutError:
+                        extra = []
+                        secondary_stats = {"error": "coupon_search_budget_exhausted"}
+                    for product in extra:
+                        if product.asin not in known:
+                            all_products.append(product); known.add(product.asin); supplement["unique_added"] += 1
+                    supplement.setdefault("categories", {})[cat["name"]] = secondary_stats
+            supplement["elapsed_seconds"] = round(time.monotonic() - supplement_start, 3)
+            scrape_stats["_coupon_search"] = supplement
         logger.info(f"全カテゴリ合計: {len(all_products)} 件")
         # account20 opt-in: all bounded search candidates are verified first.
         # Identity registration remains exclusively in final selection below.
         pre_enriched_asins = None
-        if verify_detail_offer:
+        if integrated_discounts:
+            # Preserve category/price/exclusion policy and bound the final confirmation pool.
+            short = filter_and_sort(
+                all_products, min_price=min_price, max_price=max_price, sort_order=sort_order,
+                max_total=24, posted_asins=posted_asins, max_per_category=(12 if selection_mode == "category_quota" else 2),
+                exclude_title_patterns=exclude_title_patterns, selection_mode=selection_mode,
+                categories=cats, rotation_state_file=rotation_state_file, category_min_prices=category_min_prices)
+            all_products = await verify_discount_candidates(page, short, scrape_stats)
+            pre_enriched_asins = {product.asin for product in all_products}
+        elif verify_detail_offer:
             all_products = await verify_candidate_offers(page, all_products, scrape_stats, offer_scope=offer_scope)
             pre_enriched_asins = {product.asin for product in all_products}
         # Phase 2: 重複除去・価格フィルタ・ソート
@@ -1825,6 +1943,14 @@ async def fetch_products(
                     "final_selected": sum(product.category.split("#")[0] == cat["name"] for product in filtered),
                 } for cat in cats
             }
+        if integrated_discounts:
+            records = {row["asin"]: row for row in scrape_stats["_detail_offer_verification"]["observations"] if row["status"] == "accepted"}
+            account_match = re.fullmatch(r"categories(\d+)\.yaml", os.path.basename(config_path))
+            if account_match is None:
+                raise ValueError("versioned discounts require canonical account config name")
+            scrape_stats["_discount_contract"] = dict(
+                schema_version=1, policy=DISCOUNT_POLICY, account=int(account_match[1]), date=reference_date,
+                products=[discount_row(product, records[product.asin], pos) for pos, product in enumerate(filtered, 1)])
         if not verify_detail_offer:
             scrape_stats["_detail_retry"] = detail_retry_budget.summary()
         await browser.close()
@@ -1849,6 +1975,8 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
     summary_path = os.path.join(os.path.dirname(output_path) or ".", f"scrape_summary_{date_tag}.json")
     detail_verification = scrape_stats.pop("_detail_offer_verification", None)
     detail_retry = scrape_stats.pop("_detail_retry", None)
+    discount_contract = scrape_stats.pop("_discount_contract", None)
+    coupon_search = scrape_stats.pop("_coupon_search", None)
     summary = {
         "date": date_tag,
         "total_taken": len(products),
@@ -1866,6 +1994,11 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
             summary["sale_name"] = "Amazon セール"
     if detail_retry is not None:
         summary["detail_retry"] = detail_retry
+    if discount_contract is not None:
+        discount_contract["date"] = date_tag
+        summary["discount_contract"] = discount_contract
+        summary["sale_name"] = "Amazon セール"
+        summary["coupon_search"] = coupon_search
     with open(summary_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
     logger.info(f"カテゴリ別サマリ保存: {summary_path}")

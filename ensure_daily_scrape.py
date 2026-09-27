@@ -285,6 +285,14 @@ def validate_detail_offer_summary(account: str, root: Path, products: list[dict]
     This checks the scraper's record, not the live offer again. A source date
     can be the next JST day, so observation date is not equated to source date.
     """
+    if "discount_contract" in summary or summary.get("selection_policy", {}).get("offer_scope") == "unified_discounts":
+        detail_module = root / "detail_offer.py"
+        try:
+            namespace = {"__name__": "_pinefield_recorded_discounts", "__file__": str(detail_module)}
+            exec(compile(detail_module.read_text(encoding="utf-8-sig"), str(detail_module), "exec"), namespace)
+            return namespace["validate_discount_contract_summary"](account, products, summary)
+        except Exception as exc:
+            return False, f"discount contract validator failed: {type(exc).__name__}"
     if account != "account20":
         return True, "detail offer verification not required"
     config_path = root / "categories20.yaml"
@@ -300,8 +308,8 @@ def validate_detail_offer_summary(account: str, root: Path, products: list[dict]
         if type(enabled) is not bool:
             raise ValueError("verify_detail_offer must be boolean")
         configured_scope = config.get("filters", {}).get("offer_scope", "time_sale")
-        if configured_scope not in ("time_sale", "all_discounts"):
-            raise ValueError("offer_scope must be time_sale or all_discounts")
+        if configured_scope not in ("time_sale", "all_discounts", "unified_discounts"):
+            raise ValueError("offer_scope is unsupported")
         if configured_scope == "all_discounts" and not enabled:
             raise ValueError("all_discounts requires PDP verification")
     except Exception as exc:
@@ -336,7 +344,7 @@ def validate_detail_offer_summary(account: str, root: Path, products: list[dict]
     if offer_scope not in ("time_sale", "all_discounts"):
         return failure("unsupported offer scope")
     if offer_scope == "all_discounts":
-        if (configured_scope != "all_discounts" or verification.get("offer_scope") != offer_scope
+        if (configured_scope not in {"all_discounts", "unified_discounts"} or verification.get("offer_scope") != offer_scope
                 or verification.get("sale_name") != "Amazon セール" or summary.get("sale_name") != "Amazon セール"):
             return failure("ordinary discount scope/label mismatch")
     elif verification.get("offer_scope", "time_sale") != "time_sale":

@@ -57,7 +57,7 @@ class AllDiscountOfferTests(unittest.TestCase):
             facets = parse_qs(urlparse(category["url"]).query)["rh"][0].split(",")
             self.assertEqual([f"n:{node}", "p_36:300000-", "p_n_deal_type:10343616051"], facets)
         self.assertEqual(3000, cfg["filters"]["min_price"])
-        self.assertEqual("all_discounts", cfg["filters"]["offer_scope"])
+        self.assertEqual("unified_discounts", cfg["filters"]["offer_scope"])
         self.assertEqual(20, cfg["exclusion"]["exclude_within_days"])
         self.assertFalse(cfg["exclusion"]["exclude_scraped_candidates"])
         self.assertTrue(cfg["exclusion"]["exclude_product_identifiers"])

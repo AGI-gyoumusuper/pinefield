@@ -64,7 +64,7 @@ class AccountConfigTests(unittest.TestCase):
                 query = parse_qs(parsed.query)
                 self.assertNotIn("s", query)
                 self.assertEqual(1, len(query.get("rh", [])))
-                self.assertEqual(1, query["rh"][0].split(",").count("p_n_deal_type:10343614051"))
+                self.assertEqual(1, query["rh"][0].split(",").count("p_n_deal_type:10343616051"))
                 self.assertNotIn("p_n_deal_type:23534876051", query["rh"][0])
                 node_id(category["url"])
 
