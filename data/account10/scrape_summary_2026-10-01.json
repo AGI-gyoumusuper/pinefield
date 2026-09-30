@@ -1,0 +1,2465 @@
+{
+  "date": "2026-10-01",
+  "total_taken": 10,
+  "selection_policy": {
+    "selection_mode": "global_ranked",
+    "sort_order": "sale_first",
+    "require_sale_info": true,
+    "max_per_category": 2,
+    "max_total_items": 10,
+    "verify_detail_offer": true,
+    "offer_scope": "unified_discounts",
+    "discount_contract": "amazon_direct_discounts_v1"
+  },
+  "excluded_loaded": 48,
+  "excluded_gtins_loaded": 5,
+  "excluded_brand_models_loaded": 27,
+  "skipped_product_identity": 0,
+  "skipped_product_identity_reasons": {},
+  "categories": {
+    "おしゃぶり・歯がため": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "ベビーチェア": {
+      "pages": [
+        11
+      ],
+      "taken": 10,
+      "skipped_posted": 1,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "ベビーモニター": {
+      "pages": [
+        1,
+        0
+      ],
+      "taken": 1,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "おむつ": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "ベビーゲート": {
+      "pages": [
+        9,
+        0
+      ],
+      "taken": 8,
+      "skipped_posted": 1,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "プレイマット": {
+      "pages": [
+        8,
+        0
+      ],
+      "taken": 5,
+      "skipped_posted": 3,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "粉ミルク": {
+      "pages": [
+        1,
+        0
+      ],
+      "taken": 1,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "ベビーバス": {
+      "pages": [
+        6,
+        0
+      ],
+      "taken": 5,
+      "skipped_posted": 1,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "哺乳びん洗浄器具": {
+      "pages": [
+        15
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "おしりふき": {
+      "pages": [
+        15
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "抱っこ紐・キャリア": {
+      "pages": [
+        6,
+        0
+      ],
+      "taken": 6,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "調乳器具": {
+      "pages": [
+        0,
+        1,
+        0
+      ],
+      "taken": 1,
+      "skipped_posted": 0,
+      "error": "search_results_unavailable: requested deal filter state unknown: p_n_deal_type/10343616051",
+      "skipped_nosale": 0,
+      "error_kind": "search_results_unavailable",
+      "requested_deal_filter_state": "unknown",
+      "error_page_hits": 1,
+      "deferred_retry_attempted": true,
+      "deferred_retry_recovered": true,
+      "deferred_retry_unique_added": 1,
+      "deferred_retry": {
+        "attempted": true,
+        "recovered": true,
+        "unique_added": 1,
+        "initial": {
+          "pages": [
+            0
+          ],
+          "taken": 0,
+          "skipped_posted": 0,
+          "error": "search_results_unavailable: requested deal filter state unknown: p_n_deal_type/10343616051",
+          "skipped_nosale": 0,
+          "error_kind": "search_results_unavailable",
+          "requested_deal_filter_state": "unknown"
+        },
+        "retry": {
+          "pages": [
+            1,
+            0
+          ],
+          "taken": 1,
+          "skipped_posted": 0,
+          "error": "search_results_unavailable: requested deal filter state unknown: p_n_deal_type/10343616051",
+          "skipped_nosale": 0,
+          "error_page_hits": 1,
+          "error_kind": "search_results_unavailable",
+          "requested_deal_filter_state": "unknown"
+        }
+      }
+    },
+    "ベビー食器": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "授乳クッション": {
+      "pages": [
+        3,
+        0
+      ],
+      "taken": 3,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "おむつ処理ポット": {
+      "pages": [
+        2,
+        0
+      ],
+      "taken": 2,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    }
+  },
+  "detail_offer_verification": {
+    "schema_version": 1,
+    "enabled": true,
+    "offer_scope": "unified_discounts",
+    "sale_name": "Amazon セール",
+    "candidate_count": 24,
+    "raw_candidate_count": 24,
+    "accepted_count": 18,
+    "rejected_count": 6,
+    "rejection_reasons": {
+      "detail_discount_or_coupon_unverified": 6
+    },
+    "observations": [
+      {
+        "asin": "B0CDLG9QTH",
+        "category": "プレイマット#1",
+        "checked_at": "2026-09-30T12:35:53.995413+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥8,789",
+          "price_int": 8789,
+          "original_price": "￥13,200",
+          "discount_rate": "33%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥8,789",
+          "price_int": 8789,
+          "original_price": "￥13,200",
+          "discount_rate": "33%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0CDLG9QTH"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "トイローヤル モンポケ ベビージム (洗濯機/手洗い可) 知育玩具 (記念日フォト/マンスリーフォトにも) ピカチュウ イーブイ",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,789"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-33%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥13,200\n￥13,200"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0CDLG9QTH",
+          "url": "https://www.amazon.co.jp/dp/B0CDLG9QTH",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:35:53.995413+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8789,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0CDLG9QTH",
+            "asin": "B0CDLG9QTH"
+          }
+        },
+        "evidence_sha256": "2C1CA3FCDE08E1C02A440F996BF656013BECC78DCE4B56EDA9D1A0C0566141E6"
+      },
+      {
+        "asin": "B0CCHXMSTQ",
+        "category": "抱っこ紐・キャリア#1",
+        "checked_at": "2026-09-30T12:36:00.534632+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥22,873",
+          "price_int": 22873,
+          "original_price": "￥31,900",
+          "discount_rate": "28%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥22,873",
+          "price_int": 22873,
+          "original_price": "￥31,900",
+          "discount_rate": "28%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0CCHXMSTQ"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Aprica(アップリカ) 抱っこ紐 ラクリス 生後14日～36か月まで 新生児から使える 4WAY (ダークグレー) 2176451",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "22,873"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-28%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥31,900\n￥31,900"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0CCHXMSTQ",
+          "url": "https://www.amazon.co.jp/dp/B0CCHXMSTQ",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:36:00.534632+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 22873,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0CCHXMSTQ",
+            "asin": "B0CCHXMSTQ"
+          }
+        },
+        "evidence_sha256": "3EC188D744D68E098DD39CE83E318C466A8C2328C0BE55EA6C20B22E1DF46388"
+      },
+      {
+        "asin": "B0827G8GDW",
+        "category": "ベビーチェア#4",
+        "checked_at": "2026-09-30T12:36:06.982156+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥5,986",
+          "price_int": 5986,
+          "original_price": "￥8,070",
+          "discount_rate": "26%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥5,986",
+          "price_int": 5986,
+          "original_price": "￥8,070",
+          "discount_rate": "26%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0827G8GDW"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "不二貿易 キッズチェア ハイチェア 木製 3段階調整可能 クッション ダークブラウン 2才~5才推奨 ダイニングチェア 子ども用 14939",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "5,986"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-26%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥8,070\n￥8,070"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0827G8GDW",
+          "url": "https://www.amazon.co.jp/dp/B0827G8GDW",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:36:06.982156+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 5986,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0827G8GDW",
+            "asin": "B0827G8GDW"
+          }
+        },
+        "evidence_sha256": "9EDAFBA7CE40C6EEDC7311CB182EF58557D147678245CCE6DF3980139ADC1F08"
+      },
+      {
+        "asin": "B09R6D48CV",
+        "category": "抱っこ紐・キャリア#2",
+        "checked_at": "2026-09-30T12:36:13.692021+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥18,700",
+          "price_int": 18700,
+          "original_price": "￥24,750",
+          "discount_rate": "24%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥18,700",
+          "price_int": 18700,
+          "original_price": "￥24,750",
+          "discount_rate": "24%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B09R6D48CV"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Ergobaby(エルゴベビー) ADAPT オニキスブラック 抱っこ紐",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "18,700"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-24%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥24,750\n￥24,750"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B09R6D48CV",
+          "url": "https://www.amazon.co.jp/dp/B09R6D48CV",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:36:13.692021+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 18700,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B09R6D48CV",
+            "asin": "B09R6D48CV"
+          }
+        },
+        "evidence_sha256": "A3B21456BF0D285C7EE7D710169753569C3CC3F7CDF8F3FBE20DD112C429FFA4"
+      },
+      {
+        "asin": "B07RXZ43TY",
+        "category": "ベビーチェア#3",
+        "checked_at": "2026-09-30T12:36:20.154704+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥5,413",
+          "price_int": 5413,
+          "original_price": "￥7,128",
+          "discount_rate": "24%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥5,413",
+          "price_int": 5413,
+          "original_price": "￥7,128",
+          "discount_rate": "24%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B07RXZ43TY"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "カトージ テーブルチェア 洗えるシート NewYorkBaby",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "5,413"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-24%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥7,128\n￥7,128"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B07RXZ43TY",
+          "url": "https://www.amazon.co.jp/dp/B07RXZ43TY",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:36:20.154704+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 5413,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B07RXZ43TY",
+            "asin": "B07RXZ43TY"
+          }
+        },
+        "evidence_sha256": "6B3F3D805DEDC6A862DEB1C6DB494F5536BD16F28F2C036F6A14409BC8BDBFBB"
+      },
+      {
+        "asin": "B0F62M29WQ",
+        "category": "ベビーゲート#2",
+        "checked_at": "2026-09-30T12:36:26.533992+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥4,819",
+          "price_int": 4819,
+          "original_price": "￥6,028",
+          "discount_rate": "20%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥4,819",
+          "price_int": 4819,
+          "original_price": "￥6,028",
+          "discount_rate": "20%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F62M29WQ"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "KATOJI(カトージ) ベビーセーフティゲート LDK-STYLE Ⅱ スリムS（ホワイト＆グレー） 62-70cm 63506",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,819"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-20%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥6,028\n￥6,028"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0F62M29WQ",
+          "url": "https://www.amazon.co.jp/dp/B0F62M29WQ",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:36:26.533992+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4819,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F62M29WQ",
+            "asin": "B0F62M29WQ"
+          }
+        },
+        "evidence_sha256": "49D6FDBA1C04E93991AB743C7BD503796F12BDBC6780D1914C64DDDB4567CBED"
+      },
+      {
+        "asin": "B0DCJ9H1Q2",
+        "category": "プレイマット#3",
+        "checked_at": "2026-09-30T12:36:32.972196+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥5,328",
+          "price_int": 5328,
+          "original_price": "￥6,600",
+          "discount_rate": "19%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥5,328",
+          "price_int": 5328,
+          "original_price": "￥6,600",
+          "discount_rate": "19%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DCJ9H1Q2"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Rilakkuma Baby リラックマベビー ベビーマット/リラックマ/クラウド カシャカシャ 成長記録 洗濯機可能 NZRIL0010101",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "5,328"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-19%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥6,600\n￥6,600"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0DCJ9H1Q2",
+          "url": "https://www.amazon.co.jp/dp/B0DCJ9H1Q2",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:36:32.972196+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 5328,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DCJ9H1Q2",
+            "asin": "B0DCJ9H1Q2"
+          }
+        },
+        "evidence_sha256": "1C50DEB8529D4F71DF9697ADFFC6F029815FFDD8E86EE6FD80FC83EFC80EA083"
+      },
+      {
+        "asin": "B07W35F7T2",
+        "category": "ベビーゲート#1",
+        "checked_at": "2026-09-30T12:36:39.439855+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥9,990",
+          "price_int": 9990,
+          "original_price": "￥12,100",
+          "discount_rate": "17%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥9,990",
+          "price_int": 9990,
+          "original_price": "￥12,100",
+          "discount_rate": "17%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B07W35F7T2"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "日本育児 ベビーゲート/ペットゲート おくだけとおせんぼ モロッカンベージュ 6ヶ月~24ヶ月対象 おいてまたぐだけのお手軽ゲート モロッカンベージュ",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "9,990"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-17%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥12,100\n￥12,100"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B07W35F7T2",
+          "url": "https://www.amazon.co.jp/dp/B07W35F7T2",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:36:39.439855+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 9990,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B07W35F7T2",
+            "asin": "B07W35F7T2"
+          }
+        },
+        "evidence_sha256": "E457A7FF55C7F0F74291C798783F467C8C5C2C8E80F94A2DAE22E45CE60659D1"
+      },
+      {
+        "asin": "B0CTLSKBG9",
+        "category": "ベビー食器#5",
+        "checked_at": "2026-09-30T12:36:45.987181+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥3,464",
+          "price_int": 3464,
+          "original_price": "￥4,158",
+          "discount_rate": "17%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥3,464",
+          "price_int": 3464,
+          "original_price": "￥4,158",
+          "discount_rate": "17%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0CTLSKBG9"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "サーモス まほうびんのベビーストローマグ 飲み口とパッキンが一体 350ml ミント 保冷専用 FJT-350 MNT",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "3,464"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-17%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥4,158\n￥4,158"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0CTLSKBG9",
+          "url": "https://www.amazon.co.jp/dp/B0CTLSKBG9",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:36:45.987181+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 3464,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0CTLSKBG9",
+            "asin": "B0CTLSKBG9"
+          }
+        },
+        "evidence_sha256": "F5EF28E8E4F498423D6C16F5627825ED64F134690447E9678CAB86B440C936AC"
+      },
+      {
+        "asin": "B00D3ASWKY",
+        "category": "おむつ処理ポット#1",
+        "checked_at": "2026-09-30T12:36:52.551805+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥9,981",
+          "price_int": 9981,
+          "original_price": "￥11,880",
+          "discount_rate": "16%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥9,981",
+          "price_int": 9981,
+          "original_price": "￥11,880",
+          "discount_rate": "16%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B00D3ASWKY"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Ubbi(ウッビ) 日本育児 おむつポット 本体 Ubbi インテリアおむつペール グレー",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "9,981"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-16%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥11,880\n￥11,880"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B00D3ASWKY",
+          "url": "https://www.amazon.co.jp/dp/B00D3ASWKY",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:36:52.551805+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 9981,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B00D3ASWKY",
+            "asin": "B00D3ASWKY"
+          }
+        },
+        "evidence_sha256": "8F5CC9BC6A3410F2E9A115BCF7C88E200F4BE134122CD0F890414C6AD7379ABD"
+      },
+      {
+        "asin": "B0DX6WX37D",
+        "category": "授乳クッション#2",
+        "checked_at": "2026-09-30T12:36:59.072361+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥5,013",
+          "price_int": 5013,
+          "original_price": "￥5,995",
+          "discount_rate": "16%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥5,013",
+          "price_int": 5013,
+          "original_price": "￥5,995",
+          "discount_rate": "16%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DX6WX37D"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "カーメイト(エールベベ) 授乳クッション 洗える 妊婦 マタニティ 3WAY おすわり BB715",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "5,013"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-16%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥5,995\n￥5,995"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0DX6WX37D",
+          "url": "https://www.amazon.co.jp/dp/B0DX6WX37D",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:36:59.072361+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 5013,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DX6WX37D",
+            "asin": "B0DX6WX37D"
+          }
+        },
+        "evidence_sha256": "FA48DBB7EAF819BE7E3BC588F42FCEA0E580CF3207429C76BE3382A1CBCEE234"
+      },
+      {
+        "asin": "B0BQ3G3BHH",
+        "category": "ベビーバス#1",
+        "checked_at": "2026-09-30T12:37:05.710152+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥3,684",
+          "price_int": 3684,
+          "original_price": "￥4,400",
+          "discount_rate": "16%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥3,684",
+          "price_int": 3684,
+          "original_price": "￥4,400",
+          "discount_rate": "16%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0BQ3G3BHH"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "リッチェル(Richell) ふかふかベビーバス ステップアップ ベージュ 新生児から12カ月頃 ベビーバス ポンプ付 120396",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "3,684"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-16%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥4,400\n￥4,400"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0BQ3G3BHH",
+          "url": "https://www.amazon.co.jp/dp/B0BQ3G3BHH",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:37:05.710152+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 3684,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0BQ3G3BHH",
+            "asin": "B0BQ3G3BHH"
+          }
+        },
+        "evidence_sha256": "7409F374F69C9619CB86F818FDA77D11FB191BE706151EEC3277433FDF32A5AA"
+      },
+      {
+        "asin": "B0BH496HMG",
+        "category": "ベビーバス#2",
+        "checked_at": "2026-09-30T12:37:12.197874+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥3,236",
+          "price_int": 3236,
+          "original_price": "￥3,850",
+          "discount_rate": "16%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥3,236",
+          "price_int": 3236,
+          "original_price": "￥3,850",
+          "discount_rate": "16%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0BH496HMG"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "リッチェル(Richell) ふかふかベビーバス プラスK ベージュ 新生児から6カ月頃 ベビーバス エアポンプ付 排水栓付 120392",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "3,236"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-16%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥3,850\n￥3,850"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0BH496HMG",
+          "url": "https://www.amazon.co.jp/dp/B0BH496HMG",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:37:12.197874+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 3236,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0BH496HMG",
+            "asin": "B0BH496HMG"
+          }
+        },
+        "evidence_sha256": "90C0415628CEAAAEAA179F90790A15096281966845310192B624B62856EDFB3D"
+      },
+      {
+        "asin": "B0D2N2SCX5",
+        "category": "おむつ#9",
+        "checked_at": "2026-09-30T12:37:18.696534+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥9,231",
+          "price_int": 9231,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B0D2N2SCX5"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【低刺激でお肌にやさしい】ムーニーマン【パンツ ビッグ】低刺激であんしん ビッグサイズ オムツ12~22kg 152枚【Amazon.co.jp限定】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "9,231"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0D2N2SCX5",
+                "https://www.amazon.co.jp/dp/B0D2N2SCX5",
+                "https://www.amazon.co.jp/b"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0D2N2SCX5",
+          "url": "https://www.amazon.co.jp/dp/B0D2N2SCX5",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:37:18.696534+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 9231,
+            "application": "unknown",
+            "conditions": [
+              "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_unsupported_condition",
+            "evidence_text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+            "source_url": "https://www.amazon.co.jp/dp/B0D2N2SCX5",
+            "asin": "B0D2N2SCX5"
+          }
+        },
+        "evidence_sha256": "D8D90050D2958C58B238DA9E7C6101A1A305E71ECEB8890B17FEE703CA709501"
+      },
+      {
+        "asin": "B0BGXSPGBM",
+        "category": "おむつ#5",
+        "checked_at": "2026-09-30T12:37:23.902892+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥8,191",
+          "price_int": 8191,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B0BGXSPGBM"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【パンツ L】 ムーニーマン マシュマロ肌ごこち モレ安心 男の子 Lサイズ オムツ 9-14kg 208枚【Amazon.co.jp限定】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,191"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0BGXSPGBM",
+                "https://www.amazon.co.jp/dp/B0BGXSPGBM",
+                "https://www.amazon.co.jp/b"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0BGXSPGBM",
+          "url": "https://www.amazon.co.jp/dp/B0BGXSPGBM",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:37:23.902892+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8191,
+            "application": "unknown",
+            "conditions": [
+              "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_unsupported_condition",
+            "evidence_text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+            "source_url": "https://www.amazon.co.jp/dp/B0BGXSPGBM",
+            "asin": "B0BGXSPGBM"
+          }
+        },
+        "evidence_sha256": "C1D092B0E03071A0C3A7F9B0E81AFA9521C57362F8648E8A14C78BC737679D66"
+      },
+      {
+        "asin": "B087MQ2S6W",
+        "category": "ベビーチェア#1",
+        "checked_at": "2026-09-30T12:37:29.130199+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥20,591",
+          "price_int": 20591,
+          "original_price": "￥25,300",
+          "discount_rate": "19%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥20,591",
+          "price_int": 20591,
+          "original_price": "￥25,300",
+          "discount_rate": "19%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B087MQ2S6W"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Aprica(アップリカ) ハイローチェア ユラリズム エレファントラブ 0か月~4歳頃まで 手動スウィングタイプ (グレー) 2109079",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "20,591"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-19%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥25,300\n￥25,300"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B087MQ2S6W",
+          "url": "https://www.amazon.co.jp/dp/B087MQ2S6W",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:37:29.130199+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 20591,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B087MQ2S6W",
+            "asin": "B087MQ2S6W"
+          }
+        },
+        "evidence_sha256": "3ED3E9A043995AAA81163B99009820309DCAB888E4A7695555E36FE55ED6058C"
+      },
+      {
+        "asin": "B0DRBKSRTG",
+        "category": "ベビーチェア#7",
+        "checked_at": "2026-09-30T12:37:35.580179+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥35,909",
+          "price_int": 35909,
+          "original_price": "￥43,450",
+          "discount_rate": "17%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥35,909",
+          "price_int": 35909,
+          "original_price": "￥43,450",
+          "discount_rate": "17%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DRBKSRTG"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "イッピー トランク 高さ調整簡単 カカオ M-YIP05-3",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "35,909"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-17%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥43,450\n￥43,450"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0DRBKSRTG",
+          "url": "https://www.amazon.co.jp/dp/B0DRBKSRTG",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:37:35.580179+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 35909,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DRBKSRTG",
+            "asin": "B0DRBKSRTG"
+          }
+        },
+        "evidence_sha256": "1AB56C59EA742B41B89CD58A06E0750DE5278D08F2F7A6160AD8CCA698A65274"
+      },
+      {
+        "asin": "B0FDQ3NZTL",
+        "category": "ベビーチェア#8",
+        "checked_at": "2026-09-30T12:37:41.965468+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥15,664",
+          "price_int": 15664,
+          "original_price": "￥18,480",
+          "discount_rate": "15%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥15,664",
+          "price_int": 15664,
+          "original_price": "￥18,480",
+          "discount_rate": "15%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FDQ3NZTL"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "KATOJI(カトージ) 木製ハイチェア スワルン クッション付 (ナチュラル） 22523 テーブル付き ベルト付き 7ヶ月から 高さ調整",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "15,664"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-15%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥18,480\n￥18,480"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0FDQ3NZTL",
+          "url": "https://www.amazon.co.jp/dp/B0FDQ3NZTL",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:37:41.965468+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 15664,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FDQ3NZTL",
+            "asin": "B0FDQ3NZTL"
+          }
+        },
+        "evidence_sha256": "DBFD295A6AA77DB7D4F9258622C754D6AB3741E9AE8739AABF7FC75120A2FB7D"
+      },
+      {
+        "asin": "B0FQBM845R",
+        "category": "抱っこ紐・キャリア#5",
+        "checked_at": "2026-09-30T12:37:48.224675+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥10,295",
+          "price_int": 10295,
+          "original_price": "￥12,100",
+          "discount_rate": "15%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥10,295",
+          "price_int": 10295,
+          "original_price": "￥12,100",
+          "discount_rate": "15%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FQBM845R"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "BabyHopper ベビーホッパー WTキルティング防寒ケープ サンド CKBH0144200",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "10,295"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-15%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥12,100\n￥12,100"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0FQBM845R",
+          "url": "https://www.amazon.co.jp/dp/B0FQBM845R",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:37:48.224675+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 10295,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FQBM845R",
+            "asin": "B0FQBM845R"
+          }
+        },
+        "evidence_sha256": "172321EB4DF4AB64C36632916ACA11D38E3596C0CE2D7614A62A42B7B18B535D"
+      },
+      {
+        "asin": "B0BGXTN4SJ",
+        "category": "おむつ#7",
+        "checked_at": "2026-09-30T12:37:54.819497+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥8,191",
+          "price_int": 8191,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B0BGXTN4SJ"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【パンツ L】 ムーニーマン マシュマロ肌ごこち モレ安心 女の子 Lサイズ オムツ 9~14kg 208枚【Amazon.co.jp限定】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,191"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0BGXTN4SJ",
+                "https://www.amazon.co.jp/dp/B0BGXTN4SJ",
+                "https://www.amazon.co.jp/b"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0BGXTN4SJ",
+          "url": "https://www.amazon.co.jp/dp/B0BGXTN4SJ",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:37:54.819497+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8191,
+            "application": "unknown",
+            "conditions": [
+              "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_unsupported_condition",
+            "evidence_text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+            "source_url": "https://www.amazon.co.jp/dp/B0BGXTN4SJ",
+            "asin": "B0BGXTN4SJ"
+          }
+        },
+        "evidence_sha256": "53C177B8AEB21EA9E7B814AEF9E5830ECF1057DB0F223BC305089F0C6023D79A"
+      },
+      {
+        "asin": "B0BGXT7KCJ",
+        "category": "おむつ#10",
+        "checked_at": "2026-09-30T12:38:00.014694+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥8,191",
+          "price_int": 8191,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B0BGXT7KCJ"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【パンツ ビッグ】 ムーニーマン マシュマロ肌ごこち モレ安心 男の子 ビッグサイズ オムツ 12~22kg 176枚【Amazon.co.jp限定】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,191"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0BGXT7KCJ",
+                "https://www.amazon.co.jp/dp/B0BGXT7KCJ",
+                "https://www.amazon.co.jp/b"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0BGXT7KCJ",
+          "url": "https://www.amazon.co.jp/dp/B0BGXT7KCJ",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:38:00.014694+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8191,
+            "application": "unknown",
+            "conditions": [
+              "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_unsupported_condition",
+            "evidence_text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+            "source_url": "https://www.amazon.co.jp/dp/B0BGXT7KCJ",
+            "asin": "B0BGXT7KCJ"
+          }
+        },
+        "evidence_sha256": "F694D0691E475E13ECC324C61206AF0469B0BAE7C934234E655F083E7F746541"
+      },
+      {
+        "asin": "B0BGXTCRQT",
+        "category": "おむつ#2",
+        "checked_at": "2026-09-30T12:38:05.229540+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥6,830",
+          "price_int": 6830,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B0BGXTCRQT"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【パンツ Mたっち】 ムーニーマン マシュマロ肌ごこち モレ安心 Mたっち オムツ 6~12kg 204枚【Amazon.co.jp限定】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "6,830"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0BGXTCRQT",
+                "https://www.amazon.co.jp/dp/B0BGXTCRQT",
+                "https://www.amazon.co.jp/b"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0BGXTCRQT",
+          "url": "https://www.amazon.co.jp/dp/B0BGXTCRQT",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:38:05.229540+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 6830,
+            "application": "unknown",
+            "conditions": [
+              "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_unsupported_condition",
+            "evidence_text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+            "source_url": "https://www.amazon.co.jp/dp/B0BGXTCRQT",
+            "asin": "B0BGXTCRQT"
+          }
+        },
+        "evidence_sha256": "1E525A1B427A176BB559521B68C9CDFF70CBCFB3FB174783EF875A9F5E1FD17F"
+      },
+      {
+        "asin": "B09ZTCM2V6",
+        "category": "おむつ#6",
+        "checked_at": "2026-09-30T12:38:10.389368+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥5,795",
+          "price_int": 5795,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B09ZTCM2V6"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【夜用パンツ ビッグより大きいサイズ】ムーニー オヤスミマン 超強力吸収 女の子 オムツ 13~28kg 66+6枚[ケース品]【Amazon.co.jp限定】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "5,795"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B09ZTCM2V6",
+                "https://www.amazon.co.jp/dp/B09ZTCM2V6",
+                "https://www.amazon.co.jp/b"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B09ZTCM2V6",
+          "url": "https://www.amazon.co.jp/dp/B09ZTCM2V6",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:38:10.389368+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 5795,
+            "application": "unknown",
+            "conditions": [
+              "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_unsupported_condition",
+            "evidence_text": "クーポン:  \n 15% OFFクーポンの適用 規約\nボーナス 【今週の実質無料】まとめ買い対象商品 ヤスイイね 無料アイテムを申し込む",
+            "source_url": "https://www.amazon.co.jp/dp/B09ZTCM2V6",
+            "asin": "B09ZTCM2V6"
+          }
+        },
+        "evidence_sha256": "2FE3CD38AD0A8F0581653E27343D25EC4E7088701A291762404F76A58BB39D01"
+      },
+      {
+        "asin": "B0DW8V4X48",
+        "category": "ベビーチェア#9",
+        "checked_at": "2026-09-30T12:38:15.472057+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥28,416",
+          "price_int": 28416,
+          "original_price": "￥32,780",
+          "discount_rate": "13%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥28,416",
+          "price_int": 28416,
+          "original_price": "￥32,780",
+          "discount_rate": "13%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DW8V4X48"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "KATOJI（カトージ） スタッキングハイチェア KJ1（NA） 18ヶ月～ 22423",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "28,416"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-13%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥32,780\n￥32,780"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0DW8V4X48",
+          "url": "https://www.amazon.co.jp/dp/B0DW8V4X48",
+          "http_status": 200,
+          "checked_at": "2026-09-30T12:38:15.472057+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 28416,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DW8V4X48",
+            "asin": "B0DW8V4X48"
+          }
+        },
+        "evidence_sha256": "1415C854237ED2E4133E7F01A1FD4CFB09805B0E7D9F216B1A3C6944A31A9004"
+      }
+    ],
+    "limits": {
+      "max_candidates": 24,
+      "timeout_seconds": 240
+    },
+    "detail_visits_started": 24,
+    "elapsed_seconds": 147.946,
+    "budget_stop_reason": null,
+    "final_selected_count": 10,
+    "categories": {
+      "おしゃぶり・歯がため": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "ベビーチェア": {
+        "collected_candidates": 6,
+        "verified_candidates": 6,
+        "final_selected": 2
+      },
+      "ベビーモニター": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "おむつ": {
+        "collected_candidates": 6,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "ベビーゲート": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 2
+      },
+      "プレイマット": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 2
+      },
+      "粉ミルク": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "ベビーバス": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 0
+      },
+      "哺乳びん洗浄器具": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "おしりふき": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "抱っこ紐・キャリア": {
+        "collected_candidates": 3,
+        "verified_candidates": 3,
+        "final_selected": 2
+      },
+      "調乳器具": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "ベビー食器": {
+        "collected_candidates": 1,
+        "verified_candidates": 1,
+        "final_selected": 1
+      },
+      "授乳クッション": {
+        "collected_candidates": 1,
+        "verified_candidates": 1,
+        "final_selected": 0
+      },
+      "おむつ処理ポット": {
+        "collected_candidates": 1,
+        "verified_candidates": 1,
+        "final_selected": 1
+      }
+    }
+  },
+  "supply_completion": {
+    "required_slots": 4,
+    "ready_before": 4,
+    "ready_after": 4,
+    "extra_batch_count": 0,
+    "added_asins": [],
+    "reason": "sufficient",
+    "max_extra_candidates": 24,
+    "max_extra_seconds": 240
+  },
+  "discount_contract": {
+    "schema_version": 1,
+    "policy": "amazon_direct_discounts_v1",
+    "account": 10,
+    "date": "2026-10-01",
+    "products": [
+      {
+        "asin": "B0CDLG9QTH",
+        "source_position": 1,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 8789,
+          "original_price_yen": 13200,
+          "discount_rate_percent": 33
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 8789,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0CDLG9QTH",
+          "asin": "B0CDLG9QTH"
+        },
+        "observed_at": "2026-09-30T12:35:53.995413+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0CDLG9QTH"
+      },
+      {
+        "asin": "B0CCHXMSTQ",
+        "source_position": 2,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 22873,
+          "original_price_yen": 31900,
+          "discount_rate_percent": 28
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 22873,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0CCHXMSTQ",
+          "asin": "B0CCHXMSTQ"
+        },
+        "observed_at": "2026-09-30T12:36:00.534632+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0CCHXMSTQ"
+      },
+      {
+        "asin": "B0827G8GDW",
+        "source_position": 3,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 5986,
+          "original_price_yen": 8070,
+          "discount_rate_percent": 26
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 5986,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0827G8GDW",
+          "asin": "B0827G8GDW"
+        },
+        "observed_at": "2026-09-30T12:36:06.982156+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0827G8GDW"
+      },
+      {
+        "asin": "B09R6D48CV",
+        "source_position": 4,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 18700,
+          "original_price_yen": 24750,
+          "discount_rate_percent": 24
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 18700,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B09R6D48CV",
+          "asin": "B09R6D48CV"
+        },
+        "observed_at": "2026-09-30T12:36:13.692021+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B09R6D48CV"
+      },
+      {
+        "asin": "B07RXZ43TY",
+        "source_position": 5,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 5413,
+          "original_price_yen": 7128,
+          "discount_rate_percent": 24
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 5413,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B07RXZ43TY",
+          "asin": "B07RXZ43TY"
+        },
+        "observed_at": "2026-09-30T12:36:20.154704+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B07RXZ43TY"
+      },
+      {
+        "asin": "B0F62M29WQ",
+        "source_position": 6,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 4819,
+          "original_price_yen": 6028,
+          "discount_rate_percent": 20
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 4819,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0F62M29WQ",
+          "asin": "B0F62M29WQ"
+        },
+        "observed_at": "2026-09-30T12:36:26.533992+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0F62M29WQ"
+      },
+      {
+        "asin": "B0DCJ9H1Q2",
+        "source_position": 7,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 5328,
+          "original_price_yen": 6600,
+          "discount_rate_percent": 19
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 5328,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0DCJ9H1Q2",
+          "asin": "B0DCJ9H1Q2"
+        },
+        "observed_at": "2026-09-30T12:36:32.972196+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DCJ9H1Q2"
+      },
+      {
+        "asin": "B07W35F7T2",
+        "source_position": 8,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 9990,
+          "original_price_yen": 12100,
+          "discount_rate_percent": 17
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 9990,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B07W35F7T2",
+          "asin": "B07W35F7T2"
+        },
+        "observed_at": "2026-09-30T12:36:39.439855+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B07W35F7T2"
+      },
+      {
+        "asin": "B0CTLSKBG9",
+        "source_position": 9,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 3464,
+          "original_price_yen": 4158,
+          "discount_rate_percent": 17
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 3464,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0CTLSKBG9",
+          "asin": "B0CTLSKBG9"
+        },
+        "observed_at": "2026-09-30T12:36:45.987181+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0CTLSKBG9"
+      },
+      {
+        "asin": "B00D3ASWKY",
+        "source_position": 10,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 9981,
+          "original_price_yen": 11880,
+          "discount_rate_percent": 16
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 9981,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B00D3ASWKY",
+          "asin": "B00D3ASWKY"
+        },
+        "observed_at": "2026-09-30T12:36:52.551805+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B00D3ASWKY"
+      }
+    ]
+  },
+  "sale_name": "Amazon セール",
+  "coupon_search": {
+    "page_limit": 2,
+    "timeout_seconds": 60,
+    "pages_attempted": 0,
+    "unique_added": 0,
+    "main_search_coupon_candidates": 7,
+    "reason": "main_search_already_found_coupon",
+    "elapsed_seconds": 0.0
+  }
+}
