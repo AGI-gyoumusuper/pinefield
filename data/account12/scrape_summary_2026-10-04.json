@@ -1,0 +1,1623 @@
+{
+  "date": "2026-10-04",
+  "total_taken": 8,
+  "selection_policy": {
+    "selection_mode": "global_ranked",
+    "sort_order": "sale_first",
+    "require_sale_info": true,
+    "max_per_category": 2,
+    "max_total_items": 10,
+    "verify_detail_offer": true,
+    "offer_scope": "unified_discounts",
+    "discount_contract": "amazon_direct_discounts_v1"
+  },
+  "excluded_loaded": 56,
+  "excluded_gtins_loaded": 39,
+  "excluded_brand_models_loaded": 49,
+  "skipped_product_identity": 0,
+  "skipped_product_identity_reasons": {},
+  "categories": {
+    "バランスゲーム": {
+      "pages": [
+        27
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "トランプ": {
+      "pages": [
+        32
+      ],
+      "taken": 10,
+      "skipped_posted": 1,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "すごろく": {
+      "pages": [
+        27
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "チェス": {
+      "pages": [
+        25
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "バックギャモン": {
+      "pages": [
+        28
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "リバーシ": {
+      "pages": [
+        27
+      ],
+      "taken": 10,
+      "skipped_posted": 1,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "エアガン本体": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 3,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "BB弾": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "カジノ用品": {
+      "pages": [
+        25
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "ボードゲーム": {
+      "pages": [
+        33
+      ],
+      "taken": 10,
+      "skipped_posted": 4,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "麻雀": {
+      "pages": [
+        27
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "ダーツボード": {
+      "pages": [
+        27
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "将棋": {
+      "pages": [
+        32
+      ],
+      "taken": 10,
+      "skipped_posted": 1,
+      "error": "",
+      "skipped_nosale": 0
+    }
+  },
+  "detail_offer_verification": {
+    "schema_version": 1,
+    "enabled": true,
+    "offer_scope": "unified_discounts",
+    "sale_name": "Amazon セール",
+    "candidate_count": 17,
+    "raw_candidate_count": 17,
+    "accepted_count": 8,
+    "rejected_count": 9,
+    "rejection_reasons": {
+      "detail_url_asin_mismatch": 3,
+      "detail_discount_or_coupon_unverified": 5,
+      "detail_selected_asin_mismatch": 1
+    },
+    "observations": [
+      {
+        "asin": "B00FZLBVOI",
+        "category": "エアガン本体#1",
+        "checked_at": "2026-10-03T13:12:15.041454+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥3,384",
+          "price_int": 3384,
+          "original_price": "￥4,950",
+          "discount_rate": "32%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B00FZLBVOI",
+          "url": "https://www.amazon.co.jp/black-curtain/black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:12:15.041454+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "EF6E0D61C3A9B7BA6BB0535DE1287FDB98FF35FB431DCEEAA568E6BC3C46F6A9"
+      },
+      {
+        "asin": "B00GO48418",
+        "category": "エアガン本体#9",
+        "checked_at": "2026-10-03T13:12:19.093391+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥3,409",
+          "price_int": 3409,
+          "original_price": "￥4,950",
+          "discount_rate": "31%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B00GO48418",
+          "url": "https://www.amazon.co.jp/black-curtain/black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:12:19.093391+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "BD274D931736FC35CC36E11C3E70DAC64AA74D4B49AD51DD8B93D9378D5D2877"
+      },
+      {
+        "asin": "B0G1MGRK45",
+        "category": "バックギャモン#2",
+        "checked_at": "2026-10-03T13:12:24.811302+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥4,233",
+          "price_int": 4233,
+          "original_price": "￥4,980",
+          "discount_rate": "15%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥4,233",
+          "price_int": 4233,
+          "original_price": "￥4,980",
+          "discount_rate": "15%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0G1MGRK45"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "[Zcoli] ボストンバッグ 大容量 軽量 70L スポーツバッグ 防水 リュック キャリーオン 乾湿分離 バッグ 修学旅行 シューズ収納",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,233"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-15%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥4,980\n￥4,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "タイムセール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0G1MGRK45",
+          "url": "https://www.amazon.co.jp/dp/B0G1MGRK45",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:12:24.811302+00:00",
+          "evidence_kind": "label",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4233,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0G1MGRK45",
+            "asin": "B0G1MGRK45"
+          }
+        },
+        "evidence_sha256": "B30ED870F057437DCA53DF0D881BA0230F5EB3C6F662FB60776DF1CE5A61D087"
+      },
+      {
+        "asin": "B097MQS598",
+        "category": "チェス#2",
+        "checked_at": "2026-10-03T13:12:31.630651+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥5,999",
+          "price_int": 5999,
+          "original_price": "￥6,999",
+          "discount_rate": "14%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥5,999",
+          "price_int": 5999,
+          "original_price": "￥6,999",
+          "discount_rate": "14%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B097MQS598"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "A&A 15\" Magnetic Wooden Chess Set, Handmade 3\" King Height Unique Pieces with 2 Extra Queen, Portable Travel Board Game Set for Adults Kids",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "5,999"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-14%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥6,999\n￥6,999"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B097MQS598",
+          "url": "https://www.amazon.co.jp/dp/B097MQS598",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:12:31.630651+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 5999,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B097MQS598",
+            "asin": "B097MQS598"
+          }
+        },
+        "evidence_sha256": "ED2123AE97753630FAE3E27177995C8A1021F2768C207BCE6381A87FA74AC24A"
+      },
+      {
+        "asin": "B09MLZS79M",
+        "category": "麻雀#9",
+        "checked_at": "2026-10-03T13:12:38.867642+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥5,626",
+          "price_int": 5626,
+          "original_price": "￥6,580",
+          "discount_rate": "14%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥5,626",
+          "price_int": 5626,
+          "original_price": "￥6,580",
+          "discount_rate": "14%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B09MLZS79M"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "大洋技研(TAIYO GIKEN)AMOS 麻雀牌 smart スマート",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "5,626"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-14%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥6,580\n￥6,580"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B09MLZS79M",
+          "url": "https://www.amazon.co.jp/dp/B09MLZS79M",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:12:38.867642+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 5626,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B09MLZS79M",
+            "asin": "B09MLZS79M"
+          }
+        },
+        "evidence_sha256": "BF6355946D4E1868F8AE5CE55AFF6DE333A8F567C7E41DBC8B1883C849423D58"
+      },
+      {
+        "asin": "B0DQ5BF8L6",
+        "category": "カジノ用品#10",
+        "checked_at": "2026-10-03T13:12:45.572693+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥19,000",
+          "price_int": 19000,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": {
+          "price": "￥19,000",
+          "price_int": 19000,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DQ5BF8L6"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "自動カードシャッフル&ディーラー 360°回転 1-2デッキ 4リモコン",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "19,000"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0DQ5BF8L6",
+                "https://www.amazon.co.jp/promotion/psp/ALYPLA7PHPCBS",
+                "https://www.amazon.co.jp/dp/B0DQ5BF8L6",
+                "https://www.amazon.co.jp/promotion/psp/ALYPLA7PHPCBS",
+                "https://www.amazon.co.jp/dp/B0DQ5BF8L6"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0DQ5BF8L6",
+          "url": "https://www.amazon.co.jp/dp/B0DQ5BF8L6",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:12:45.572693+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "verified",
+            "kind": "percent",
+            "value": 10,
+            "basis_price_yen": 19000,
+            "application": "clip",
+            "conditions": [
+              "クーポン取得が必要"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": true,
+            "stackable": true,
+            "final_price_yen": 17100,
+            "reason": null,
+            "evidence_text": "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細",
+            "source_url": "https://www.amazon.co.jp/dp/B0DQ5BF8L6",
+            "asin": "B0DQ5BF8L6"
+          }
+        },
+        "evidence_sha256": "B1363CDA897808809E0C2578124E7BBE515D8F6BAE4BCCEB4C400BFB6252DD22"
+      },
+      {
+        "asin": "B0F8BH2RT6",
+        "category": "ボードゲーム#1",
+        "checked_at": "2026-10-03T13:12:52.500140+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥4,480",
+          "price_int": 4480,
+          "original_price": "￥4,980",
+          "discount_rate": "10%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥4,480",
+          "price_int": 4480,
+          "original_price": "￥4,980",
+          "discount_rate": "10%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F8BH2RT6"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "[公式] ひらがじゃん 牌バージョン 【ラヴィット！で紹介されました】 ひらがな麻雀 脳トレ&語彙力アップ 2人以上 EdisonBrain",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,480"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-10%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥4,980\n￥4,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0F8BH2RT6",
+          "url": "https://www.amazon.co.jp/dp/B0F8BH2RT6",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:12:52.500140+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4480,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F8BH2RT6",
+            "asin": "B0F8BH2RT6"
+          }
+        },
+        "evidence_sha256": "CC579BE9FB77ABA879ACCDB31AE29240F9A1BF7C4B77437B42AF6066EF450C5B"
+      },
+      {
+        "asin": "B0F18NFY97",
+        "category": "バックギャモン#3",
+        "checked_at": "2026-10-03T13:12:58.993387+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥4,319",
+          "price_int": 4319,
+          "original_price": "￥4,699",
+          "discount_rate": "8%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥4,319",
+          "price_int": 4319,
+          "original_price": "￥4,699",
+          "discount_rate": "8%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F18NFY97"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "LTG ボストンバッグ ボストン メンズ レディース 小旅行 大容量 2泊 大きい ゴルフ ビジネス 出張 修学旅行 収納ポケット多数 シンプル 7988208 (オリーブ)",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,319"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-8%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥4,699\n￥4,699"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "タイムセール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0F18NFY97",
+          "url": "https://www.amazon.co.jp/dp/B0F18NFY97",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:12:58.993387+00:00",
+          "evidence_kind": "label",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4319,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F18NFY97",
+            "asin": "B0F18NFY97"
+          }
+        },
+        "evidence_sha256": "4A8A654F5C8A70B59AD8FC740474661691B1B9B0A8F1FF615335B10469D08B9A"
+      },
+      {
+        "asin": "B0FTVB1MRL",
+        "category": "カジノ用品#9",
+        "checked_at": "2026-10-03T13:13:05.723221+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥149,800",
+          "price_int": 149800,
+          "original_price": "￥159,000",
+          "discount_rate": "6%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥149,800",
+          "price_int": 149800,
+          "original_price": "￥159,000",
+          "discount_rate": "6%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FTVB1MRL"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "[KIYO ORIENTA 日本ブランド 業務用] ポーカーテーブル 10人用 大型サイズ 家庭用 イベント用 本格カジノ体験 飲み物カップホルダー付き LEDライト付き",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "149,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-6%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥159,000\n￥159,000"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0FTVB1MRL",
+          "url": "https://www.amazon.co.jp/dp/B0FTVB1MRL",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:13:05.723221+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 149800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FTVB1MRL",
+            "asin": "B0FTVB1MRL"
+          }
+        },
+        "evidence_sha256": "5571D0017447B158693410051DD6DF22B2B4076BA9B8DAECE35615BE6BAA5E2A"
+      },
+      {
+        "asin": "B0DFXY2JDY",
+        "category": "麻雀#10",
+        "checked_at": "2026-10-03T13:13:12.761024+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥79,980",
+          "price_int": 79980,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B0DFXY2JDY"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【シリーズ累計7万台突破】 雀鳳 全自動麻雀卓 麻雀卓 静音 家庭用 キャスター付き 3人打ち対応 USB充電 コンパクト 28mm 33mm 折りたたみ 【日本企業】 (ガラス脚 牌33mm, マットブラック)",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "79,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0DFXY2JDY",
+          "url": "https://www.amazon.co.jp/dp/B0DFXY2JDY",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:13:12.761024+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 79980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DFXY2JDY",
+            "asin": "B0DFXY2JDY"
+          }
+        },
+        "evidence_sha256": "7CB2633129C7951DEA1428F416DDF1D3E09B41C0A0672230CABE246B1EA119F2"
+      },
+      {
+        "asin": "B07L4QT9ZL",
+        "category": "エアガン本体#2",
+        "checked_at": "2026-10-03T13:13:18.632996+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥3,815",
+          "price_int": 3815,
+          "original_price": "￥5,478",
+          "discount_rate": "30%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥3,815",
+          "price_int": 3815,
+          "original_price": "￥5,478",
+          "discount_rate": "30%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B07L4QT9ZL"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "東京マルイ No.1 G18C フルオート 10歳以上電動ブローバック",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "3,815"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-30%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥5,478\n￥5,478"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B07L4QT9ZL",
+          "url": "https://www.amazon.co.jp/dp/B07L4QT9ZL",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:13:18.632996+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 3815,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B07L4QT9ZL",
+            "asin": "B07L4QT9ZL"
+          }
+        },
+        "evidence_sha256": "B79859B31A81EEA3CC89E9AA17AB011D440316F281B22864D53C9F43388ED8A7"
+      },
+      {
+        "asin": "B09G6GTD72",
+        "category": "エアガン本体#7",
+        "checked_at": "2026-10-03T13:13:24.535001+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥16,488",
+          "price_int": 16488,
+          "original_price": "￥21,780",
+          "discount_rate": "24%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B09G6GTD72",
+          "url": "https://www.amazon.co.jp/black-curtain/black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:13:24.535001+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "2E66D6E1A7A2D2653559934F26254048AA642443D93AAA2B9AEE8C25BC6D5C0E"
+      },
+      {
+        "asin": "B0HHHYPJJZ",
+        "category": "カジノ用品#8",
+        "checked_at": "2026-10-03T13:13:29.707896+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥43,735",
+          "price_int": 43735,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B0HHHYPJJZ"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ポーカーテーブル 折りたたみ 10人対応 カップホルダー付き 組み立て不要 家庭用 業務用 ボードゲームテーブル (A,チップトレイ付き)",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "43,735"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0HHHYPJJZ",
+          "url": "https://www.amazon.co.jp/dp/B0HHHYPJJZ",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:13:29.707896+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 43735,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0HHHYPJJZ",
+            "asin": "B0HHHYPJJZ"
+          }
+        },
+        "evidence_sha256": "70BDAFEFF1D3779E33B08BA5A5ECCA4C43136854AE9382A48F0360E983528988"
+      },
+      {
+        "asin": "B0DTN7Q4RF",
+        "category": "麻雀#7",
+        "checked_at": "2026-10-03T13:13:35.252378+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥8,480",
+          "price_int": 8480,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B0DTN7Q4RF"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【シリーズ累計7万台突破】 雀鳳 麻雀卓 折りたたみ 軽量 家庭用 コンパクト 高さ2段階調整 ドリンクホルダー付き 【日本企業】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,480"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0DTN7Q4RF",
+          "url": "https://www.amazon.co.jp/dp/B0DTN7Q4RF",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:13:35.252378+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8480,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DTN7Q4RF",
+            "asin": "B0DTN7Q4RF"
+          }
+        },
+        "evidence_sha256": "45BE40360313A8785EE7DC29E1E0737446130D696378203CEB92004F30F568E4"
+      },
+      {
+        "asin": "B009MK69IG",
+        "category": "麻雀#8",
+        "checked_at": "2026-10-03T13:13:40.814186+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥4,690",
+          "price_int": 4690,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B009MK69IG"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "本格的麻雀牌 高級重量麻雀牌【竹】 プロ仕様",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,690"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B009MK69IG",
+          "url": "https://www.amazon.co.jp/dp/B009MK69IG",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:13:40.814186+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4690,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B009MK69IG",
+            "asin": "B009MK69IG"
+          }
+        },
+        "evidence_sha256": "104E477CBEA10190B6DAE6EF44AAEE188A9D6B139E96CA43CCD7C12E7EC360A1"
+      },
+      {
+        "asin": "B01D4BLG0O",
+        "category": "エアガン本体#3",
+        "checked_at": "2026-10-03T13:13:46.442004+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥4,486",
+          "price_int": 4486,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B01D4BLG0O"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "東京マルイ コルトパイソン 357マグナム 4インチ ブラックモデル 10歳以上エアーHOPリボルバー エアコッキング",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,486"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B01D4BLG0O",
+          "url": "https://www.amazon.co.jp/dp/B01D4BLG0O",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:13:46.442004+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4486,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B01D4BLG0O",
+            "asin": "B01D4BLG0O"
+          }
+        },
+        "evidence_sha256": "DE572E3016EA276234286E6C82D80F5995FB9526B699D3358BF237A3C115D89C"
+      },
+      {
+        "asin": "B0F74BSHW1",
+        "category": "エアガン本体#8",
+        "checked_at": "2026-10-03T13:13:51.941707+00:00",
+        "status": "rejected",
+        "reason": "detail_selected_asin_mismatch",
+        "card_offer": {
+          "price": "￥3,170",
+          "price_int": 3170,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B0GTNS521Y"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "クラウンモデル (Crown Model) 10歳以上 エアーコッキング ハンドガン",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "schema_version": 1,
+          "requested_asin": "B0F74BSHW1",
+          "url": "https://www.amazon.co.jp/dp/B0F74BSHW1",
+          "http_status": 200,
+          "checked_at": "2026-10-03T13:13:51.941707+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "4A3AE7CFF44A1D0013DD1170987571F44CC7A1D49373D1C6B1E88C364BD5FD96"
+      }
+    ],
+    "limits": {
+      "max_candidates": 24,
+      "timeout_seconds": 240
+    },
+    "detail_visits_started": 17,
+    "elapsed_seconds": 101.063,
+    "budget_stop_reason": null,
+    "final_selected_count": 8,
+    "categories": {
+      "バランスゲーム": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "トランプ": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "すごろく": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "チェス": {
+        "collected_candidates": 1,
+        "verified_candidates": 1,
+        "final_selected": 1
+      },
+      "バックギャモン": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 2
+      },
+      "リバーシ": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "エアガン本体": {
+        "collected_candidates": 6,
+        "verified_candidates": 1,
+        "final_selected": 1
+      },
+      "BB弾": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "カジノ用品": {
+        "collected_candidates": 3,
+        "verified_candidates": 2,
+        "final_selected": 2
+      },
+      "ボードゲーム": {
+        "collected_candidates": 1,
+        "verified_candidates": 1,
+        "final_selected": 1
+      },
+      "麻雀": {
+        "collected_candidates": 4,
+        "verified_candidates": 1,
+        "final_selected": 1
+      },
+      "ダーツボード": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "将棋": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      }
+    }
+  },
+  "supply_completion": {
+    "required_slots": 4,
+    "ready_before": 4,
+    "ready_after": 4,
+    "extra_batch_count": 0,
+    "added_asins": [],
+    "reason": "sufficient",
+    "max_extra_candidates": 24,
+    "max_extra_seconds": 240
+  },
+  "discount_contract": {
+    "schema_version": 1,
+    "policy": "amazon_direct_discounts_v1",
+    "account": 12,
+    "date": "2026-10-04",
+    "products": [
+      {
+        "asin": "B07L4QT9ZL",
+        "source_position": 1,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 3815,
+          "original_price_yen": 5478,
+          "discount_rate_percent": 30
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 3815,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B07L4QT9ZL",
+          "asin": "B07L4QT9ZL"
+        },
+        "observed_at": "2026-10-03T13:13:18.632996+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B07L4QT9ZL"
+      },
+      {
+        "asin": "B0G1MGRK45",
+        "source_position": 2,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 4233,
+          "original_price_yen": 4980,
+          "discount_rate_percent": 15
+        },
+        "time_sale": {
+          "verified": true,
+          "label": "Amazon タイムセール"
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 4233,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0G1MGRK45",
+          "asin": "B0G1MGRK45"
+        },
+        "observed_at": "2026-10-03T13:12:24.811302+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0G1MGRK45"
+      },
+      {
+        "asin": "B097MQS598",
+        "source_position": 3,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 5999,
+          "original_price_yen": 6999,
+          "discount_rate_percent": 14
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 5999,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B097MQS598",
+          "asin": "B097MQS598"
+        },
+        "observed_at": "2026-10-03T13:12:31.630651+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B097MQS598"
+      },
+      {
+        "asin": "B09MLZS79M",
+        "source_position": 4,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 5626,
+          "original_price_yen": 6580,
+          "discount_rate_percent": 14
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 5626,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B09MLZS79M",
+          "asin": "B09MLZS79M"
+        },
+        "observed_at": "2026-10-03T13:12:38.867642+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B09MLZS79M"
+      },
+      {
+        "asin": "B0DQ5BF8L6",
+        "source_position": 5,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 19000,
+          "original_price_yen": null,
+          "discount_rate_percent": null
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "verified",
+          "kind": "percent",
+          "value": 10,
+          "basis_price_yen": 19000,
+          "application": "clip",
+          "conditions": [
+            "クーポン取得が必要"
+          ],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": true,
+          "stackable": true,
+          "final_price_yen": 17100,
+          "reason": null,
+          "evidence_text": "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細",
+          "source_url": "https://www.amazon.co.jp/dp/B0DQ5BF8L6",
+          "asin": "B0DQ5BF8L6"
+        },
+        "observed_at": "2026-10-03T13:12:45.572693+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DQ5BF8L6"
+      },
+      {
+        "asin": "B0F8BH2RT6",
+        "source_position": 6,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 4480,
+          "original_price_yen": 4980,
+          "discount_rate_percent": 10
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 4480,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0F8BH2RT6",
+          "asin": "B0F8BH2RT6"
+        },
+        "observed_at": "2026-10-03T13:12:52.500140+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0F8BH2RT6"
+      },
+      {
+        "asin": "B0F18NFY97",
+        "source_position": 7,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 4319,
+          "original_price_yen": 4699,
+          "discount_rate_percent": 8
+        },
+        "time_sale": {
+          "verified": true,
+          "label": "Amazon タイムセール"
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 4319,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0F18NFY97",
+          "asin": "B0F18NFY97"
+        },
+        "observed_at": "2026-10-03T13:12:58.993387+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0F18NFY97"
+      },
+      {
+        "asin": "B0FTVB1MRL",
+        "source_position": 8,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 149800,
+          "original_price_yen": 159000,
+          "discount_rate_percent": 6
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 149800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0FTVB1MRL",
+          "asin": "B0FTVB1MRL"
+        },
+        "observed_at": "2026-10-03T13:13:05.723221+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0FTVB1MRL"
+      }
+    ]
+  },
+  "sale_name": "Amazon セール",
+  "coupon_search": {
+    "page_limit": 2,
+    "timeout_seconds": 60,
+    "pages_attempted": 0,
+    "unique_added": 0,
+    "main_search_coupon_candidates": 10,
+    "reason": "main_search_already_found_coupon",
+    "elapsed_seconds": 0.0
+  }
+}
