@@ -1,7 +1,9 @@
 """Local DOM tests: no network, no user profiles, no Amazon requests."""
 import unittest
+from types import SimpleNamespace
+from unittest.mock import AsyncMock
 from playwright.async_api import async_playwright
-from detail_offer import OBSERVE_OFFER_JS, public_evidence, validate_offer
+from detail_offer import OBSERVE_OFFER_JS, observe_detail_offer, public_evidence, validate_offer
 
 
 ASIN = "B0GM224VBV"
@@ -22,6 +24,75 @@ HTML = '''<html><head><style>
 
 
 class LocalDomTests(unittest.IsolatedAsyncioTestCase):
+    async def test_challenge_controls_and_dedicated_pages_without_copy_false_positives(self):
+        captcha = '<form action="/errors/validateCaptcha"><input id="captchacharacters"></form>'
+        cases = [
+            ("normal product", HTML, []),
+            ("hidden attribute", HTML.replace('</body>', '<div hidden>' + captcha + '</div></body>'), []),
+            ("hidden ancestor", HTML.replace('</body>', '<div style="display:none">' + captcha + '</div></body>'), []),
+            ("invisible ancestor", HTML.replace('</body>', '<div style="visibility:hidden">' + captcha + '</div></body>'), []),
+            ("template", HTML.replace('</body>', '<template>' + captcha + '</template></body>'), []),
+            ("incidental title and copy", HTML.replace('<head>', '<head><title>Amazon.co.jp: CAPTCHA security training book</title>')
+                .replace('FINAL FANTASY VII REBIRTH', 'CAPTCHA security training book'), []),
+            ("visible controls over product", HTML.replace('</body>', captcha + '</body>'), ['visible_challenge_control']),
+            ("instruction overlay over product", HTML.replace('</body>', '<div role="dialog">ロボットではないことを確認してください</div></body>'), ['visible_challenge_instruction']),
+            ("iframe instruction over product", HTML.replace('</body>', '<div role="dialog">文字を入力してください<iframe title="captcha"></iframe></div></body>'), ['visible_challenge_instruction']),
+            ("heading overlay over product", HTML.replace('</body>', '<div role="dialog"><h1>Robot Check</h1></div></body>'), ['visible_challenge_heading']),
+            ("dedicated controls", '<html><body>' + captcha + '</body></html>', ['visible_challenge_control']),
+            ("dedicated title", '<html><title>Amazon CAPTCHA</title><body>Please verify access.</body></html>', ['challenge_page_title']),
+            ("dedicated heading", '<html><body><h1>Robot Check</h1></body></html>', ['visible_challenge_heading', 'challenge_page_text']),
+            ("dedicated instruction", '<html><body>画像に表示されている文字を入力してください</body></html>', ['visible_challenge_instruction', 'challenge_page_text']),
+        ]
+        async with async_playwright() as pw:
+            browser = await pw.chromium.launch(headless=True)
+            context = await browser.new_context()
+            await context.route("**/*", lambda route: route.abort())
+            page = await context.new_page()
+            try:
+                for name, html, signals in cases:
+                    with self.subTest(name=name):
+                        await page.set_content(html)
+                        observed = await page.evaluate(OBSERVE_OFFER_JS)
+                        self.assertEqual(signals, observed["challenge_signals"])
+                        self.assertEqual(bool(signals), observed["challenge_detected"])
+                        value = public_evidence(observed, ASIN, f"https://www.amazon.co.jp/dp/{ASIN}", 200, "2026-10-08T00:00:00+00:00")
+                        offer, reason = validate_offer(value)
+                        if signals:
+                            self.assertIsNone(offer)
+                            self.assertEqual("detail_challenge", reason)
+                        else:
+                            self.assertIsNone(reason)
+                            self.assertEqual(9138, offer["price_int"])
+            finally:
+                await browser.close()
+
+    async def test_missing_or_failed_challenge_observation_cannot_accept_product(self):
+        missing = public_evidence({}, ASIN, f"https://www.amazon.co.jp/dp/{ASIN}", 200, "2026-10-08T00:00:00+00:00")
+        self.assertEqual((None, "detail_challenge"), validate_offer(missing))
+        self.assertNotIn("challenge_signals", missing)
+        page = SimpleNamespace(goto=AsyncMock(return_value=SimpleNamespace(status=200)),
+                               wait_for_timeout=AsyncMock(), url=f"https://www.amazon.co.jp/dp/{ASIN}",
+                               evaluate=AsyncMock(side_effect=RuntimeError("private diagnostic content")))
+        candidate = SimpleNamespace(asin=ASIN, category="fixture", price="￥9,138", price_int=9138,
+                                    original_price="￥9,865", discount_rate="7%OFF")
+        reader = AsyncMock()
+        record = await observe_detail_offer(page, candidate, reader)
+        self.assertEqual("rejected", record["status"])
+        self.assertEqual("detail_observation_error", record["reason"])
+        self.assertIsNone(record["evidence"]["challenge_detected"])
+        self.assertNotIn("private diagnostic content", str(record))
+        reader.assert_not_awaited()
+
+    async def test_signals_are_optional_fixed_public_labels(self):
+        raw = {"challenge_detected": True}
+        legacy = public_evidence(raw, ASIN, f"https://www.amazon.co.jp/dp/{ASIN}", 200, "2026-10-08T00:00:00+00:00")
+        self.assertNotIn("challenge_signals", legacy)
+        self.assertEqual((None, "detail_challenge"), validate_offer(legacy))
+        raw["challenge_signals"] = ["challenge_page_text", "private content", {"token": "private"}, "challenge_page_text"]
+        value = public_evidence(raw, ASIN, f"https://www.amazon.co.jp/dp/{ASIN}", 200, "2026-10-08T00:00:00+00:00")
+        self.assertEqual(["challenge_page_text"], value["challenge_signals"])
+        self.assertNotIn("private", str(value))
+
     async def test_visible_aria_hidden_offer_and_hidden_decoys(self):
         async with async_playwright() as pw:
             browser = await pw.chromium.launch(headless=True)

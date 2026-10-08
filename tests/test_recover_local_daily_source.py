@@ -40,7 +40,7 @@ def generate(account):
     if mode == 'fail': raise SystemExit(9)
     if mode == 'noop': return
     if mode == 'timeout': time.sleep(10)
-    count = {'few': 1, 'many': 11}.get(mode, 4)
+    count = {'empty': 0, 'one': 1, 'many': 11}.get(mode, 4)
     date = os.environ['PINEFIELD_TARGET_DATE']
     target = Path('data') / f'account{account}'
     products = []
@@ -247,15 +247,22 @@ class RecoveryFixtureTests(unittest.TestCase):
 
     def test_noop_cannot_validate_stale_daily_files_and_repeat_is_refused(self):
         with patch.dict(os.environ,{'RECOVERY_FIXTURE_MODE':'noop'}):first=self.execute()
-        self.assertEqual(first['reason'],'fresh_output_missing')
+        self.assertEqual(first['reason'],'canonical_output_validation_failed')
+        self.assertEqual(first['status'],'STOPPED');self.assertEqual(first['push_attempts'],0)
         second=self.execute();self.assertEqual(second['reason'],'same_account_date_already_attempted')
         self.assertEqual(self.count(),1);self.assertEqual(git(self.bare,'rev-parse','main'),self.initial)
 
     def test_invalid_counts_and_extra_field_are_rejected_by_local_validation(self):
-        for account,mode in enumerate(('few','many','extra_key'),1):
+        for account,mode in enumerate(('empty','many','extra_key'),1):
             with self.subTest(mode=mode),patch.dict(os.environ,{'RECOVERY_FIXTURE_MODE':mode}):result=self.execute(account=account)
             self.assertEqual(result['status'],'STOPPED');self.assertEqual(result['push_attempts'],0)
         self.assertEqual(git(self.bare,'rev-parse','main'),self.initial)
+
+    def test_one_product_is_valid_but_only_one_daily_slot_is_ready(self):
+        with patch.dict(os.environ,{'RECOVERY_FIXTURE_MODE':'one'}):result=self.execute()
+        self.assertEqual(result['status'],'PUBLISHED');self.assertEqual(result['product_count'],1)
+        self.assertEqual(result['postable_after'],1);self.assertEqual(result['push_attempts'],1)
+        self.assertEqual(git(self.bare,'rev-parse','main'),result['published_commit'])
 
     def test_ledger_rotation_config_or_extra_file_change_never_reaches_push(self):
         for account,mode in enumerate(('ledger','rotation','config','extra_file'),1):
@@ -267,9 +274,11 @@ class RecoveryFixtureTests(unittest.TestCase):
         result=self.execute(account=20)
         self.assertEqual(result['status'],'PUBLISHED');self.assertEqual(result['product_count'],4)
 
-    def test_account20_missing_one_quota_category_fails(self):
+    def test_account20_one_shelf_is_valid_but_only_two_daily_slots_are_ready(self):
         with patch.dict(os.environ,{'RECOVERY_FIXTURE_MODE':'bad_quota'}):result=self.execute(account=20)
-        self.assertEqual(result['reason'],'canonical_output_validation_failed')
+        self.assertEqual(result['status'],'PUBLISHED');self.assertEqual(result['product_count'],4)
+        self.assertEqual(result['postable_after'],2)
+        self.assertEqual(git(self.bare,'rev-parse','main'),result['published_commit'])
 
     def test_child_nonzero_and_timeout_do_not_push(self):
         with patch.dict(os.environ,{'RECOVERY_FIXTURE_MODE':'fail'}):result=self.execute(account=1)

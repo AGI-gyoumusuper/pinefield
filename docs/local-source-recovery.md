@@ -26,7 +26,7 @@ python -B scripts/recover_local_daily_source.py --account 13 --date 2026-09-10 -
 - 保存先の `local-recovery-accountN/.control/accountN_DATE.lock` で重複実行を排他する。取得直前に同じ場所の `accountN_DATE.attempt.json` を排他的に作成する。このPCの別 checkout/独立 clone からも同じ記録を使い、`--repo` を変えても同日再実行できない。別PCや Cloud/他の取得プログラムとの排他は、呼出前の実行終了確認で担保する。
 - 1〜19は `global_ranked/sale_first/2/10`、20は `category_quota/sale_first/5/10`、`exclude_scraped_candidates=false`、20日除外・商品識別子除外、正しいアカウントの Git 台帳パスを確認する。
 - 隔離 checkout 内の当日 products/summary だけを実取得前に除去し、今回の subprocess が2ファイルを新規作成しなければ停止する。Git上に残る旧当日JSONを成功扱いにしない。
-- 原13キーを保ち、現 `ensure_daily_scrape.py --validate-only` を実行する。4〜10件、account20は両カテゴリ2件以上、affiliate routing、日付、現在の selection policy を既存 validator で確認する。カテゴリごとの候補補充や同一商品の除外は現 scraper の処理だけを使う。
+- 原13キーを保ち、現 `ensure_daily_scrape.py --validate-only` を実行する。有効性検査は1〜10件を受け付け、affiliate routing、日付、現在の selection policy と割引証拠を確認する。account20も棚別の最低件数は設けない。「有効」と「4投稿分の準備完了」は別であり、通常工場は4件、account20はSwitch 2とPS5各2件が補充目標。夜間controllerだけが、source固定前の有効な不足分を維持して補充する。カテゴリごとの候補補充や同一商品の除外は現 scraper の処理だけを使う。
 - 設定・台帳・rotation の hash 不変、変更ファイルが当日 products/summary の範囲だけ、同日 source の不存在、日付がまだ JST 当日であることを取得後とpush前にも検査する。
 
 ## Git 競合
@@ -43,7 +43,9 @@ push は非 force で1回だけ。直前に競合して拒否された場合は�
 
 成功時の直下 products/summary は Git index と remote 読戻しで一致した正本 bytes。Windows CRLF→Git LFの改行差が生じた場合だけ、初回取得 bytes を `raw/` に保持し、before/after SHAと改行だけの差・値と商品順序が同一であることを `representation_changes` に記録する。改行以外を変える Git filter があれば停止する。`artifact_source` が `git_index_pending_remote_confirmation` のままなら、まだ GitHub確認済み成果物とは扱わない。
 
-`PREFLIGHT_PASS` は未取得、`PUBLISHED` はremote読戻し確認済み、`UNCHANGED_VALIDATED` は新規実取得を検証したがGit内容は同一、`STOPPED` は未完了である。cleanup失敗は元の実結果を変更せず、`cleanup_error/remaining_worktree` に残す。factory source_manifest はこのutilityでは作らず、正常なGit結果を通常の①→②で固定する。
+`PREFLIGHT_PASS` は未取得、`PUBLISHED` はremote読戻し確認済み、`UNCHANGED_VALIDATED` は既存の有効なGit出力を再利用した場合、または今回取得して検証した内容がGitと同一の場合である。`scrape_runs` と `reused_existing_valid_output` で実取得の有無を区別する。`STOPPED` は未完了である。cleanup失敗は元の実結果を変更せず、`cleanup_error/remaining_worktree` に残す。factory source_manifest はこのutilityでは作らず、正常なGit結果を通常の①→②で固定する。
+
+CloudのEnsureも有効な1〜3件を保持する。詳細ページの確認画面を示す `detail_challenge` で0件のまま終了した場合は、失敗候補を診断用に保存してその実行の再取得を停止し、実行前のproducts・summary・台帳を復元する。検索失敗など確認画面以外の一時障害では、従来の最大3回の再試行を維持する。確認画面は商品不足の証拠として扱わない。
 
 ## ローカル試験
 

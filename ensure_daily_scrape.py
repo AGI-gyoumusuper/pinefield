@@ -477,6 +477,21 @@ def scrape(account: str, root: Path = ROOT, today: str = TODAY) -> None:
         raise ValueError(account)
 
 
+def detail_challenge_stopped(account: str, root: Path, today: str) -> bool:
+    """Read only the current attempt's explicit stop signal, not product scarcity."""
+    try:
+        summary = load_json(root / "data" / account / f"scrape_summary_{today}.json")
+    except (OSError, ValueError):
+        return False
+    if not isinstance(summary, dict) or summary.get("date") != today:
+        return False
+    verification = summary.get("detail_offer_verification")
+    return isinstance(verification, dict) and any(
+        verification.get(key) == "detail_challenge"
+        for key in ("budget_stop_reason", "aborted_reason")
+    )
+
+
 def ensure(account: str, root: Path = ROOT, today: str = TODAY) -> bool:
     ok, message = validate(account, root, today)
     print(f"{account}: {message}", flush=True)
@@ -503,6 +518,10 @@ def ensure(account: str, root: Path = ROOT, today: str = TODAY) -> bool:
                 return True
             archive_failure_candidate(account, root, today, attempt, valid=False,
                                       reason=message, scrape_exit_code=scrape_exit_code)
+            if detail_challenge_stopped(account, root, today):
+                raise RuntimeError(
+                    f"{account}: detail_challenge; stopped without another scrape for {today}"
+                )
             if attempt < 3:
                 time.sleep(30)
 

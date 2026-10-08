@@ -65,9 +65,11 @@ class ScrapeScheduleContractTests(unittest.TestCase):
         self.assertIn('--date "${{ steps.target.outputs.date }}"', text)
         self.assertEqual(2, text.count('DATE="${{ steps.target.outputs.date }}"'))
 
-    def test_insurance_wait_window_covers_the_full_evening_wave(self):
+    def test_insurance_wait_includes_delayed_active_jobs_without_a_date_cutoff(self):
         text = (ROOT / "wait_for_regular_scrape.py").read_text(encoding="utf-8")
-        self.assertIn("timedelta(hours=5)", text)
+        self.assertIn("for status in ACTIVE_RUN_STATUSES", text)
+        self.assertIn("MAX_RUN_PAGES", text)
+        self.assertNotIn("timedelta(hours=", text)
 
 
 if __name__ == "__main__":

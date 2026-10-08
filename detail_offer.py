@@ -37,7 +37,22 @@ OBSERVE_OFFER_JS = r'''() => {
  const timers=sale?all(sale,'#detailpage-dealBadge-countdown-timer,.detailpage-dealBadge-countdown-timer').filter(shown):[];
  const timer=timers.length===1?timers[0]:null;
  const body=(document.body?.innerText??'').slice(0,3000);
- const challenge=!!document.querySelector('form[action*="validateCaptcha"],#captchacharacters') || /robot check|captcha|ロボットではない|文字を入力してください/i.test(document.title+'\n'+body);
+ const challengeSignals=[];
+ // Hidden templates and product copy mentioning CAPTCHA are not challenges.
+ // Visible controls still stop the visit even if product content is also present.
+ if(all(document,'form[action*="validateCaptcha"],#captchacharacters').some(shown))challengeSignals.push('visible_challenge_control');
+ // A challenge overlay may leave the underlying PDP visible and use an iframe
+ // instead of the usual Amazon form. Strong instructions/headings still stop it.
+ if(/ロボットではない|文字を入力してください/i.test(body))challengeSignals.push('visible_challenge_instruction');
+ const challengeHeading=/^(?:Amazon(?:\.co\.jp)?\s*[:|–-]?\s*)?(?:Robot Check|CAPTCHA|ロボットチェック)$/i;
+ if(all(document,'h1,h2,h3,[role="heading"]').some(n=>shown(n)&&!n.closest('#productTitle')&&challengeHeading.test(text(n))))challengeSignals.push('visible_challenge_heading');
+ const productVisible=centers.length===1&&titles.length===1&&!!text(titles[0]);
+ const challengeText=/robot check|captcha|ロボットではない|文字を入力してください/i;
+ if(!productVisible){
+   if(challengeText.test(document.title))challengeSignals.push('challenge_page_title');
+   if(challengeText.test(body))challengeSignals.push('challenge_page_text');
+ }
+ const challenge=challengeSignals.length>0;
  const couponSelectors=['#coupon_feature_div','#promoPriceBlockMessage_feature_div','#couponTextpctch','#vpcButton'];
  const couponNodes=center?couponSelectors.flatMap(s=>all(center,s)).filter(shown):[];
  const couponRoots=[...new Set(couponNodes)].filter(n=>!couponNodes.some(p=>p!==n&&p.contains(n)));
@@ -56,7 +71,7 @@ OBSERVE_OFFER_JS = r'''() => {
    price_texts:prices.map(text),currency_texts:currencies.map(text),discount_texts:rates.map(text),reference_price_texts:references.map(text),
    sale_region_count:saleRegions.length,sale_region_selector:'#dealBadge_feature_div',sale_label:text(sale).slice(0,500),
    timer_count:timers.length,timer:timer?{timer_selector:timer.id==='detailpage-dealBadge-countdown-timer'?'#detailpage-dealBadge-countdown-timer':'.detailpage-dealBadge-countdown-timer',timer_text:text(timer)}:null,
-   challenge_detected:challenge,coupon_regions:coupons,primary_seller_ids:[...new Set(primarySellers)]
+   challenge_detected:challenge,challenge_signals:challengeSignals,coupon_regions:coupons,primary_seller_ids:[...new Set(primarySellers)]
  };
 }'''
 
@@ -112,6 +127,14 @@ def public_evidence(observed, asin, url, http_status, checked_at):
             "price_region_selector", "price_texts", "currency_texts", "discount_texts", "reference_price_texts",
             "sale_region_count", "sale_region_selector", "sale_label", "timer_count", "timer", "challenge_detected", "coupon_regions", "primary_seller_ids")
     evidence = {key: observed.get(key) for key in keys}
+    # Optional diagnostics preserve replay/hash compatibility with older evidence.
+    # Keep fixed labels only, never page text, control values or arbitrary strings.
+    if isinstance(observed.get("challenge_signals"), list):
+        allowed_signals = {"visible_challenge_control", "visible_challenge_instruction",
+                           "visible_challenge_heading", "challenge_page_title", "challenge_page_text"}
+        evidence["challenge_signals"] = list(dict.fromkeys(
+            value for value in observed["challenge_signals"]
+            if isinstance(value, str) and value in allowed_signals))
     if isinstance(evidence.get("coupon_regions"), list):
         public_rows = []
         for raw in evidence["coupon_regions"]:

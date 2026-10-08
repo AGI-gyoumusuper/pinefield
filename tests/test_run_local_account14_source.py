@@ -92,7 +92,13 @@ def create_origin(tmp_path: Path, *, partial_remote: bool = False) -> tuple[Path
                 }
             products = [item(index) for index in range(1, 5)]
             (root / f"products_{date}.json").write_text(json.dumps(products, ensure_ascii=False), encoding="utf-8")
-            summary = {"date": date, "total_taken": 4, "categories": {}}
+            summary = {
+                "date": date, "total_taken": 4, "categories": {},
+                "selection_policy": {
+                    "selection_mode": "global_ranked", "sort_order": "sale_first",
+                    "require_sale_info": True, "max_per_category": 2, "max_total_items": 10,
+                },
+            }
             (root / f"scrape_summary_{date}.json").write_text(json.dumps(summary, ensure_ascii=False), encoding="utf-8")
             if mode == "extra":
                 Path("unexpected.txt").write_text("unexpected", encoding="utf-8")

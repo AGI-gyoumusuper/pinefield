@@ -1,7 +1,7 @@
 """Wait for the matching regular scrape workflow if it is still running.
 
-The insurance workflow is scheduled shortly after account3. If the normal
-scrape is still queued or running, wait instead of starting a duplicate repair.
+An unknown or still-active regular run must never start a duplicate repair.
+Queued work has no age limit: delayed GitHub jobs can outlive the evening wave.
 """
 
 from __future__ import annotations
@@ -9,10 +9,9 @@ from __future__ import annotations
 import json
 import argparse
 import os
-import sys
 import time
-from datetime import datetime, timedelta, timezone
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 
@@ -21,6 +20,13 @@ TOKEN = os.environ.get("GITHUB_TOKEN", "")
 CURRENT_RUN_ID = os.environ.get("GITHUB_RUN_ID", "")
 MAX_WAIT_SECONDS = int(os.environ.get("MAX_WAIT_SECONDS", "1200"))
 POLL_SECONDS = int(os.environ.get("POLL_SECONDS", "20"))
+ACTIVE_RUN_STATUSES = ("requested", "pending", "waiting", "queued", "in_progress")
+MAX_RUN_PAGES = 10
+RUNS_PER_PAGE = 100
+
+
+class RunStateUnavailable(RuntimeError):
+    pass
 
 
 def api_json(url: str) -> dict:
@@ -43,39 +49,58 @@ def workflow_for_account(account: str) -> str:
 
 
 def active_regular_runs(account: str) -> list[dict]:
-    # The evening wave starts at JST 20:00. Keep the whole wave visible to the
-    # JST 23:30 insurance run so a delayed regular job is never duplicated.
-    since = datetime.now(timezone.utc) - timedelta(hours=5)
     workflow = workflow_for_account(account)
-    url = f"https://api.github.com/repos/{REPO}/actions/workflows/{workflow}/runs?per_page=20"
-    data = api_json(url)
-    active = []
-    for run in data.get("workflow_runs", []):
-        if str(run.get("id")) == str(CURRENT_RUN_ID):
-            continue
-        if run.get("status") not in {"queued", "in_progress", "waiting", "requested", "pending"}:
-            continue
-        created = datetime.fromisoformat(str(run.get("created_at")).replace("Z", "+00:00"))
-        if created >= since:
-            active.append(run)
-    return active
+    endpoint = f"https://api.github.com/repos/{REPO}/actions/workflows/{workflow}/runs"
+    active = {}
+    # Status filters keep completed history from hiding old active jobs. Shared
+    # account1-5/manual workflows are conservatively waited on as a whole.
+    for status in ACTIVE_RUN_STATUSES:
+        seen = set()
+        total = 0
+        for page in range(1, MAX_RUN_PAGES + 1):
+            query = urlencode({"status": status, "per_page": RUNS_PER_PAGE, "page": page})
+            data = api_json(endpoint + "?" + query)
+            if (not isinstance(data, dict) or type(data.get("total_count")) is not int
+                    or data["total_count"] < 0 or not isinstance(data.get("workflow_runs"), list)):
+                raise RunStateUnavailable("regular_runs_invalid_response")
+            rows = data["workflow_runs"]
+            total = max(total, data["total_count"])
+            if total > MAX_RUN_PAGES * RUNS_PER_PAGE:
+                raise RunStateUnavailable("regular_runs_pagination_limit")
+            if len(rows) > RUNS_PER_PAGE or len(rows) > data["total_count"]:
+                raise RunStateUnavailable("regular_runs_invalid_count")
+            for run in rows:
+                if (not isinstance(run, dict) or type(run.get("id")) is not int
+                        or run["id"] <= 0
+                        or run.get("status") not in (*ACTIVE_RUN_STATUSES, "completed")):
+                    raise RunStateUnavailable("regular_runs_invalid_row")
+                seen.add(run["id"])
+                if str(run["id"]) != str(CURRENT_RUN_ID) and run["status"] != "completed":
+                    active[run["id"]] = run
+            if len(seen) >= total:
+                break
+            if len(rows) < RUNS_PER_PAGE:
+                raise RunStateUnavailable("regular_runs_incomplete_pagination")
+        else:
+            raise RunStateUnavailable("regular_runs_pagination_limit")
+    return list(active.values())
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--account", required=True, choices=[f"account{i}" for i in range(1, 21)])
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if not TOKEN:
-        print("GITHUB_TOKEN is not set; skipping regular-scrape wait.", flush=True)
-        return 0
+        print("GITHUB_TOKEN is not set; refusing an unverified overlapping repair.", flush=True)
+        return 1
 
     deadline = time.monotonic() + MAX_WAIT_SECONDS
     while True:
         try:
             active = active_regular_runs(args.account)
-        except (HTTPError, URLError) as exc:
-            print(f"Could not query regular scrape runs; continuing without wait: {exc}", flush=True)
-            return 0
+        except (HTTPError, URLError, OSError, ValueError, RunStateUnavailable) as exc:
+            print(f"Could not confirm regular scrape state ({type(exc).__name__}); repair stopped.", flush=True)
+            return 1
         if not active:
             print("No active regular scrape workflow runs found.", flush=True)
             return 0
@@ -86,8 +111,8 @@ def main() -> int:
                 flush=True,
             )
         if time.monotonic() >= deadline:
-            print("Regular scrape still active after wait limit; insurance will proceed.", flush=True)
-            return 0
+            print("Regular scrape still active after wait limit; repair stopped.", flush=True)
+            return 1
         time.sleep(POLL_SECONDS)
 
 

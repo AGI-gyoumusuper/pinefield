@@ -81,7 +81,7 @@ class FailureCandidateTests(unittest.TestCase):
                 if saved.is_file():
                     self.assertNotIn(b'PRIVATE_', saved.read_bytes())
             report = json.loads((artifacts / 'account12' / TEST_DATE / 'final/validation.json').read_text())
-            self.assertIn('0 < 4', report['reason'])
+            self.assertIn('0 < 1', report['reason'])
 
     def test_existing_valid_source_produces_no_failure_archive(self):
         with tempfile.TemporaryDirectory() as temporary:

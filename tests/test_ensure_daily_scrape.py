@@ -217,6 +217,81 @@ class DailyScrapeValidationTests(unittest.TestCase):
 
 
 class DailyScrapeRepairTests(unittest.TestCase):
+    def test_zero_product_challenge_archives_once_and_restores_without_retry(self):
+        for signal in ("budget_stop_reason", "aborted_reason"):
+            with self.subTest(signal=signal), tempfile.TemporaryDirectory() as temp_dir:
+                root = Path(temp_dir)
+                account = "account14"
+                write_valid_output(root, account, 0)
+                paths = daily.account_artifact_paths(account, root, TEST_DATE)
+                original = {path: path.read_bytes() for path in paths}
+                diagnostic_root = root / "diagnostics"
+
+                def challenged_scrape(scrape_account, scrape_root, target_date):
+                    write_valid_output(scrape_root, scrape_account, 0)
+                    summary = json.loads(paths[1].read_text(encoding="utf-8"))
+                    summary["detail_offer_verification"] = {signal: "detail_challenge"}
+                    paths[1].write_text(json.dumps(summary), encoding="utf-8")
+                    paths[2].write_bytes(b"candidate-ledger-must-not-survive")
+
+                with patch.object(daily, "scrape", side_effect=challenged_scrape) as scrape, \
+                     patch.object(daily.time, "sleep") as sleep, \
+                     patch.dict(daily.os.environ, {daily.FAILURE_ARTIFACTS_ENV: str(diagnostic_root)}):
+                    with self.assertRaisesRegex(RuntimeError, "detail_challenge; stopped"):
+                        daily.ensure(account, root, TEST_DATE)
+                scrape.assert_called_once_with(account, root, TEST_DATE)
+                sleep.assert_not_called()
+                self.assertEqual(original, {path: path.read_bytes() for path in paths})
+                archive = diagnostic_root / account / TEST_DATE / "attempt-01"
+                saved = json.loads((archive / paths[1].name).read_text(encoding="utf-8"))
+                self.assertEqual(saved["detail_offer_verification"][signal], "detail_challenge")
+                self.assertFalse((archive / "asin_history.json").exists())
+                self.assertFalse((archive.parent / "attempt-02").exists())
+
+    def test_valid_partial_output_before_challenge_is_kept_without_retry(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            account = "account14"
+            write_valid_output(root, account, 0)
+            paths = daily.account_artifact_paths(account, root, TEST_DATE)
+            original_history = paths[2].read_bytes()
+
+            def partial_scrape(scrape_account, scrape_root, target_date):
+                write_valid_output(scrape_root, scrape_account, 1)
+                summary = json.loads(paths[1].read_text(encoding="utf-8"))
+                summary["detail_offer_verification"] = {"budget_stop_reason": "detail_challenge"}
+                paths[1].write_text(json.dumps(summary), encoding="utf-8")
+
+            with patch.object(daily, "scrape", side_effect=partial_scrape) as scrape, \
+                 patch.object(daily.time, "sleep") as sleep:
+                self.assertTrue(daily.ensure(account, root, TEST_DATE))
+            scrape.assert_called_once_with(account, root, TEST_DATE)
+            sleep.assert_not_called()
+            self.assertTrue(daily.validate(account, root, TEST_DATE)[0])
+            self.assertEqual(len(json.loads(paths[0].read_text(encoding="utf-8"))), 1)
+            self.assertEqual(paths[2].read_bytes(), original_history)
+
+    def test_old_date_challenge_signal_does_not_cancel_transient_retry(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            account = "account12"
+            calls = []
+
+            def transient_scrape(scrape_account, scrape_root, target_date):
+                calls.append(scrape_account)
+                write_valid_output(scrape_root, scrape_account, 0 if len(calls) == 1 else 1)
+                if len(calls) == 1:
+                    summary_path = daily.account_artifact_paths(account, root, TEST_DATE)[1]
+                    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+                    summary.update(date="2026-08-23", detail_offer_verification={"budget_stop_reason": "detail_challenge"})
+                    summary_path.write_text(json.dumps(summary), encoding="utf-8")
+
+            with patch.object(daily, "scrape", side_effect=transient_scrape), \
+                 patch.object(daily.time, "sleep") as sleep:
+                self.assertTrue(daily.ensure(account, root, TEST_DATE))
+            self.assertEqual(calls, [account, account])
+            sleep.assert_called_once_with(30)
+
     def test_zero_products_trigger_recovery_until_one_is_available(self):
         for account in ("account10", "account12", "account13"):
             with self.subTest(account=account), tempfile.TemporaryDirectory() as temp_dir:
