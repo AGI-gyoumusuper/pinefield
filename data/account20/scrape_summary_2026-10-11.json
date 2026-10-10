@@ -1,0 +1,685 @@
+{
+  "date": "2026-10-11",
+  "total_taken": 2,
+  "selection_policy": {
+    "selection_mode": "category_quota",
+    "sort_order": "sale_first",
+    "require_sale_info": true,
+    "max_per_category": 5,
+    "max_total_items": 10,
+    "verify_detail_offer": true,
+    "offer_scope": "unified_discounts",
+    "discount_contract": "amazon_direct_discounts_v1"
+  },
+  "excluded_loaded": 62,
+  "excluded_gtins_loaded": 0,
+  "excluded_brand_models_loaded": 0,
+  "skipped_product_identity": 0,
+  "skipped_product_identity_reasons": {},
+  "categories": {
+    "Nintendo Switch 2": {
+      "pages": [
+        0,
+        0
+      ],
+      "taken": 0,
+      "skipped_posted": 0,
+      "error": "search_results_unavailable: requested deal filter state unknown: p_n_deal_type/10343616051",
+      "skipped_nosale": 0,
+      "error_page_hits": 4,
+      "error_page_exhausted_pages": [
+        1
+      ],
+      "error_kind": "search_results_unavailable",
+      "requested_deal_filter_state": "unknown",
+      "deferred_retry_attempted": true,
+      "deferred_retry_recovered": false,
+      "deferred_retry_unique_added": 0,
+      "deferred_retry": {
+        "attempted": true,
+        "recovered": false,
+        "unique_added": 0,
+        "initial": {
+          "pages": [
+            0
+          ],
+          "taken": 0,
+          "skipped_posted": 0,
+          "error": "search_results_unavailable: requested deal filter state unknown: p_n_deal_type/10343616051",
+          "skipped_nosale": 0,
+          "error_page_hits": 2,
+          "error_page_exhausted_pages": [
+            1
+          ],
+          "error_kind": "search_results_unavailable",
+          "requested_deal_filter_state": "unknown"
+        },
+        "retry": {
+          "pages": [
+            0
+          ],
+          "taken": 0,
+          "skipped_posted": 0,
+          "error": "search_results_unavailable: requested deal filter state unknown: p_n_deal_type/10343616051",
+          "skipped_nosale": 0,
+          "error_page_hits": 2,
+          "error_page_exhausted_pages": [
+            1
+          ],
+          "error_kind": "search_results_unavailable",
+          "requested_deal_filter_state": "unknown"
+        }
+      }
+    },
+    "PS5ゲームソフト": {
+      "pages": [
+        0,
+        16,
+        16
+      ],
+      "taken": 11,
+      "skipped_posted": 21,
+      "error": "search_results_unavailable: requested deal filter state unknown: p_n_deal_type/10343616051",
+      "skipped_nosale": 0,
+      "error_page_hits": 2,
+      "error_page_exhausted_pages": [
+        1
+      ],
+      "error_kind": "search_results_unavailable",
+      "requested_deal_filter_state": "unknown",
+      "deferred_retry_attempted": true,
+      "deferred_retry_recovered": true,
+      "deferred_retry_unique_added": 11,
+      "deferred_retry": {
+        "attempted": true,
+        "recovered": true,
+        "unique_added": 11,
+        "initial": {
+          "pages": [
+            0
+          ],
+          "taken": 0,
+          "skipped_posted": 0,
+          "error": "search_results_unavailable: requested deal filter state unknown: p_n_deal_type/10343616051",
+          "skipped_nosale": 0,
+          "error_page_hits": 2,
+          "error_page_exhausted_pages": [
+            1
+          ],
+          "error_kind": "search_results_unavailable",
+          "requested_deal_filter_state": "unknown"
+        },
+        "retry": {
+          "pages": [
+            16,
+            16
+          ],
+          "taken": 11,
+          "skipped_posted": 21,
+          "error": "",
+          "skipped_nosale": 0
+        }
+      }
+    }
+  },
+  "detail_offer_verification": {
+    "schema_version": 1,
+    "enabled": true,
+    "offer_scope": "unified_discounts",
+    "sale_name": "Amazon セール",
+    "candidate_count": 8,
+    "raw_candidate_count": 8,
+    "accepted_count": 2,
+    "rejected_count": 6,
+    "rejection_reasons": {
+      "detail_url_asin_mismatch": 6
+    },
+    "observations": [
+      {
+        "asin": "B09XM8BJRZ",
+        "category": "PS5ゲームソフト#9",
+        "checked_at": "2026-10-10T14:13:22.250998+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥3,773",
+          "price_int": 3773,
+          "original_price": "￥4,950",
+          "discount_rate": "24%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B09XM8BJRZ",
+          "url": "https://www.amazon.co.jp/black-curtain/cero-black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-10T14:13:22.250998+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "CB5AF61EA15834A9CC8FC0E1BC69309E03A8A577BEBEB1CF9FBF93CE1326CF3D"
+      },
+      {
+        "asin": "B0GYSQDG8C",
+        "category": "PS5ゲームソフト#8",
+        "checked_at": "2026-10-10T14:13:26.094395+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥6,545",
+          "price_int": 6545,
+          "original_price": "￥8,360",
+          "discount_rate": "22%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GYSQDG8C",
+          "url": "https://www.amazon.co.jp/black-curtain/cero-black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-10T14:13:26.094395+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "65957C7A94359ED20A2FA4B53627CE71C035CC6A6CB0F6C65B9793FC1A9AE3FB"
+      },
+      {
+        "asin": "B0H3P2FPWB",
+        "category": "PS5ゲームソフト#2",
+        "checked_at": "2026-10-10T14:13:29.918942+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥7,355",
+          "price_int": 7355,
+          "original_price": "￥8,990",
+          "discount_rate": "18%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H3P2FPWB",
+          "url": "https://www.amazon.co.jp/black-curtain/cero-black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-10T14:13:29.918942+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "BAEA7ABFFC14F1D32C1EB038403FE376FA3F8DD6118A79D9F4CA482A4FD2103F"
+      },
+      {
+        "asin": "B0H85HCPMG",
+        "category": "PS5ゲームソフト#5",
+        "checked_at": "2026-10-10T14:13:33.769069+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥5,300",
+          "price_int": 5300,
+          "original_price": "￥6,480",
+          "discount_rate": "18%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H85HCPMG",
+          "url": "https://www.amazon.co.jp/black-curtain/cero-black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-10T14:13:33.769069+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "826C28B36F63FDF54A157993A2B678BDEFE8D61C542BEB924FD53B7FB4F9997E"
+      },
+      {
+        "asin": "B0H9XJ3V8K",
+        "category": "PS5ゲームソフト#1",
+        "checked_at": "2026-10-10T14:13:37.568028+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥8,413",
+          "price_int": 8413,
+          "original_price": "￥9,800",
+          "discount_rate": "14%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H9XJ3V8K",
+          "url": "https://www.amazon.co.jp/black-curtain/cero-black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-10T14:13:37.568028+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "8184936FFF3CB6FFD445F959E7B0ED9B72E06D6061D4C86D14C443F448C64ED7"
+      },
+      {
+        "asin": "B0H5KB554M",
+        "category": "PS5ゲームソフト#4",
+        "checked_at": "2026-10-10T14:13:41.404354+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥6,800",
+          "price_int": 6800,
+          "original_price": "￥7,920",
+          "discount_rate": "14%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H5KB554M",
+          "url": "https://www.amazon.co.jp/black-curtain/cero-black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-10T14:13:41.404354+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "C6BAC221901A3A005CF2ECE4884248ABBF5F80141CBD8236548733815283BA63"
+      },
+      {
+        "asin": "B0GLF5C8DD",
+        "category": "PS5ゲームソフト#11",
+        "checked_at": "2026-10-10T14:13:46.619228+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥4,727",
+          "price_int": 4727,
+          "original_price": "￥5,478",
+          "discount_rate": "14%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥4,727",
+          "price_int": 4727,
+          "original_price": "￥5,478",
+          "discount_rate": "14%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GLF5C8DD"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "がんばれゴエモン大集合! -PS5",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,727"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-14%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥5,478\n￥5,478"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GLF5C8DD",
+          "url": "https://www.amazon.co.jp/dp/B0GLF5C8DD",
+          "http_status": 200,
+          "checked_at": "2026-10-10T14:13:46.619228+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4727,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GLF5C8DD",
+            "asin": "B0GLF5C8DD"
+          }
+        },
+        "evidence_sha256": "6FC60429733958C39C1CF27F25C3FF57BDDC8BD46AE2E3B05D37B24F2E9C8AB9"
+      },
+      {
+        "asin": "B0GX3MYXVL",
+        "category": "PS5ゲームソフト#7",
+        "checked_at": "2026-10-10T14:13:53.032749+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥12,331",
+          "price_int": 12331,
+          "original_price": "￥13,860",
+          "discount_rate": "11%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥12,331",
+          "price_int": 12331,
+          "original_price": "￥13,860",
+          "discount_rate": "11%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GX3MYXVL"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "空の軌跡 the 2nd ウロボロスBOX -PS5",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "12,331"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-11%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥13,860\n￥13,860"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GX3MYXVL",
+          "url": "https://www.amazon.co.jp/dp/B0GX3MYXVL",
+          "http_status": 200,
+          "checked_at": "2026-10-10T14:13:53.032749+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 12331,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GX3MYXVL",
+            "asin": "B0GX3MYXVL"
+          }
+        },
+        "evidence_sha256": "C356F74C71FE0FD47B491874D24A2FFBA1B1F1366429472BC88BB71202573CFB"
+      }
+    ],
+    "limits": {
+      "max_candidates": 24,
+      "timeout_seconds": 240
+    },
+    "detail_visits_started": 8,
+    "elapsed_seconds": 35.823,
+    "budget_stop_reason": null,
+    "final_selected_count": 2,
+    "categories": {
+      "Nintendo Switch 2": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "PS5ゲームソフト": {
+        "collected_candidates": 8,
+        "verified_candidates": 2,
+        "final_selected": 2
+      }
+    }
+  },
+  "supply_completion": {
+    "required_slots": 4,
+    "ready_before": 2,
+    "ready_after": 2,
+    "extra_batch_count": 0,
+    "added_asins": [],
+    "reason": "no_unverified_eligible_candidates",
+    "max_extra_candidates": 24,
+    "max_extra_seconds": 240,
+    "remaining_candidates": 0
+  },
+  "discount_contract": {
+    "schema_version": 1,
+    "policy": "amazon_direct_discounts_v1",
+    "account": 20,
+    "date": "2026-10-11",
+    "products": [
+      {
+        "asin": "B0GLF5C8DD",
+        "source_position": 1,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 4727,
+          "original_price_yen": 5478,
+          "discount_rate_percent": 14
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 4727,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GLF5C8DD",
+          "asin": "B0GLF5C8DD"
+        },
+        "observed_at": "2026-10-10T14:13:46.619228+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GLF5C8DD"
+      },
+      {
+        "asin": "B0GX3MYXVL",
+        "source_position": 2,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 12331,
+          "original_price_yen": 13860,
+          "discount_rate_percent": 11
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 12331,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GX3MYXVL",
+          "asin": "B0GX3MYXVL"
+        },
+        "observed_at": "2026-10-10T14:13:53.032749+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GX3MYXVL"
+      }
+    ]
+  },
+  "sale_name": "Amazon セール",
+  "coupon_search": {
+    "page_limit": 2,
+    "timeout_seconds": 60,
+    "pages_attempted": 2,
+    "unique_added": 0,
+    "main_search_coupon_candidates": 0,
+    "reason": "main_search_had_no_coupon_candidate",
+    "categories": {
+      "Nintendo Switch 2": {
+        "Nintendo Switch 2": {
+          "pages": [
+            16
+          ],
+          "taken": 0,
+          "skipped_posted": 4,
+          "error": ""
+        }
+      },
+      "PS5ゲームソフト": {
+        "PS5ゲームソフト": {
+          "pages": [
+            16
+          ],
+          "taken": 0,
+          "skipped_posted": 5,
+          "error": ""
+        }
+      }
+    },
+    "elapsed_seconds": 12.939
+  }
+}
