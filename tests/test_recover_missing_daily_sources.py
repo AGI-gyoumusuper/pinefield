@@ -1,13 +1,16 @@
 """Offline fixtures only: no Amazon, real Git fetch/push, Cloud dispatch or browser."""
 import copy
+from datetime import datetime, timezone
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tempfile
 import unittest
 from unittest.mock import patch
 from urllib.error import HTTPError
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -99,6 +102,133 @@ class CloudGateTests(unittest.TestCase):
                                                               {'total_count': 101, 'workflow_runs': [{'id': 100}]}]) as api:
             self.assertEqual(len(controller.fetch_runs(DATE)), 101)
             self.assertIn('created=%3E%3D2026-09-10', api.call_args_list[0].args[0])
+
+
+class NightlyPreparationWindowTests(unittest.TestCase):
+    def window(self, value, target_date=None):
+        current = datetime.fromisoformat(value).astimezone(timezone.utc)
+        with patch.object(controller, 'now_utc', return_value=current):
+            return controller.preparation_window(target_date)
+
+    def test_eighteen_boundary_changes_to_next_date_once(self):
+        before = self.window('2026-09-10T17:59:59+09:00')
+        after = self.window('2026-09-10T18:00:00+09:00')
+        self.assertEqual((before['date'], before['before_midnight']), ('2026-09-10', False))
+        self.assertEqual((after['date'], after['before_midnight']), (DATE, True))
+        self.assertEqual(after['deadline_utc'].isoformat(), '2026-09-10T14:25:00+00:00')
+
+    def test_fixed_target_rejects_wrong_side_of_eighteen_boundary(self):
+        for value, wrong_date in (('2026-09-10T17:59:59+09:00', DATE),
+                                  ('2026-09-10T18:00:00+09:00', '2026-09-10')):
+            with self.subTest(value=value), self.assertRaisesRegex(
+                    controller.ControllerStop, 'nightly_target_outside_today_or_tomorrow_window'):
+                self.window(value, wrong_date)
+
+    def test_midnight_keeps_prepared_date_across_month_and_year(self):
+        for previous, following in (('2026-09-30', '2026-10-01'), ('2026-12-31', '2027-01-01')):
+            with self.subTest(previous=previous):
+                evening = self.window(previous + 'T18:30:00+09:00', following)
+                morning = self.window(following + 'T00:00:00+09:00', following)
+                self.assertEqual(evening['date'], morning['date'])
+                self.assertTrue(evening['before_midnight'])
+                self.assertFalse(morning['before_midnight'])
+
+    def test_twenty_and_late_evening_keep_existing_deadline(self):
+        for time in ('20:00:00', '22:59:59', '23:10:00'):
+            with self.subTest(time=time):
+                window = self.window('2026-09-10T' + time + '+09:00', DATE)
+                self.assertEqual(window['status'], 'READY')
+                self.assertTrue(window['before_midnight'])
+                self.assertEqual(window['deadline_utc'].isoformat(), '2026-09-10T14:25:00+00:00')
+
+    def test_existing_two_minute_margin_and_twenty_three_twenty_five_stop(self):
+        self.assertEqual(self.window('2026-09-10T23:23:00+09:00', DATE)['status'], 'READY')
+        for time in ('23:23:01', '23:25:00', '23:59:59'):
+            with self.subTest(time=time):
+                window = self.window('2026-09-10T' + time + '+09:00', DATE)
+                self.assertEqual(window['status'], 'WAIT')
+                self.assertEqual(window['reason'], 'nightly_wait_for_midnight_repair_wave')
+
+
+class NightlyCloudGateTests(unittest.TestCase):
+    """Read-only fixtures keep the existing Cloud/target protections at the new start."""
+    trigger_sha = 'b' * 40
+
+    def gate(self, rows, when='2026-09-10T18:30:00+09:00', *, trigger_date=DATE):
+        def fake_git(repo, *args, **kwargs):
+            if args == ('rev-parse', 'origin/main'):
+                return b'a' * 40
+            if args == ('show', 'a' * 40 + ':.github/triggers/account20.json'):
+                return json.dumps({'account': 'account20', 'target_date': trigger_date}).encode()
+            if args == ('log', '-1', '--format=%H', 'a' * 40, '--', '.github/triggers/account20.json'):
+                return self.trigger_sha.encode()
+            raise AssertionError(('Unexpected Git operation', args))
+        with patch.object(controller, 'now_utc', return_value=datetime.fromisoformat(when)), \
+                patch.object(controller, 'git', side_effect=fake_git), \
+                patch.object(controller, 'fetch_runs', side_effect=AssertionError('No network calls')), \
+                patch.object(controller.recovery, 'recover', side_effect=AssertionError('No recovery calls')):
+            return controller.nightly_cloud_gate(ROOT, DATE, 20, runs=rows)
+
+    def own_run(self, **kwargs):
+        return {**run(20, **kwargs), 'head_sha': self.trigger_sha}
+
+    def test_new_evening_window_allows_only_own_completed_trigger_and_preserves_old_twenty(self):
+        rows = [self.own_run(), run(19, status='in_progress', conclusion=None)]
+        for time in ('18:30:00', '20:00:00', '23:10:00'):
+            with self.subTest(time=time):
+                result = self.gate(rows, '2026-09-10T' + time + '+09:00')
+                self.assertEqual(result['status'], 'READY')
+                self.assertEqual(set(result['latest_completed_candidates']), {'account20'})
+
+    def test_own_running_or_rerun_and_active_repair_or_unknown_dispatch_still_block(self):
+        candidates = [self.own_run(identifier=100, status='in_progress', conclusion=None),
+                      self.own_run(identifier=101, status='queued', conclusion=None),
+                      run(workflow='ensure-scrape.yml', identifier=102, event='schedule',
+                          status='in_progress', conclusion=None),
+                      run(workflow='late-repair-scrape.yml', identifier=103, event='workflow_dispatch',
+                          status='queued', conclusion=None)]
+        for candidate in candidates:
+            with self.subTest(candidate=candidate['id']):
+                self.assertEqual(self.gate([self.own_run(), candidate])['status'], 'WAIT')
+
+    def test_missing_latest_head_or_other_target_cannot_unlock_recovery(self):
+        for rows, trigger_date in (([], DATE), ([run(20)], DATE),
+                                   ([self.own_run()], '2026-09-10')):
+            with self.subTest(rows=rows, trigger_date=trigger_date):
+                self.assertEqual(self.gate(rows, trigger_date=trigger_date)['status'], 'WAIT')
+
+    def test_after_midnight_still_requires_all_twenty_and_both_repairs(self):
+        when = '2026-09-11T00:30:00+09:00'
+        incomplete = self.gate([self.own_run()], when)
+        self.assertEqual(incomplete['status'], 'WAIT')
+        self.assertIn('ensure-scrape.yml', incomplete['missing_completion_keys'])
+        self.assertIn('late-repair-scrape.yml', incomplete['missing_completion_keys'])
+        self.assertIn('account19', incomplete['missing_completion_keys'])
+        rows = complete_runs()
+        rows[19]['head_sha'] = self.trigger_sha
+        self.assertEqual(self.gate(rows, when)['status'], 'READY')
+
+    def test_cutoff_returns_wait_without_checking_cloud(self):
+        result = self.gate([self.own_run()], '2026-09-10T23:25:00+09:00')
+        self.assertEqual(result['status'], 'WAIT')
+        self.assertEqual(result['reason'], 'nightly_wait_for_midnight_repair_wave')
+
+
+class RecoveryInstallerContractTests(unittest.TestCase):
+    def test_ten_minute_opportunities_retain_morning_window_and_no_parallel_runs(self):
+        script = (ROOT / 'scripts' / 'Install-LocalScrapeRecoveryTask.ps1').read_text(encoding='utf-8-sig')
+        match = re.search(r'\$definition = @"\s*(.*?)\s*"@', script, re.DOTALL)
+        self.assertIsNotNone(match)
+        task = ET.fromstring(match.group(1))
+        ns = {'t': 'http://schemas.microsoft.com/windows/2004/02/mit/task'}
+        repetition = task.find('t:Triggers/t:CalendarTrigger/t:Repetition', ns)
+        self.assertEqual(repetition.findtext('t:Interval', namespaces=ns), 'PT10M')
+        self.assertEqual(repetition.findtext('t:Duration', namespaces=ns), 'PT14H')
+        self.assertEqual(repetition.findtext('t:StopAtDurationEnd', namespaces=ns), 'false')
+        self.assertEqual(task.findtext('t:Settings/t:MultipleInstancesPolicy', namespaces=ns), 'IgnoreNew')
+        self.assertEqual(task.findtext('t:Settings/t:ExecutionTimeLimit', namespaces=ns), 'PT4H')
+        self.assertIn('$firstRun = (Get-Date).Date.AddDays(1).AddHours(18).AddMinutes(30)', script)
+        self.assertIn('--nightly-preparation', script)
 
 
 class ControllerTests(unittest.TestCase):

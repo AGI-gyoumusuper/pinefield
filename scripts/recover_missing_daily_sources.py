@@ -33,6 +33,7 @@ API = 'https://api.github.com/repos/AGI-gyoumusuper/pinefield'
 JST = ZoneInfo('Asia/Tokyo')
 ACCOUNTS = tuple(range(1, 21))
 REPAIR_WORKFLOWS = {'ensure-scrape.yml', 'late-repair-scrape.yml'}
+EVENING_PREPARATION_START_HOUR = 18
 
 
 class ControllerStop(RuntimeError):
@@ -56,11 +57,12 @@ def preparation_window(target_date=None):
     """Evening targets tomorrow; after midnight target today. Stop before Ensure starts."""
     current = now_utc().astimezone(JST)
     day = current.date()
-    expected = (day + timedelta(days=1)).isoformat() if current.hour >= 20 else day.isoformat()
+    evening = current.hour >= EVENING_PREPARATION_START_HOUR
+    expected = (day + timedelta(days=1)).isoformat() if evening else day.isoformat()
     target_date = target_date or expected
     if target_date != expected:
         raise ControllerStop('nightly_target_outside_today_or_tomorrow_window')
-    if current.hour >= 20:
+    if evening:
         deadline = current.replace(hour=23, minute=25, second=0, microsecond=0)
         remaining = (deadline - current).total_seconds()
         if remaining < 120:
