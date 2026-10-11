@@ -1,0 +1,2412 @@
+{
+  "date": "2026-10-12",
+  "total_taken": 10,
+  "selection_policy": {
+    "selection_mode": "global_ranked",
+    "sort_order": "sale_first",
+    "require_sale_info": true,
+    "max_per_category": 2,
+    "max_total_items": 10,
+    "verify_detail_offer": true,
+    "offer_scope": "unified_discounts",
+    "discount_contract": "amazon_direct_discounts_v1"
+  },
+  "excluded_loaded": 67,
+  "excluded_gtins_loaded": 8,
+  "excluded_brand_models_loaded": 42,
+  "skipped_product_identity": 0,
+  "skipped_product_identity_reasons": {},
+  "categories": {
+    "テスター": {
+      "pages": [
+        33
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "シングルボードコンピュータ": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "卓上ボール盤": {
+      "pages": [
+        26
+      ],
+      "taken": 10,
+      "skipped_posted": 4,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "コンジット・電気ボックス": {
+      "pages": [
+        25
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "ヒートガン": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 4,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "風速計": {
+      "pages": [
+        29
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "3Dプリンタアクセサリ": {
+      "pages": [
+        25
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "コンパクトルーター": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 2,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "端子台": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "はんだごて": {
+      "pages": [
+        31
+      ],
+      "taken": 10,
+      "skipped_posted": 6,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "基板": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "電気カンナ": {
+      "pages": [
+        26
+      ],
+      "taken": 10,
+      "skipped_posted": 8,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "3Dプリンタ本体": {
+      "pages": [
+        26
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "3Dプリンタ用フィラメント": {
+      "pages": [
+        31
+      ],
+      "taken": 10,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "電子工作キット": {
+      "pages": [
+        24
+      ],
+      "taken": 10,
+      "skipped_posted": 1,
+      "error": "",
+      "skipped_nosale": 0
+    }
+  },
+  "detail_offer_verification": {
+    "schema_version": 1,
+    "enabled": true,
+    "offer_scope": "unified_discounts",
+    "sale_name": "Amazon セール",
+    "candidate_count": 24,
+    "raw_candidate_count": 24,
+    "accepted_count": 21,
+    "rejected_count": 3,
+    "rejection_reasons": {
+      "detail_url_asin_mismatch": 1,
+      "detail_discount_or_coupon_unverified": 2
+    },
+    "observations": [
+      {
+        "asin": "B07Q28CPWT",
+        "category": "ヒートガン#5",
+        "checked_at": "2026-10-11T14:09:15.103346+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥4,490",
+          "price_int": 4490,
+          "original_price": "￥7,260",
+          "discount_rate": "38%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B07Q28CPWT",
+          "url": "https://www.amazon.co.jp/black-curtain/medical-black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:09:15.103346+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "03FD0492FD24392681DEC1031F90A64BA5585D71819E7E2ED6DF57562FE52C06"
+      },
+      {
+        "asin": "B08QCFVMGB",
+        "category": "風速計#3",
+        "checked_at": "2026-10-11T14:09:20.744656+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥4,980",
+          "price_int": 4980,
+          "original_price": "￥7,699",
+          "discount_rate": "35%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥4,980",
+          "price_int": 4980,
+          "original_price": "￥7,699",
+          "discount_rate": "35%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B08QCFVMGB"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "BTMETERデジタル風速計 BT-856A風量計 風力計 風向計 USB接続 温度計搭載 簡易風量測定器 600風速の測定値を記録 空気流量計 CFMCMM風量測定 HVAC気流速度計 漁業、ドローン飛行、排気システム最適 日本語説明書付き",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-35%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥7,699\n￥7,699"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B08QCFVMGB",
+          "url": "https://www.amazon.co.jp/dp/B08QCFVMGB",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:09:20.744656+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B08QCFVMGB",
+            "asin": "B08QCFVMGB"
+          }
+        },
+        "evidence_sha256": "EDA508D65DFFDC14C0D6ABCB5367E1022E9B2250E477C1544E4DB8D6602E8285"
+      },
+      {
+        "asin": "B07234XC7M",
+        "category": "卓上ボール盤#1",
+        "checked_at": "2026-10-11T14:09:27.692267+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥17,583",
+          "price_int": 17583,
+          "original_price": "￥25,080",
+          "discount_rate": "30%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥17,583",
+          "price_int": 17583,
+          "original_price": "￥25,080",
+          "discount_rate": "30%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B07234XC7M"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "高儀(Takagi) EARTH MAN 卓上ボール盤 卓上ドリル 旋盤 フライス盤 ドリルスタンド 固定バイス付き 回転速度5段階 深さ調節 可変速 BB-250A",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "17,583"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-30%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥25,080\n￥25,080"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B07234XC7M",
+          "url": "https://www.amazon.co.jp/dp/B07234XC7M",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:09:27.692267+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 17583,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B07234XC7M",
+            "asin": "B07234XC7M"
+          }
+        },
+        "evidence_sha256": "64D8034F00771BCDB2D96DD344F1AB24346442C3B8E4588C02C7E9D8B8B57FEC"
+      },
+      {
+        "asin": "B0788WXTHM",
+        "category": "風速計#5",
+        "checked_at": "2026-10-11T14:09:35.086527+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥4,973",
+          "price_int": 4973,
+          "original_price": "￥6,800",
+          "discount_rate": "27%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥4,973",
+          "price_int": 4973,
+          "original_price": "￥6,800",
+          "discount_rate": "27%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0788WXTHM",
+            "B0788WXTHM",
+            "B0788WXTHM"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "サンワサプライ デジタル風速計(風速・温度 計測可能) 小型 CHE-WD1",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,973"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-27%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥6,800\n￥6,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0788WXTHM",
+          "url": "https://www.amazon.co.jp/dp/B0788WXTHM",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:09:35.086527+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4973,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0788WXTHM",
+            "asin": "B0788WXTHM"
+          }
+        },
+        "evidence_sha256": "C322F26563D39EA6009B155BEE33A2AE2806ED6E1C404973A3E8DDB1551124BB"
+      },
+      {
+        "asin": "B08B61G5T5",
+        "category": "テスター#1",
+        "checked_at": "2026-10-11T14:09:42.029043+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥44,900",
+          "price_int": 44900,
+          "original_price": "￥58,080",
+          "discount_rate": "23%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥44,900",
+          "price_int": 44900,
+          "original_price": "￥58,080",
+          "discount_rate": "23%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B08B61G5T5"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "HIOKI ( 日置電機 ) FT6031-50 接地抵抗計 防水 IP65 IP67 A種 B種 C種 D種 2電極法 3電極法 携帯用ケース付属",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "44,900"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-23%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥58,080\n￥58,080"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B08B61G5T5",
+          "url": "https://www.amazon.co.jp/dp/B08B61G5T5",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:09:42.029043+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 44900,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B08B61G5T5",
+            "asin": "B08B61G5T5"
+          }
+        },
+        "evidence_sha256": "9145D5A7F449518143544165255B94C3026723830E720836D81748CB8AB8FC0A"
+      },
+      {
+        "asin": "B0FQ57M8M8",
+        "category": "3Dプリンタ本体#4",
+        "checked_at": "2026-10-11T14:09:49.203357+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥30,999",
+          "price_int": 30999,
+          "original_price": "￥39,999",
+          "discount_rate": "23%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥30,999",
+          "price_int": 30999,
+          "original_price": "￥39,999",
+          "discount_rate": "23%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FQ57M8M8"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Entina 3Dプリンター TINA2 Plus、高速高精度 250mm/秒 自動レベリング FDM ミニ 3Dプリンター、WiFi クラウドオンライン印刷、スプリングスチールプラットフォーム、子供や初心者向けの完全組み立て済み 3D ホームプリンター、家庭での使用に最適",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "30,999"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-23%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥39,999\n￥39,999"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FQ57M8M8",
+          "url": "https://www.amazon.co.jp/dp/B0FQ57M8M8",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:09:49.203357+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 30999,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FQ57M8M8",
+            "asin": "B0FQ57M8M8"
+          }
+        },
+        "evidence_sha256": "EA9F212291F224405E9ED800AADA4E281A392BB8D78D084AD595D8AD8C04B415"
+      },
+      {
+        "asin": "B071JL6LLL",
+        "category": "テスター#5",
+        "checked_at": "2026-10-11T14:09:56.464304+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥3,599",
+          "price_int": 3599,
+          "original_price": "￥4,599",
+          "discount_rate": "22%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥3,599",
+          "price_int": 3599,
+          "original_price": "￥4,599",
+          "discount_rate": "22%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B071JL6LLL",
+            "B071JL6LLL"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "AstroAI テスター 6000カウント デジタルマルチメーター オートレンジ 電圧 電流 真の実効値",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "3,599"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-22%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥4,599\n￥4,599"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B071JL6LLL",
+          "url": "https://www.amazon.co.jp/dp/B071JL6LLL",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:09:56.464304+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 3599,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B071JL6LLL",
+            "asin": "B071JL6LLL"
+          }
+        },
+        "evidence_sha256": "8A6CEAF5B23E5A9204590DF59186296C7CD916A732638097CEF1AA4C148A0270"
+      },
+      {
+        "asin": "B0GL5XL6VZ",
+        "category": "3Dプリンタ本体#9",
+        "checked_at": "2026-10-11T14:10:03.254521+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥108,000",
+          "price_int": 108000,
+          "original_price": "￥136,000",
+          "discount_rate": "21%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥108,000",
+          "price_int": 108000,
+          "original_price": "￥136,000",
+          "discount_rate": "21%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GL5XL6VZ"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Creality K2 PRO 3Dプリンター,高速印刷600mm/s 造形サイズ300×300×300mm",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "108,000"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-21%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥136,000\n￥136,000"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GL5XL6VZ",
+          "url": "https://www.amazon.co.jp/dp/B0GL5XL6VZ",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:10:03.254521+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 108000,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GL5XL6VZ",
+            "asin": "B0GL5XL6VZ"
+          }
+        },
+        "evidence_sha256": "D30C2EE81111D5BDB98B2300763243988FA62BB17AF05335C35639DA9D3CAF66"
+      },
+      {
+        "asin": "B08M9FBTPK",
+        "category": "コンパクトルーター#6",
+        "checked_at": "2026-10-11T14:10:10.379480+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥8,728",
+          "price_int": 8728,
+          "original_price": "￥10,780",
+          "discount_rate": "19%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥8,728",
+          "price_int": 8728,
+          "original_price": "￥10,780",
+          "discount_rate": "19%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B08M9FBTPK"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "プロクソン(PROXXON) ミニルーター MM10 No.26500",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,728"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-19%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥10,780\n￥10,780"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B08M9FBTPK",
+          "url": "https://www.amazon.co.jp/dp/B08M9FBTPK",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:10:10.379480+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8728,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B08M9FBTPK",
+            "asin": "B08M9FBTPK"
+          }
+        },
+        "evidence_sha256": "263A6B46906CDB8ACDD3B62EB4FC8BB4B944CE9A4AD778831D2AD93CE56AED3B"
+      },
+      {
+        "asin": "B002NJJTPI",
+        "category": "卓上ボール盤#3",
+        "checked_at": "2026-10-11T14:10:17.321880+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥57,149",
+          "price_int": 57149,
+          "original_price": "￥67,430",
+          "discount_rate": "15%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥57,149",
+          "price_int": 57149,
+          "original_price": "￥67,430",
+          "discount_rate": "15%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B002NJJTPI"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ホーザン(HOZAN) バンドソー 100V 持ち運び可能 鉄・非鉄金属・樹脂・木材対応 ふところ150mm K-100",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "57,149"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-15%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥67,430\n￥67,430"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B002NJJTPI",
+          "url": "https://www.amazon.co.jp/dp/B002NJJTPI",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:10:17.321880+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 57149,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B002NJJTPI",
+            "asin": "B002NJJTPI"
+          }
+        },
+        "evidence_sha256": "640ABBE228C8E6BF07856B3F54348C661C3BEFB106387597E2824F09DFECDCD5"
+      },
+      {
+        "asin": "B0CKBRLBZR",
+        "category": "はんだごて#10",
+        "checked_at": "2026-10-11T14:10:24.515920+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥4,417",
+          "price_int": 4417,
+          "original_price": "￥5,198",
+          "discount_rate": "15%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥4,417",
+          "price_int": 4417,
+          "original_price": "￥5,198",
+          "discount_rate": "15%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0CKBRLBZR"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "太洋電機産業(goot) 加熱式はんだ吸取器 ノズル3種付 TP-30【1台2役】【片手で作業できる】【はんだ除去・リペアなどに】半田吸い取り機 ハンダ吸い取り 吸い取り器 はんだ吸引器",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,417"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-15%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥5,198\n￥5,198"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0CKBRLBZR",
+          "url": "https://www.amazon.co.jp/dp/B0CKBRLBZR",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:10:24.515920+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4417,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0CKBRLBZR",
+            "asin": "B0CKBRLBZR"
+          }
+        },
+        "evidence_sha256": "9724EDCC356B15FA1F39E20CAA6EBDD9DC1A927FE96883B44DC344A7C52E2F50"
+      },
+      {
+        "asin": "B0C9QR74YN",
+        "category": "コンパクトルーター#1",
+        "checked_at": "2026-10-11T14:10:31.834658+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥5,990",
+          "price_int": 5990,
+          "original_price": "￥6,990",
+          "discount_rate": "14%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥5,990",
+          "price_int": 5990,
+          "original_price": "￥6,990",
+          "discount_rate": "14%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0C9QR74YN",
+            "B0C9QR74YN"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "DEPSTECH ミニルーター 40000RPM高速回転 6段変速 128点アクセサリー 電動 リューター DIY 工具 収納ケース付",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "5,990"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-14%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥6,990\n￥6,990"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0C9QR74YN",
+          "url": "https://www.amazon.co.jp/dp/B0C9QR74YN",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:10:31.834658+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 5990,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0C9QR74YN",
+            "asin": "B0C9QR74YN"
+          }
+        },
+        "evidence_sha256": "37E3DA26AB2AFEA21ACD32F508ADA0C4111D19DDFEADD87F3E23B31F41C429D4"
+      },
+      {
+        "asin": "B0FY2GH5M9",
+        "category": "電子工作キット#2",
+        "checked_at": "2026-10-11T14:10:38.642982+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥156,500",
+          "price_int": 156500,
+          "original_price": "￥179,800",
+          "discount_rate": "13%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥156,500",
+          "price_int": 156500,
+          "original_price": "￥179,800",
+          "discount_rate": "13%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FY2GH5M9"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【日本正規品・日本国内保守対応】Hypershell X Pro 外骨格 パワードスーツ アウトドア ハイパーシェル 軽量 防水 簡単装着 持ち運び便利 登山 長距離歩行 機材運搬 作業 体力消耗軽減 負担軽減 トレーニング アシストスーツ",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "156,500"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-13%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥179,800\n￥179,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FY2GH5M9",
+          "url": "https://www.amazon.co.jp/dp/B0FY2GH5M9",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:10:38.642982+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 156500,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FY2GH5M9",
+            "asin": "B0FY2GH5M9"
+          }
+        },
+        "evidence_sha256": "C9EE14F8B68647ADDE4A7D9DD439E4C89A75E9793E9871263B4594DECEADD223"
+      },
+      {
+        "asin": "B07SXGK21M",
+        "category": "ヒートガン#2",
+        "checked_at": "2026-10-11T14:10:45.574454+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥3,380",
+          "price_int": 3380,
+          "original_price": "￥3,880",
+          "discount_rate": "13%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥3,380",
+          "price_int": 3380,
+          "original_price": "￥3,880",
+          "discount_rate": "13%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B07SXGK21M"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Anesty ヒートガン 液晶に温度調整 熱工具ヒートガン ヒートエアガン 冷却機能 ひーとがん 50-600℃ 2段階風速",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "3,380"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-13%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥3,880\n￥3,880"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "終了まで: 49分\n終了まで: 49:13",
+          "timer_count": 1,
+          "timer": {
+            "timer_selector": "#detailpage-dealBadge-countdown-timer",
+            "timer_text": "49:13"
+          },
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B07SXGK21M",
+          "url": "https://www.amazon.co.jp/dp/B07SXGK21M",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:10:45.574454+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 3380,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B07SXGK21M",
+            "asin": "B07SXGK21M"
+          }
+        },
+        "evidence_sha256": "82044F6A2BCA68F1A8425A7ED1AEE7D0D00124A20B95CCA3540069EC0A2B1498"
+      },
+      {
+        "asin": "B0DFVN41P5",
+        "category": "電子工作キット#3",
+        "checked_at": "2026-10-11T14:10:52.489242+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥16,500",
+          "price_int": 16500,
+          "original_price": "￥18,500",
+          "discount_rate": "11%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥16,500",
+          "price_int": 16500,
+          "original_price": "￥18,500",
+          "discount_rate": "11%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DFVN41P5"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "TASOJIMA Flipper Zero フリッパーゼロ 代理販売店 2025新型 新モデル 電子ペット イルカ ギーク プログラミング オープンソース 多機能 正規品",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "16,500"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-11%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥18,500\n￥18,500"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DFVN41P5",
+          "url": "https://www.amazon.co.jp/dp/B0DFVN41P5",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:10:52.489242+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 16500,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DFVN41P5",
+            "asin": "B0DFVN41P5"
+          }
+        },
+        "evidence_sha256": "A152C2220E6AFB0DF34CD4DF6BD707B04C60B256E71B311CF2A8185DAB5D53F3"
+      },
+      {
+        "asin": "B0FHFYS32D",
+        "category": "基板#8",
+        "checked_at": "2026-10-11T14:10:59.342527+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥5,074",
+          "price_int": 5074,
+          "original_price": "￥5,706",
+          "discount_rate": "11%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥5,074",
+          "price_int": 5074,
+          "original_price": "￥5,706",
+          "discount_rate": "11%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FHFYS32D"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "三和電子 【静音】動作位置可変スイッチ採用レバー 平鉄板 シャフトカバー付 JLX2-TPML-8YT-SK",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "5,074"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-11%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥5,706\n￥5,706"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "タイムセール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FHFYS32D",
+          "url": "https://www.amazon.co.jp/dp/B0FHFYS32D",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:10:59.342527+00:00",
+          "evidence_kind": "label",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 5074,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FHFYS32D",
+            "asin": "B0FHFYS32D"
+          }
+        },
+        "evidence_sha256": "5FFEBAF9867BFF603AA67132DE6DEA6822696F9C22F1ECEC0A3B26419943FD13"
+      },
+      {
+        "asin": "B0FBVR7R6F",
+        "category": "3Dプリンタアクセサリ#9",
+        "checked_at": "2026-10-11T14:11:06.291702+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥4,949",
+          "price_int": 4949,
+          "original_price": "￥5,499",
+          "discount_rate": "10%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥4,949",
+          "price_int": 4949,
+          "original_price": "￥5,499",
+          "discount_rate": "10%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FBVR7R6F"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "SUNLU 3Dプリンター用フィラメント乾燥機 S1 Plus 黒色",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "4,949"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-10%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥5,499\n￥5,499"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FBVR7R6F",
+          "url": "https://www.amazon.co.jp/dp/B0FBVR7R6F",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:11:06.291702+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 4949,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FBVR7R6F",
+            "asin": "B0FBVR7R6F"
+          }
+        },
+        "evidence_sha256": "18DCF58839D7EA1D14A352B21AE3F9D44DC6ED9B58403182C6883002CB5AC374"
+      },
+      {
+        "asin": "B0CBRSBQ2D",
+        "category": "コンジット・電気ボックス#8",
+        "checked_at": "2026-10-11T14:11:13.403532+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥3,480",
+          "price_int": 3480,
+          "original_price": "￥3,799",
+          "discount_rate": "8%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥3,480",
+          "price_int": 3480,
+          "original_price": "￥3,799",
+          "discount_rate": "8%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0CBRSBQ2D"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "RESTMO 大型コンセントボックス 屋外 電源 防水 ボックス",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "3,480"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-8%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥3,799\n￥3,799"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0CBRSBQ2D",
+          "url": "https://www.amazon.co.jp/dp/B0CBRSBQ2D",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:11:13.403532+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 3480,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0CBRSBQ2D",
+            "asin": "B0CBRSBQ2D"
+          }
+        },
+        "evidence_sha256": "AAAB48060CD4B6C8428EF657456476F3DEDD9C2D1231BAE59154A0E3E900F2C6"
+      },
+      {
+        "asin": "B0H5KK71MC",
+        "category": "シングルボードコンピュータ#1",
+        "checked_at": "2026-10-11T14:11:20.392367+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥679,534",
+          "price_int": 679534,
+          "original_price": "￥715,299",
+          "discount_rate": "5%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥679,534",
+          "price_int": 679534,
+          "original_price": "￥715,299",
+          "discount_rate": "5%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H5KK71MC"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【128GBで70BローカルLLMを動かす】GMKtec EVO-X3 AIミニPC AMD Ryzen AI Max+ 395 16コア32スレッド",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "679,534"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-5%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥715,299\n￥715,299"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H5KK71MC",
+          "url": "https://www.amazon.co.jp/dp/B0H5KK71MC",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:11:20.392367+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 679534,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H5KK71MC",
+            "asin": "B0H5KK71MC"
+          }
+        },
+        "evidence_sha256": "09BE2BA5B069075172AC6A5E9A902C08613F088E366CDB1674A06DAF53F70390"
+      },
+      {
+        "asin": "B0H8WHMHYL",
+        "category": "シングルボードコンピュータ#8",
+        "checked_at": "2026-10-11T14:11:27.265949+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥26,980",
+          "price_int": 26980,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": {
+          "price": "￥26,980",
+          "price_int": 26980,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H8WHMHYL"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Vemico Raspberry Pi 4 3GB Kit 技適済/ 32GBカード/ 5V 3A USB-C ON/OFFスイッチ付き電源アダプター/MicroHDOUTケーブル/CAT6ネットケーブル/放熱ケース/冷却ファン/ヒートシンク/ドライバー/カードリーダ 日語説明書 ズベリーパイ4 3GB キット 教育 電子工作 プログラミング IoT学習 AI開発 対応",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "26,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 5% OFFクーポンの適用 規約\nダブルポイント 詳細",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0H8WHMHYL",
+                "https://www.amazon.co.jp/dp/B0H8WHMHYL",
+                "https://www.amazon.co.jp/dp/B0H8WHMHYL"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H8WHMHYL",
+          "url": "https://www.amazon.co.jp/dp/B0H8WHMHYL",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:11:27.265949+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "verified",
+            "kind": "percent",
+            "value": 5,
+            "basis_price_yen": 26980,
+            "application": "clip",
+            "conditions": [
+              "クーポン取得が必要"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": true,
+            "stackable": true,
+            "final_price_yen": 25631,
+            "reason": null,
+            "evidence_text": "クーポン:  \n 5% OFFクーポンの適用 規約\nダブルポイント 詳細",
+            "source_url": "https://www.amazon.co.jp/dp/B0H8WHMHYL",
+            "asin": "B0H8WHMHYL"
+          }
+        },
+        "evidence_sha256": "55E373A834C1FC570B09B9BD8793F521FBD2CE56E2401E2DC785DF5FF199E725"
+      },
+      {
+        "asin": "B0HKS5XP81",
+        "category": "電気カンナ#8",
+        "checked_at": "2026-10-11T14:11:34.025131+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥8,800",
+          "price_int": 8800,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B0HKS5XP81"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "電動カンナ 自動カンナ 小型 ハンドカンナ 木工カンナ 1200W 銅線モーター 切削深さ1mm 空転16000rpm 双刃設計 鏡面底板 家具DIY 木材加工 建築リフォーム用 (グリーン)",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 5% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細\n最大10%オフ 対象の場合 買い物をする",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0HKS5XP81",
+                "https://www.amazon.co.jp/promotion/psp/A1BKRDYJXSE4D5",
+                "https://www.amazon.co.jp/dp/B0HKS5XP81",
+                "https://www.amazon.co.jp/promotion/psp/A1BKRDYJXSE4D5",
+                "https://www.amazon.co.jp/dp/B0HKS5XP81",
+                "https://www.amazon.co.jp/promotion/psp/ASMMVPAF3G3IP"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0HKS5XP81",
+          "url": "https://www.amazon.co.jp/dp/B0HKS5XP81",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:11:34.025131+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8800,
+            "application": "unknown",
+            "conditions": [
+              "クーポン:  \n 5% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細\n最大10%オフ 対象の場合 買い物をする"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_unsupported_condition",
+            "evidence_text": "クーポン:  \n 5% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細\n最大10%オフ 対象の場合 買い物をする",
+            "source_url": "https://www.amazon.co.jp/dp/B0HKS5XP81",
+            "asin": "B0HKS5XP81"
+          }
+        },
+        "evidence_sha256": "0326D3DCB0662F485B0C999D577791DB42B05F7CB0FF03A02FB6F0F40758C3F6"
+      },
+      {
+        "asin": "B0G44H1DDC",
+        "category": "電気カンナ#3",
+        "checked_at": "2026-10-11T14:11:39.667368+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥7,980",
+          "price_int": 7980,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": {
+          "price": "￥7,980",
+          "price_int": 7980,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0G44H1DDC"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "アルチザンツール 電動カンナ 充電式かんな ブラシレスモーター AT-PP01B 11000RPM 切削幅82mm 最大1.6mm切削深さ調整可能】 V溝設計 マキタ 18Vバッテリー対応 コードレス 振動低減 低騒音 小型 安全スイッチ付き 充電式カンナ 電動かんな 平面削り/相じゃくり/面取り加工 木工工具 【本体のみ バッテリー別売り】【マキタ 互換品】カンナAT-PP01B",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "7,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 5% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0G44H1DDC",
+                "https://www.amazon.co.jp/promotion/psp/A3M0F611PW6L08",
+                "https://www.amazon.co.jp/dp/B0G44H1DDC",
+                "https://www.amazon.co.jp/promotion/psp/A3M0F611PW6L08",
+                "https://www.amazon.co.jp/dp/B0G44H1DDC"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0G44H1DDC",
+          "url": "https://www.amazon.co.jp/dp/B0G44H1DDC",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:11:39.667368+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "verified",
+            "kind": "percent",
+            "value": 5,
+            "basis_price_yen": 7980,
+            "application": "clip",
+            "conditions": [
+              "クーポン取得が必要"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": true,
+            "stackable": true,
+            "final_price_yen": 7581,
+            "reason": null,
+            "evidence_text": "クーポン:  \n 5% OFFクーポンの適用 規約 | 買い物をする\nダブルポイント 詳細",
+            "source_url": "https://www.amazon.co.jp/dp/B0G44H1DDC",
+            "asin": "B0G44H1DDC"
+          }
+        },
+        "evidence_sha256": "AFB4590DA3D25C5102CDA16D29DF5ABB30FA7B08E1C1C84B69449FE2D2BE5252"
+      },
+      {
+        "asin": "B0DFLS8CPY",
+        "category": "3Dプリンタ用フィラメント#3",
+        "checked_at": "2026-10-11T14:11:46.743783+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥3,229",
+          "price_int": 3229,
+          "original_price": "￥3,399",
+          "discount_rate": "5%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥3,229",
+          "price_int": 3229,
+          "original_price": "￥3,399",
+          "discount_rate": "5%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DFLS8CPY",
+            "B0DFLS8CPY"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "eSUN PLA+ フィラメント 1.75mm、強化された靭性 3Dプリンターフィラメント PLAプラス、寸法精度 +/- 0.03mm、1スプールあたり1KG、2スプールの3Dプリンター用フィラメント、ブラック＆ブラック",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "3,229"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-5%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥3,399\n￥3,399"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "タイムセール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DFLS8CPY",
+          "url": "https://www.amazon.co.jp/dp/B0DFLS8CPY",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:11:46.743783+00:00",
+          "evidence_kind": "label",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 3229,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DFLS8CPY",
+            "asin": "B0DFLS8CPY"
+          }
+        },
+        "evidence_sha256": "E0E79B2F4E98C6B9B28E4E8C8C1BA07E23FC5B3FDFD6179032994E66771A2208"
+      },
+      {
+        "asin": "B06Y5SM5D6",
+        "category": "基板#5",
+        "checked_at": "2026-10-11T14:11:53.672831+00:00",
+        "status": "rejected",
+        "reason": "detail_discount_or_coupon_unverified",
+        "card_offer": {
+          "price": "￥7,599",
+          "price_int": 7599,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [
+            "B06Y5SM5D6"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ELEGOO Arduino用のMega2560スタータキット最終版 初心者向け、チュートリアル付、MEGA 2560ボード, LCD1602",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "7,599"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B06Y5SM5D6",
+          "url": "https://www.amazon.co.jp/dp/B06Y5SM5D6",
+          "http_status": 200,
+          "checked_at": "2026-10-11T14:11:53.672831+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 7599,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B06Y5SM5D6",
+            "asin": "B06Y5SM5D6"
+          }
+        },
+        "evidence_sha256": "58C733F92A989B2C88D5D6FBE1CB91A52EB08501C9DC95C28DE67E03488900AC"
+      }
+    ],
+    "limits": {
+      "max_candidates": 24,
+      "timeout_seconds": 240
+    },
+    "detail_visits_started": 24,
+    "elapsed_seconds": 162.563,
+    "budget_stop_reason": null,
+    "final_selected_count": 10,
+    "categories": {
+      "テスター": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 2
+      },
+      "シングルボードコンピュータ": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 0
+      },
+      "卓上ボール盤": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 2
+      },
+      "コンジット・電気ボックス": {
+        "collected_candidates": 1,
+        "verified_candidates": 1,
+        "final_selected": 0
+      },
+      "ヒートガン": {
+        "collected_candidates": 2,
+        "verified_candidates": 1,
+        "final_selected": 0
+      },
+      "風速計": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 2
+      },
+      "3Dプリンタアクセサリ": {
+        "collected_candidates": 1,
+        "verified_candidates": 1,
+        "final_selected": 0
+      },
+      "コンパクトルーター": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 1
+      },
+      "端子台": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "はんだごて": {
+        "collected_candidates": 1,
+        "verified_candidates": 1,
+        "final_selected": 1
+      },
+      "基板": {
+        "collected_candidates": 2,
+        "verified_candidates": 1,
+        "final_selected": 0
+      },
+      "電気カンナ": {
+        "collected_candidates": 2,
+        "verified_candidates": 1,
+        "final_selected": 0
+      },
+      "3Dプリンタ本体": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 2
+      },
+      "3Dプリンタ用フィラメント": {
+        "collected_candidates": 1,
+        "verified_candidates": 1,
+        "final_selected": 0
+      },
+      "電子工作キット": {
+        "collected_candidates": 2,
+        "verified_candidates": 2,
+        "final_selected": 0
+      }
+    }
+  },
+  "supply_completion": {
+    "required_slots": 4,
+    "ready_before": 4,
+    "ready_after": 4,
+    "extra_batch_count": 0,
+    "added_asins": [],
+    "reason": "sufficient",
+    "max_extra_candidates": 24,
+    "max_extra_seconds": 240
+  },
+  "discount_contract": {
+    "schema_version": 1,
+    "policy": "amazon_direct_discounts_v1",
+    "account": 18,
+    "date": "2026-10-12",
+    "products": [
+      {
+        "asin": "B08QCFVMGB",
+        "source_position": 1,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 4980,
+          "original_price_yen": 7699,
+          "discount_rate_percent": 35
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 4980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B08QCFVMGB",
+          "asin": "B08QCFVMGB"
+        },
+        "observed_at": "2026-10-11T14:09:20.744656+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B08QCFVMGB"
+      },
+      {
+        "asin": "B07234XC7M",
+        "source_position": 2,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 17583,
+          "original_price_yen": 25080,
+          "discount_rate_percent": 30
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 17583,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B07234XC7M",
+          "asin": "B07234XC7M"
+        },
+        "observed_at": "2026-10-11T14:09:27.692267+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B07234XC7M"
+      },
+      {
+        "asin": "B0788WXTHM",
+        "source_position": 3,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 4973,
+          "original_price_yen": 6800,
+          "discount_rate_percent": 27
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 4973,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0788WXTHM",
+          "asin": "B0788WXTHM"
+        },
+        "observed_at": "2026-10-11T14:09:35.086527+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0788WXTHM"
+      },
+      {
+        "asin": "B08B61G5T5",
+        "source_position": 4,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 44900,
+          "original_price_yen": 58080,
+          "discount_rate_percent": 23
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 44900,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B08B61G5T5",
+          "asin": "B08B61G5T5"
+        },
+        "observed_at": "2026-10-11T14:09:42.029043+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B08B61G5T5"
+      },
+      {
+        "asin": "B0FQ57M8M8",
+        "source_position": 5,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 30999,
+          "original_price_yen": 39999,
+          "discount_rate_percent": 23
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 30999,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0FQ57M8M8",
+          "asin": "B0FQ57M8M8"
+        },
+        "observed_at": "2026-10-11T14:09:49.203357+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0FQ57M8M8"
+      },
+      {
+        "asin": "B071JL6LLL",
+        "source_position": 6,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 3599,
+          "original_price_yen": 4599,
+          "discount_rate_percent": 22
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 3599,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B071JL6LLL",
+          "asin": "B071JL6LLL"
+        },
+        "observed_at": "2026-10-11T14:09:56.464304+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B071JL6LLL"
+      },
+      {
+        "asin": "B0GL5XL6VZ",
+        "source_position": 7,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 108000,
+          "original_price_yen": 136000,
+          "discount_rate_percent": 21
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 108000,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GL5XL6VZ",
+          "asin": "B0GL5XL6VZ"
+        },
+        "observed_at": "2026-10-11T14:10:03.254521+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GL5XL6VZ"
+      },
+      {
+        "asin": "B08M9FBTPK",
+        "source_position": 8,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 8728,
+          "original_price_yen": 10780,
+          "discount_rate_percent": 19
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 8728,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B08M9FBTPK",
+          "asin": "B08M9FBTPK"
+        },
+        "observed_at": "2026-10-11T14:10:10.379480+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B08M9FBTPK"
+      },
+      {
+        "asin": "B002NJJTPI",
+        "source_position": 9,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 57149,
+          "original_price_yen": 67430,
+          "discount_rate_percent": 15
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 57149,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B002NJJTPI",
+          "asin": "B002NJJTPI"
+        },
+        "observed_at": "2026-10-11T14:10:17.321880+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B002NJJTPI"
+      },
+      {
+        "asin": "B0CKBRLBZR",
+        "source_position": 10,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 4417,
+          "original_price_yen": 5198,
+          "discount_rate_percent": 15
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 4417,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0CKBRLBZR",
+          "asin": "B0CKBRLBZR"
+        },
+        "observed_at": "2026-10-11T14:10:24.515920+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0CKBRLBZR"
+      }
+    ]
+  },
+  "sale_name": "Amazon セール",
+  "coupon_search": {
+    "page_limit": 2,
+    "timeout_seconds": 60,
+    "pages_attempted": 0,
+    "unique_added": 0,
+    "main_search_coupon_candidates": 36,
+    "reason": "main_search_already_found_coupon",
+    "elapsed_seconds": 0.0
+  }
+}
