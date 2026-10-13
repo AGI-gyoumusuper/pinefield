@@ -26,6 +26,9 @@ from zoneinfo import ZoneInfo
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from sale_campaign import source_campaign_config
 FACTORY_BASE = Path(r'D:\_0NOTEKATU')
 OUTPUT_BASE = FACTORY_BASE / 'scraping'
 PRODUCT_FIELDS = {'asin', 'title', 'price', 'price_int', 'original_price', 'discount_rate', 'image_url',
@@ -101,9 +104,15 @@ def validate_date(account, target_date, *, allow_next_day=False):
         raise RecoveryStop('target_must_be_JST_today')
 
 
-def postable_count(account, products):
+def postable_count(account, products, summary=None):
     """Readiness is separate from validity: keep every valid short source."""
-    if account != 20:
+    campaign_source = isinstance(summary, dict) and 'campaign' in summary
+    if campaign_source:
+        # Readiness may be checked while appending a validated supplement; its
+        # count fields are updated only after the append loop completes.
+        source = {key: summary[key] for key in ('date', 'campaign', 'selection_policy') if key in summary}
+        source_campaign_config({}, source, products, account, summary.get('date'))
+    if account != 20 or campaign_source:
         return min(4, len(products))
     shelves = ('Nintendo Switch 2', 'PS5ゲームソフト')
     return sum(min(2, sum(re.sub(r'#\d+$', '', str(p.get('category', '')).strip()).strip() == shelf
@@ -115,6 +124,8 @@ def merge_short_source(account, original_products, original_summary, fresh_produ
     """Append only independently verified new identities; retain the exact original prefix."""
     if original_summary.get('selection_policy') != fresh_summary.get('selection_policy'):
         raise RecoveryStop('supplement_selection_policy_changed')
+    if original_summary.get('campaign') != fresh_summary.get('campaign'):
+        raise RecoveryStop('supplement_campaign_allocation_changed')
     if not original_summary.get('discount_contract') or not fresh_summary.get('discount_contract'):
         raise RecoveryStop('supplement_requires_verified_discount_contract')
     products = copy.deepcopy(original_products)
@@ -127,7 +138,7 @@ def merge_short_source(account, original_products, original_summary, fresh_produ
     fresh_rows = {p['asin']: p for p in fresh_summary['discount_contract']['products']}
     fresh_observations = {p['asin']: p for p in fresh_summary['detail_offer_verification']['observations']}
     for item in fresh_products:
-        if postable_count(account, products) >= 4 or len(products) >= 10:
+        if postable_count(account, products, summary) >= 4 or len(products) >= 10:
             break
         if item['asin'] in seen:
             continue
@@ -135,7 +146,7 @@ def merge_short_source(account, original_products, original_summary, fresh_produ
         if registry.match_identity(identity):
             continue
         # account20 additions must actually fill a missing shelf, never consume capacity otherwise.
-        if account == 20 and postable_count(account, products + [item]) == postable_count(account, products):
+        if account == 20 and postable_count(account, products + [item], summary) == postable_count(account, products, summary):
             continue
         record = fresh_observations.get(item['asin'])
         row = fresh_rows.get(item['asin'])
@@ -167,14 +178,14 @@ def merge_short_source(account, original_products, original_summary, fresh_produ
     verification['raw_candidate_count'] = max(len(observations), verification.get('raw_candidate_count', 0))
     if isinstance(summary.get('supply_completion'), dict):
         summary['supply_completion']['initial_scrape_report_only'] = True
-        summary['supply_completion']['final_after_local_supplement'] = postable_count(account, products)
+        summary['supply_completion']['final_after_local_supplement'] = postable_count(account, products, summary)
     for category, values in verification.get('categories', {}).items():
         values['final_selected'] = sum(p['category'].split('#')[0] == category for p in products)
     summary['total_taken'] = len(products)
     summary.setdefault('local_supplement', {}).update(
         schema_version=1, original_count=len(original_products), added_asins=additions,
         original_prefix_preserved=products[:len(original_products)] == original_products,
-        postable_count=postable_count(account, products), fresh_summary_date=fresh_summary.get('date'))
+        postable_count=postable_count(account, products, summary), fresh_summary_date=fresh_summary.get('date'))
     if products[:len(original_products)] != original_products:
         raise RecoveryStop('supplement_changed_original_prefix')
     return products, summary
@@ -442,7 +453,7 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                 existing = existing_valid_output(commands, worktree, account, target_date, output, base, paths)
                 original_products = json.loads((worktree / paths[0]).read_text(encoding='utf-8-sig')) if existing else None
                 original_summary = json.loads((worktree / paths[1]).read_text(encoding='utf-8-sig')) if existing else None
-                readiness = postable_count(account, original_products) if existing else 0
+                readiness = postable_count(account, original_products, original_summary) if existing else 0
                 result['postable_before'] = readiness
                 supplement = bool(nightly and existing and readiness < 4 and len(original_products) < 10)
                 if existing is not None and not supplement:
@@ -459,7 +470,7 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                     time_guard()
                     check_source(factory, account, target_date)
                     shared_inputs = ['scraper.py', 'detail_offer.py', 'product_identity.py', 'ensure_daily_scrape.py',
-                                     'scrape_target_date.py', f'scrape_main{account}.py']
+                                     'scrape_target_date.py', 'sale_campaign.py', 'sale_campaign.yaml', f'scrape_main{account}.py']
                     input_names = paths + protected + shared_inputs
                     input_hashes = {name: digest((worktree / name).read_bytes()) if (worktree / name).is_file() else None
                                     for name in input_names}
@@ -524,7 +535,8 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                     final_products = json.loads((worktree / paths[0]).read_text(encoding='utf-8-sig'))
                     if original_products is not None and nightly and final_products[:len(original_products)] != original_products:
                         raise RecoveryStop('supplement_changed_original_prefix')
-                    result['postable_after'] = postable_count(account, final_products)
+                    final_summary = json.loads((worktree / paths[1]).read_text(encoding='utf-8-sig'))
+                    result['postable_after'] = postable_count(account, final_products, final_summary)
                     if nightly:
                         # Persist immutable candidates before a transient Cloud wait. Never re-scrape them on retry.
                         for name in paths:

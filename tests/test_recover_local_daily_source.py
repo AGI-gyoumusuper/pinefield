@@ -75,6 +75,8 @@ class RecoveryFixtureTests(unittest.TestCase):
         git(self.seed,'config','user.name','fixture')
         git(self.seed,'config','user.email','fixture@example.invalid')
         shutil.copyfile(ROOT/'ensure_daily_scrape.py', self.seed/'ensure_daily_scrape.py')
+        shutil.copyfile(ROOT/'sale_campaign.py', self.seed/'sale_campaign.py')
+        shutil.copyfile(ROOT/'sale_campaign.yaml', self.seed/'sale_campaign.yaml')
         (self.seed/'scraper.py').write_text(textwrap.dedent(SCRAPER_FIXTURE),encoding='utf-8')
         (self.seed/'README.md').write_text('fixture\n')
         self.factory_base = self.root/'factories'

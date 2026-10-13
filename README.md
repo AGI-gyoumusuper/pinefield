@@ -5,6 +5,28 @@ Playwright-based scraper for Amazon.co.jp category listings.
 Daily GitHub Actions workflows collect items from configured category shelves
 (`categoriesN.yaml`) and store JSON snapshots under `data/`.
 
+For the 2026 Prime Appreciation Sale, `sale_campaign.yaml` temporarily overrides
+new account1-20 acquisitions dated October 13-19 (JST), including the early sale.
+All twenty sites share PC/gadget and household-electronics shelves regardless of
+their normal niche; each site receives four daily shelves, two from each family.
+The assignment rotates daily, and eligible products retain the existing
+`sale_first` ranking, ten-item target and successful-post exclusions. The current
+listed price (`price_int`, before coupon deductions) must be at least 8,000 yen;
+both the search URL and parsed prices enforce this floor. Profile100 is excluded.
+
+The overlay automatically ends at October 20 00:00 JST. Ordinary category YAML
+files stay unchanged, including account20's normal game quota. A `campaign` record
+in the dated scrape summary fixes the exact assignment and configuration hash;
+products keep the existing thirteen-field schema. Validators, recovery and ASIN
+synchronization replay this saved evidence even after the event ends. Existing
+markerless snapshots retain their original policy and are never mixed with
+campaign supplements. Already frozen factory sources and posted articles are
+preserved. FC2/livedoor continue to reuse the selected note products.
+
+Campaign searches use the all-discounts facet with the same existing public
+offer/coupon verification. Campaign selection alone does not prove that an item
+is Prime-exclusive or authorize an unverified Prime Sale claim or price.
+
 Ordinary product-detail enrichment retries only when both description and
 specifications are empty. Each ASIN gets at most one extra visit, with a
 15-second timeout for the whole retry and a shared 60-second retry budget per

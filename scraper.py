@@ -34,6 +34,7 @@ from product_identity import (
     ProductIdentityRegistry,
     extract_product_identity,
 )
+from sale_campaign import apply_campaign_config
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -1602,9 +1603,9 @@ async def verify_discount_candidates(page, candidates, stats, *, max_candidates=
     return accepted
 
 
-def daily_supply_slots(products, account, categories):
+def daily_supply_slots(products, account, categories, selection_mode=None):
     """Count usable daily positions, separately from source validity (one item)."""
-    if account == 20:
+    if account == 20 and selection_mode in (None, "category_quota"):
         return sum(min(2, sum(p.category.split('#')[0] == cat['name'] for p in products))
                    for cat in categories[:2])
     return min(4, len(products))
@@ -1613,7 +1614,7 @@ def daily_supply_slots(products, account, categories):
 async def complete_discount_supply(
     page, selected, search_pool, registry, cats, stats, *, account, min_price,
     max_price, sort_order, max_total, min_discount_pct, max_per_category,
-    exclude_title_patterns, category_min_prices,
+    exclude_title_patterns, category_min_prices, selection_mode=None,
 ):
     """Use one more bounded PDP batch only when the first batch leaves empty slots.
 
@@ -1621,7 +1622,8 @@ async def complete_discount_supply(
     relaxes selection rules, writes the posted ledger, or changes a frozen source.
     """
     result = list(selected)
-    before = daily_supply_slots(result, account, cats)
+    quota_mode = account == 20 and selection_mode in (None, "category_quota")
+    before = daily_supply_slots(result, account, cats, selection_mode)
     supply = dict(required_slots=4, ready_before=before, ready_after=before,
                   extra_batch_count=0, added_asins=[], reason='sufficient',
                   max_extra_candidates=24, max_extra_seconds=240)
@@ -1638,7 +1640,7 @@ async def complete_discount_supply(
     observed = {row['asin'] for row in previous.get('observations', [])}
     observed.update(p.asin for p in result)
     pending = [p for p in search_pool if p.asin not in observed]
-    if account == 20:
+    if quota_mode:
         missing_shelves = {cat['name'] for cat in cats[:2]
                           if sum(p.category.split('#')[0] == cat['name'] for p in result) < 2}
         pending = [p for p in pending if p.category.split('#')[0] in missing_shelves]
@@ -1690,7 +1692,7 @@ async def complete_discount_supply(
 
     def accept(candidate):
         name = candidate.category.split('#')[0]
-        if account == 20 and sum(p.category.split('#')[0] == name for p in result) >= 2:
+        if quota_mode and sum(p.category.split('#')[0] == name for p in result) >= 2:
             return
         identity = extract_product_identity(candidate)
         reason = registry.match_identity(identity)
@@ -1701,7 +1703,7 @@ async def complete_discount_supply(
             reasons[prefix] = reasons.get(prefix, 0) + 1
             return
         if len(result) >= max_total:
-            if account != 20:
+            if not quota_mode:
                 return
             # Before source publication only: replace an overflow item (>2 in its
             # shelf) so the second shelf has its required two daily positions.
@@ -1717,18 +1719,18 @@ async def complete_discount_supply(
 
     for candidate in verified:
         name = candidate.category.split('#')[0]
-        if account != 20 and max_per_category > 0 and sum(p.category.split('#')[0] == name for p in result) >= max_per_category:
+        if not quota_mode and max_per_category > 0 and sum(p.category.split('#')[0] == name for p in result) >= max_per_category:
             overflow.append(candidate)
             continue
         accept(candidate)
-        if daily_supply_slots(result, account, cats) >= 4:
+        if daily_supply_slots(result, account, cats, selection_mode) >= 4:
             break
-    if daily_supply_slots(result, account, cats) < 4:
+    if daily_supply_slots(result, account, cats, selection_mode) < 4:
         for candidate in overflow:
             accept(candidate)
-            if daily_supply_slots(result, account, cats) >= 4:
+            if daily_supply_slots(result, account, cats, selection_mode) >= 4:
                 break
-    supply['ready_after'] = daily_supply_slots(result, account, cats)
+    supply['ready_after'] = daily_supply_slots(result, account, cats, selection_mode)
     if supply['ready_after'] >= 4:
         supply['reason'] = 'completed'
     return result
@@ -1739,7 +1741,8 @@ async def fetch_products(
     associate_tag: str = ASSOCIATE_TAG,
     reference_date: str | None = None,
 ) -> Tuple[List[Product], dict]:
-    config = load_config(config_path)
+    config = apply_campaign_config(load_config(config_path), config_path, reference_date)
+    campaign = config.get("_sale_campaign")
     cats = config.get("categories", [])
     flt = config.get("filters", {})
     min_price = int(flt.get("min_price", 3000))
@@ -1821,6 +1824,9 @@ async def fetch_products(
             scrape_stats["_selection_policy"]["offer_scope"] = offer_scope
     if integrated_discounts:
         scrape_stats["_selection_policy"]["discount_contract"] = DISCOUNT_POLICY
+    if campaign is not None:
+        scrape_stats["_campaign"] = campaign
+        logger.info("期間限定カテゴリ差配: %s / %s / 最低販売価格%d円", campaign["id"], campaign["date"], min_price)
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         async def new_context_and_page() -> Tuple[BrowserContext, Page]:
@@ -2075,7 +2081,7 @@ async def fetch_products(
                 account=int(account_match[1]), min_price=min_price, max_price=max_price,
                 sort_order=sort_order, max_total=max_total, min_discount_pct=min_discount_pct,
                 max_per_category=max_per_category, exclude_title_patterns=exclude_title_patterns,
-                category_min_prices=category_min_prices)
+                category_min_prices=category_min_prices, selection_mode=selection_mode)
         if verify_detail_offer:
             verification = scrape_stats["_detail_offer_verification"]
             verification["final_selected_count"] = len(filtered)
@@ -2114,7 +2120,8 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump([asdict(p) for p in products], f, ensure_ascii=False, indent=2)
     # v2.1: カテゴリ別の取得サマリを隣へ保存（死枠診断・運転記録用）
-    date_tag = reference_date or "latest"
+    campaign = scrape_stats.pop("_campaign", None)
+    date_tag = reference_date or (campaign["date"] if campaign is not None else "latest")
     summary_path = os.path.join(os.path.dirname(output_path) or ".", f"scrape_summary_{date_tag}.json")
     detail_verification = scrape_stats.pop("_detail_offer_verification", None)
     detail_retry = scrape_stats.pop("_detail_retry", None)
@@ -2132,6 +2139,8 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
         "skipped_product_identity_reasons": scrape_stats.pop("_skipped_product_identity_reasons", {}),
         "categories": scrape_stats,
     }
+    if campaign is not None:
+        summary["campaign"] = campaign
     if detail_verification is not None:
         summary["detail_offer_verification"] = detail_verification
         if summary["selection_policy"].get("offer_scope") == "all_discounts":

@@ -18,6 +18,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
+from sale_campaign import source_campaign_config
 
 
 ROOT = Path(__file__).resolve().parent
@@ -204,13 +205,6 @@ def validate(
     if not ok:
         return False, message
 
-    if account == "account20":
-        shelves = {"Nintendo Switch 2", "PS5ゲームソフト"}
-        for item in products:
-            category = re.sub(r"#\d+$", "", str(item["category"]).strip()).strip()
-            if category not in shelves:
-                return False, f"account20 has unexpected category: {category}"
-
     summary_path = root / "data" / account / f"scrape_summary_{today}.json"
     if not summary_path.exists():
         return False, f"missing: {summary_path}"
@@ -231,13 +225,30 @@ def validate(
     if not isinstance(summary.get("categories"), dict):
         return False, f"summary categories is not an object: {summary_path}"
 
+    account_number = account.removeprefix("account")
+    campaign = summary.get("campaign")
+    if "campaign" in summary:
+        try:
+            import yaml
+            config_path = root / f"categories{account_number}.yaml"
+            base_config = yaml.safe_load(config_path.read_text(encoding="utf-8-sig"))
+            source_campaign_config(base_config, summary, products, int(account_number), today)
+        except Exception as exc:
+            return False, f"campaign source contract invalid: {type(exc).__name__}: {exc}"
+    elif account == "account20":
+        shelves = {"Nintendo Switch 2", "PS5ゲームソフト"}
+        for item in products:
+            category = re.sub(r"#\d+$", "", str(item["category"]).strip()).strip()
+            if category not in shelves:
+                return False, f"account20 has unexpected category: {category}"
+
     # The safety net must not accept an older popularity/rotation snapshot as
     # today's discount-first result just because its date and count are valid.
     expected_policy = {
-        "selection_mode": "category_quota" if account == "account20" else "global_ranked",
+        "selection_mode": "category_quota" if account == "account20" and campaign is None else "global_ranked",
         "sort_order": "sale_first",
         "require_sale_info": True,
-        "max_per_category": 5 if account == "account20" else 2,
+        "max_per_category": 5 if account == "account20" and campaign is None else 2,
         "max_total_items": 10,
     }
     policy = summary.get("selection_policy")

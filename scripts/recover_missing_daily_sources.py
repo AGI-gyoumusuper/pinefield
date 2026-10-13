@@ -156,6 +156,16 @@ def audit_remote(repo, target_date):
     validator = types.ModuleType('_daily_controller_remote_validator')
     validator.__file__ = str(ROOT / 'ensure_daily_scrape.py')
     exec(compile(code.decode('utf-8-sig'), 'origin/main:ensure_daily_scrape.py', 'exec'), validator.__dict__)
+    campaign_code = git(repo, 'show', f'{commit}:sale_campaign.py', missing_ok=True)
+    campaign_config = git(repo, 'show', f'{commit}:sale_campaign.yaml', missing_ok=True)
+    if campaign_code is not None:
+        if campaign_config is None:
+            raise ControllerStop('pinned_campaign_config_missing')
+        campaign_validator = types.ModuleType('_daily_controller_remote_campaign')
+        campaign_validator.__file__ = str(ROOT / 'sale_campaign.py')
+        exec(compile(campaign_code.decode('utf-8-sig'), 'origin/main:sale_campaign.py', 'exec'), campaign_validator.__dict__)
+        campaign_validator.CAMPAIGN_CONFIG_PATH = BlobPath({'sale_campaign.yaml': campaign_config}, 'sale_campaign.yaml')
+        validator.source_campaign_config = campaign_validator.source_campaign_config
     # Unified discounts use this same pinned evidence parser for every account.
     detail_code = git(repo, 'show', f'{commit}:detail_offer.py', missing_ok=True)
     rows = []
@@ -163,8 +173,7 @@ def audit_remote(repo, target_date):
         prefix = f'data/account{account}/'
         names = [prefix + f'products_{target_date}.json', prefix + f'scrape_summary_{target_date}.json',
                  prefix + 'asin_history.json']
-        if account == 20:
-            names.append('categories20.yaml')
+        names.append(f'categories{account}.yaml')
         files = {'detail_offer.py': detail_code} if detail_code is not None else {}
         for name in names:
             content = git(repo, 'show', f'{commit}:{name}', missing_ok=True)
@@ -179,7 +188,9 @@ def audit_remote(repo, target_date):
         count = len(raw_products) if isinstance(raw_products, list) else None
         if valid and any(set(item) != recovery.PRODUCT_FIELDS for item in raw_products):
             valid, reason = False, 'products_must_keep_exact_13_fields'
-        ready = recovery.postable_count(account, raw_products) if valid else 0
+        source_summary = json.loads(files[names[1]]) if valid else None
+        ready = (min(4, len(raw_products)) if 'campaign' in source_summary else
+                 recovery.postable_count(account, raw_products)) if valid else 0
         rows.append({'account': account, 'date': target_date, 'valid': bool(valid), 'count': count,
                      'postable_count': ready, 'four_slots_ready': bool(valid and ready >= 4),
                      'reason': reason, 'products_sha256': sha(files[names[0]]) if names[0] in files else None,
@@ -187,6 +198,8 @@ def audit_remote(repo, target_date):
                      'ledger_sha256': sha(files[names[2]]) if names[2] in files else None})
     return {'checked_at_utc': now_utc().isoformat(), 'origin_main_commit': commit,
             'validator_sha256': sha(code), 'valid_count': sum(row['valid'] for row in rows),
+             'campaign_validator_sha256': sha(campaign_code) if campaign_code is not None else None,
+             'campaign_config_sha256': sha(campaign_config) if campaign_config is not None else None,
             'missing_accounts': [row['account'] for row in rows if not row['valid']],
             'short_accounts': [row['account'] for row in rows if row['valid'] and not row['four_slots_ready']],
             'ready_account_count': sum(row['four_slots_ready'] for row in rows),

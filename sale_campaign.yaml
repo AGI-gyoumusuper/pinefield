@@ -1,0 +1,41 @@
+# 期間限定のPC・ガジェット／家電優先。人気実測ではなく戦略上の優先カテゴリ。
+# 通常categoriesN.yamlとアカウント別ASIN履歴は変更しない。
+# このIDの固定sourceを遅延同期するため、期間後も設定とpolicyは保存する。
+schema: 1
+id: prime_appreciation_2026
+policy: prime_appreciation_2026_electronics_v1
+timezone: Asia/Tokyo
+starts_at: "2026-10-13T00:00:00+09:00"
+ends_at: "2026-10-20T00:00:00+09:00"
+official_source: "https://www.aboutamazon.jp/news/amazon-prime/prime-appreciation-sale-2026"
+min_price: 8000
+selection_mode: global_ranked
+sort_order: sale_first
+max_total_items: 10
+max_per_category: 2
+max_items: 20
+allocation_method: daily_rotation_20_nodes_offsets_0_1_4_5_shift_3
+daily_shift: 3
+offsets: [0, 1, 4, 5]
+# PC/ガジェットと家電/AVを交互に並べ、全サイトへ2カテゴリずつ配る。
+nodes:
+  - {name: "ノートPC", node: "2151981051", family: pc}
+  - {name: "ロボット掃除機", node: "2353758051", family: appliance}
+  - {name: "タブレット", node: "2152014051", family: pc}
+  - {name: "スティッククリーナー", node: "13698351", family: appliance}
+  - {name: "PCモニター", node: "2151982051", family: pc}
+  - {name: "電子レンジ・オーブン", node: "4083271", family: appliance}
+  - {name: "キーボード", node: "2151977051", family: pc}
+  - {name: "炊飯器・精米機", node: "4083391", family: appliance}
+  - {name: "マウス", node: "2151978051", family: pc}
+  - {name: "空気清浄機", node: "4083011", family: appliance}
+  - {name: "スマートフォン本体", node: "128188011", family: pc}
+  - {name: "除湿機", node: "4083001", family: appliance}
+  - {name: "スマートウォッチ", node: "2725002051", family: pc}
+  - {name: "加湿器", node: "4082991", family: appliance}
+  - {name: "電子書籍リーダー（Kindle等）", node: "45726011", family: pc}
+  - {name: "イヤホン・ヘッドホン", node: "6061792051", family: appliance}
+  - {name: "NAS（ネットワークストレージ）", node: "2151968051", family: pc}
+  - {name: "プロジェクター", node: "137613011", family: appliance}
+  - {name: "ゲーミングヘッドセット", node: "4817937051", family: pc}
+  - {name: "テレビ", node: "3477491", family: appliance}
