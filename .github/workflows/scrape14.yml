@@ -38,7 +38,20 @@ jobs:
           playwright install chromium
           playwright install-deps chromium
       - name: Scrape account14 with recovery
-        run: python ensure_daily_scrape.py --account account14 --date "$PINEFIELD_TARGET_DATE"
+        run: |
+          python - <<'PY'
+          import os
+          import subprocess
+          import sys
+          from sale_campaign import apply_campaign_config
+          from scraper import load_config
+
+          target_date = os.environ["PINEFIELD_TARGET_DATE"]
+          config = apply_campaign_config(load_config("categories14.yaml"), "categories14.yaml", target_date)
+          command = [sys.executable, "scrape_main14.py"] if "_sale_campaign" in config else [
+              sys.executable, "ensure_daily_scrape.py", "--account", "account14", "--date", target_date]
+          subprocess.run(command, check=True)
+          PY
       - name: Validate account14 output
         run: |
           DATE=$(python scrape_target_date.py --account account14)
