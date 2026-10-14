@@ -1,63 +1,10 @@
 {
   "date": "2026-10-15",
   "total_taken": 10,
-  "selection_policy": {
-    "selection_mode": "global_ranked",
-    "sort_order": "sale_first",
-    "require_sale_info": true,
-    "max_per_category": 2,
-    "max_total_items": 10,
-    "verify_detail_offer": true,
-    "offer_scope": "unified_discounts",
-    "discount_contract": "amazon_direct_discounts_v1"
-  },
-  "excluded_loaded": 55,
-  "excluded_gtins_loaded": 0,
-  "excluded_brand_models_loaded": 31,
-  "skipped_product_identity": 0,
-  "skipped_product_identity_reasons": {},
-  "categories": {
-    "マウス": {
-      "pages": [
-        33
-      ],
-      "taken": 20,
-      "skipped_posted": 0,
-      "error": "",
-      "skipped_nosale": 0
-    },
-    "空気清浄機": {
-      "pages": [
-        33
-      ],
-      "taken": 20,
-      "skipped_posted": 1,
-      "error": "",
-      "skipped_nosale": 0
-    },
-    "スマートウォッチ": {
-      "pages": [
-        33
-      ],
-      "taken": 20,
-      "skipped_posted": 0,
-      "error": "",
-      "skipped_nosale": 0
-    },
-    "加湿器": {
-      "pages": [
-        33
-      ],
-      "taken": 20,
-      "skipped_posted": 0,
-      "error": "",
-      "skipped_nosale": 0
-    }
-  },
   "campaign": {
     "schema": 1,
     "id": "prime_appreciation_2026",
-    "policy": "prime_appreciation_2026_electronics_v1",
+    "policy": "prime_appreciation_2026_electronics_prime_verified_v2",
     "account": 3,
     "date": "2026-10-15",
     "starts_at": "2026-10-13T00:00:00+09:00",
@@ -96,18 +43,61 @@
     ],
     "allocation_method": "daily_rotation_20_nodes_offsets_0_1_4_5_shift_3",
     "official_source": "https://www.aboutamazon.jp/news/amazon-prime/prime-appreciation-sale-2026",
-    "config_sha256": "6161f0c6ae9828bd7de6f6b8f1c06ffacb0245afff2744e4ad9392d7c37b1e6c"
+    "config_sha256": "8726b65d5e8cf2ebd9393a13f462e63c3087e6503597749730332a3e6cbbb8ea"
   },
+  "sale_name": "Amazon プライム感謝祭先行セール",
+  "selection_policy": {
+    "selection_mode": "global_ranked",
+    "sort_order": "sale_first",
+    "require_sale_info": true,
+    "max_per_category": 2,
+    "max_total_items": 10,
+    "min_price": 8000,
+    "verify_detail_offer": true,
+    "offer_scope": "unified_discounts",
+    "discount_contract": "amazon_direct_discounts_v1",
+    "require_prime_event": true
+  },
+  "categories": {
+    "マウス": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 0,
+      "final_selected": 0
+    },
+    "空気清浄機": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 6,
+      "final_selected": 3
+    },
+    "スマートウォッチ": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 5,
+      "final_selected": 3
+    },
+    "加湿器": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 10,
+      "final_selected": 4
+    }
+  },
+  "excluded_loaded": 55,
+  "excluded_gtins_loaded": 0,
+  "excluded_brand_models_loaded": 31,
+  "skipped_product_identity": 0,
+  "skipped_product_identity_reasons": {},
   "detail_offer_verification": {
     "schema_version": 1,
     "enabled": true,
     "offer_scope": "unified_discounts",
     "sale_name": "Amazon セール",
-    "candidate_count": 24,
-    "raw_candidate_count": 24,
-    "accepted_count": 24,
+    "mode": "recorded_prime_git_pool_reselection",
+    "new_amazon_accesses": 0,
+    "detail_visits_started": 0,
+    "elapsed_seconds": 0,
+    "raw_candidate_count": 21,
+    "candidate_count": 10,
+    "accepted_count": 10,
     "rejected_count": 0,
-    "rejection_reasons": {},
     "observations": [
       {
         "asin": "B0HFRGJK9J",
@@ -186,6 +176,82 @@
         "evidence_sha256": "2E7DBE64031AE3D9754ACD4E4F1EC9BB1D9E64B46A3C82E911F182B177D7519D"
       },
       {
+        "asin": "B0HFWHQK9P",
+        "category": "加湿器#18",
+        "checked_at": "2026-10-13T12:50:04.861526+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥9,480",
+          "price_int": 9480,
+          "original_price": "￥41,999",
+          "discount_rate": "77%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥9,480",
+          "price_int": 9480,
+          "original_price": "￥41,999",
+          "discount_rate": "77%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0HFWHQK9P",
+            "B0HFWHQK9P"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "加湿器 大容量 9L 【AI知能恒湿&マイナスイオン】 ハイブリッド 加湿器 卓上 超音波式 90時間連続加湿 5重除菌 6段階ミスト アロマ対応 黒",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "9,480"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-77%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥41,999\n￥41,999"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0HFWHQK9P",
+          "url": "https://www.amazon.co.jp/dp/B0HFWHQK9P",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:50:04.861526+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 9480,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0HFWHQK9P",
+            "asin": "B0HFWHQK9P"
+          }
+        },
+        "evidence_sha256": "09AA0B210780FAE6F8C2D0D28ABF13EBE099BAAF74C38B00BFC47AA364E2DB4B"
+      },
+      {
         "asin": "B0GYXPPL8Z",
         "category": "空気清浄機#12",
         "checked_at": "2026-10-14T09:55:32.055276+00:00",
@@ -262,197 +328,44 @@
         "evidence_sha256": "F3C6CFAB64F6167EAD123C7492F955A93BD6B890B5E2C9102756FEF55413DAC3"
       },
       {
-        "asin": "B09N7BB1WK",
-        "category": "空気清浄機#13",
-        "checked_at": "2026-10-14T09:55:41.988839+00:00",
+        "asin": "B0F66MS88R",
+        "category": "スマートウォッチ#16",
+        "checked_at": "2026-10-14T09:12:27.999937+00:00",
         "status": "accepted",
         "reason": null,
         "card_offer": {
-          "price": "￥55,609",
-          "price_int": 55609,
-          "original_price": "￥93,500",
-          "discount_rate": "41%OFF"
+          "price": "￥9,980",
+          "price_int": 9980,
+          "original_price": "￥13,800",
+          "discount_rate": "28%OFF"
         },
         "pdp_offer": {
-          "price": "￥55,609",
-          "price_int": 55609,
-          "original_price": "￥93,500",
-          "discount_rate": "41%OFF"
+          "price": "￥9,980",
+          "price_int": 9980,
+          "original_price": "￥13,800",
+          "discount_rate": "28%OFF"
         },
         "evidence": {
           "selected_asins": [
-            "B09N7BB1WK"
+            "B0F66MS88R",
+            "B0F66MS88R"
           ],
           "page_asins": [],
           "center_count": 1,
-          "product_title": "ブルーエア 空気清浄機 34畳 ダストマグネット 5440i リビング 上下吸引 花粉 ホコリ 集塵力 ペット 抜け毛 脱臭 ウイルス",
+          "product_title": "CMF by Nothing Watch 3 Pro スマートウォッチ 丸型 防水 メンズ レディース iPhone Android ダークグレー",
           "price_region_count": 1,
           "price_region_selector": "#corePriceDisplay_desktop_feature_div",
           "price_texts": [
-            "55,609"
+            "9,980"
           ],
           "currency_texts": [
             "￥"
           ],
           "discount_texts": [
-            "-41%"
+            "-28%"
           ],
           "reference_price_texts": [
-            "参考価格: \n￥93,500\n￥93,500"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B09N7BB1WK",
-          "url": "https://www.amazon.co.jp/dp/B09N7BB1WK",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:55:41.988839+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 55609,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B09N7BB1WK",
-            "asin": "B09N7BB1WK"
-          }
-        },
-        "evidence_sha256": "977EB11A6ABB5512C54D30FCAE53C0A5F70D29B63A50AF4AE99C9837211172D3"
-      },
-      {
-        "asin": "B0FKH3WQ41",
-        "category": "スマートウォッチ#2",
-        "checked_at": "2026-10-14T09:55:54.936855+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥36,800",
-          "price_int": 36800,
-          "original_price": "￥48,180",
-          "discount_rate": "24%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥36,800",
-          "price_int": 36800,
-          "original_price": "￥48,180",
-          "discount_rate": "24%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0FKH3WQ41",
-            "B0FKH3WQ41",
-            "B0FKH3WQ41"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "HUAWEI WATCH GT 6 Pro 46mm スマートウォッチ 大画面 GPS搭載 21日間バッテリー 心電図 ゴルフ GPS 通知 ブラック",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "36,800"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-24%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥48,180\n￥48,180"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0FKH3WQ41",
-          "url": "https://www.amazon.co.jp/dp/B0FKH3WQ41",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:55:54.936855+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 36800,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0FKH3WQ41",
-            "asin": "B0FKH3WQ41"
-          }
-        },
-        "evidence_sha256": "40E70C268ED921AEDBA1460DCA9EB4ADDF2837833CA71B4CFD1C3F2125DCD155"
-      },
-      {
-        "asin": "B0GQL9JZS7",
-        "category": "スマートウォッチ#10",
-        "checked_at": "2026-10-14T09:56:04.838346+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥11,392",
-          "price_int": 11392,
-          "original_price": "￥14,800",
-          "discount_rate": "23%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥11,392",
-          "price_int": 11392,
-          "original_price": "￥14,800",
-          "discount_rate": "23%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0GQL9JZS7",
-            "B0GQL9JZS7",
-            "B0GQL9JZS7"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "Xiaomi Redmi Watch 6 シャオミ スマートウォッチ GPS Bluetooth通話 着信通知 防水 24日間持続 iPhone対応",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "11,392"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-23%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥14,800\n￥14,800"
+            "参考価格: \n￥13,800\n￥13,800"
           ],
           "sale_region_count": 1,
           "sale_region_selector": "#dealBadge_feature_div",
@@ -464,17 +377,17 @@
           "primary_seller_ids": [],
           "challenge_signals": [],
           "schema_version": 1,
-          "requested_asin": "B0GQL9JZS7",
-          "url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
+          "requested_asin": "B0F66MS88R",
+          "url": "https://www.amazon.co.jp/dp/B0F66MS88R",
           "http_status": 200,
-          "checked_at": "2026-10-14T09:56:04.838346+00:00",
+          "checked_at": "2026-10-14T09:12:27.999937+00:00",
           "evidence_kind": "ordinary_discount",
           "countdown": null,
           "coupon": {
             "status": "not_displayed",
             "kind": null,
             "value": null,
-            "basis_price_yen": 11392,
+            "basis_price_yen": 9980,
             "application": "unknown",
             "conditions": [],
             "expires_at": null,
@@ -484,87 +397,11 @@
             "final_price_yen": null,
             "reason": null,
             "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
-            "asin": "B0GQL9JZS7"
+            "source_url": "https://www.amazon.co.jp/dp/B0F66MS88R",
+            "asin": "B0F66MS88R"
           }
         },
-        "evidence_sha256": "B3303B877B79B4F43ADC898D106407B15438906533E1AC980E3926F6E4BED030"
-      },
-      {
-        "asin": "B0FPGCXYV5",
-        "category": "加湿器#4",
-        "checked_at": "2026-10-14T09:56:16.096432+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥16,800",
-          "price_int": 16800,
-          "original_price": "￥19,800",
-          "discount_rate": "15%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥16,800",
-          "price_int": 16800,
-          "original_price": "￥19,800",
-          "discount_rate": "15%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0FPGCXYV5",
-            "B0FPGCXYV5"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "QUADS(クワッズ) ガラススチーム加湿器 ポット式 2.6L 17畳対応 加湿650ml/h 上部給水 デザイン加湿器 (グレー)",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "16,800"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-15%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥19,800\n￥19,800"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0FPGCXYV5",
-          "url": "https://www.amazon.co.jp/dp/B0FPGCXYV5",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:56:16.096432+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 16800,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0FPGCXYV5",
-            "asin": "B0FPGCXYV5"
-          }
-        },
-        "evidence_sha256": "B105947ABD2E8BFA034D70D10EB45945D4E7446C13478638E1442140AD4EABB6"
+        "evidence_sha256": "0B1A80C3FF8EC5A47EFCECCE23F3142FC0094BFDF11763D0E530CBD2799E7229"
       },
       {
         "asin": "B0DP2KLMMT",
@@ -643,6 +480,158 @@
         "evidence_sha256": "E2C6CD0BDBBE082A38149D35AEB764D033E99C22645764E52734406FD59B1CF5"
       },
       {
+        "asin": "B09132462N",
+        "category": "スマートウォッチ#11",
+        "checked_at": "2026-10-13T12:48:03.044597+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥28,800",
+          "price_int": 28800,
+          "original_price": "￥38,280",
+          "discount_rate": "25%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥28,800",
+          "price_int": 28800,
+          "original_price": "￥38,280",
+          "discount_rate": "25%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B09132462N",
+            "B09132462N"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "POLAR (ポラール) イグナイト 2 (Polar Ignite 2) GPS スマートウォッチ iPhone対応 アンドロイド対応【睡眠/自律神経/カロリー計測/音楽/メッセージ ・ 着信 / 5日間のバッテリー 】 【日本正規品】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "28,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-25%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥38,280\n￥38,280"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B09132462N",
+          "url": "https://www.amazon.co.jp/dp/B09132462N",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:48:03.044597+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 28800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B09132462N",
+            "asin": "B09132462N"
+          }
+        },
+        "evidence_sha256": "446333480994C1A3A1EC598C36F1E40486E45DF6F8DC162E45AE97BF47EDD02B"
+      },
+      {
+        "asin": "B0CL4R54X4",
+        "category": "加湿器#20",
+        "checked_at": "2026-10-13T12:50:37.915022+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥14,850",
+          "price_int": 14850,
+          "original_price": "￥19,800",
+          "discount_rate": "25%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥14,850",
+          "price_int": 14850,
+          "original_price": "￥19,800",
+          "discount_rate": "25%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0CL4R54X4",
+            "B0CL4R54X4"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "SwitchBot 気化式加湿器 Alexa 大容量 4.5L 21畳対応 省エネ 上から給水 18dB静音 抗菌 フィルター洗濯機可 スマートホーム",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "14,850"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-25%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥19,800\n￥19,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0CL4R54X4",
+          "url": "https://www.amazon.co.jp/dp/B0CL4R54X4",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:50:37.915022+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 14850,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0CL4R54X4",
+            "asin": "B0CL4R54X4"
+          }
+        },
+        "evidence_sha256": "9B678BB27C65B88C0E792E74C7AE49B1C4FDBAB7BDA4DA54B19CBEC23DD84BD6"
+      },
+      {
         "asin": "B0DP2K324K",
         "category": "空気清浄機#11",
         "checked_at": "2026-10-14T09:56:32.705489+00:00",
@@ -719,118 +708,41 @@
         "evidence_sha256": "F078069DCD6C8C621DD99F71DA03B2A6F8773F80CBDDA520A3E4A672A512437B"
       },
       {
-        "asin": "B0D86SSFFF",
-        "category": "空気清浄機#6",
-        "checked_at": "2026-10-14T09:56:41.646682+00:00",
+        "asin": "B0H2811RFL",
+        "category": "加湿器#5",
+        "checked_at": "2026-10-13T12:50:35.252164+00:00",
         "status": "accepted",
         "reason": null,
         "card_offer": {
-          "price": "￥10,800",
-          "price_int": 10800,
-          "original_price": "￥13,800",
-          "discount_rate": "22%OFF"
+          "price": "￥8,980",
+          "price_int": 8980,
+          "original_price": "￥11,880",
+          "discount_rate": "24%OFF"
         },
         "pdp_offer": {
-          "price": "￥10,800",
-          "price_int": 10800,
-          "original_price": "￥13,800",
-          "discount_rate": "22%OFF"
+          "price": "￥8,980",
+          "price_int": 8980,
+          "original_price": "￥11,880",
+          "discount_rate": "24%OFF"
         },
         "evidence": {
           "selected_asins": [
-            "B0D86SSFFF",
-            "B0D86SSFFF",
-            "B0D86SSFFF"
+            "B0H2811RFL",
+            "B0H2811RFL"
           ],
           "page_asins": [],
           "center_count": 1,
-          "product_title": "シャープ 加湿レス空気清浄機 FU-SC01-W プラズマクラスター7000 6畳 当社史上最少サイズ コンパクト 花粉 ウイルス ペット 消臭",
+          "product_title": "ドウシシャ 加湿器 スチーム式 湿度センサー付き 上部給水 フィルターレス お手入れ簡単 2.4Lタンク 最長約12時間加湿 最大14畳対応 卓上 リビング 寝室 ホワイト AKSB-501WH",
           "price_region_count": 1,
           "price_region_selector": "#corePriceDisplay_desktop_feature_div",
           "price_texts": [
-            "10,800"
+            "8,980"
           ],
           "currency_texts": [
             "￥"
           ],
           "discount_texts": [
-            "-22%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥13,800\n￥13,800"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0D86SSFFF",
-          "url": "https://www.amazon.co.jp/dp/B0D86SSFFF",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:56:41.646682+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 10800,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0D86SSFFF",
-            "asin": "B0D86SSFFF"
-          }
-        },
-        "evidence_sha256": "DD16CD53B81B18AE53A560F6160BB8CC23974EF105358A6B31A46BE6928007C8"
-      },
-      {
-        "asin": "B0GJSCGFTP",
-        "category": "スマートウォッチ#6",
-        "checked_at": "2026-10-14T09:56:50.071226+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥9,227",
-          "price_int": 9227,
-          "original_price": "￥11,880",
-          "discount_rate": "22%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥9,227",
-          "price_int": 9227,
-          "original_price": "￥11,880",
-          "discount_rate": "22%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0GJSCGFTP",
-            "B0GJSCGFTP"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "HUAWEI Band 11 Pro GPS搭載 スマートウォッチ 8.99mm/18g薄型軽量ボディ 高輝度 2000nits 1.62大画面 24時間睡眠管理 14日間持続バッテリー ランニングモード 情緒モニタリング LINE通知 ブラック",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "9,227"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-22%"
+            "-24%"
           ],
           "reference_price_texts": [
             "参考価格: \n￥11,880\n￥11,880"
@@ -845,17 +757,17 @@
           "primary_seller_ids": [],
           "challenge_signals": [],
           "schema_version": 1,
-          "requested_asin": "B0GJSCGFTP",
-          "url": "https://www.amazon.co.jp/dp/B0GJSCGFTP",
+          "requested_asin": "B0H2811RFL",
+          "url": "https://www.amazon.co.jp/dp/B0H2811RFL",
           "http_status": 200,
-          "checked_at": "2026-10-14T09:56:50.071226+00:00",
+          "checked_at": "2026-10-13T12:50:35.252164+00:00",
           "evidence_kind": "ordinary_discount",
           "countdown": null,
           "coupon": {
             "status": "not_displayed",
             "kind": null,
             "value": null,
-            "basis_price_yen": 9227,
+            "basis_price_yen": 8980,
             "application": "unknown",
             "conditions": [],
             "expires_at": null,
@@ -865,51 +777,52 @@
             "final_price_yen": null,
             "reason": null,
             "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0GJSCGFTP",
-            "asin": "B0GJSCGFTP"
+            "source_url": "https://www.amazon.co.jp/dp/B0H2811RFL",
+            "asin": "B0H2811RFL"
           }
         },
-        "evidence_sha256": "7D4D4BFBAE042534DCB24FEB5D2B1BED7C885086630337DAF03F98C54348F1DC"
+        "evidence_sha256": "94B8538E5D9B026D89B5917F92891BC405E448C0E5EF21A43527D201E596AA5F"
       },
       {
-        "asin": "B0G6YXL5RP",
-        "category": "スマートウォッチ#8",
-        "checked_at": "2026-10-14T09:56:58.072265+00:00",
+        "asin": "B0GQL9JZS7",
+        "category": "スマートウォッチ#10",
+        "checked_at": "2026-10-14T10:01:08.720318+00:00",
         "status": "accepted",
         "reason": null,
         "card_offer": {
-          "price": "￥8,531",
-          "price_int": 8531,
-          "original_price": "￥10,980",
-          "discount_rate": "22%OFF"
+          "price": "￥11,392",
+          "price_int": 11392,
+          "original_price": "￥14,800",
+          "discount_rate": "23%OFF"
         },
         "pdp_offer": {
-          "price": "￥8,531",
-          "price_int": 8531,
-          "original_price": "￥10,980",
-          "discount_rate": "22%OFF"
+          "price": "￥11,392",
+          "price_int": 11392,
+          "original_price": "￥14,800",
+          "discount_rate": "23%OFF"
         },
         "evidence": {
           "selected_asins": [
-            "B0G6YXL5RP",
-            "B0G6YXL5RP"
+            "B0GQL9JZS7",
+            "B0GQL9JZS7",
+            "B0GQL9JZS7"
           ],
           "page_asins": [],
           "center_count": 1,
-          "product_title": "スマートウォッチ ChatGPT【2026最新・第3世代】FOSMET QS40 iPhone アンドロイド対応 Smart Watch 丸型 メンズ 10日間のバッテリー持ち 常時表示 AI文字盤 1.43インチ AMOLEDディスプレイ サファイアガラス搭載 通知や通話機能付き自動運動検知 3ATM防水 付属ベルト2本 (ブラック)",
+          "product_title": "Xiaomi Redmi Watch 6 シャオミ スマートウォッチ GPS Bluetooth通話 着信通知 防水 24日間持続 iPhone対応",
           "price_region_count": 1,
           "price_region_selector": "#corePriceDisplay_desktop_feature_div",
           "price_texts": [
-            "8,531"
+            "11,392"
           ],
           "currency_texts": [
             "￥"
           ],
           "discount_texts": [
-            "-22%"
+            "-23%"
           ],
           "reference_price_texts": [
-            "参考価格: \n￥10,980\n￥10,980"
+            "参考価格: \n￥14,800\n￥14,800"
           ],
           "sale_region_count": 1,
           "sale_region_selector": "#dealBadge_feature_div",
@@ -921,17 +834,17 @@
           "primary_seller_ids": [],
           "challenge_signals": [],
           "schema_version": 1,
-          "requested_asin": "B0G6YXL5RP",
-          "url": "https://www.amazon.co.jp/dp/B0G6YXL5RP",
+          "requested_asin": "B0GQL9JZS7",
+          "url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
           "http_status": 200,
-          "checked_at": "2026-10-14T09:56:58.072265+00:00",
+          "checked_at": "2026-10-14T10:01:08.720318+00:00",
           "evidence_kind": "ordinary_discount",
           "countdown": null,
           "coupon": {
             "status": "not_displayed",
             "kind": null,
             "value": null,
-            "basis_price_yen": 8531,
+            "basis_price_yen": 11392,
             "application": "unknown",
             "conditions": [],
             "expires_at": null,
@@ -941,1042 +854,16 @@
             "final_price_yen": null,
             "reason": null,
             "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0G6YXL5RP",
-            "asin": "B0G6YXL5RP"
+            "source_url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
+            "asin": "B0GQL9JZS7"
           }
         },
-        "evidence_sha256": "626C1C36BC4321069231F0BB29F1FD58583B4F339C96917037B5FA0E04DB393D"
-      },
-      {
-        "asin": "B08KPK38GJ",
-        "category": "空気清浄機#9",
-        "checked_at": "2026-10-14T09:57:05.650753+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥14,820",
-          "price_int": 14820,
-          "original_price": "￥18,700",
-          "discount_rate": "21%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥14,820",
-          "price_int": 14820,
-          "original_price": "￥18,700",
-          "discount_rate": "21%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B08KPK38GJ",
-            "B08KPK38GJ"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "ブルーエア 空気清浄機 22畳 Blue Max 3250 オンラインモデル シンプル操作 寝室 リビング 脱臭 ウイルス ペット 花粉 省エネ",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "14,820"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-21%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥18,700\n￥18,700"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B08KPK38GJ",
-          "url": "https://www.amazon.co.jp/dp/B08KPK38GJ",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:57:05.650753+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 14820,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B08KPK38GJ",
-            "asin": "B08KPK38GJ"
-          }
-        },
-        "evidence_sha256": "FABB01EB69ECD5D69F4B99A21ADAEF9493A96E61092530488D94E5FCC5EECF5D"
-      },
-      {
-        "asin": "B0FPM8P4PQ",
-        "category": "空気清浄機#16",
-        "checked_at": "2026-10-14T09:57:13.384234+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥10,990",
-          "price_int": 10990,
-          "original_price": "￥13,800",
-          "discount_rate": "20%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥10,990",
-          "price_int": 10990,
-          "original_price": "￥13,800",
-          "discount_rate": "20%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0FPM8P4PQ",
-            "B0FPM8P4PQ",
-            "B0FPM8P4PQ"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "アイリスオーヤマ 加湿空気清浄機 気化式 10畳 上から給水 丸洗い AZAP-SH20B-WB ホワイト/ブラック",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "10,990"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-20%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥13,800\n￥13,800"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0FPM8P4PQ",
-          "url": "https://www.amazon.co.jp/dp/B0FPM8P4PQ",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:57:13.384234+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 10990,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0FPM8P4PQ",
-            "asin": "B0FPM8P4PQ"
-          }
-        },
-        "evidence_sha256": "5E7F6E2EB151D839B627B045F20FEFD77D680650888BF28CB3714C9BDF67B207"
-      },
-      {
-        "asin": "B0H2HHXP34",
-        "category": "空気清浄機#18",
-        "checked_at": "2026-10-14T09:57:20.487838+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥27,180",
-          "price_int": 27180,
-          "original_price": "￥32,980",
-          "discount_rate": "18%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥27,180",
-          "price_int": 27180,
-          "original_price": "￥32,980",
-          "discount_rate": "18%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0H2HHXP34",
-            "B0H2HHXP34"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "【ペット対策】Levoit(レボイト) 空気清浄機 ハイグレード Vital Pet Pro 21畳 ペット特化 脱臭強化 集じん 小型 花粉 ハウスダスト ニオイ対策 PM2.5センサー TVOCセンサー付き 三面吸気口 静電HEPA 自動·ペットモード 自動クリーニング",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "27,180"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-18%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥32,980\n￥32,980"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0H2HHXP34",
-          "url": "https://www.amazon.co.jp/dp/B0H2HHXP34",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:57:20.487838+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 27180,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0H2HHXP34",
-            "asin": "B0H2HHXP34"
-          }
-        },
-        "evidence_sha256": "DD69DA138088F36CC6C12CAE6B578D01F9C2288F82AB0AA53E587E9CCAF4021D"
-      },
-      {
-        "asin": "B0FHGN1TQV",
-        "category": "空気清浄機#4",
-        "checked_at": "2026-10-14T09:57:27.806532+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥20,980",
-          "price_int": 20980,
-          "original_price": "￥24,980",
-          "discount_rate": "16%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥20,980",
-          "price_int": 20980,
-          "original_price": "￥24,980",
-          "discount_rate": "16%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0FHGN1TQV",
-            "B0FHGN1TQV",
-            "B0FHGN1TQV"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "シャープ 空気清浄機 KC-S50W-W プラズマクラスター7000 23畳 10年フィルター 花粉 ウイルス ペット 消臭 リビング 加湿500mL",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "20,980"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-16%"
-          ],
-          "reference_price_texts": [
-            "過去価格: \n￥24,980\n￥24,980"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0FHGN1TQV",
-          "url": "https://www.amazon.co.jp/dp/B0FHGN1TQV",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:57:27.806532+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 20980,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0FHGN1TQV",
-            "asin": "B0FHGN1TQV"
-          }
-        },
-        "evidence_sha256": "078A97826EB5BFAE50994052E8A658B3C59205081C0ABBE5FB35635C42411194"
-      },
-      {
-        "asin": "B0FQFJ8BVB",
-        "category": "スマートウォッチ#16",
-        "checked_at": "2026-10-14T09:57:34.550733+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥60,900",
-          "price_int": 60900,
-          "original_price": "￥71,800",
-          "discount_rate": "15%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥60,900",
-          "price_int": 60900,
-          "original_price": "￥71,800",
-          "discount_rate": "15%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0FQFJ8BVB"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "Apple Watch Series 11(GPSモデル)- 42mmローズゴールドアルミニウムケースとライトブラッシュスポーツバンド - S/M、睡眠時無呼吸、高血圧パターン、血中酸素、心電図、排卵推定、心拍数、服薬、マインドフルネス、ノイズ、睡眠スコア、転倒検出、IPX6X防塵、泳げる耐水、Suica対応、高速充電対応",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "60,900"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-15%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥71,800\n￥71,800"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "タイムセール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0FQFJ8BVB",
-          "url": "https://www.amazon.co.jp/dp/B0FQFJ8BVB",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:57:34.550733+00:00",
-          "evidence_kind": "label",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 60900,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0FQFJ8BVB",
-            "asin": "B0FQFJ8BVB"
-          }
-        },
-        "evidence_sha256": "AF06A0A6C55731EC13B64D557AA37A4183A970CD1066DB044808E06CA8A99309"
-      },
-      {
-        "asin": "B0DR2SCCD5",
-        "category": "空気清浄機#7",
-        "checked_at": "2026-10-14T09:57:41.871722+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥22,780",
-          "price_int": 22780,
-          "original_price": "￥26,800",
-          "discount_rate": "15%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥22,780",
-          "price_int": 22780,
-          "original_price": "￥26,800",
-          "discount_rate": "15%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0DR2SCCD5",
-            "B0DR2SCCD5"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "【強力吸引・浄化】 Levoit(レボイト) 空気清浄機 アップグレード Vital200S 花粉 33畳以下 広範囲 ペットの毛 ハウスダスト",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "22,780"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-15%"
-          ],
-          "reference_price_texts": [
-            "過去価格: \n￥26,800\n￥26,800"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0DR2SCCD5",
-          "url": "https://www.amazon.co.jp/dp/B0DR2SCCD5",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:57:41.871722+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 22780,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0DR2SCCD5",
-            "asin": "B0DR2SCCD5"
-          }
-        },
-        "evidence_sha256": "22604A54277EAC56967F8F64188BCFE86564745E9A6E2E07871404F4303724BB"
-      },
-      {
-        "asin": "B0HH96JB9W",
-        "category": "加湿器#8",
-        "checked_at": "2026-10-14T09:57:49.137797+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥15,980",
-          "price_int": 15980,
-          "original_price": "￥18,800",
-          "discount_rate": "15%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥15,980",
-          "price_int": 15980,
-          "original_price": "￥18,800",
-          "discount_rate": "15%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0HH96JB9W",
-            "B0HH96JB9W"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "[山善] 加湿器 スチーム式 3.0L (木造~10畳/洋室~17畳) ガラス 加湿量3段階 切タイマー LEDムードランプ KS-TM3(LGY)",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "15,980"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-15%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥18,800\n￥18,800"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0HH96JB9W",
-          "url": "https://www.amazon.co.jp/dp/B0HH96JB9W",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:57:49.137797+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 15980,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0HH96JB9W",
-            "asin": "B0HH96JB9W"
-          }
-        },
-        "evidence_sha256": "7D53A7BC03B77709B38761FABE3BC45D25360476F2C2D945ED25E6285B3D63A7"
-      },
-      {
-        "asin": "B08131HFSG",
-        "category": "空気清浄機#8",
-        "checked_at": "2026-10-14T09:57:56.445586+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥12,733",
-          "price_int": 12733,
-          "original_price": "￥14,980",
-          "discount_rate": "15%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥12,733",
-          "price_int": 12733,
-          "original_price": "￥14,980",
-          "discount_rate": "15%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B08131HFSG",
-            "B08131HFSG"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "Levoit (レボイト) 空気清浄機 脱臭強化モデル 20畳 花粉対策 集じん 小型 消臭 省エネ ペット向け 寝室 Core P350 グレー",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "12,733"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-15%"
-          ],
-          "reference_price_texts": [
-            "過去価格: \n￥14,980\n￥14,980"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B08131HFSG",
-          "url": "https://www.amazon.co.jp/dp/B08131HFSG",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:57:56.445586+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 12733,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B08131HFSG",
-            "asin": "B08131HFSG"
-          }
-        },
-        "evidence_sha256": "55C45EA84072528C82C805B5D4898BC42309E74B31FA0C5F4D95ECC85884BD23"
-      },
-      {
-        "asin": "B07T8YG6K6",
-        "category": "空気清浄機#14",
-        "checked_at": "2026-10-14T09:58:03.709330+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥10,980",
-          "price_int": 10980,
-          "original_price": "￥12,980",
-          "discount_rate": "15%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥10,980",
-          "price_int": 10980,
-          "original_price": "￥12,980",
-          "discount_rate": "15%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B07T8YG6K6",
-            "B07T8YG6K6"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "Levoit (レボイト) 空気清浄機 20畳 小型 省エネ 脱臭 集じん ペット ダニ カビ取り 花粉 おすすめ 卓上 ハウスダスト hepa フィルター PM2.5 Core 300 ホワイト",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "10,980"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-15%"
-          ],
-          "reference_price_texts": [
-            "過去価格: \n￥12,980\n￥12,980"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B07T8YG6K6",
-          "url": "https://www.amazon.co.jp/dp/B07T8YG6K6",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:58:03.709330+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 10980,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B07T8YG6K6",
-            "asin": "B07T8YG6K6"
-          }
-        },
-        "evidence_sha256": "DA385349812CD13268DB1AEA90A048F7D97A77679D35F84393E95B4BBDD9EB74"
-      },
-      {
-        "asin": "B0CJHKR9QW",
-        "category": "空気清浄機#20",
-        "checked_at": "2026-10-14T09:58:10.828605+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥155,430",
-          "price_int": 155430,
-          "original_price": "￥172,700",
-          "discount_rate": "10%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥155,430",
-          "price_int": 155430,
-          "original_price": "￥172,700",
-          "discount_rate": "10%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0CJHKR9QW",
-            "B0CJHKR9QW"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "Airdog X5D マットブラック CO2センサー搭載 キャスター付き TPAフィルター 浮遊ウイルス対応 静音設計 ペット リビング 店舗 オフィス エアドッグ カビ ニオイ 対策",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "155,430"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-10%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥172,700\n￥172,700"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0CJHKR9QW",
-          "url": "https://www.amazon.co.jp/dp/B0CJHKR9QW",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:58:10.828605+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 155430,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0CJHKR9QW",
-            "asin": "B0CJHKR9QW"
-          }
-        },
-        "evidence_sha256": "5B2E415BA1491238559CE2FC74C9191064307EA07972B652D29025B034871C56"
-      },
-      {
-        "asin": "B0BTY6B6KS",
-        "category": "空気清浄機#3",
-        "checked_at": "2026-10-14T09:58:18.148855+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥150,480",
-          "price_int": 150480,
-          "original_price": "￥167,200",
-          "discount_rate": "10%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥150,480",
-          "price_int": 150480,
-          "original_price": "￥167,200",
-          "discount_rate": "10%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0BTY6B6KS",
-            "B0BTY6B6KS",
-            "B0BTY6B6KS"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "Airdog X5D エアドッグ CO2センサー搭載 浮遊ウイルス対応",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "150,480"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-10%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥167,200\n￥167,200"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0BTY6B6KS",
-          "url": "https://www.amazon.co.jp/dp/B0BTY6B6KS",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:58:18.148855+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 150480,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0BTY6B6KS",
-            "asin": "B0BTY6B6KS"
-          }
-        },
-        "evidence_sha256": "8B19780C8AF15BDBF64D6446CD64965776F31F7DDD8BE586F972F0CF1B24968A"
-      },
-      {
-        "asin": "B0BTY5QVKR",
-        "category": "空気清浄機#10",
-        "checked_at": "2026-10-14T09:58:25.444163+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥120,780",
-          "price_int": 120780,
-          "original_price": "￥134,200",
-          "discount_rate": "10%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥120,780",
-          "price_int": 120780,
-          "original_price": "￥134,200",
-          "discount_rate": "10%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B0BTY5QVKR",
-            "B0BTY5QVKR"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "Airdog X3D 光＆人感センサー搭載 3方向広角排気システム 寝室 子供部屋 会議室 TPAフィルター 浮遊ウイルス対応 エアドッグ",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "120,780"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-10%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥134,200\n￥134,200"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "プライム感謝祭先行セール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B0BTY5QVKR",
-          "url": "https://www.amazon.co.jp/dp/B0BTY5QVKR",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:58:25.444163+00:00",
-          "evidence_kind": "ordinary_discount",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 120780,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B0BTY5QVKR",
-            "asin": "B0BTY5QVKR"
-          }
-        },
-        "evidence_sha256": "519DF9E14622CD926468E13D5BD582E29C96D0F2BA448EEDBD6CB9DF43D63B01"
-      },
-      {
-        "asin": "B08KTL2GZ5",
-        "category": "空気清浄機#2",
-        "checked_at": "2026-10-14T09:58:32.897398+00:00",
-        "status": "accepted",
-        "reason": null,
-        "card_offer": {
-          "price": "￥47,520",
-          "price_int": 47520,
-          "original_price": "￥52,800",
-          "discount_rate": "10%OFF"
-        },
-        "pdp_offer": {
-          "price": "￥47,520",
-          "price_int": 47520,
-          "original_price": "￥52,800",
-          "discount_rate": "10%OFF"
-        },
-        "evidence": {
-          "selected_asins": [
-            "B08KTL2GZ5"
-          ],
-          "page_asins": [],
-          "center_count": 1,
-          "product_title": "ブルーエア 空気清浄機 44畳 Blue Signature SP3i ダークブルー オンライン専売カラー LDK 脱臭 静音 花粉 ウイルス ペット",
-          "price_region_count": 1,
-          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
-          "price_texts": [
-            "47,520"
-          ],
-          "currency_texts": [
-            "￥"
-          ],
-          "discount_texts": [
-            "-10%"
-          ],
-          "reference_price_texts": [
-            "参考価格: \n￥52,800\n￥52,800"
-          ],
-          "sale_region_count": 1,
-          "sale_region_selector": "#dealBadge_feature_div",
-          "sale_label": "タイムセール",
-          "timer_count": 0,
-          "timer": null,
-          "challenge_detected": false,
-          "coupon_regions": [],
-          "primary_seller_ids": [],
-          "challenge_signals": [],
-          "schema_version": 1,
-          "requested_asin": "B08KTL2GZ5",
-          "url": "https://www.amazon.co.jp/dp/B08KTL2GZ5",
-          "http_status": 200,
-          "checked_at": "2026-10-14T09:58:32.897398+00:00",
-          "evidence_kind": "label",
-          "countdown": null,
-          "coupon": {
-            "status": "not_displayed",
-            "kind": null,
-            "value": null,
-            "basis_price_yen": 47520,
-            "application": "unknown",
-            "conditions": [],
-            "expires_at": null,
-            "expiry_status": "not_displayed",
-            "same_offer": false,
-            "stackable": false,
-            "final_price_yen": null,
-            "reason": null,
-            "evidence_text": "",
-            "source_url": "https://www.amazon.co.jp/dp/B08KTL2GZ5",
-            "asin": "B08KTL2GZ5"
-          }
-        },
-        "evidence_sha256": "54596A855C073DBC2C73D7DC0447CE65F82590FA8787DC7D69337F073AC18B3E"
+        "evidence_sha256": "C729653C950A414B885F2DF89D5BDA144A590F70B96E438946BD948318208873"
       }
     ],
-    "limits": {
-      "max_candidates": 24,
-      "timeout_seconds": 240
-    },
-    "detail_visits_started": 24,
-    "elapsed_seconds": 199.422,
+    "rejection_reasons": {},
     "budget_stop_reason": null,
-    "final_selected_count": 10,
-    "categories": {
-      "マウス": {
-        "collected_candidates": 0,
-        "verified_candidates": 0,
-        "final_selected": 0
-      },
-      "空気清浄機": {
-        "collected_candidates": 16,
-        "verified_candidates": 16,
-        "final_selected": 5
-      },
-      "スマートウォッチ": {
-        "collected_candidates": 5,
-        "verified_candidates": 5,
-        "final_selected": 3
-      },
-      "加湿器": {
-        "collected_candidates": 3,
-        "verified_candidates": 3,
-        "final_selected": 2
-      }
-    }
-  },
-  "supply_completion": {
-    "required_slots": 4,
-    "ready_before": 4,
-    "ready_after": 4,
-    "extra_batch_count": 0,
-    "added_asins": [],
-    "reason": "sufficient",
-    "max_extra_candidates": 24,
-    "max_extra_seconds": 240
+    "final_selected_count": 10
   },
   "discount_contract": {
     "schema_version": 1,
@@ -2015,11 +902,72 @@
           "asin": "B0HFRGJK9J"
         },
         "observed_at": "2026-10-14T09:55:21.370383+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B0HFRGJK9J"
+        "evidence_url": "https://www.amazon.co.jp/dp/B0HFRGJK9J",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-14T09:55:21.370383+00:00",
+          "asin": "B0HFRGJK9J",
+          "evidence_sha256": "2E7DBE64031AE3D9754ACD4E4F1EC9BB1D9E64B46A3C82E911F182B177D7519D",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0HFRGJK9J",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0HFWHQK9P",
+        "source_position": 2,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 9480,
+          "original_price_yen": 41999,
+          "discount_rate_percent": 77
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 9480,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0HFWHQK9P",
+          "asin": "B0HFWHQK9P"
+        },
+        "observed_at": "2026-10-13T12:50:04.861526+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0HFWHQK9P",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:50:04.861526+00:00",
+          "asin": "B0HFWHQK9P",
+          "evidence_sha256": "09AA0B210780FAE6F8C2D0D28ABF13EBE099BAAF74C38B00BFC47AA364E2DB4B",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0HFWHQK9P",
+          "selector": "#dealBadge_feature_div"
+        }
       },
       {
         "asin": "B0GYXPPL8Z",
-        "source_position": 2,
+        "source_position": 3,
         "observation_status": "verified",
         "base_offer": {
           "sale_price_yen": 8980,
@@ -2048,49 +996,30 @@
           "asin": "B0GYXPPL8Z"
         },
         "observed_at": "2026-10-14T09:55:32.055276+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B0GYXPPL8Z"
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GYXPPL8Z",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-14T09:55:32.055276+00:00",
+          "asin": "B0GYXPPL8Z",
+          "evidence_sha256": "F3C6CFAB64F6167EAD123C7492F955A93BD6B890B5E2C9102756FEF55413DAC3",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0GYXPPL8Z",
+          "selector": "#dealBadge_feature_div"
+        }
       },
       {
-        "asin": "B09N7BB1WK",
-        "source_position": 3,
-        "observation_status": "verified",
-        "base_offer": {
-          "sale_price_yen": 55609,
-          "original_price_yen": 93500,
-          "discount_rate_percent": 41
-        },
-        "time_sale": {
-          "verified": false,
-          "label": null
-        },
-        "coupon": {
-          "status": "not_displayed",
-          "kind": null,
-          "value": null,
-          "basis_price_yen": 55609,
-          "application": "unknown",
-          "conditions": [],
-          "expires_at": null,
-          "expiry_status": "not_displayed",
-          "same_offer": false,
-          "stackable": false,
-          "final_price_yen": null,
-          "reason": null,
-          "evidence_text": "",
-          "source_url": "https://www.amazon.co.jp/dp/B09N7BB1WK",
-          "asin": "B09N7BB1WK"
-        },
-        "observed_at": "2026-10-14T09:55:41.988839+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B09N7BB1WK"
-      },
-      {
-        "asin": "B0FKH3WQ41",
+        "asin": "B0F66MS88R",
         "source_position": 4,
         "observation_status": "verified",
         "base_offer": {
-          "sale_price_yen": 36800,
-          "original_price_yen": 48180,
-          "discount_rate_percent": 24
+          "sale_price_yen": 9980,
+          "original_price_yen": 13800,
+          "discount_rate_percent": 28
         },
         "time_sale": {
           "verified": false,
@@ -2100,7 +1029,7 @@
           "status": "not_displayed",
           "kind": null,
           "value": null,
-          "basis_price_yen": 36800,
+          "basis_price_yen": 9980,
           "application": "unknown",
           "conditions": [],
           "expires_at": null,
@@ -2110,81 +1039,29 @@
           "final_price_yen": null,
           "reason": null,
           "evidence_text": "",
-          "source_url": "https://www.amazon.co.jp/dp/B0FKH3WQ41",
-          "asin": "B0FKH3WQ41"
+          "source_url": "https://www.amazon.co.jp/dp/B0F66MS88R",
+          "asin": "B0F66MS88R"
         },
-        "observed_at": "2026-10-14T09:55:54.936855+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B0FKH3WQ41"
-      },
-      {
-        "asin": "B0GQL9JZS7",
-        "source_position": 5,
-        "observation_status": "verified",
-        "base_offer": {
-          "sale_price_yen": 11392,
-          "original_price_yen": 14800,
-          "discount_rate_percent": 23
-        },
-        "time_sale": {
-          "verified": false,
-          "label": null
-        },
-        "coupon": {
-          "status": "not_displayed",
-          "kind": null,
-          "value": null,
-          "basis_price_yen": 11392,
-          "application": "unknown",
-          "conditions": [],
-          "expires_at": null,
-          "expiry_status": "not_displayed",
-          "same_offer": false,
-          "stackable": false,
-          "final_price_yen": null,
-          "reason": null,
-          "evidence_text": "",
-          "source_url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
-          "asin": "B0GQL9JZS7"
-        },
-        "observed_at": "2026-10-14T09:56:04.838346+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B0GQL9JZS7"
-      },
-      {
-        "asin": "B0FPGCXYV5",
-        "source_position": 6,
-        "observation_status": "verified",
-        "base_offer": {
-          "sale_price_yen": 16800,
-          "original_price_yen": 19800,
-          "discount_rate_percent": 15
-        },
-        "time_sale": {
-          "verified": false,
-          "label": null
-        },
-        "coupon": {
-          "status": "not_displayed",
-          "kind": null,
-          "value": null,
-          "basis_price_yen": 16800,
-          "application": "unknown",
-          "conditions": [],
-          "expires_at": null,
-          "expiry_status": "not_displayed",
-          "same_offer": false,
-          "stackable": false,
-          "final_price_yen": null,
-          "reason": null,
-          "evidence_text": "",
-          "source_url": "https://www.amazon.co.jp/dp/B0FPGCXYV5",
-          "asin": "B0FPGCXYV5"
-        },
-        "observed_at": "2026-10-14T09:56:16.096432+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B0FPGCXYV5"
+        "observed_at": "2026-10-14T09:12:27.999937+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0F66MS88R",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-14T09:12:27.999937+00:00",
+          "asin": "B0F66MS88R",
+          "evidence_sha256": "0B1A80C3FF8EC5A47EFCECCE23F3142FC0094BFDF11763D0E530CBD2799E7229",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0F66MS88R",
+          "selector": "#dealBadge_feature_div"
+        }
       },
       {
         "asin": "B0DP2KLMMT",
-        "source_position": 7,
+        "source_position": 5,
         "observation_status": "verified",
         "base_offer": {
           "sale_price_yen": 29800,
@@ -2213,7 +1090,115 @@
           "asin": "B0DP2KLMMT"
         },
         "observed_at": "2026-10-14T09:56:23.790739+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B0DP2KLMMT"
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DP2KLMMT",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-14T09:56:23.790739+00:00",
+          "asin": "B0DP2KLMMT",
+          "evidence_sha256": "E2C6CD0BDBBE082A38149D35AEB764D033E99C22645764E52734406FD59B1CF5",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0DP2KLMMT",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B09132462N",
+        "source_position": 6,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 28800,
+          "original_price_yen": 38280,
+          "discount_rate_percent": 25
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 28800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B09132462N",
+          "asin": "B09132462N"
+        },
+        "observed_at": "2026-10-13T12:48:03.044597+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B09132462N",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:48:03.044597+00:00",
+          "asin": "B09132462N",
+          "evidence_sha256": "446333480994C1A3A1EC598C36F1E40486E45DF6F8DC162E45AE97BF47EDD02B",
+          "evidence_url": "https://www.amazon.co.jp/dp/B09132462N",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0CL4R54X4",
+        "source_position": 7,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 14850,
+          "original_price_yen": 19800,
+          "discount_rate_percent": 25
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 14850,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0CL4R54X4",
+          "asin": "B0CL4R54X4"
+        },
+        "observed_at": "2026-10-13T12:50:37.915022+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0CL4R54X4",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:50:37.915022+00:00",
+          "asin": "B0CL4R54X4",
+          "evidence_sha256": "9B678BB27C65B88C0E792E74C7AE49B1C4FDBAB7BDA4DA54B19CBEC23DD84BD6",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0CL4R54X4",
+          "selector": "#dealBadge_feature_div"
+        }
       },
       {
         "asin": "B0DP2K324K",
@@ -2246,16 +1231,30 @@
           "asin": "B0DP2K324K"
         },
         "observed_at": "2026-10-14T09:56:32.705489+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B0DP2K324K"
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DP2K324K",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-14T09:56:32.705489+00:00",
+          "asin": "B0DP2K324K",
+          "evidence_sha256": "F078069DCD6C8C621DD99F71DA03B2A6F8773F80CBDDA520A3E4A672A512437B",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0DP2K324K",
+          "selector": "#dealBadge_feature_div"
+        }
       },
       {
-        "asin": "B0D86SSFFF",
+        "asin": "B0H2811RFL",
         "source_position": 9,
         "observation_status": "verified",
         "base_offer": {
-          "sale_price_yen": 10800,
-          "original_price_yen": 13800,
-          "discount_rate_percent": 22
+          "sale_price_yen": 8980,
+          "original_price_yen": 11880,
+          "discount_rate_percent": 24
         },
         "time_sale": {
           "verified": false,
@@ -2265,7 +1264,7 @@
           "status": "not_displayed",
           "kind": null,
           "value": null,
-          "basis_price_yen": 10800,
+          "basis_price_yen": 8980,
           "application": "unknown",
           "conditions": [],
           "expires_at": null,
@@ -2275,20 +1274,34 @@
           "final_price_yen": null,
           "reason": null,
           "evidence_text": "",
-          "source_url": "https://www.amazon.co.jp/dp/B0D86SSFFF",
-          "asin": "B0D86SSFFF"
+          "source_url": "https://www.amazon.co.jp/dp/B0H2811RFL",
+          "asin": "B0H2811RFL"
         },
-        "observed_at": "2026-10-14T09:56:41.646682+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B0D86SSFFF"
+        "observed_at": "2026-10-13T12:50:35.252164+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H2811RFL",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:50:35.252164+00:00",
+          "asin": "B0H2811RFL",
+          "evidence_sha256": "94B8538E5D9B026D89B5917F92891BC405E448C0E5EF21A43527D201E596AA5F",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0H2811RFL",
+          "selector": "#dealBadge_feature_div"
+        }
       },
       {
-        "asin": "B0GJSCGFTP",
+        "asin": "B0GQL9JZS7",
         "source_position": 10,
         "observation_status": "verified",
         "base_offer": {
-          "sale_price_yen": 9227,
-          "original_price_yen": 11880,
-          "discount_rate_percent": 22
+          "sale_price_yen": 11392,
+          "original_price_yen": 14800,
+          "discount_rate_percent": 23
         },
         "time_sale": {
           "verified": false,
@@ -2298,7 +1311,7 @@
           "status": "not_displayed",
           "kind": null,
           "value": null,
-          "basis_price_yen": 9227,
+          "basis_price_yen": 11392,
           "application": "unknown",
           "conditions": [],
           "expires_at": null,
@@ -2308,22 +1321,223 @@
           "final_price_yen": null,
           "reason": null,
           "evidence_text": "",
-          "source_url": "https://www.amazon.co.jp/dp/B0GJSCGFTP",
-          "asin": "B0GJSCGFTP"
+          "source_url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
+          "asin": "B0GQL9JZS7"
         },
-        "observed_at": "2026-10-14T09:56:50.071226+00:00",
-        "evidence_url": "https://www.amazon.co.jp/dp/B0GJSCGFTP"
+        "observed_at": "2026-10-14T10:01:08.720318+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-14T10:01:08.720318+00:00",
+          "asin": "B0GQL9JZS7",
+          "evidence_sha256": "C729653C950A414B885F2DF89D5BDA144A590F70B96E438946BD948318208873",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
+          "selector": "#dealBadge_feature_div"
+        }
       }
     ]
   },
-  "sale_name": "Amazon セール",
-  "coupon_search": {
-    "page_limit": 2,
-    "timeout_seconds": 60,
-    "pages_attempted": 0,
-    "unique_added": 0,
-    "main_search_coupon_candidates": 1,
-    "reason": "main_search_already_found_coupon",
-    "elapsed_seconds": 0.0
+  "source_reselection": {
+    "schema_version": 1,
+    "method": "prime_appreciation_2026_recorded_git_pool_prime_verified_v2",
+    "authority": "user_authorized_upstream_prime_recovery",
+    "pool_origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+    "pool_source_dates": [
+      "2026-10-14",
+      "2026-10-15"
+    ],
+    "created_at": "2026-10-14T19:14:03.094415+09:00",
+    "new_amazon_accesses": 0,
+    "new_pdp_visits": 0,
+    "evidence_reuse_label": "既存Git公開証拠のプライム参加確認済み再選定",
+    "automatic_fallback": false,
+    "fixed_factory_source_replacement_authorized": false,
+    "selected_origins": [
+      {
+        "target_source_position": 1,
+        "asin": "B0HFRGJK9J",
+        "category": "加湿器#2",
+        "origin_account": 3,
+        "origin_date": "2026-10-15",
+        "origin_source_position": 1,
+        "origin_observation_position": 1,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account3/products_2026-10-15.json",
+        "origin_summary_path": "data/account3/scrape_summary_2026-10-15.json",
+        "origin_products_sha256": "c22da00dd515a69e5c14b992ae5efcefdd191feee35d14b5577a5b5e84688523",
+        "origin_summary_sha256": "72136d5cfe453760170c2c5b2475aaff599a7abafc8143441688fd88c716a0db",
+        "origin_record_sha256": "d594da66eb25d605d02368c65b9c357f8551dac744e4a1a0227e9e767c15c8e2",
+        "evidence_sha256": "2E7DBE64031AE3D9754ACD4E4F1EC9BB1D9E64B46A3C82E911F182B177D7519D",
+        "checked_at": "2026-10-14T09:55:21.370383+00:00"
+      },
+      {
+        "target_source_position": 2,
+        "asin": "B0HFWHQK9P",
+        "category": "加湿器#18",
+        "origin_account": 7,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 2,
+        "origin_observation_position": 2,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account7/products_2026-10-14.json",
+        "origin_summary_path": "data/account7/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "0518a7161679b4f8815d0ab25ebc630db4caaf167121fa479e2e5e5850bf50f4",
+        "origin_summary_sha256": "affcfac0483b006bc864e5ac698252fb73d70d444c4817072a245a822d75ac9a",
+        "origin_record_sha256": "e096bb01e320541c15dbda869fc8a35a4f9a1e16ff15edc46bebb99b5b984062",
+        "evidence_sha256": "09AA0B210780FAE6F8C2D0D28ABF13EBE099BAAF74C38B00BFC47AA364E2DB4B",
+        "checked_at": "2026-10-13T12:50:04.861526+00:00"
+      },
+      {
+        "target_source_position": 3,
+        "asin": "B0GYXPPL8Z",
+        "category": "空気清浄機#12",
+        "origin_account": 3,
+        "origin_date": "2026-10-15",
+        "origin_source_position": 2,
+        "origin_observation_position": 2,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account3/products_2026-10-15.json",
+        "origin_summary_path": "data/account3/scrape_summary_2026-10-15.json",
+        "origin_products_sha256": "c22da00dd515a69e5c14b992ae5efcefdd191feee35d14b5577a5b5e84688523",
+        "origin_summary_sha256": "72136d5cfe453760170c2c5b2475aaff599a7abafc8143441688fd88c716a0db",
+        "origin_record_sha256": "3132bf1bd9663c19d08845786707054c1bb4ae88c1ddbdce22fe10611ab528ae",
+        "evidence_sha256": "F3C6CFAB64F6167EAD123C7492F955A93BD6B890B5E2C9102756FEF55413DAC3",
+        "checked_at": "2026-10-14T09:55:32.055276+00:00"
+      },
+      {
+        "target_source_position": 4,
+        "asin": "B0F66MS88R",
+        "category": "スマートウォッチ#16",
+        "origin_account": 2,
+        "origin_date": "2026-10-15",
+        "origin_source_position": 3,
+        "origin_observation_position": 3,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account2/products_2026-10-15.json",
+        "origin_summary_path": "data/account2/scrape_summary_2026-10-15.json",
+        "origin_products_sha256": "b2521e11498e7d0bfa00cc07b37b5381706f89f08696a3f9ca59a2040ba17b59",
+        "origin_summary_sha256": "d9a36c14f13104999a7eaef832a8a6af49e6bba5424531a030c077276e73de60",
+        "origin_record_sha256": "4b484d7a78bb03e105a54f4463b65b04138d6d5bc87cd499027d440c82f5f61b",
+        "evidence_sha256": "0B1A80C3FF8EC5A47EFCECCE23F3142FC0094BFDF11763D0E530CBD2799E7229",
+        "checked_at": "2026-10-14T09:12:27.999937+00:00"
+      },
+      {
+        "target_source_position": 5,
+        "asin": "B0DP2KLMMT",
+        "category": "空気清浄機#1",
+        "origin_account": 3,
+        "origin_date": "2026-10-15",
+        "origin_source_position": 7,
+        "origin_observation_position": 7,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account3/products_2026-10-15.json",
+        "origin_summary_path": "data/account3/scrape_summary_2026-10-15.json",
+        "origin_products_sha256": "c22da00dd515a69e5c14b992ae5efcefdd191feee35d14b5577a5b5e84688523",
+        "origin_summary_sha256": "72136d5cfe453760170c2c5b2475aaff599a7abafc8143441688fd88c716a0db",
+        "origin_record_sha256": "1a404a62d5ec5f97b2f019d5aed14df3e7aa208f0f19df13fa4225d1b8a32d26",
+        "evidence_sha256": "E2C6CD0BDBBE082A38149D35AEB764D033E99C22645764E52734406FD59B1CF5",
+        "checked_at": "2026-10-14T09:56:23.790739+00:00"
+      },
+      {
+        "target_source_position": 6,
+        "asin": "B09132462N",
+        "category": "スマートウォッチ#11",
+        "origin_account": 10,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 2,
+        "origin_observation_position": 2,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account10/products_2026-10-14.json",
+        "origin_summary_path": "data/account10/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "cc152bf7dfbe7887f0c23962ab86314312fb0c6719d28e0886365dd41c60f886",
+        "origin_summary_sha256": "454b2561061aa3e71e1ba8ed6c94c89cc51815ffadda395b4d4034193f0f3c76",
+        "origin_record_sha256": "0b258d684f363de7e98ce4a7c237f727cd7b464aec0e443f493808b7c419ef28",
+        "evidence_sha256": "446333480994C1A3A1EC598C36F1E40486E45DF6F8DC162E45AE97BF47EDD02B",
+        "checked_at": "2026-10-13T12:48:03.044597+00:00"
+      },
+      {
+        "target_source_position": 7,
+        "asin": "B0CL4R54X4",
+        "category": "加湿器#20",
+        "origin_account": 7,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 7,
+        "origin_observation_position": 7,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account7/products_2026-10-14.json",
+        "origin_summary_path": "data/account7/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "0518a7161679b4f8815d0ab25ebc630db4caaf167121fa479e2e5e5850bf50f4",
+        "origin_summary_sha256": "affcfac0483b006bc864e5ac698252fb73d70d444c4817072a245a822d75ac9a",
+        "origin_record_sha256": "a42f799de90ce3a7c316cd830c657a34c12dbb051399b900c7bfb72d7585d61a",
+        "evidence_sha256": "9B678BB27C65B88C0E792E74C7AE49B1C4FDBAB7BDA4DA54B19CBEC23DD84BD6",
+        "checked_at": "2026-10-13T12:50:37.915022+00:00"
+      },
+      {
+        "target_source_position": 8,
+        "asin": "B0DP2K324K",
+        "category": "空気清浄機#11",
+        "origin_account": 3,
+        "origin_date": "2026-10-15",
+        "origin_source_position": 8,
+        "origin_observation_position": 8,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account3/products_2026-10-15.json",
+        "origin_summary_path": "data/account3/scrape_summary_2026-10-15.json",
+        "origin_products_sha256": "c22da00dd515a69e5c14b992ae5efcefdd191feee35d14b5577a5b5e84688523",
+        "origin_summary_sha256": "72136d5cfe453760170c2c5b2475aaff599a7abafc8143441688fd88c716a0db",
+        "origin_record_sha256": "e4f97034e238d72defc3fb9d27f2081aeac345966c903b0c99c098ea18aaf5b7",
+        "evidence_sha256": "F078069DCD6C8C621DD99F71DA03B2A6F8773F80CBDDA520A3E4A672A512437B",
+        "checked_at": "2026-10-14T09:56:32.705489+00:00"
+      },
+      {
+        "target_source_position": 9,
+        "asin": "B0H2811RFL",
+        "category": "加湿器#5",
+        "origin_account": 11,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 4,
+        "origin_observation_position": 4,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account11/products_2026-10-14.json",
+        "origin_summary_path": "data/account11/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "1250ba1e746e22e01439bab40158228335f4d33c4f5b1c5444722fe77191d665",
+        "origin_summary_sha256": "ff91eef82f1c881bfb8d5692b3b5783ddba6ed171946e1deceb687e381b0b9db",
+        "origin_record_sha256": "42fdd458ab380e7da1916e0717c40650ea2e7349dcbd1bb6d8bf82371c595dd4",
+        "evidence_sha256": "94B8538E5D9B026D89B5917F92891BC405E448C0E5EF21A43527D201E596AA5F",
+        "checked_at": "2026-10-13T12:50:35.252164+00:00"
+      },
+      {
+        "target_source_position": 10,
+        "asin": "B0GQL9JZS7",
+        "category": "スマートウォッチ#10",
+        "origin_account": 6,
+        "origin_date": "2026-10-15",
+        "origin_source_position": 5,
+        "origin_observation_position": 5,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account6/products_2026-10-15.json",
+        "origin_summary_path": "data/account6/scrape_summary_2026-10-15.json",
+        "origin_products_sha256": "09f61fb079bdf1338bb640255dc8b29bb0a7533750a35c4c349889318f2a1c25",
+        "origin_summary_sha256": "97616d9770e9830bba05140e41f748fd82f494ef3a4c7555f16e93a475adf83c",
+        "origin_record_sha256": "28ba55bd8a570de9fd7223ef03018dbbdedbc7eadd4628bfd724b25091d116e8",
+        "evidence_sha256": "C729653C950A414B885F2DF89D5BDA144A590F70B96E438946BD948318208873",
+        "checked_at": "2026-10-14T10:01:08.720318+00:00"
+      }
+    ],
+    "exclusion": {
+      "commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+      "path": "data/account3/asin_history.json",
+      "git_blob_sha256": "1e56691d06f65e203f7ccb09c8d16f581ca9fb60fb0619a2ab8cb426993aa6ab",
+      "within_days": 20,
+      "include_scraped": false,
+      "include_product_identifiers": true,
+      "reference_date": "2026-10-15"
+    }
   }
 }

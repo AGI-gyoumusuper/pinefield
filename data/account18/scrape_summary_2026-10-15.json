@@ -1,0 +1,1545 @@
+{
+  "date": "2026-10-15",
+  "total_taken": 10,
+  "campaign": {
+    "schema": 1,
+    "id": "prime_appreciation_2026",
+    "policy": "prime_appreciation_2026_electronics_prime_verified_v2",
+    "account": 18,
+    "date": "2026-10-15",
+    "starts_at": "2026-10-13T00:00:00+09:00",
+    "ends_at": "2026-10-20T00:00:00+09:00",
+    "min_price": 8000,
+    "selection_mode": "global_ranked",
+    "categories": [
+      {
+        "name": "スティッククリーナー",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A13698351%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "PCモニター",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A2151982051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "炊飯器・精米機",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A4083391%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "マウス",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A2151978051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      }
+    ],
+    "allocation_method": "daily_rotation_20_nodes_offsets_0_1_4_5_shift_3",
+    "official_source": "https://www.aboutamazon.jp/news/amazon-prime/prime-appreciation-sale-2026",
+    "config_sha256": "8726b65d5e8cf2ebd9393a13f462e63c3087e6503597749730332a3e6cbbb8ea"
+  },
+  "sale_name": "Amazon プライム感謝祭先行セール",
+  "selection_policy": {
+    "selection_mode": "global_ranked",
+    "sort_order": "sale_first",
+    "require_sale_info": true,
+    "max_per_category": 2,
+    "max_total_items": 10,
+    "min_price": 8000,
+    "verify_detail_offer": true,
+    "offer_scope": "unified_discounts",
+    "discount_contract": "amazon_direct_discounts_v1",
+    "require_prime_event": true
+  },
+  "categories": {
+    "スティッククリーナー": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 3,
+      "final_selected": 3
+    },
+    "PCモニター": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 8,
+      "final_selected": 5
+    },
+    "炊飯器・精米機": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 11,
+      "final_selected": 2
+    },
+    "マウス": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 0,
+      "final_selected": 0
+    }
+  },
+  "excluded_loaded": 70,
+  "excluded_gtins_loaded": 8,
+  "excluded_brand_models_loaded": 45,
+  "skipped_product_identity": 0,
+  "skipped_product_identity_reasons": {},
+  "detail_offer_verification": {
+    "schema_version": 1,
+    "enabled": true,
+    "offer_scope": "unified_discounts",
+    "sale_name": "Amazon セール",
+    "mode": "recorded_prime_git_pool_reselection",
+    "new_amazon_accesses": 0,
+    "detail_visits_started": 0,
+    "elapsed_seconds": 0,
+    "raw_candidate_count": 22,
+    "candidate_count": 10,
+    "accepted_count": 10,
+    "rejected_count": 0,
+    "observations": [
+      {
+        "asin": "B0H338Z389",
+        "category": "スティッククリーナー#11",
+        "checked_at": "2026-10-13T12:50:33.367318+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥47,800",
+          "price_int": 47800,
+          "original_price": "￥99,000",
+          "discount_rate": "52%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥47,800",
+          "price_int": 47800,
+          "original_price": "￥99,000",
+          "discount_rate": "52%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H338Z389",
+            "B0H338Z389"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】Shark シャーク 掃除機 自動ゴミ収集ドック付き スティック クリーナー IW4175JBK",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "47,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-52%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥99,000\n￥99,000"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H338Z389",
+          "url": "https://www.amazon.co.jp/dp/B0H338Z389",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:50:33.367318+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 47800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H338Z389",
+            "asin": "B0H338Z389"
+          }
+        },
+        "evidence_sha256": "C395C34A84C12149FAB689C505F8713FBE882950D84D6D25ED823F7FC3405C60"
+      },
+      {
+        "asin": "B0FH1PQ8V6",
+        "category": "PCモニター#16",
+        "checked_at": "2026-10-13T15:05:40.112231+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥19,800",
+          "price_int": 19800,
+          "original_price": "￥35,800",
+          "discount_rate": "45%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥19,800",
+          "price_int": 19800,
+          "original_price": "￥35,800",
+          "discount_rate": "45%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FH1PQ8V6",
+            "B0FH1PQ8V6"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp 限定】AOC ゲーミングモニター 27インチ, 最大260hz, WQHD/2560x1440, 応答速度0.3ms(MPRT), Fast IPS, HDMI2.0x2/ DP1.4x1, Adaptive Sync対応, HDR400認証, 高さ調節, FPS向け, PS5/Switch対応, 縦横回転, ケーブル付属, 3年保証, スピーカー無　Q27G4Z/11",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "19,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-45%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥35,800\n￥35,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FH1PQ8V6",
+          "url": "https://www.amazon.co.jp/dp/B0FH1PQ8V6",
+          "http_status": 200,
+          "checked_at": "2026-10-13T15:05:40.112231+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 19800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FH1PQ8V6",
+            "asin": "B0FH1PQ8V6"
+          }
+        },
+        "evidence_sha256": "4ABC83818D2CB0A10A3ED0072D1C826BAB56CB238E471262B2A2A492F2614952"
+      },
+      {
+        "asin": "B0DJNBX5D1",
+        "category": "スティッククリーナー#10",
+        "checked_at": "2026-10-13T12:50:40.072989+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥14,800",
+          "price_int": 14800,
+          "original_price": "￥25,080",
+          "discount_rate": "41%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥14,800",
+          "price_int": 14800,
+          "original_price": "￥25,080",
+          "discount_rate": "41%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DJNBX5D1",
+            "B0DJNBX5D1"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "[山善] 掃除機 コードレス 軽量 980g スティック ハンディ 一人暮らし 充電式 サイクロン 自走式 パワーブラシ搭載 強力吸引 収納スタンド付き ホワイト ESP-SL600(W)",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "14,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-41%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥25,080\n￥25,080"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DJNBX5D1",
+          "url": "https://www.amazon.co.jp/dp/B0DJNBX5D1",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:50:40.072989+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 14800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DJNBX5D1",
+            "asin": "B0DJNBX5D1"
+          }
+        },
+        "evidence_sha256": "4A4474DD93226C37AE015C1FA6A1371A7CC7F04D68BD90A749FBE170EE50AC0B"
+      },
+      {
+        "asin": "B0F4DJ38VR",
+        "category": "炊飯器・精米機#15",
+        "checked_at": "2026-10-14T09:12:21.062337+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥8,780",
+          "price_int": 8780,
+          "original_price": "￥12,320",
+          "discount_rate": "29%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥8,780",
+          "price_int": 8780,
+          "original_price": "￥12,320",
+          "discount_rate": "29%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F4DJ38VR",
+            "B0F4DJ38VR"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "“ ヘルスケア 炊飯器 ていとうシェフ ” 5合炊き 多機能 タンパク質を壊さない 低温調理 朝もスッキリ 発酵調理 素材の味を生かす 無水調理 低糖質ごはん rice cooker 一人暮らし マルチクッカー Areti-r2250 (ホワイト, レシピ本無し)",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,780"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-29%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥12,320\n￥12,320"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0F4DJ38VR",
+          "url": "https://www.amazon.co.jp/dp/B0F4DJ38VR",
+          "http_status": 200,
+          "checked_at": "2026-10-14T09:12:21.062337+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8780,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F4DJ38VR",
+            "asin": "B0F4DJ38VR"
+          }
+        },
+        "evidence_sha256": "C558E91A0CBF1C218E99D825E879C98075B400FCD6062955143DEDB5198DAC84"
+      },
+      {
+        "asin": "B0F7X3VJ99",
+        "category": "PCモニター#10",
+        "checked_at": "2026-10-13T15:05:47.046023+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥44,820",
+          "price_int": 44820,
+          "original_price": "￥59,800",
+          "discount_rate": "25%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥44,820",
+          "price_int": 44820,
+          "original_price": "￥59,800",
+          "discount_rate": "25%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F7X3VJ99",
+            "B0F7X3VJ99",
+            "B0F7X3VJ99"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "IODATA GigaCrysta ゲーミングモニター 27型 WQHD 200Hz MiniLED (HDMI/DP) EX-GDQ271JLAQ",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "44,820"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-25%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥59,800\n￥59,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0F7X3VJ99",
+          "url": "https://www.amazon.co.jp/dp/B0F7X3VJ99",
+          "http_status": 200,
+          "checked_at": "2026-10-13T15:05:47.046023+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 44820,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F7X3VJ99",
+            "asin": "B0F7X3VJ99"
+          }
+        },
+        "evidence_sha256": "AC6058E5F7667AD770C4E394E566CB12C1E444B3AC357C427AB1561C3D86E1FC"
+      },
+      {
+        "asin": "B0C7QGK4TD",
+        "category": "炊飯器・精米機#7",
+        "checked_at": "2026-10-13T15:05:53.717702+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥29,800",
+          "price_int": 29800,
+          "original_price": "￥39,800",
+          "discount_rate": "25%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥29,800",
+          "price_int": 29800,
+          "original_price": "￥39,800",
+          "discount_rate": "25%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0C7QGK4TD",
+            "B0C7QGK4TD"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "日立 炊飯器 5.5合 圧力&スチームIH 蒸気カット 日本製 RZ-V100GM K フロストブラック",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "29,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-25%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥39,800\n￥39,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0C7QGK4TD",
+          "url": "https://www.amazon.co.jp/dp/B0C7QGK4TD",
+          "http_status": 200,
+          "checked_at": "2026-10-13T15:05:53.717702+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 29800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0C7QGK4TD",
+            "asin": "B0C7QGK4TD"
+          }
+        },
+        "evidence_sha256": "5DF26BF54FA931A00C90D559D16B91AF9304A9DE201170B9355A2E7F16CEC8EC"
+      },
+      {
+        "asin": "B0F8HDTNLT",
+        "category": "スティッククリーナー#2",
+        "checked_at": "2026-10-13T12:51:13.770104+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥39,800",
+          "price_int": 39800,
+          "original_price": "￥63,800",
+          "discount_rate": "38%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥39,800",
+          "price_int": 39800,
+          "original_price": "￥63,800",
+          "discount_rate": "38%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F8HDTNLT",
+            "B0F8HDTNLT"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】 Shark シャーク 掃除機 自動ゴミ収集ドック付き スティッククリーナー LC350JWH ミスティックホワイト",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "39,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-38%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥63,800\n￥63,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0F8HDTNLT",
+          "url": "https://www.amazon.co.jp/dp/B0F8HDTNLT",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:51:13.770104+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 39800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F8HDTNLT",
+            "asin": "B0F8HDTNLT"
+          }
+        },
+        "evidence_sha256": "96F7F7A3458B386D4A4AAFB05CD1A0675559D54F6DEABBDDFB5CD2D4D9927EE0"
+      },
+      {
+        "asin": "B0GNR572Y6",
+        "category": "PCモニター#9",
+        "checked_at": "2026-10-13T15:06:07.020411+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥14,980",
+          "price_int": 14980,
+          "original_price": "￥19,800",
+          "discount_rate": "24%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥14,980",
+          "price_int": 14980,
+          "original_price": "￥19,800",
+          "discount_rate": "24%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GNR572Y6",
+            "B0GNR572Y6",
+            "B0GNR572Y6"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "iiyama 【5年メーカー保証】モニター ディスプレイ ProLite XB2491HS-B1J 23.8インチ フルHD IPS方式 高さ調整 角度調整 縦回転 HDMI DisplayPort ケーブル付 国内サポート",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "14,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-24%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥19,800\n￥19,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GNR572Y6",
+          "url": "https://www.amazon.co.jp/dp/B0GNR572Y6",
+          "http_status": 200,
+          "checked_at": "2026-10-13T15:06:07.020411+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 14980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GNR572Y6",
+            "asin": "B0GNR572Y6"
+          }
+        },
+        "evidence_sha256": "EE2E7FC9FB1CC1310FEF863639A75CEDB4C5AA9851A5523C065C835031739243"
+      },
+      {
+        "asin": "B0F1RSB82P",
+        "category": "PCモニター#18",
+        "checked_at": "2026-10-13T15:06:20.984127+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥18,900",
+          "price_int": 18900,
+          "original_price": "￥23,980",
+          "discount_rate": "21%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥18,900",
+          "price_int": 18900,
+          "original_price": "￥23,980",
+          "discount_rate": "21%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F1RSB82P",
+            "B0F1RSB82P",
+            "B0F1RSB82P"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "PHILIPS 液晶ディスプレイ PCモニター 24E1N5500B/11 (23.8インチ/5年保証/WQHD/IPS/HDMI,Display Port/高さ調整/チルト/ピボット/フレームレス/Adaptive Sync/ちらつき防止/ブルーライト軽減/sRGB121.46%)",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "18,900"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-21%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥23,980\n￥23,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0F1RSB82P",
+          "url": "https://www.amazon.co.jp/dp/B0F1RSB82P",
+          "http_status": 200,
+          "checked_at": "2026-10-13T15:06:20.984127+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 18900,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F1RSB82P",
+            "asin": "B0F1RSB82P"
+          }
+        },
+        "evidence_sha256": "42C0DC8D70A54107C20750AF4ADAA68A6FD4EA72FD03BB8575594185351B7FEB"
+      },
+      {
+        "asin": "B0DYMYGV78",
+        "category": "PCモニター#10",
+        "checked_at": "2026-10-13T12:47:26.422589+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥17,980",
+          "price_int": 17980,
+          "original_price": "￥22,880",
+          "discount_rate": "21%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥17,980",
+          "price_int": 17980,
+          "original_price": "￥22,880",
+          "discount_rate": "21%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DYMYGV78",
+            "B0DYMYGV78"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "iiyama 【5年メーカー保証】モニター ディスプレイ XUB2793HS-B7A 27インチ フルHD IPS方式 高さ調整 角度調整 縦回転 HDMI DisplayPort 全ケーブル付 国内サポート",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "17,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-21%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥22,880\n￥22,880"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DYMYGV78",
+          "url": "https://www.amazon.co.jp/dp/B0DYMYGV78",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:47:26.422589+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 17980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DYMYGV78",
+            "asin": "B0DYMYGV78"
+          }
+        },
+        "evidence_sha256": "0715A40781ECB99641D17854CAA7DCE0DC67A45992CC74B70EEDD57D02437071"
+      }
+    ],
+    "rejection_reasons": {},
+    "budget_stop_reason": null,
+    "final_selected_count": 10
+  },
+  "discount_contract": {
+    "schema_version": 1,
+    "policy": "amazon_direct_discounts_v1",
+    "account": 18,
+    "date": "2026-10-15",
+    "products": [
+      {
+        "asin": "B0H338Z389",
+        "source_position": 1,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 47800,
+          "original_price_yen": 99000,
+          "discount_rate_percent": 52
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 47800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0H338Z389",
+          "asin": "B0H338Z389"
+        },
+        "observed_at": "2026-10-13T12:50:33.367318+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H338Z389",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:50:33.367318+00:00",
+          "asin": "B0H338Z389",
+          "evidence_sha256": "C395C34A84C12149FAB689C505F8713FBE882950D84D6D25ED823F7FC3405C60",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0H338Z389",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0FH1PQ8V6",
+        "source_position": 2,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 19800,
+          "original_price_yen": 35800,
+          "discount_rate_percent": 45
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 19800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0FH1PQ8V6",
+          "asin": "B0FH1PQ8V6"
+        },
+        "observed_at": "2026-10-13T15:05:40.112231+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0FH1PQ8V6",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T15:05:40.112231+00:00",
+          "asin": "B0FH1PQ8V6",
+          "evidence_sha256": "4ABC83818D2CB0A10A3ED0072D1C826BAB56CB238E471262B2A2A492F2614952",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0FH1PQ8V6",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0DJNBX5D1",
+        "source_position": 3,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 14800,
+          "original_price_yen": 25080,
+          "discount_rate_percent": 41
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 14800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0DJNBX5D1",
+          "asin": "B0DJNBX5D1"
+        },
+        "observed_at": "2026-10-13T12:50:40.072989+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DJNBX5D1",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:50:40.072989+00:00",
+          "asin": "B0DJNBX5D1",
+          "evidence_sha256": "4A4474DD93226C37AE015C1FA6A1371A7CC7F04D68BD90A749FBE170EE50AC0B",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0DJNBX5D1",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0F4DJ38VR",
+        "source_position": 4,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 8780,
+          "original_price_yen": 12320,
+          "discount_rate_percent": 29
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 8780,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0F4DJ38VR",
+          "asin": "B0F4DJ38VR"
+        },
+        "observed_at": "2026-10-14T09:12:21.062337+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0F4DJ38VR",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-14T09:12:21.062337+00:00",
+          "asin": "B0F4DJ38VR",
+          "evidence_sha256": "C558E91A0CBF1C218E99D825E879C98075B400FCD6062955143DEDB5198DAC84",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0F4DJ38VR",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0F7X3VJ99",
+        "source_position": 5,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 44820,
+          "original_price_yen": 59800,
+          "discount_rate_percent": 25
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 44820,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0F7X3VJ99",
+          "asin": "B0F7X3VJ99"
+        },
+        "observed_at": "2026-10-13T15:05:47.046023+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0F7X3VJ99",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T15:05:47.046023+00:00",
+          "asin": "B0F7X3VJ99",
+          "evidence_sha256": "AC6058E5F7667AD770C4E394E566CB12C1E444B3AC357C427AB1561C3D86E1FC",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0F7X3VJ99",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0C7QGK4TD",
+        "source_position": 6,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 29800,
+          "original_price_yen": 39800,
+          "discount_rate_percent": 25
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 29800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0C7QGK4TD",
+          "asin": "B0C7QGK4TD"
+        },
+        "observed_at": "2026-10-13T15:05:53.717702+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0C7QGK4TD",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T15:05:53.717702+00:00",
+          "asin": "B0C7QGK4TD",
+          "evidence_sha256": "5DF26BF54FA931A00C90D559D16B91AF9304A9DE201170B9355A2E7F16CEC8EC",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0C7QGK4TD",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0F8HDTNLT",
+        "source_position": 7,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 39800,
+          "original_price_yen": 63800,
+          "discount_rate_percent": 38
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 39800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0F8HDTNLT",
+          "asin": "B0F8HDTNLT"
+        },
+        "observed_at": "2026-10-13T12:51:13.770104+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0F8HDTNLT",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:51:13.770104+00:00",
+          "asin": "B0F8HDTNLT",
+          "evidence_sha256": "96F7F7A3458B386D4A4AAFB05CD1A0675559D54F6DEABBDDFB5CD2D4D9927EE0",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0F8HDTNLT",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0GNR572Y6",
+        "source_position": 8,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 14980,
+          "original_price_yen": 19800,
+          "discount_rate_percent": 24
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 14980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GNR572Y6",
+          "asin": "B0GNR572Y6"
+        },
+        "observed_at": "2026-10-13T15:06:07.020411+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GNR572Y6",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T15:06:07.020411+00:00",
+          "asin": "B0GNR572Y6",
+          "evidence_sha256": "EE2E7FC9FB1CC1310FEF863639A75CEDB4C5AA9851A5523C065C835031739243",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0GNR572Y6",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0F1RSB82P",
+        "source_position": 9,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 18900,
+          "original_price_yen": 23980,
+          "discount_rate_percent": 21
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 18900,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0F1RSB82P",
+          "asin": "B0F1RSB82P"
+        },
+        "observed_at": "2026-10-13T15:06:20.984127+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0F1RSB82P",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T15:06:20.984127+00:00",
+          "asin": "B0F1RSB82P",
+          "evidence_sha256": "42C0DC8D70A54107C20750AF4ADAA68A6FD4EA72FD03BB8575594185351B7FEB",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0F1RSB82P",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0DYMYGV78",
+        "source_position": 10,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 17980,
+          "original_price_yen": 22880,
+          "discount_rate_percent": 21
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 17980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0DYMYGV78",
+          "asin": "B0DYMYGV78"
+        },
+        "observed_at": "2026-10-13T12:47:26.422589+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DYMYGV78",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:47:26.422589+00:00",
+          "asin": "B0DYMYGV78",
+          "evidence_sha256": "0715A40781ECB99641D17854CAA7DCE0DC67A45992CC74B70EEDD57D02437071",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0DYMYGV78",
+          "selector": "#dealBadge_feature_div"
+        }
+      }
+    ]
+  },
+  "source_reselection": {
+    "schema_version": 1,
+    "method": "prime_appreciation_2026_recorded_git_pool_prime_verified_v2",
+    "authority": "user_authorized_upstream_prime_recovery",
+    "pool_origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+    "pool_source_dates": [
+      "2026-10-14",
+      "2026-10-15"
+    ],
+    "created_at": "2026-10-14T19:14:03.094415+09:00",
+    "new_amazon_accesses": 0,
+    "new_pdp_visits": 0,
+    "evidence_reuse_label": "既存Git公開証拠のプライム参加確認済み再選定",
+    "automatic_fallback": false,
+    "fixed_factory_source_replacement_authorized": false,
+    "selected_origins": [
+      {
+        "target_source_position": 1,
+        "asin": "B0H338Z389",
+        "category": "スティッククリーナー#11",
+        "origin_account": 20,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 1,
+        "origin_observation_position": 1,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account20/products_2026-10-14.json",
+        "origin_summary_path": "data/account20/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "b214bab5345a61ada2e8ac2ad034adcf6f1cae28fe4407e98ba1692a264e0bf8",
+        "origin_summary_sha256": "51949031db4db17a29ea9932be989ec7a4d6c7328be54dadcc37f27d9be4be63",
+        "origin_record_sha256": "7ef5cb12d2d338444d48e2d04af069c4e87bfdc1bb1aa5075c750c8480aafc55",
+        "evidence_sha256": "C395C34A84C12149FAB689C505F8713FBE882950D84D6D25ED823F7FC3405C60",
+        "checked_at": "2026-10-13T12:50:33.367318+00:00"
+      },
+      {
+        "target_source_position": 2,
+        "asin": "B0FH1PQ8V6",
+        "category": "PCモニター#16",
+        "origin_account": 1,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 1,
+        "origin_observation_position": 1,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account1/products_2026-10-14.json",
+        "origin_summary_path": "data/account1/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "bc04e42e3560ef82373eb16a0dc388476b2d4cc76c156027400e94315e32833d",
+        "origin_summary_sha256": "fe9246e73902bc313659af7062456269a254e610094da019d34f3ab5fa19b23b",
+        "origin_record_sha256": "cd9132cad7a83bedb6a79c35881878f4c3a5e1786615e796a85267a0298046c2",
+        "evidence_sha256": "4ABC83818D2CB0A10A3ED0072D1C826BAB56CB238E471262B2A2A492F2614952",
+        "checked_at": "2026-10-13T15:05:40.112231+00:00"
+      },
+      {
+        "target_source_position": 3,
+        "asin": "B0DJNBX5D1",
+        "category": "スティッククリーナー#10",
+        "origin_account": 20,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 2,
+        "origin_observation_position": 2,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account20/products_2026-10-14.json",
+        "origin_summary_path": "data/account20/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "b214bab5345a61ada2e8ac2ad034adcf6f1cae28fe4407e98ba1692a264e0bf8",
+        "origin_summary_sha256": "51949031db4db17a29ea9932be989ec7a4d6c7328be54dadcc37f27d9be4be63",
+        "origin_record_sha256": "b34e21f4b0283d7aaaeeddf5b289d912845e7dc98b0adab821a7b2ae732317fd",
+        "evidence_sha256": "4A4474DD93226C37AE015C1FA6A1371A7CC7F04D68BD90A749FBE170EE50AC0B",
+        "checked_at": "2026-10-13T12:50:40.072989+00:00"
+      },
+      {
+        "target_source_position": 4,
+        "asin": "B0F4DJ38VR",
+        "category": "炊飯器・精米機#15",
+        "origin_account": 2,
+        "origin_date": "2026-10-15",
+        "origin_source_position": 2,
+        "origin_observation_position": 2,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account2/products_2026-10-15.json",
+        "origin_summary_path": "data/account2/scrape_summary_2026-10-15.json",
+        "origin_products_sha256": "b2521e11498e7d0bfa00cc07b37b5381706f89f08696a3f9ca59a2040ba17b59",
+        "origin_summary_sha256": "d9a36c14f13104999a7eaef832a8a6af49e6bba5424531a030c077276e73de60",
+        "origin_record_sha256": "6a98a4b8d53e655915cc0b9788d6c98518274c3020113586adcda77f5b840135",
+        "evidence_sha256": "C558E91A0CBF1C218E99D825E879C98075B400FCD6062955143DEDB5198DAC84",
+        "checked_at": "2026-10-14T09:12:21.062337+00:00"
+      },
+      {
+        "target_source_position": 5,
+        "asin": "B0F7X3VJ99",
+        "category": "PCモニター#10",
+        "origin_account": 1,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 2,
+        "origin_observation_position": 2,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account1/products_2026-10-14.json",
+        "origin_summary_path": "data/account1/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "bc04e42e3560ef82373eb16a0dc388476b2d4cc76c156027400e94315e32833d",
+        "origin_summary_sha256": "fe9246e73902bc313659af7062456269a254e610094da019d34f3ab5fa19b23b",
+        "origin_record_sha256": "7184a9763cdf5571b1ff08fa57b6158ae4dade82a26c3030ac13d0b09f6d9d3d",
+        "evidence_sha256": "AC6058E5F7667AD770C4E394E566CB12C1E444B3AC357C427AB1561C3D86E1FC",
+        "checked_at": "2026-10-13T15:05:47.046023+00:00"
+      },
+      {
+        "target_source_position": 6,
+        "asin": "B0C7QGK4TD",
+        "category": "炊飯器・精米機#7",
+        "origin_account": 1,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 3,
+        "origin_observation_position": 3,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account1/products_2026-10-14.json",
+        "origin_summary_path": "data/account1/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "bc04e42e3560ef82373eb16a0dc388476b2d4cc76c156027400e94315e32833d",
+        "origin_summary_sha256": "fe9246e73902bc313659af7062456269a254e610094da019d34f3ab5fa19b23b",
+        "origin_record_sha256": "6da1d7db26409e7a56a0a4c30fb3354d185f2b3a97146034e8eeb7f97fb3f3b2",
+        "evidence_sha256": "5DF26BF54FA931A00C90D559D16B91AF9304A9DE201170B9355A2E7F16CEC8EC",
+        "checked_at": "2026-10-13T15:05:53.717702+00:00"
+      },
+      {
+        "target_source_position": 7,
+        "asin": "B0F8HDTNLT",
+        "category": "スティッククリーナー#2",
+        "origin_account": 20,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 5,
+        "origin_observation_position": 5,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account20/products_2026-10-14.json",
+        "origin_summary_path": "data/account20/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "b214bab5345a61ada2e8ac2ad034adcf6f1cae28fe4407e98ba1692a264e0bf8",
+        "origin_summary_sha256": "51949031db4db17a29ea9932be989ec7a4d6c7328be54dadcc37f27d9be4be63",
+        "origin_record_sha256": "34768172f993fd5ca5cbd1a8c59d7ae7862d7edafc2d7109fcb7db53010f1309",
+        "evidence_sha256": "96F7F7A3458B386D4A4AAFB05CD1A0675559D54F6DEABBDDFB5CD2D4D9927EE0",
+        "checked_at": "2026-10-13T12:51:13.770104+00:00"
+      },
+      {
+        "target_source_position": 8,
+        "asin": "B0GNR572Y6",
+        "category": "PCモニター#9",
+        "origin_account": 1,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 5,
+        "origin_observation_position": 5,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account1/products_2026-10-14.json",
+        "origin_summary_path": "data/account1/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "bc04e42e3560ef82373eb16a0dc388476b2d4cc76c156027400e94315e32833d",
+        "origin_summary_sha256": "fe9246e73902bc313659af7062456269a254e610094da019d34f3ab5fa19b23b",
+        "origin_record_sha256": "fc0f94a48ca5d9bb21b5f32b81f3511fd9c4ff6d708e0b484d8b9218a42d5215",
+        "evidence_sha256": "EE2E7FC9FB1CC1310FEF863639A75CEDB4C5AA9851A5523C065C835031739243",
+        "checked_at": "2026-10-13T15:06:07.020411+00:00"
+      },
+      {
+        "target_source_position": 9,
+        "asin": "B0F1RSB82P",
+        "category": "PCモニター#18",
+        "origin_account": 1,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 7,
+        "origin_observation_position": 7,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account1/products_2026-10-14.json",
+        "origin_summary_path": "data/account1/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "bc04e42e3560ef82373eb16a0dc388476b2d4cc76c156027400e94315e32833d",
+        "origin_summary_sha256": "fe9246e73902bc313659af7062456269a254e610094da019d34f3ab5fa19b23b",
+        "origin_record_sha256": "b37cbc8a5eaac02bce393cd06bd4358ca47c03b2b86a9fdae24890209adc40cb",
+        "evidence_sha256": "42C0DC8D70A54107C20750AF4ADAA68A6FD4EA72FD03BB8575594185351B7FEB",
+        "checked_at": "2026-10-13T15:06:20.984127+00:00"
+      },
+      {
+        "target_source_position": 10,
+        "asin": "B0DYMYGV78",
+        "category": "PCモニター#10",
+        "origin_account": 2,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 9,
+        "origin_observation_position": 9,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account2/products_2026-10-14.json",
+        "origin_summary_path": "data/account2/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "57556a04ccebc97c4b345081b23beb8d1e72d3e20109c3188b78a959fefc5a38",
+        "origin_summary_sha256": "77a9020a7779dd6e8ac7bdbfbc5f1bb2ea396660cf3cf1e794fae5db19070125",
+        "origin_record_sha256": "29ab2af6a6424fdd36fa8c32e376c26c63069c0de1c5a916163ee2107a23025b",
+        "evidence_sha256": "0715A40781ECB99641D17854CAA7DCE0DC67A45992CC74B70EEDD57D02437071",
+        "checked_at": "2026-10-13T12:47:26.422589+00:00"
+      }
+    ],
+    "exclusion": {
+      "commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+      "path": "data/account18/asin_history.json",
+      "git_blob_sha256": "c9d087da3c8e0d97cf1b4388f8306ba594b1d45e8181225e1e2617b386197045",
+      "within_days": 20,
+      "include_scraped": false,
+      "include_product_identifiers": true,
+      "reference_date": "2026-10-15"
+    }
+  }
+}

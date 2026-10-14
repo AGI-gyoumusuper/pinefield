@@ -1,0 +1,1542 @@
+{
+  "date": "2026-10-15",
+  "total_taken": 10,
+  "campaign": {
+    "schema": 1,
+    "id": "prime_appreciation_2026",
+    "policy": "prime_appreciation_2026_electronics_prime_verified_v2",
+    "account": 12,
+    "date": "2026-10-15",
+    "starts_at": "2026-10-13T00:00:00+09:00",
+    "ends_at": "2026-10-20T00:00:00+09:00",
+    "min_price": 8000,
+    "selection_mode": "global_ranked",
+    "categories": [
+      {
+        "name": "プロジェクター",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A137613011%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "ゲーミングヘッドセット",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A4817937051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "ロボット掃除機",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A2353758051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "タブレット",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A2152014051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      }
+    ],
+    "allocation_method": "daily_rotation_20_nodes_offsets_0_1_4_5_shift_3",
+    "official_source": "https://www.aboutamazon.jp/news/amazon-prime/prime-appreciation-sale-2026",
+    "config_sha256": "8726b65d5e8cf2ebd9393a13f462e63c3087e6503597749730332a3e6cbbb8ea"
+  },
+  "sale_name": "Amazon プライム感謝祭先行セール",
+  "selection_policy": {
+    "selection_mode": "global_ranked",
+    "sort_order": "sale_first",
+    "require_sale_info": true,
+    "max_per_category": 2,
+    "max_total_items": 10,
+    "min_price": 8000,
+    "verify_detail_offer": true,
+    "offer_scope": "unified_discounts",
+    "discount_contract": "amazon_direct_discounts_v1",
+    "require_prime_event": true
+  },
+  "categories": {
+    "プロジェクター": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 1,
+      "final_selected": 1
+    },
+    "ゲーミングヘッドセット": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 6,
+      "final_selected": 5
+    },
+    "ロボット掃除機": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 3,
+      "final_selected": 2
+    },
+    "タブレット": {
+      "source": "recorded_prime_git_pool",
+      "pool_available": 4,
+      "final_selected": 2
+    }
+  },
+  "excluded_loaded": 58,
+  "excluded_gtins_loaded": 7,
+  "excluded_brand_models_loaded": 46,
+  "skipped_product_identity": 0,
+  "skipped_product_identity_reasons": {},
+  "detail_offer_verification": {
+    "schema_version": 1,
+    "enabled": true,
+    "offer_scope": "unified_discounts",
+    "sale_name": "Amazon セール",
+    "mode": "recorded_prime_git_pool_reselection",
+    "new_amazon_accesses": 0,
+    "detail_visits_started": 0,
+    "elapsed_seconds": 0,
+    "raw_candidate_count": 14,
+    "candidate_count": 10,
+    "accepted_count": 10,
+    "rejected_count": 0,
+    "observations": [
+      {
+        "asin": "B0GNMBYZV5",
+        "category": "プロジェクター#1",
+        "checked_at": "2026-10-13T13:03:23.646274+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥69,980",
+          "price_int": 69980,
+          "original_price": "￥99,899",
+          "discount_rate": "30%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥69,980",
+          "price_int": 69980,
+          "original_price": "￥99,899",
+          "discount_rate": "30%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GNMBYZV5",
+            "B0GNMBYZV5"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "New【Amazon.co.jp限定】エプソン 家庭用プロジェクター EF-61WA Leminoプレミアム1カ月無料視聴カード同梱 Lifestudio Pop 700lm/Full HD Google TV™搭載 小型 ホームシアター 推し活 映画 スポーツ観戦",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "69,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-30%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥99,899\n￥99,899"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GNMBYZV5",
+          "url": "https://www.amazon.co.jp/dp/B0GNMBYZV5",
+          "http_status": 200,
+          "checked_at": "2026-10-13T13:03:23.646274+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 69980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GNMBYZV5",
+            "asin": "B0GNMBYZV5"
+          }
+        },
+        "evidence_sha256": "946283059CEA72714A6AC3142F46599C92EFA70203522B13E74AADF36D47BDD3"
+      },
+      {
+        "asin": "B09W9F7FZY",
+        "category": "ゲーミングヘッドセット#11",
+        "checked_at": "2026-10-13T12:50:46.776195+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥8,980",
+          "price_int": 8980,
+          "original_price": "￥12,780",
+          "discount_rate": "30%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥8,980",
+          "price_int": 8980,
+          "original_price": "￥12,780",
+          "discount_rate": "30%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B09W9F7FZY",
+            "B09W9F7FZY"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "CORSAIR HS65 SURROUND 3.5mmコネクタ ゲーミング ヘッドセッ – ホワイト – CA-9011271-AP",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-30%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥12,780\n￥12,780"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B09W9F7FZY",
+          "url": "https://www.amazon.co.jp/dp/B09W9F7FZY",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:50:46.776195+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B09W9F7FZY",
+            "asin": "B09W9F7FZY"
+          }
+        },
+        "evidence_sha256": "8B06C2453C36BD58498C6419D57715B1DFB86EBB82F732B3FA4BE790E0C007FE"
+      },
+      {
+        "asin": "B0DR8Y4VF9",
+        "category": "ロボット掃除機#3",
+        "checked_at": "2026-10-13T13:03:30.173408+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥62,047",
+          "price_int": 62047,
+          "original_price": "￥78,368",
+          "discount_rate": "21%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥62,047",
+          "price_int": 62047,
+          "original_price": "￥78,368",
+          "discount_rate": "21%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DR8Y4VF9",
+            "B0DR8Y4VF9"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ECOVACS Winbot W2 Pro Omni ポータブルウィンドウクリーニングロボット 多機能ステーション付き 作業中の充電 トリプルスプレーヘッドによるインテリジェントクリーニング 保護",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "62,047"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-21%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥78,368\n￥78,368"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DR8Y4VF9",
+          "url": "https://www.amazon.co.jp/dp/B0DR8Y4VF9",
+          "http_status": 200,
+          "checked_at": "2026-10-13T13:03:30.173408+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 62047,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DR8Y4VF9",
+            "asin": "B0DR8Y4VF9"
+          }
+        },
+        "evidence_sha256": "603688D4F08368ECEAAAE3E68FBCDE560D86B8907EC86AB2A8C079B9B50C4E65"
+      },
+      {
+        "asin": "B0F7GGN94D",
+        "category": "ロボット掃除機#1",
+        "checked_at": "2026-10-13T13:03:37.100100+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥37,800",
+          "price_int": 37800,
+          "original_price": "￥48,000",
+          "discount_rate": "21%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥37,800",
+          "price_int": 37800,
+          "original_price": "￥48,000",
+          "discount_rate": "21%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F7GGN94D",
+            "B0F7GGN94D"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【世界最小級掃除機】 SwitchBot ロボット掃除機 K11+ 超小型 高精度マッピング 6000pa強力吸引 水拭き 掃除シート付き 静音",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "37,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-21%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥48,000\n￥48,000"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0F7GGN94D",
+          "url": "https://www.amazon.co.jp/dp/B0F7GGN94D",
+          "http_status": 200,
+          "checked_at": "2026-10-13T13:03:37.100100+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 37800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F7GGN94D",
+            "asin": "B0F7GGN94D"
+          }
+        },
+        "evidence_sha256": "217B7E1E92F0D7DB8130AD0C5DA0E9A8523691F509DCC2C085A25166D4995EB9"
+      },
+      {
+        "asin": "B0DYVD72P2",
+        "category": "ゲーミングヘッドセット#12",
+        "checked_at": "2026-10-13T12:50:53.441742+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥14,231",
+          "price_int": 14231,
+          "original_price": "￥17,980",
+          "discount_rate": "21%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥14,231",
+          "price_int": 14231,
+          "original_price": "￥17,980",
+          "discount_rate": "21%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DYVD72P2",
+            "B0DYVD72P2"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "CORSAIR VOID WIRELESS v2 ゲーミング ヘッドホン PC PS5 PS4 スイッチ – カーボン – CA-9011379-WW",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "14,231"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-21%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥17,980\n￥17,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DYVD72P2",
+          "url": "https://www.amazon.co.jp/dp/B0DYVD72P2",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:50:53.441742+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 14231,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DYVD72P2",
+            "asin": "B0DYVD72P2"
+          }
+        },
+        "evidence_sha256": "7264B73432745D5C0203DC76A77AF9021FCB2161568B1071BF8313B964B2AA8D"
+      },
+      {
+        "asin": "B0GWKNKXM7",
+        "category": "タブレット#4",
+        "checked_at": "2026-10-13T12:51:00.288914+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥19,980",
+          "price_int": 19980,
+          "original_price": "￥24,980",
+          "discount_rate": "20%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥19,980",
+          "price_int": 19980,
+          "original_price": "￥24,980",
+          "discount_rate": "20%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GWKNKXM7",
+            "B0GWKNKXM7"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "シャオミ(Xiaomi) REDMI Pad 2 9.7 タブレット 4GB+64GB グラファイトグレー wi-fiモデル 9.7インチ 2K 120Hzリフレッシュレー7600mAh大容量バッテリー Snapdragon 6s 4G Gen 2 2TBまでmicroSDカード拡張 Xiaomi HyperOS 3搭載 軽量 エンターテインメント 子供用にも 日本語版",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "19,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-20%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥24,980\n￥24,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GWKNKXM7",
+          "url": "https://www.amazon.co.jp/dp/B0GWKNKXM7",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:51:00.288914+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 19980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GWKNKXM7",
+            "asin": "B0GWKNKXM7"
+          }
+        },
+        "evidence_sha256": "23214DBE2B0CF3ACDA805A1948C4D00E0D68FA3D99A8DCCD076711D558A59CA9"
+      },
+      {
+        "asin": "B0FY54GCX6",
+        "category": "タブレット#8",
+        "checked_at": "2026-10-13T12:51:07.066721+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥61,200",
+          "price_int": 61200,
+          "original_price": "￥74,980",
+          "discount_rate": "18%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥61,200",
+          "price_int": 61200,
+          "original_price": "￥74,980",
+          "discount_rate": "18%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FY54GCX6",
+            "B0FY54GCX6"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】Xiaomi Pad 8 8G+128G パイングリーン 11.2インチ 3.2K 144Hz高精細ディスプレイ 800nits Snapdragon 8s Gen 4 Xiaomi HyperOS 3搭載 AI機能 Google Gemini クワッドスピーカー Dolby Vision 9200mAhバッテリー 45W急速充電 エンターテインメント 作業 会議用",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "61,200"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-18%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥74,980\n￥74,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FY54GCX6",
+          "url": "https://www.amazon.co.jp/dp/B0FY54GCX6",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:51:07.066721+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 61200,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FY54GCX6",
+            "asin": "B0FY54GCX6"
+          }
+        },
+        "evidence_sha256": "86C6161B42743F8A5A62B7EA5CC49F97D1FCF1924B0FDC6C67D9341F84E08518"
+      },
+      {
+        "asin": "B0DFWZ4J9X",
+        "category": "ゲーミングヘッドセット#17",
+        "checked_at": "2026-10-13T12:51:20.430401+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥33,980",
+          "price_int": 33980,
+          "original_price": "￥42,727",
+          "discount_rate": "20%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥33,980",
+          "price_int": 33980,
+          "original_price": "￥42,727",
+          "discount_rate": "20%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DFWZ4J9X",
+            "B0DFWZ4J9X"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】CORSAIR VIRTUOSO MAX WIRELESSゲーミングヘッドホン – シルバ CA-9011373-JP",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "33,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-20%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥42,727\n￥42,727"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DFWZ4J9X",
+          "url": "https://www.amazon.co.jp/dp/B0DFWZ4J9X",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:51:20.430401+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 33980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DFWZ4J9X",
+            "asin": "B0DFWZ4J9X"
+          }
+        },
+        "evidence_sha256": "F7037429924591A9BD60A0F14B0487B5D898B13DB6764B5DDDAC3A042BF2A7C7"
+      },
+      {
+        "asin": "B0C7QVRRMS",
+        "category": "ゲーミングヘッドセット#14",
+        "checked_at": "2026-10-13T12:51:27.074866+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥19,980",
+          "price_int": 19980,
+          "original_price": "￥24,980",
+          "discount_rate": "20%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥19,980",
+          "price_int": 19980,
+          "original_price": "￥24,980",
+          "discount_rate": "20%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0C7QVRRMS",
+            "B0C7QVRRMS"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "CORSAIR HS80 MAX WIRELESS ゲーミング ヘッドセッ トPC/PS4/PS5対応 – ホワイト – CA-9011296-AP",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "19,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-20%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥24,980\n￥24,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0C7QVRRMS",
+          "url": "https://www.amazon.co.jp/dp/B0C7QVRRMS",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:51:27.074866+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 19980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0C7QVRRMS",
+            "asin": "B0C7QVRRMS"
+          }
+        },
+        "evidence_sha256": "8D95C35A24F1AED9B074CEEC6656B90015B8548EF667B0DE6FF06C1E20E8AC04"
+      },
+      {
+        "asin": "B0FL2N7G8V",
+        "category": "ゲーミングヘッドセット#10",
+        "checked_at": "2026-10-13T12:51:33.582049+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥15,980",
+          "price_int": 15980,
+          "original_price": "￥19,980",
+          "discount_rate": "20%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥15,980",
+          "price_int": 15980,
+          "original_price": "￥19,980",
+          "discount_rate": "20%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FL2N7G8V",
+            "B0FL2N7G8V"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "CORSAIR VOID v2 MAX WIRELESS Bluetooth ゲーミング ヘッドホン – カーボン – CA-9011388-WW",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "15,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-20%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥19,980\n￥19,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FL2N7G8V",
+          "url": "https://www.amazon.co.jp/dp/B0FL2N7G8V",
+          "http_status": 200,
+          "checked_at": "2026-10-13T12:51:33.582049+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 15980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FL2N7G8V",
+            "asin": "B0FL2N7G8V"
+          }
+        },
+        "evidence_sha256": "5124F4FB73FF9B19A038EF7EB065D8A1947E3C5BB7E2A24F0BA0A1E6763DC4D0"
+      }
+    ],
+    "rejection_reasons": {},
+    "budget_stop_reason": null,
+    "final_selected_count": 10
+  },
+  "discount_contract": {
+    "schema_version": 1,
+    "policy": "amazon_direct_discounts_v1",
+    "account": 12,
+    "date": "2026-10-15",
+    "products": [
+      {
+        "asin": "B0GNMBYZV5",
+        "source_position": 1,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 69980,
+          "original_price_yen": 99899,
+          "discount_rate_percent": 30
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 69980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GNMBYZV5",
+          "asin": "B0GNMBYZV5"
+        },
+        "observed_at": "2026-10-13T13:03:23.646274+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GNMBYZV5",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T13:03:23.646274+00:00",
+          "asin": "B0GNMBYZV5",
+          "evidence_sha256": "946283059CEA72714A6AC3142F46599C92EFA70203522B13E74AADF36D47BDD3",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0GNMBYZV5",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B09W9F7FZY",
+        "source_position": 2,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 8980,
+          "original_price_yen": 12780,
+          "discount_rate_percent": 30
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 8980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B09W9F7FZY",
+          "asin": "B09W9F7FZY"
+        },
+        "observed_at": "2026-10-13T12:50:46.776195+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B09W9F7FZY",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:50:46.776195+00:00",
+          "asin": "B09W9F7FZY",
+          "evidence_sha256": "8B06C2453C36BD58498C6419D57715B1DFB86EBB82F732B3FA4BE790E0C007FE",
+          "evidence_url": "https://www.amazon.co.jp/dp/B09W9F7FZY",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0DR8Y4VF9",
+        "source_position": 3,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 62047,
+          "original_price_yen": 78368,
+          "discount_rate_percent": 21
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 62047,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0DR8Y4VF9",
+          "asin": "B0DR8Y4VF9"
+        },
+        "observed_at": "2026-10-13T13:03:30.173408+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DR8Y4VF9",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T13:03:30.173408+00:00",
+          "asin": "B0DR8Y4VF9",
+          "evidence_sha256": "603688D4F08368ECEAAAE3E68FBCDE560D86B8907EC86AB2A8C079B9B50C4E65",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0DR8Y4VF9",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0F7GGN94D",
+        "source_position": 4,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 37800,
+          "original_price_yen": 48000,
+          "discount_rate_percent": 21
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 37800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0F7GGN94D",
+          "asin": "B0F7GGN94D"
+        },
+        "observed_at": "2026-10-13T13:03:37.100100+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0F7GGN94D",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T13:03:37.100100+00:00",
+          "asin": "B0F7GGN94D",
+          "evidence_sha256": "217B7E1E92F0D7DB8130AD0C5DA0E9A8523691F509DCC2C085A25166D4995EB9",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0F7GGN94D",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0DYVD72P2",
+        "source_position": 5,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 14231,
+          "original_price_yen": 17980,
+          "discount_rate_percent": 21
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 14231,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0DYVD72P2",
+          "asin": "B0DYVD72P2"
+        },
+        "observed_at": "2026-10-13T12:50:53.441742+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DYVD72P2",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:50:53.441742+00:00",
+          "asin": "B0DYVD72P2",
+          "evidence_sha256": "7264B73432745D5C0203DC76A77AF9021FCB2161568B1071BF8313B964B2AA8D",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0DYVD72P2",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0GWKNKXM7",
+        "source_position": 6,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 19980,
+          "original_price_yen": 24980,
+          "discount_rate_percent": 20
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 19980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GWKNKXM7",
+          "asin": "B0GWKNKXM7"
+        },
+        "observed_at": "2026-10-13T12:51:00.288914+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GWKNKXM7",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:51:00.288914+00:00",
+          "asin": "B0GWKNKXM7",
+          "evidence_sha256": "23214DBE2B0CF3ACDA805A1948C4D00E0D68FA3D99A8DCCD076711D558A59CA9",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0GWKNKXM7",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0FY54GCX6",
+        "source_position": 7,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 61200,
+          "original_price_yen": 74980,
+          "discount_rate_percent": 18
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 61200,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0FY54GCX6",
+          "asin": "B0FY54GCX6"
+        },
+        "observed_at": "2026-10-13T12:51:07.066721+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0FY54GCX6",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:51:07.066721+00:00",
+          "asin": "B0FY54GCX6",
+          "evidence_sha256": "86C6161B42743F8A5A62B7EA5CC49F97D1FCF1924B0FDC6C67D9341F84E08518",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0FY54GCX6",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0DFWZ4J9X",
+        "source_position": 8,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 33980,
+          "original_price_yen": 42727,
+          "discount_rate_percent": 20
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 33980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0DFWZ4J9X",
+          "asin": "B0DFWZ4J9X"
+        },
+        "observed_at": "2026-10-13T12:51:20.430401+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DFWZ4J9X",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:51:20.430401+00:00",
+          "asin": "B0DFWZ4J9X",
+          "evidence_sha256": "F7037429924591A9BD60A0F14B0487B5D898B13DB6764B5DDDAC3A042BF2A7C7",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0DFWZ4J9X",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0C7QVRRMS",
+        "source_position": 9,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 19980,
+          "original_price_yen": 24980,
+          "discount_rate_percent": 20
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 19980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0C7QVRRMS",
+          "asin": "B0C7QVRRMS"
+        },
+        "observed_at": "2026-10-13T12:51:27.074866+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0C7QVRRMS",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:51:27.074866+00:00",
+          "asin": "B0C7QVRRMS",
+          "evidence_sha256": "8D95C35A24F1AED9B074CEEC6656B90015B8548EF667B0DE6FF06C1E20E8AC04",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0C7QVRRMS",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0FL2N7G8V",
+        "source_position": 10,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 15980,
+          "original_price_yen": 19980,
+          "discount_rate_percent": 20
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 15980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0FL2N7G8V",
+          "asin": "B0FL2N7G8V"
+        },
+        "observed_at": "2026-10-13T12:51:33.582049+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0FL2N7G8V",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "early",
+          "label": "プライム感謝祭先行セール",
+          "source_date": "2026-10-15",
+          "observed_at": "2026-10-13T12:51:33.582049+00:00",
+          "asin": "B0FL2N7G8V",
+          "evidence_sha256": "5124F4FB73FF9B19A038EF7EB065D8A1947E3C5BB7E2A24F0BA0A1E6763DC4D0",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0FL2N7G8V",
+          "selector": "#dealBadge_feature_div"
+        }
+      }
+    ]
+  },
+  "source_reselection": {
+    "schema_version": 1,
+    "method": "prime_appreciation_2026_recorded_git_pool_prime_verified_v2",
+    "authority": "user_authorized_upstream_prime_recovery",
+    "pool_origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+    "pool_source_dates": [
+      "2026-10-14",
+      "2026-10-15"
+    ],
+    "created_at": "2026-10-14T19:14:03.094415+09:00",
+    "new_amazon_accesses": 0,
+    "new_pdp_visits": 0,
+    "evidence_reuse_label": "既存Git公開証拠のプライム参加確認済み再選定",
+    "automatic_fallback": false,
+    "fixed_factory_source_replacement_authorized": false,
+    "selected_origins": [
+      {
+        "target_source_position": 1,
+        "asin": "B0GNMBYZV5",
+        "category": "プロジェクター#1",
+        "origin_account": 14,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 3,
+        "origin_observation_position": 3,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account14/products_2026-10-14.json",
+        "origin_summary_path": "data/account14/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "47836337ea3136b0a2bcd1cf3feb6a857e75a49f5b2081ec887a32e4860a6cf5",
+        "origin_summary_sha256": "fe82173e7ab452c665c600c50b6677066819eb4a305f761f4dc57d2d31886381",
+        "origin_record_sha256": "8561f4861ef0409a71a160eb716fa88fdd6e60ac9a36c921b48997e1b222adb4",
+        "evidence_sha256": "946283059CEA72714A6AC3142F46599C92EFA70203522B13E74AADF36D47BDD3",
+        "checked_at": "2026-10-13T13:03:23.646274+00:00"
+      },
+      {
+        "target_source_position": 2,
+        "asin": "B09W9F7FZY",
+        "category": "ゲーミングヘッドセット#11",
+        "origin_account": 16,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 3,
+        "origin_observation_position": 3,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account16/products_2026-10-14.json",
+        "origin_summary_path": "data/account16/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "a432611b2f2f6c6c78888a6aebd38aceaab6b72c8e34f5c58755a707ec1d2cff",
+        "origin_summary_sha256": "3039d50ab78286f5057d858593e677fc0fc162548d52c9f2067a3fa839563099",
+        "origin_record_sha256": "cf9f142c20c12fb1408316cb5c80d1510f5a01ce5f35d4600c340b1d16b7ecb2",
+        "evidence_sha256": "8B06C2453C36BD58498C6419D57715B1DFB86EBB82F732B3FA4BE790E0C007FE",
+        "checked_at": "2026-10-13T12:50:46.776195+00:00"
+      },
+      {
+        "target_source_position": 3,
+        "asin": "B0DR8Y4VF9",
+        "category": "ロボット掃除機#3",
+        "origin_account": 14,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 4,
+        "origin_observation_position": 4,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account14/products_2026-10-14.json",
+        "origin_summary_path": "data/account14/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "47836337ea3136b0a2bcd1cf3feb6a857e75a49f5b2081ec887a32e4860a6cf5",
+        "origin_summary_sha256": "fe82173e7ab452c665c600c50b6677066819eb4a305f761f4dc57d2d31886381",
+        "origin_record_sha256": "72e959a7adab5f50581f4d6e134ee04d0409d7498a0d130c77141ec495fa628a",
+        "evidence_sha256": "603688D4F08368ECEAAAE3E68FBCDE560D86B8907EC86AB2A8C079B9B50C4E65",
+        "checked_at": "2026-10-13T13:03:30.173408+00:00"
+      },
+      {
+        "target_source_position": 4,
+        "asin": "B0F7GGN94D",
+        "category": "ロボット掃除機#1",
+        "origin_account": 14,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 5,
+        "origin_observation_position": 5,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account14/products_2026-10-14.json",
+        "origin_summary_path": "data/account14/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "47836337ea3136b0a2bcd1cf3feb6a857e75a49f5b2081ec887a32e4860a6cf5",
+        "origin_summary_sha256": "fe82173e7ab452c665c600c50b6677066819eb4a305f761f4dc57d2d31886381",
+        "origin_record_sha256": "69431efc228ec954e0ab08ae37bbce77c1b8cb31c428957793a593646789247f",
+        "evidence_sha256": "217B7E1E92F0D7DB8130AD0C5DA0E9A8523691F509DCC2C085A25166D4995EB9",
+        "checked_at": "2026-10-13T13:03:37.100100+00:00"
+      },
+      {
+        "target_source_position": 5,
+        "asin": "B0DYVD72P2",
+        "category": "ゲーミングヘッドセット#12",
+        "origin_account": 16,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 4,
+        "origin_observation_position": 4,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account16/products_2026-10-14.json",
+        "origin_summary_path": "data/account16/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "a432611b2f2f6c6c78888a6aebd38aceaab6b72c8e34f5c58755a707ec1d2cff",
+        "origin_summary_sha256": "3039d50ab78286f5057d858593e677fc0fc162548d52c9f2067a3fa839563099",
+        "origin_record_sha256": "d40f8145a41ef6d36136bd7d793caf57c0f84baa81a62f35604b68ff18144a30",
+        "evidence_sha256": "7264B73432745D5C0203DC76A77AF9021FCB2161568B1071BF8313B964B2AA8D",
+        "checked_at": "2026-10-13T12:50:53.441742+00:00"
+      },
+      {
+        "target_source_position": 6,
+        "asin": "B0GWKNKXM7",
+        "category": "タブレット#4",
+        "origin_account": 20,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 3,
+        "origin_observation_position": 3,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account20/products_2026-10-14.json",
+        "origin_summary_path": "data/account20/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "b214bab5345a61ada2e8ac2ad034adcf6f1cae28fe4407e98ba1692a264e0bf8",
+        "origin_summary_sha256": "51949031db4db17a29ea9932be989ec7a4d6c7328be54dadcc37f27d9be4be63",
+        "origin_record_sha256": "c1dcb04af3926402b293d1c33a74ec3ccbd8c538358d6ae94a3692461dab22ce",
+        "evidence_sha256": "23214DBE2B0CF3ACDA805A1948C4D00E0D68FA3D99A8DCCD076711D558A59CA9",
+        "checked_at": "2026-10-13T12:51:00.288914+00:00"
+      },
+      {
+        "target_source_position": 7,
+        "asin": "B0FY54GCX6",
+        "category": "タブレット#8",
+        "origin_account": 20,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 4,
+        "origin_observation_position": 4,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account20/products_2026-10-14.json",
+        "origin_summary_path": "data/account20/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "b214bab5345a61ada2e8ac2ad034adcf6f1cae28fe4407e98ba1692a264e0bf8",
+        "origin_summary_sha256": "51949031db4db17a29ea9932be989ec7a4d6c7328be54dadcc37f27d9be4be63",
+        "origin_record_sha256": "698b5dead1900d98fff92ed27deac9ff06fca3cac22d3a93ed7d0a02db51f883",
+        "evidence_sha256": "86C6161B42743F8A5A62B7EA5CC49F97D1FCF1924B0FDC6C67D9341F84E08518",
+        "checked_at": "2026-10-13T12:51:07.066721+00:00"
+      },
+      {
+        "target_source_position": 8,
+        "asin": "B0DFWZ4J9X",
+        "category": "ゲーミングヘッドセット#17",
+        "origin_account": 16,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 8,
+        "origin_observation_position": 8,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account16/products_2026-10-14.json",
+        "origin_summary_path": "data/account16/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "a432611b2f2f6c6c78888a6aebd38aceaab6b72c8e34f5c58755a707ec1d2cff",
+        "origin_summary_sha256": "3039d50ab78286f5057d858593e677fc0fc162548d52c9f2067a3fa839563099",
+        "origin_record_sha256": "736fb6682ff3ab5e16de75f370e4c67d715202dcba204a0f69678b040a2162c5",
+        "evidence_sha256": "F7037429924591A9BD60A0F14B0487B5D898B13DB6764B5DDDAC3A042BF2A7C7",
+        "checked_at": "2026-10-13T12:51:20.430401+00:00"
+      },
+      {
+        "target_source_position": 9,
+        "asin": "B0C7QVRRMS",
+        "category": "ゲーミングヘッドセット#14",
+        "origin_account": 16,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 9,
+        "origin_observation_position": 9,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account16/products_2026-10-14.json",
+        "origin_summary_path": "data/account16/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "a432611b2f2f6c6c78888a6aebd38aceaab6b72c8e34f5c58755a707ec1d2cff",
+        "origin_summary_sha256": "3039d50ab78286f5057d858593e677fc0fc162548d52c9f2067a3fa839563099",
+        "origin_record_sha256": "c370c94c54a8e938a6ad09df175ff276a20375d609c0d09d8eb5d3e6fd8e4b31",
+        "evidence_sha256": "8D95C35A24F1AED9B074CEEC6656B90015B8548EF667B0DE6FF06C1E20E8AC04",
+        "checked_at": "2026-10-13T12:51:27.074866+00:00"
+      },
+      {
+        "target_source_position": 10,
+        "asin": "B0FL2N7G8V",
+        "category": "ゲーミングヘッドセット#10",
+        "origin_account": 16,
+        "origin_date": "2026-10-14",
+        "origin_source_position": 10,
+        "origin_observation_position": 10,
+        "origin_commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+        "origin_products_path": "data/account16/products_2026-10-14.json",
+        "origin_summary_path": "data/account16/scrape_summary_2026-10-14.json",
+        "origin_products_sha256": "a432611b2f2f6c6c78888a6aebd38aceaab6b72c8e34f5c58755a707ec1d2cff",
+        "origin_summary_sha256": "3039d50ab78286f5057d858593e677fc0fc162548d52c9f2067a3fa839563099",
+        "origin_record_sha256": "3fbd9bbb7fa90c8c3a66cacc3387d776ab59376eed51c683cd1258634a3211b8",
+        "evidence_sha256": "5124F4FB73FF9B19A038EF7EB065D8A1947E3C5BB7E2A24F0BA0A1E6763DC4D0",
+        "checked_at": "2026-10-13T12:51:33.582049+00:00"
+      }
+    ],
+    "exclusion": {
+      "commit": "2eb2b3ccb828be420ad3dbe199153e40ac358c53",
+      "path": "data/account12/asin_history.json",
+      "git_blob_sha256": "8c72e2b745c99576cb93ae69480e6b5642aa85a439a8af288ae2dbb8c402eed7",
+      "within_days": 20,
+      "include_scraped": false,
+      "include_product_identifiers": true,
+      "reference_date": "2026-10-15"
+    }
+  }
+}
