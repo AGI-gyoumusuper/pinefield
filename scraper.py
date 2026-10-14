@@ -1563,7 +1563,8 @@ def coupon_search_url(url):
     return urlunparse(parsed._replace(query=urlencode(query)))
 
 
-async def verify_discount_candidates(page, candidates, stats, *, max_candidates=24, timeout_seconds=240):
+async def verify_discount_candidates(page, candidates, stats, *, max_candidates=24, timeout_seconds=240,
+                                     require_prime_event=False, source_date=None):
     """Bounded selection-stage PDP reads, reusing that visit for description/specs."""
     started = time.monotonic()
     observations, accepted = [], []
@@ -1576,7 +1577,8 @@ async def verify_discount_candidates(page, candidates, stats, *, max_candidates=
         try:
             visits_started += 1
             record = await asyncio.wait_for(observe_detail_offer(
-                page, product, _read_verified_product_details, offer_scope="unified_discounts"), timeout=remaining)
+                page, product, _read_verified_product_details, offer_scope="unified_discounts",
+                **({"require_prime_event": True, "source_date": source_date} if require_prime_event else {})), timeout=remaining)
         except asyncio.TimeoutError:
             stop_reason = "detail_budget_exhausted"; break
         observations.append(record)
@@ -1615,6 +1617,7 @@ async def complete_discount_supply(
     page, selected, search_pool, registry, cats, stats, *, account, min_price,
     max_price, sort_order, max_total, min_discount_pct, max_per_category,
     exclude_title_patterns, category_min_prices, selection_mode=None,
+    require_prime_event=False, source_date=None,
 ):
     """Use one more bounded PDP batch only when the first batch leaves empty slots.
 
@@ -1656,7 +1659,8 @@ async def complete_discount_supply(
     extra_stats = {}
     try:
         verified = await verify_discount_candidates(page, pending, extra_stats,
-                                                    max_candidates=24, timeout_seconds=240)
+                                                    max_candidates=24, timeout_seconds=240,
+                                                    **({"require_prime_event": True, "source_date": source_date} if require_prime_event else {}))
     except Exception as exc:
         # An optional completion failure must not discard initial usable products.
         supply['extra_batch_count'] = 1
@@ -1756,6 +1760,12 @@ async def fetch_products(
     require_sale_info = sort_order == "sale_first"
     verify_detail_offer = flt.get("verify_detail_offer", False)
     integrated_discounts = flt.get("discount_contract") == DISCOUNT_POLICY
+    require_prime_event = flt.get("require_prime_event", False)
+    if type(require_prime_event) is not bool or (require_prime_event and not integrated_discounts):
+        raise ValueError("prime event requires the verified unified discount contract")
+    prime_source_date = campaign["date"] if require_prime_event and campaign else None
+    if require_prime_event and prime_source_date is None:
+        raise ValueError("prime event requires the active dated campaign")
     if not isinstance(verify_detail_offer, bool):
         raise ValueError("verify_detail_offer must be a boolean")
     if verify_detail_offer and not integrated_discounts and os.path.basename(config_path) != "categories20.yaml":
@@ -1824,6 +1834,8 @@ async def fetch_products(
             scrape_stats["_selection_policy"]["offer_scope"] = offer_scope
     if integrated_discounts:
         scrape_stats["_selection_policy"]["discount_contract"] = DISCOUNT_POLICY
+        if require_prime_event:
+            scrape_stats["_selection_policy"]["require_prime_event"] = True
     if campaign is not None:
         scrape_stats["_campaign"] = campaign
         logger.info("期間限定カテゴリ差配: %s / %s / 最低販売価格%d円", campaign["id"], campaign["date"], min_price)
@@ -2013,7 +2025,8 @@ async def fetch_products(
                 max_total=24, posted_asins=posted_asins, max_per_category=(12 if selection_mode == "category_quota" else 2),
                 exclude_title_patterns=exclude_title_patterns, selection_mode=selection_mode,
                 categories=cats, rotation_state_file=rotation_state_file, category_min_prices=category_min_prices)
-            all_products = await verify_discount_candidates(page, short, scrape_stats)
+            all_products = await verify_discount_candidates(page, short, scrape_stats,
+                **({"require_prime_event": True, "source_date": prime_source_date} if require_prime_event else {}))
             pre_enriched_asins = {product.asin for product in all_products}
         elif verify_detail_offer:
             all_products = await verify_candidate_offers(page, all_products, scrape_stats, offer_scope=offer_scope)
@@ -2081,7 +2094,8 @@ async def fetch_products(
                 account=int(account_match[1]), min_price=min_price, max_price=max_price,
                 sort_order=sort_order, max_total=max_total, min_discount_pct=min_discount_pct,
                 max_per_category=max_per_category, exclude_title_patterns=exclude_title_patterns,
-                category_min_prices=category_min_prices, selection_mode=selection_mode)
+                category_min_prices=category_min_prices, selection_mode=selection_mode,
+                **({"require_prime_event": True, "source_date": prime_source_date} if require_prime_event else {}))
         if verify_detail_offer:
             verification = scrape_stats["_detail_offer_verification"]
             verification["final_selected_count"] = len(filtered)
@@ -2099,7 +2113,9 @@ async def fetch_products(
                 raise ValueError("versioned discounts require canonical account config name")
             scrape_stats["_discount_contract"] = dict(
                 schema_version=1, policy=DISCOUNT_POLICY, account=int(account_match[1]), date=reference_date,
-                products=[discount_row(product, records[product.asin], pos) for pos, product in enumerate(filtered, 1)])
+                products=[discount_row(product, records[product.asin], pos,
+                           **({"prime_source_date": prime_source_date} if require_prime_event else {}))
+                          for pos, product in enumerate(filtered, 1)])
         if not verify_detail_offer:
             scrape_stats["_detail_retry"] = detail_retry_budget.summary()
         await browser.close()
@@ -2154,6 +2170,11 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
         summary["discount_contract"] = discount_contract
         summary["sale_name"] = "Amazon セール"
         summary["coupon_search"] = coupon_search
+        event_rows = discount_contract.get("products", [])
+        if products and event_rows and all(row.get("prime_event", {}).get("verified") is True for row in event_rows):
+            labels = {row["prime_event"]["label"] for row in event_rows}
+            if len(labels) == 1:
+                summary["sale_name"] = "Amazon " + next(iter(labels))
     with open(summary_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
     logger.info(f"カテゴリ別サマリ保存: {summary_path}")

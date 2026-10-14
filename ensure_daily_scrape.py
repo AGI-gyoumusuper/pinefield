@@ -18,7 +18,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
-from sale_campaign import source_campaign_config
+from sale_campaign import CAMPAIGN_POLICY, source_campaign_config
 
 
 ROOT = Path(__file__).resolve().parent
@@ -224,6 +224,34 @@ def validate(
         )
     if not isinstance(summary.get("categories"), dict):
         return False, f"summary categories is not an object: {summary_path}"
+
+    # Historic replay stays compatible. Fresh inputs after this deployment must
+    # not silently freeze the previously generic campaign as a Prime source.
+    campaign_path = root / "sale_campaign.yaml"
+    if campaign_path.exists() and "2026-10-15" <= today <= "2026-10-19":
+        try:
+            import yaml
+            current_campaign = yaml.safe_load(campaign_path.read_text(encoding="utf-8-sig"))
+            require_current_prime = current_campaign.get("policy") == CAMPAIGN_POLICY
+        except Exception as exc:
+            return False, f"fresh campaign configuration invalid: {type(exc).__name__}"
+        source_marker = summary.get("campaign")
+        source_policy = source_marker.get("policy") if isinstance(source_marker, dict) else None
+        if require_current_prime and source_policy != CAMPAIGN_POLICY:
+            manifest_path = root / "data" / account / "source_manifest.json"
+            sealed = False
+            try:
+                manifest = load_json(manifest_path)
+                sealed = (type(manifest.get("schema")) is int and manifest["schema"] == 1
+                          and type(manifest.get("account")) is int
+                          and manifest.get("account") == int(account.removeprefix("account"))
+                          and manifest.get("date") == today
+                          and manifest.get("products_sha256") == hashlib.sha256(products_path.read_bytes()).hexdigest()
+                          and manifest.get("summary_sha256") == hashlib.sha256(summary_path.read_bytes()).hexdigest())
+            except (OSError, ValueError, TypeError, AttributeError):
+                pass
+            if not sealed:
+                return False, "unfixed source requires Prime verified v2 campaign"
 
     account_number = account.removeprefix("account")
     campaign = summary.get("campaign")

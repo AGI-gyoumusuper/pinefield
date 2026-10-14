@@ -26,6 +26,9 @@ def campaign_source(account=20):
     base = yaml.safe_load((ROOT / f"categories{account}.yaml").read_text(encoding="utf-8-sig"))
     effective = apply_campaign_config(base, f"categories{account}.yaml", DAY)
     marker = effective["_sale_campaign"]
+    # This regression fixture represents the already sealed v1 source contract.
+    marker["policy"] = "prime_appreciation_2026_electronics_v1"
+    marker["config_sha256"] = "6161f0c6ae9828bd7de6f6b8f1c06ffacb0245afff2744e4ad9392d7c37b1e6c"
     products = [asdict(scraper.Product(
         asin=f"B{index:09d}", title=f"Product {index}", price="8,000円", price_int=8000,
         original_price="10,000円", discount_rate="20%", image_url="https://example.com/image.jpg",

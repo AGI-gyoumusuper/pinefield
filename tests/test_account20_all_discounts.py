@@ -75,7 +75,7 @@ class AllDiscountPipelineTests(unittest.IsolatedAsyncioTestCase):
                  patch("scraper.load_config", return_value={"filters": {"offer_scope": "all_discounts", "verify_detail_offer": verify}}), \
                  patch("scraper.async_playwright", side_effect=AssertionError("must not open browser")):
                 with self.assertRaisesRegex(ValueError, "restricted"):
-                    await fetch_products(config_path)
+                    await fetch_products(config_path, reference_date="2026-09-12")
 
     async def test_observer_reads_details_without_changing_the_13_key_schema(self):
         candidate = product()

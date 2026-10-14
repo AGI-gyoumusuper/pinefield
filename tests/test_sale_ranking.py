@@ -183,7 +183,7 @@ class SaleIdentityRankingTests(unittest.IsolatedAsyncioTestCase):
              patch("scraper.async_playwright", return_value=manager), \
              patch("scraper.asyncio.sleep", new=AsyncMock()), \
              patch("scraper.scrape_search", new=AsyncMock(side_effect=search)):
-            selected, stats = await fetch_products()
+            selected, stats = await fetch_products(reference_date="2026-09-12")
         self.assertEqual(["A10", *[f"B{index}" for index in range(1, 10)]], [p.asin for p in selected])
         self.assertEqual(9, stats["_skipped_product_identity"])
 
@@ -215,7 +215,7 @@ class SaleIdentityRankingTests(unittest.IsolatedAsyncioTestCase):
                      patch("scraper.asyncio.sleep", new=AsyncMock()), \
                      patch("scraper.scrape_search", new=AsyncMock(side_effect=search)) as search_mock, \
                      patch("scraper.select_enrich_unique_products", new=AsyncMock(return_value=[candidate])) as select_mock:
-                    _, stats = await fetch_products()
+                    _, stats = await fetch_products(reference_date="2026-09-12")
                 self.assertEqual(2, search_mock.await_count)
                 self.assertEqual([sort == "sale_first"] * 2, [call.kwargs["require_sale_info"] for call in search_mock.await_args_list])
                 self.assertEqual(sort, select_mock.await_args.kwargs["sort_order"])

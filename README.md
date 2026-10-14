@@ -23,9 +23,23 @@ markerless snapshots retain their original policy and are never mixed with
 campaign supplements. Already frozen factory sources and posted articles are
 preserved. FC2/livedoor continue to reuse the selected note products.
 
-Campaign searches use the all-discounts facet with the same existing public
-offer/coupon verification. Campaign selection alone does not prove that an item
-is Prime-exclusive or authorize an unverified Prime Sale claim or price.
+The v2 campaign uses the all-discounts search facet only to discover candidates.
+New selections require the same-ASIN visible `#dealBadge_feature_div` to say
+`プライム感謝祭先行セール` (October 13-15 JST) or `プライム感謝祭`
+(October 16-19 JST), in addition to the existing verified offer contract.
+Ordinary discounts or coupons alone cannot enter a new v2 source. The saved
+`discount_contract.products[].prime_event` is replayed against the original PDP
+observation, ASIN, checked time, offer and evidence hash before Prime wording is
+allowed. Observation phase and source-date phase must both match; an early-sale
+observation obtained on October 15 cannot label an October 16 source as the main
+sale. The transition needs an acquisition after October 16 00:00 JST, before the
+factory fixes that day's source; the guard does not relax this requirement.
+
+The v1/v2 marker registries preserve sealed historical sources under their exact
+original policies. Restoring only the backed-up v1 `sale_campaign.yaml` returns
+new acquisitions to the previous generic sale policy while existing v2 sources
+remain readable. Restore configuration through the central backup record, after
+checking later changes, without rolling back posts, source data or ASIN ledgers.
 
 Ordinary product-detail enrichment retries only when both description and
 specifications are empty. Each ASIN gets at most one extra visit, with a

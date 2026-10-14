@@ -110,7 +110,14 @@ def postable_count(account, products, summary=None):
     if campaign_source:
         # Readiness may be checked while appending a validated supplement; its
         # count fields are updated only after the append loop completes.
-        source = {key: summary[key] for key in ('date', 'campaign', 'selection_policy') if key in summary}
+        source = copy.deepcopy(summary)
+        source.pop('total_taken', None)
+        verification = source.get('detail_offer_verification', {})
+        observations = verification.get('observations', [])
+        if observations:
+            verification.update(candidate_count=len(observations),
+                accepted_count=sum(row.get('status') == 'accepted' for row in observations),
+                rejected_count=sum(row.get('status') == 'rejected' for row in observations))
         source_campaign_config({}, source, products, account, summary.get('date'))
     if account != 20 or campaign_source:
         return min(4, len(products))
@@ -146,7 +153,7 @@ def merge_short_source(account, original_products, original_summary, fresh_produ
         if registry.match_identity(identity):
             continue
         # account20 additions must actually fill a missing shelf, never consume capacity otherwise.
-        if account == 20 and postable_count(account, products + [item], summary) == postable_count(account, products, summary):
+        if account == 20 and 'campaign' not in summary and postable_count(account, products + [item], summary) == postable_count(account, products, summary):
             continue
         record = fresh_observations.get(item['asin'])
         row = fresh_rows.get(item['asin'])

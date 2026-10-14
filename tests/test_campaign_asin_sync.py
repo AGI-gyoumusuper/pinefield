@@ -47,6 +47,9 @@ class CampaignAsinSyncTests(unittest.TestCase):
     def campaign_source(self, root, *, folder=None, manifest=True):
         self.source = folder or (root / "frozen/source")
         marker = apply_campaign_config({}, "categories8.yaml", SOURCE_DATE)["_sale_campaign"]
+        # Preserve the sealed v1 sync fixture; new v2 proof has separate tests.
+        marker["policy"] = "prime_appreciation_2026_electronics_v1"
+        marker["config_sha256"] = "6161f0c6ae9828bd7de6f6b8f1c06ffacb0245afff2744e4ad9392d7c37b1e6c"
         self.raw_product = {
             "asin": "B000000001", "title": "Sony WH-1000XM5", "price": "￥8,000", "price_int": 8000,
             "original_price": "￥10,000", "discount_rate": "20%OFF",

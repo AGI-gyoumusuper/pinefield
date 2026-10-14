@@ -65,6 +65,8 @@ def create_origin(tmp_path: Path, *, partial_remote: bool = False) -> tuple[Path
     run_git(seed, "config", "user.name", "test")
     run_git(seed, "config", "user.email", "test@example.invalid")
     shutil.copy2(REPO_ROOT / "ensure_daily_scrape.py", seed / "ensure_daily_scrape.py")
+    shutil.copy2(REPO_ROOT / "sale_campaign.py", seed / "sale_campaign.py")
+    shutil.copy2(REPO_ROOT / "sale_campaign.yaml", seed / "sale_campaign.yaml")
     (seed / "scrape_main14.py").write_text(
         textwrap.dedent(
             """

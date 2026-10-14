@@ -202,6 +202,60 @@ def validate_offer(evidence, *, offer_scope="time_sale"):
 
 
 DISCOUNT_POLICY = "amazon_direct_discounts_v1"
+PRIME_CAMPAIGN_POLICY = "prime_appreciation_2026_electronics_prime_verified_v2"
+PRIME_EVENT_POLICY = "prime_appreciation_2026_badge_v1"
+
+
+def prime_event_phase(source_date):
+    """An event phase is valid only on the explicit 2026 JST event dates."""
+    if not isinstance(source_date, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", source_date):
+        return None
+    if "2026-10-13" <= source_date <= "2026-10-15":
+        return "early"
+    if "2026-10-16" <= source_date <= "2026-10-19":
+        return "main"
+    return None
+
+
+def _prime_event_fields(evidence, source_date):
+    if type(evidence.get("sale_region_count")) is not int or evidence["sale_region_count"] != 1 or evidence.get("sale_region_selector") != "#dealBadge_feature_div":
+        return None, "detail_prime_event_badge_missing"
+    lines = [line for line in str(evidence.get("sale_label", "")).splitlines() if line.strip()]
+    match = re.fullmatch(r"(?:Amazon)?(プライム感謝祭先行セール|プライム感謝祭)", _text(lines[0])) if lines else None
+    if not match:
+        return None, "detail_prime_event_label_unverified"
+    label = match.group(1)
+    phase = "early" if label == "プライム感謝祭先行セール" else "main"
+    try:
+        checked = datetime.fromisoformat(evidence["checked_at"])
+        if checked.tzinfo is None:
+            raise ValueError("timezone missing")
+        observed_date = checked.astimezone(timezone(timedelta(hours=9))).date().isoformat()
+    except (TypeError, ValueError, KeyError):
+        return None, "detail_prime_event_observed_at_invalid"
+    if prime_event_phase(observed_date) != phase or prime_event_phase(source_date) != phase:
+        return None, "detail_prime_event_phase_mismatch"
+    return {"phase": phase, "label": label}, None
+
+
+def prime_event_proof(record, source_date):
+    """Derive proof from a replayable accepted same-ASIN PDP, never a date alone."""
+    evidence = record.get("evidence") if isinstance(record, dict) else None
+    if not isinstance(evidence, dict) or record.get("status") != "accepted" or record.get("reason") is not None:
+        raise ValueError("prime event requires accepted PDP evidence")
+    if (record.get("asin") != evidence.get("requested_asin") or record.get("checked_at") != evidence.get("checked_at")
+            or record.get("evidence_sha256") != observation_sha256(evidence)):
+        raise ValueError("prime event PDP identity/hash mismatch")
+    replay = json.loads(json.dumps(evidence))
+    offer, reason = validate_offer(replay, offer_scope="unified_discounts")
+    if reason or replay != evidence or offer != record.get("pdp_offer"):
+        raise ValueError("prime event PDP offer replay mismatch")
+    event, rejection = _prime_event_fields(evidence, source_date)
+    if rejection:
+        raise ValueError(rejection)
+    return dict(schema_version=1, id="prime_appreciation_2026", policy=PRIME_EVENT_POLICY, verified=True,
+                **event, source_date=source_date, observed_at=record["checked_at"], asin=record["asin"],
+                evidence_sha256=record["evidence_sha256"], evidence_url=evidence["url"], selector="#dealBadge_feature_div")
 
 
 def empty_coupon(evidence, price, status="not_displayed", reason=None):
@@ -334,16 +388,19 @@ def validate_unified_offer(evidence, price, rate, references, reference):
             "discount_rate": f"{rate}%OFF" if rate else ""}, None
 
 
-def discount_row(product, record, position):
+def discount_row(product, record, position, *, prime_source_date=None):
     evidence = record["evidence"]
     original = _reference(_text(product.original_price)) if product.original_price else None
     match = re.fullmatch(r"(\d+)%OFF", product.discount_rate)
-    return dict(asin=product.asin, source_position=position, observation_status="verified",
+    row = dict(asin=product.asin, source_position=position, observation_status="verified",
                 base_offer=dict(sale_price_yen=product.price_int, original_price_yen=original,
                                 discount_rate_percent=int(match[1]) if match else None),
                 time_sale=dict(verified=evidence.get("evidence_kind") in {"label", "deal_countdown"},
                                label="Amazon タイムセール" if evidence.get("evidence_kind") in {"label", "deal_countdown"} else None),
                 coupon=evidence["coupon"], observed_at=record["checked_at"], evidence_url=evidence["url"])
+    if prime_source_date is not None:
+        row["prime_event"] = prime_event_proof(record, prime_source_date)
+    return row
 
 
 def discount_comparison_rate(product, coupon=None):
@@ -366,6 +423,9 @@ def validate_discount_contract_summary(account, products, summary):
     """Replay recorded evidence only; never fetch or rewrite an existing source."""
     contract = summary.get("discount_contract")
     policy = summary.get("selection_policy", {})
+    prime_required = summary.get("campaign", {}).get("policy") == PRIME_CAMPAIGN_POLICY
+    if prime_required and policy.get("require_prime_event") is not True:
+        return False, "prime campaign selection proof policy missing"
     if (not isinstance(contract, dict) or type(contract.get("schema_version")) is not int
             or contract.get("schema_version") != 1 or contract.get("policy") != DISCOUNT_POLICY
             or type(contract.get("account")) is not int or contract.get("account") != int(account.removeprefix("account"))
@@ -417,7 +477,17 @@ def validate_discount_contract_summary(account, products, summary):
             return False, "discount output identity mismatch"
         if any(product.get(key) != value for key, value in record["pdp_offer"].items()):
             return False, "discount output base price mismatch"
-        if row != discount_row(SimpleNamespace(**product), record, position):
+        try:
+            expected_row = discount_row(SimpleNamespace(**product), record, position,
+                                       **({"prime_source_date": summary.get("date")} if prime_required else {}))
+        except (TypeError, ValueError, KeyError):
+            return False, "prime event PDP proof invalid"
+        if prime_required:
+            # JSON equality keeps true distinct from 1 in the new proof contract.
+            matched = json.dumps(row, sort_keys=True, ensure_ascii=False) == json.dumps(expected_row, sort_keys=True, ensure_ascii=False)
+        else:
+            matched = row == expected_row
+        if not matched:
             return False, "discount output row mismatch"
     return True, "discount contract matched recorded evidence"
 
@@ -455,7 +525,7 @@ def offer_fields(product):
     return {key: getattr(product, key) for key in ("price", "price_int", "original_price", "discount_rate")}
 
 
-async def observe_detail_offer(page, product, description_reader, *, offer_scope="time_sale"):
+async def observe_detail_offer(page, product, description_reader, *, offer_scope="time_sale", require_prime_event=False, source_date=None):
     """One same-ASIN visit; description/specs and accepted offer share that page."""
     status, observed = None, {}
     checked = datetime.now(timezone.utc).isoformat()
@@ -467,6 +537,10 @@ async def observe_detail_offer(page, product, description_reader, *, offer_scope
         checked = datetime.now(timezone.utc).isoformat()
         evidence = public_evidence(observed, product.asin, page.url, status, checked)
         offer, reason = validate_offer(evidence, offer_scope=offer_scope)
+        if offer and require_prime_event:
+            _, reason = _prime_event_fields(evidence, source_date)
+            if reason:
+                offer = None
         if offer:
             description, specs = await description_reader(page)
             # A variant switch while lazy content loads invalidates the visit.

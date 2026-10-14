@@ -161,7 +161,7 @@ class OfferPipelineTests(unittest.IsolatedAsyncioTestCase):
                  patch("scraper.observe_detail_offer", new=AsyncMock(side_effect=verify)), \
                  patch("scraper.enrich_product", new=AsyncMock(side_effect=AssertionError("must not revisit verified PDP"))), \
                  patch("scraper.enrich_products", new=AsyncMock(side_effect=AssertionError("must not revisit verified PDP"))):
-                selected, stats = await fetch_products("categories20.yaml", "noteamazon20-22")
+                selected, stats = await fetch_products("categories20.yaml", "noteamazon20-22", "2026-09-12")
             self.assertEqual(8, len(visited)); self.assertEqual(["B000000006", "B000000002", "B000000007", "B000000008"], [p.asin for p in selected])
             self.assertTrue(all(call.kwargs["defer_offer_validation"] for call in search.await_args_list))
             self.assertTrue(all("p_36" not in call.args[1] for call in search.await_args_list))
@@ -177,7 +177,7 @@ class OfferPipelineTests(unittest.IsolatedAsyncioTestCase):
         manager = MagicMock(); manager.__aenter__.return_value = SimpleNamespace(chromium=SimpleNamespace(launch=AsyncMock(return_value=browser)))
         with patch("scraper.load_config", return_value=config), patch("scraper.load_product_exclusion_registry", return_value=ProductIdentityRegistry()), \
              patch("scraper.async_playwright", return_value=manager), patch("scraper.verify_candidate_offers", new=AsyncMock(side_effect=AssertionError("opt-out verifier"))):
-            selected, stats = await fetch_products("categories1.yaml")
+            selected, stats = await fetch_products("categories1.yaml", reference_date="2026-09-12")
         self.assertEqual([], selected); self.assertNotIn("_detail_offer_verification", stats)
         self.assertNotIn("verify_detail_offer", stats["_selection_policy"])
 
@@ -185,7 +185,7 @@ class OfferPipelineTests(unittest.IsolatedAsyncioTestCase):
         with patch("scraper.load_config", return_value={"filters": {"verify_detail_offer": True}}), \
              patch("scraper.async_playwright", side_effect=AssertionError("no browser")):
             with self.assertRaisesRegex(ValueError, "restricted"):
-                await fetch_products("categories19.yaml")
+                await fetch_products("categories19.yaml", reference_date="2026-09-12")
 
 
 if __name__ == "__main__":

@@ -22,7 +22,11 @@ import yaml
 JST = timezone(timedelta(hours=9))
 CAMPAIGN_CONFIG_PATH = Path(__file__).with_name("sale_campaign.yaml")
 CAMPAIGN_ID = "prime_appreciation_2026"
-CAMPAIGN_POLICY = "prime_appreciation_2026_electronics_v1"
+CAMPAIGN_POLICY = "prime_appreciation_2026_electronics_prime_verified_v2"
+LEGACY_CAMPAIGN_POLICY = "prime_appreciation_2026_electronics_v1"
+LEGACY_CONFIG_SHA256 = "6161f0c6ae9828bd7de6f6b8f1c06ffacb0245afff2744e4ad9392d7c37b1e6c"
+PRIME_CONFIG_SHA256 = "8726b65d5e8cf2ebd9393a13f462e63c3087e6503597749730332a3e6cbbb8ea"
+CONFIG_REGISTRY = {LEGACY_CAMPAIGN_POLICY: LEGACY_CONFIG_SHA256, CAMPAIGN_POLICY: PRIME_CONFIG_SHA256}
 _STARTS_AT = "2026-10-13T00:00:00+09:00"
 _ENDS_AT = "2026-10-20T00:00:00+09:00"
 
@@ -77,8 +81,10 @@ def _load_campaign() -> tuple[dict[str, Any], str]:
         raise CampaignConfigError("cannot read canonical sale_campaign.yaml") from error
     if not isinstance(campaign, dict):
         raise CampaignConfigError("sale campaign root must be an object")
+    if campaign.get("policy") not in CONFIG_REGISTRY:
+        raise CampaignConfigError("unregistered campaign policy")
     fixed = {
-        "schema": 1, "id": CAMPAIGN_ID, "policy": CAMPAIGN_POLICY,
+        "schema": 1, "id": CAMPAIGN_ID, "policy": campaign["policy"],
         "timezone": "Asia/Tokyo", "starts_at": _STARTS_AT, "ends_at": _ENDS_AT,
         "min_price": 8000, "selection_mode": "global_ranked", "sort_order": "sale_first",
         "max_total_items": 10, "max_per_category": 2, "max_items": 20,
@@ -110,6 +116,8 @@ def _load_campaign() -> tuple[dict[str, Any], str]:
     if set(campaign) != set(fixed) | {"nodes"}:
         raise CampaignConfigError("sale campaign contains unsupported policy keys")
     digest = hashlib.sha256(_canonical_json(campaign).encode("utf-8")).hexdigest()
+    if digest != CONFIG_REGISTRY[campaign["policy"]]:
+        raise CampaignConfigError("registered campaign configuration changed")
     return campaign, digest
 
 
@@ -149,6 +157,8 @@ def _overlay(base_config: dict[str, Any], marker: dict[str, Any]) -> dict[str, A
         "selection_mode": "global_ranked", "sort_order": "sale_first", "max_total_items": 10,
         "max_per_category": 2, "min_price": 8000,
     })
+    if marker["policy"] == CAMPAIGN_POLICY:
+        filters.update(require_prime_event=True, prime_event_source_date=marker["date"])
     result["categories"] = copy.deepcopy(marker["categories"])
     result["_sale_campaign"] = copy.deepcopy(marker)
     return result
@@ -197,7 +207,15 @@ def source_campaign_config(
     campaign, digest = _load_campaign()
     if not _active_on(campaign, day):
         raise CampaignConfigError("claimed campaign source date is outside the campaign period")
-    expected = _marker(campaign, digest, account_number, day)
+    source_policy = summary["campaign"].get("policy")
+    if source_policy not in CONFIG_REGISTRY:
+        raise CampaignConfigError("source campaign policy is unregistered")
+    frozen_config = copy.deepcopy(campaign)
+    frozen_config["policy"] = source_policy
+    frozen_digest = hashlib.sha256(_canonical_json(frozen_config).encode("utf-8")).hexdigest()
+    if frozen_digest != CONFIG_REGISTRY[source_policy]:
+        raise CampaignConfigError("frozen campaign configuration changed")
+    expected = _marker(frozen_config, frozen_digest, account_number, day)
     if _canonical_json(summary["campaign"]) != _canonical_json(expected):
         raise CampaignConfigError("campaign marker does not match account, date, categories, or policy")
     if "selection_policy" in summary:
@@ -235,4 +253,16 @@ def source_campaign_config(
             if not isinstance(asin, str) or not re.fullmatch(r"[A-Z0-9]{10}", asin) or asin in seen_asins:
                 raise CampaignConfigError(f"campaign product {position} ASIN is invalid or duplicated")
             seen_asins.add(asin)
+    if source_policy == CAMPAIGN_POLICY:
+        try:
+            # Controllers inject the validator from the same pinned Git commit.
+            # Sealed v1 replay needs no new detail_offer module dependency.
+            validator = globals().get("validate_discount_contract_summary")
+            if validator is None:
+                from detail_offer import validate_discount_contract_summary as validator
+            valid, reason = validator(f"account{account_number}", products, summary)
+        except (TypeError, ValueError, KeyError, AttributeError, ImportError) as error:
+            raise CampaignConfigError("prime campaign PDP proof validation failed") from error
+        if not valid:
+            raise CampaignConfigError(reason)
     return _overlay(base_config, expected)

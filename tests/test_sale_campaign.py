@@ -26,6 +26,9 @@ def frozen_source(account=8, day="2026-10-19", price=8000):
     base = base_config(account)
     effective = apply_campaign_config(base, f"categories{account}.yaml", day)
     marker = effective["_sale_campaign"]
+    # Existing sealed v1 inputs do not acquire v2 evidence retroactively.
+    marker["policy"] = "prime_appreciation_2026_electronics_v1"
+    marker["config_sha256"] = "6161f0c6ae9828bd7de6f6b8f1c06ffacb0245afff2744e4ad9392d7c37b1e6c"
     products = [{
         "asin": "B000000001", "price_int": price, "category": marker["categories"][0]["name"] + "#1",
         "source_position": 3, "article_title": "派生データは保持する",

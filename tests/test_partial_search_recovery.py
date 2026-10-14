@@ -129,7 +129,7 @@ class PartialSearchFetchTests(unittest.IsolatedAsyncioTestCase):
              patch.object(scraper.asyncio, "sleep", AsyncMock()), \
              patch.object(scraper, "enrich_products", AsyncMock()), \
              patch.object(scraper, "scrape_search", AsyncMock(side_effect=search)):
-            selected, stats = await scraper.fetch_products()
+            selected, stats = await scraper.fetch_products(reference_date="2026-09-12")
         return selected, stats, calls
 
     async def test_retry_retains_prior_candidates_deduplicates_and_honors_category_limit(self):

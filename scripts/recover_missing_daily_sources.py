@@ -168,13 +168,20 @@ def audit_remote(repo, target_date):
         validator.source_campaign_config = campaign_validator.source_campaign_config
     # Unified discounts use this same pinned evidence parser for every account.
     detail_code = git(repo, 'show', f'{commit}:detail_offer.py', missing_ok=True)
+    if campaign_code is not None and detail_code is not None:
+        detail_namespace = {'__name__': '_pinned_campaign_detail', '__file__': str(ROOT / 'detail_offer.py')}
+        exec(compile(detail_code.decode('utf-8-sig'), 'origin/main:detail_offer.py', 'exec'), detail_namespace)
+        campaign_validator.validate_discount_contract_summary = detail_namespace['validate_discount_contract_summary']
     rows = []
     for account in ACCOUNTS:
         prefix = f'data/account{account}/'
         names = [prefix + f'products_{target_date}.json', prefix + f'scrape_summary_{target_date}.json',
                  prefix + 'asin_history.json']
         names.append(f'categories{account}.yaml')
+        names.append(prefix + 'source_manifest.json')
         files = {'detail_offer.py': detail_code} if detail_code is not None else {}
+        if campaign_config is not None:
+            files['sale_campaign.yaml'] = campaign_config
         for name in names:
             content = git(repo, 'show', f'{commit}:{name}', missing_ok=True)
             if content is not None:
