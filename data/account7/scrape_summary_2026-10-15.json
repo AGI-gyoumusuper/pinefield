@@ -1,0 +1,2409 @@
+{
+  "date": "2026-10-15",
+  "total_taken": 10,
+  "selection_policy": {
+    "selection_mode": "global_ranked",
+    "sort_order": "sale_first",
+    "require_sale_info": true,
+    "max_per_category": 2,
+    "max_total_items": 10,
+    "verify_detail_offer": true,
+    "offer_scope": "unified_discounts",
+    "discount_contract": "amazon_direct_discounts_v1"
+  },
+  "excluded_loaded": 70,
+  "excluded_gtins_loaded": 0,
+  "excluded_brand_models_loaded": 14,
+  "skipped_product_identity": 0,
+  "skipped_product_identity_reasons": {},
+  "categories": {
+    "スマートウォッチ": {
+      "pages": [
+        33
+      ],
+      "taken": 20,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "加湿器": {
+      "pages": [
+        33
+      ],
+      "taken": 20,
+      "skipped_posted": 1,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "NAS（ネットワークストレージ）": {
+      "pages": [
+        26
+      ],
+      "taken": 20,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "プロジェクター": {
+      "pages": [
+        33
+      ],
+      "taken": 20,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    }
+  },
+  "campaign": {
+    "schema": 1,
+    "id": "prime_appreciation_2026",
+    "policy": "prime_appreciation_2026_electronics_v1",
+    "account": 7,
+    "date": "2026-10-15",
+    "starts_at": "2026-10-13T00:00:00+09:00",
+    "ends_at": "2026-10-20T00:00:00+09:00",
+    "min_price": 8000,
+    "selection_mode": "global_ranked",
+    "categories": [
+      {
+        "name": "スマートウォッチ",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A2725002051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "加湿器",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A4082991%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "NAS（ネットワークストレージ）",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A2151968051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "プロジェクター",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A137613011%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      }
+    ],
+    "allocation_method": "daily_rotation_20_nodes_offsets_0_1_4_5_shift_3",
+    "official_source": "https://www.aboutamazon.jp/news/amazon-prime/prime-appreciation-sale-2026",
+    "config_sha256": "6161f0c6ae9828bd7de6f6b8f1c06ffacb0245afff2744e4ad9392d7c37b1e6c"
+  },
+  "detail_offer_verification": {
+    "schema_version": 1,
+    "enabled": true,
+    "offer_scope": "unified_discounts",
+    "sale_name": "Amazon セール",
+    "candidate_count": 24,
+    "raw_candidate_count": 24,
+    "accepted_count": 24,
+    "rejected_count": 0,
+    "rejection_reasons": {},
+    "observations": [
+      {
+        "asin": "B0H6VX2CBR",
+        "category": "プロジェクター#14",
+        "checked_at": "2026-10-14T10:11:10.539139+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥21,500",
+          "price_int": 21500,
+          "original_price": "￥43,000",
+          "discount_rate": "50%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥21,500",
+          "price_int": 21500,
+          "original_price": "￥43,000",
+          "discount_rate": "50%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H6VX2CBR",
+            "B0H6VX2CBR"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Jimveo プロジェクター 家庭用 小型 天井 - 【Google TV搭載・Netflix公式】1300ASNI 短焦点 4K対応 1080P オートフォーカス 自動台形 WiFi6 Bluetooth5.4 シルバーグレー",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "21,500"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-50%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥43,000\n￥43,000"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n ¥4200 OFFクーポンの適用 規約\nプロモーション情報 注文確定時に20%割引 規約\nプロモーション情報 注文確定時に10%割引 規約",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0H6VX2CBR",
+                "https://www.amazon.co.jp/dp/B0H6VX2CBR",
+                "https://www.amazon.co.jp/dp/B0H6VX2CBR",
+                "https://www.amazon.co.jp/dp/B0H6VX2CBR",
+                "https://www.amazon.co.jp/dp/B0H6VX2CBR",
+                "https://www.amazon.co.jp/dp/B0H6VX2CBR",
+                "https://www.amazon.co.jp/dp/B0H6VX2CBR",
+                "https://www.amazon.co.jp/dp/B0H6VX2CBR"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H6VX2CBR",
+          "url": "https://www.amazon.co.jp/dp/B0H6VX2CBR",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:11:10.539139+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 21500,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_value_ambiguous",
+            "evidence_text": "クーポン:  \n ¥4200 OFFクーポンの適用 規約\nプロモーション情報 注文確定時に20%割引 規約\nプロモーション情報 注文確定時に10%割引 規約",
+            "source_url": "https://www.amazon.co.jp/dp/B0H6VX2CBR",
+            "asin": "B0H6VX2CBR"
+          }
+        },
+        "evidence_sha256": "7D57AC766541AC5304DDE53722F7FE72B4313464304D2359D6D00E971D68F49C"
+      },
+      {
+        "asin": "B0FSCVT4G9",
+        "category": "プロジェクター#3",
+        "checked_at": "2026-10-14T10:11:18.543776+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥89,900",
+          "price_int": 89900,
+          "original_price": "￥149,900",
+          "discount_rate": "40%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥89,900",
+          "price_int": 89900,
+          "original_price": "￥149,900",
+          "discount_rate": "40%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FSCVT4G9"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Anker Soundcore Nebula P1【着脱式デュアルスピーカー搭載プロジェクター】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "89,900"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-40%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥149,900\n￥149,900"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "タイムセール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FSCVT4G9",
+          "url": "https://www.amazon.co.jp/dp/B0FSCVT4G9",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:11:18.543776+00:00",
+          "evidence_kind": "label",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 89900,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FSCVT4G9",
+            "asin": "B0FSCVT4G9"
+          }
+        },
+        "evidence_sha256": "6D57FC0178D1F357D3C0BBE9874C93F9B97D01D8C04F4A4FD68C3E4A7EF105ED"
+      },
+      {
+        "asin": "B0FKH3WQ41",
+        "category": "スマートウォッチ#2",
+        "checked_at": "2026-10-14T10:11:26.948354+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥36,800",
+          "price_int": 36800,
+          "original_price": "￥48,180",
+          "discount_rate": "24%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥36,800",
+          "price_int": 36800,
+          "original_price": "￥48,180",
+          "discount_rate": "24%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FKH3WQ41",
+            "B0FKH3WQ41",
+            "B0FKH3WQ41"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "HUAWEI WATCH GT 6 Pro 46mm スマートウォッチ 大画面 GPS搭載 21日間バッテリー 心電図 ゴルフ GPS 通知 ブラック",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "36,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-24%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥48,180\n￥48,180"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FKH3WQ41",
+          "url": "https://www.amazon.co.jp/dp/B0FKH3WQ41",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:11:26.948354+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 36800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FKH3WQ41",
+            "asin": "B0FKH3WQ41"
+          }
+        },
+        "evidence_sha256": "A5D3541FD30F0F7811E2DE521101FEBD092CA9F3C31BFB86C23EFAE449E0C816"
+      },
+      {
+        "asin": "B0GQL9JZS7",
+        "category": "スマートウォッチ#10",
+        "checked_at": "2026-10-14T10:11:35.655461+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥11,392",
+          "price_int": 11392,
+          "original_price": "￥14,800",
+          "discount_rate": "23%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥11,392",
+          "price_int": 11392,
+          "original_price": "￥14,800",
+          "discount_rate": "23%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GQL9JZS7",
+            "B0GQL9JZS7",
+            "B0GQL9JZS7"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Xiaomi Redmi Watch 6 シャオミ スマートウォッチ GPS Bluetooth通話 着信通知 防水 24日間持続 iPhone対応",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "11,392"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-23%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥14,800\n￥14,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GQL9JZS7",
+          "url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:11:35.655461+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 11392,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
+            "asin": "B0GQL9JZS7"
+          }
+        },
+        "evidence_sha256": "C1FC680183380C0B927D8ADE44695D8C5DF2CECE9F509E2444CDFE4AF1E06512"
+      },
+      {
+        "asin": "B0DDBZV6MP",
+        "category": "NAS（ネットワークストレージ）#17",
+        "checked_at": "2026-10-14T10:11:43.631553+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥119,992",
+          "price_int": 119992,
+          "original_price": "￥149,990",
+          "discount_rate": "20%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥119,992",
+          "price_int": 119992,
+          "original_price": "￥149,990",
+          "discount_rate": "20%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DDBZV6MP",
+            "B0DDBZV6MP"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "TERRAMASTER F8 SSD Plus 8ベイ オールフラッシュNAS i3 N305 16GB（ドライブ付属なし）",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "119,992"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-20%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥149,990\n￥149,990"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DDBZV6MP",
+          "url": "https://www.amazon.co.jp/dp/B0DDBZV6MP",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:11:43.631553+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 119992,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DDBZV6MP",
+            "asin": "B0DDBZV6MP"
+          }
+        },
+        "evidence_sha256": "5701EC9CF6AE5DC05921CF8EEFF2CB51B4679490E22A2ECF674CE9AE6C2AE5CA"
+      },
+      {
+        "asin": "B0FHW4519X",
+        "category": "NAS（ネットワークストレージ）#15",
+        "checked_at": "2026-10-14T10:11:50.981594+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥39,991",
+          "price_int": 39991,
+          "original_price": "￥49,990",
+          "discount_rate": "20%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥39,991",
+          "price_int": 39991,
+          "original_price": "￥49,990",
+          "discount_rate": "20%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FHW4519X",
+            "B0FHW4519X"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "TERRAMASTER F2-425 2ベイ NAS N5095 4GB 2.5GbE（HDD付属なし）",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "39,991"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-20%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥49,990\n￥49,990"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FHW4519X",
+          "url": "https://www.amazon.co.jp/dp/B0FHW4519X",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:11:50.981594+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 39991,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FHW4519X",
+            "asin": "B0FHW4519X"
+          }
+        },
+        "evidence_sha256": "6AE326F462B2DA8B1FF5E7D8C075BE3DE47E61347ADB0F7F667A45613DFD5C79"
+      },
+      {
+        "asin": "B0FPGCXYV5",
+        "category": "加湿器#3",
+        "checked_at": "2026-10-14T10:11:58.013701+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥16,800",
+          "price_int": 16800,
+          "original_price": "￥19,800",
+          "discount_rate": "15%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥16,800",
+          "price_int": 16800,
+          "original_price": "￥19,800",
+          "discount_rate": "15%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FPGCXYV5",
+            "B0FPGCXYV5"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "QUADS(クワッズ) ガラススチーム加湿器 ポット式 2.6L 17畳対応 加湿650ml/h 上部給水 デザイン加湿器 (グレー)",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "16,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-15%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥19,800\n￥19,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FPGCXYV5",
+          "url": "https://www.amazon.co.jp/dp/B0FPGCXYV5",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:11:58.013701+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 16800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FPGCXYV5",
+            "asin": "B0FPGCXYV5"
+          }
+        },
+        "evidence_sha256": "58ECF65F4FB921BE3FFC1919F270784A34412FCC8718D0A689DB5A97603D542F"
+      },
+      {
+        "asin": "B0HH96JB9W",
+        "category": "加湿器#7",
+        "checked_at": "2026-10-14T10:12:05.433252+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥15,980",
+          "price_int": 15980,
+          "original_price": "￥18,800",
+          "discount_rate": "15%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥15,980",
+          "price_int": 15980,
+          "original_price": "￥18,800",
+          "discount_rate": "15%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0HH96JB9W",
+            "B0HH96JB9W"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "[山善] 加湿器 スチーム式 3.0L (木造~10畳/洋室~17畳) ガラス 加湿量3段階 切タイマー LEDムードランプ KS-TM3(LGY)",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "15,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-15%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥18,800\n￥18,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0HH96JB9W",
+          "url": "https://www.amazon.co.jp/dp/B0HH96JB9W",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:12:05.433252+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 15980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0HH96JB9W",
+            "asin": "B0HH96JB9W"
+          }
+        },
+        "evidence_sha256": "74577FD02B1A8BC4438604C8A08924DB8636A4BBF23B5D3E5408A189042BC11D"
+      },
+      {
+        "asin": "B0HGQ8QB6B",
+        "category": "プロジェクター#17",
+        "checked_at": "2026-10-14T10:12:12.694655+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥17,880",
+          "price_int": 17880,
+          "original_price": "￥29,800",
+          "discount_rate": "40%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥17,880",
+          "price_int": 17880,
+          "original_price": "￥29,800",
+          "discount_rate": "40%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0HGQ8QB6B",
+            "B0HGQ8QB6B"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "プロジェクター 家庭用 小型 天井-【ムードライト・Netflix・Prime Video・YouTube・Google playアプリ搭載】ONOAYO 自動フォーカス 自動4D台形補正 自動画面適応 自動障害物回避 1300ANSI 4K対応 Wi-Fi6＆双方向Bluetooth5.4 /密閉防塵 IOS/Android/パソコン/DVD/PS機/HDMI接続可 スタンド一体型 AY5",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "17,880"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-40%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥29,800\n￥29,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n ¥3500 OFFクーポンの適用 規約\nプロモーション情報 注文確定時に20%割引 規約\nプロモーション情報 注文確定時に15%割引 規約\nプロモーション情報 注文確定時に10%割引 規約",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0HGQ8QB6B",
+                "https://www.amazon.co.jp/dp/B0HGQ8QB6B",
+                "https://www.amazon.co.jp/dp/B0HGQ8QB6B",
+                "https://www.amazon.co.jp/dp/B0HGQ8QB6B",
+                "https://www.amazon.co.jp/dp/B0HGQ8QB6B",
+                "https://www.amazon.co.jp/dp/B0HGQ8QB6B",
+                "https://www.amazon.co.jp/dp/B0HGQ8QB6B",
+                "https://www.amazon.co.jp/dp/B0HGQ8QB6B"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0HGQ8QB6B",
+          "url": "https://www.amazon.co.jp/dp/B0HGQ8QB6B",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:12:12.694655+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 17880,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_value_ambiguous",
+            "evidence_text": "クーポン:  \n ¥3500 OFFクーポンの適用 規約\nプロモーション情報 注文確定時に20%割引 規約\nプロモーション情報 注文確定時に15%割引 規約\nプロモーション情報 注文確定時に10%割引 規約",
+            "source_url": "https://www.amazon.co.jp/dp/B0HGQ8QB6B",
+            "asin": "B0HGQ8QB6B"
+          }
+        },
+        "evidence_sha256": "A8441F9D84379904465BE49279FF17B672B11DC13AABAE0C770416210C17B714"
+      },
+      {
+        "asin": "B0DF7V3V9G",
+        "category": "プロジェクター#18",
+        "checked_at": "2026-10-14T10:12:20.210404+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥23,370",
+          "price_int": 23370,
+          "original_price": "￥36,999",
+          "discount_rate": "37%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥23,370",
+          "price_int": 23370,
+          "original_price": "￥36,999",
+          "discount_rate": "37%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DF7V3V9G",
+            "B0DF7V3V9G"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Google TV搭載・Netflix公式ライセンス】ETOE プロジェクター 天井投影 1080P解像度·4K対応/オートフォーカス＆自動台形補正/Google cast対応/1.2:1 投影比率 短焦点/5G WiFi/Bluetooth 5.1/スマホ・PC・Switch対応/ナイトライト搭載/一体型回転式スタンド/防塵・24dB静音設計 – Starfish Plus 白",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "23,370"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-37%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥36,999\n￥36,999"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DF7V3V9G",
+          "url": "https://www.amazon.co.jp/dp/B0DF7V3V9G",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:12:20.210404+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 23370,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DF7V3V9G",
+            "asin": "B0DF7V3V9G"
+          }
+        },
+        "evidence_sha256": "FA409F15D9BB8AE2DEBBE99FC608DB6804156D895C7ECC25B4E7654A3FD61E8C"
+      },
+      {
+        "asin": "B0H9QSM52R",
+        "category": "プロジェクター#15",
+        "checked_at": "2026-10-14T10:12:28.494541+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥19,800",
+          "price_int": 19800,
+          "original_price": "￥29,999",
+          "discount_rate": "34%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥19,800",
+          "price_int": 19800,
+          "original_price": "￥29,999",
+          "discount_rate": "34%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H9QSM52R",
+            "B0H9QSM52R"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "プロジェクター 4K 家庭用 【Netflix・Prime Video・U-NEXT・ABEMA対応】 プロジェクター 小型 330°回転＆天井投影 | 自動フォーカス&自動台形補正&自動画面適応&自動障害物回避 | Wi-Fi＆双方向Bluetooth | スマホアプリ操作＆ホームシアター | スマホ/PC/DVD/PS5/Switch対応 日本語取扱説明書 PUTRIMS S36",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "19,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-34%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥29,999\n￥29,999"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 5% OFFクーポンの適用 規約\nプロモーション情報 注文確定時に8%割引 規約",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0H9QSM52R",
+                "https://www.amazon.co.jp/dp/B0H9QSM52R",
+                "https://www.amazon.co.jp/dp/B0H9QSM52R",
+                "https://www.amazon.co.jp/dp/B0H9QSM52R",
+                "https://www.amazon.co.jp/dp/B0H9QSM52R",
+                "https://www.amazon.co.jp/dp/B0H9QSM52R"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H9QSM52R",
+          "url": "https://www.amazon.co.jp/dp/B0H9QSM52R",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:12:28.494541+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 19800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_value_ambiguous",
+            "evidence_text": "クーポン:  \n 5% OFFクーポンの適用 規約\nプロモーション情報 注文確定時に8%割引 規約",
+            "source_url": "https://www.amazon.co.jp/dp/B0H9QSM52R",
+            "asin": "B0H9QSM52R"
+          }
+        },
+        "evidence_sha256": "9F1DC240FFFCE4FF744D76A1846570B5568272DCC84F5492074DF4BA60541DB9"
+      },
+      {
+        "asin": "B0BCTP8VJH",
+        "category": "プロジェクター#2",
+        "checked_at": "2026-10-14T10:12:36.285754+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥79,900",
+          "price_int": 79900,
+          "original_price": "￥119,900",
+          "discount_rate": "33%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥79,900",
+          "price_int": 79900,
+          "original_price": "￥119,900",
+          "discount_rate": "33%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0BCTP8VJH"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Anker Nebula Capsule 3 Laser 【小型モバイルレーザープロジェクター】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "79,900"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-33%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥119,900\n￥119,900"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "タイムセール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0BCTP8VJH",
+          "url": "https://www.amazon.co.jp/dp/B0BCTP8VJH",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:12:36.285754+00:00",
+          "evidence_kind": "label",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 79900,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0BCTP8VJH",
+            "asin": "B0BCTP8VJH"
+          }
+        },
+        "evidence_sha256": "A8E83ED8B78C1B2EA9975352E0F8AB5B1A5149D6BE42A58B965E0BF920AE7CA4"
+      },
+      {
+        "asin": "B0GX94XV8G",
+        "category": "プロジェクター#16",
+        "checked_at": "2026-10-14T10:12:45.629227+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥26,999",
+          "price_int": 26999,
+          "original_price": "￥38,999",
+          "discount_rate": "31%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥26,999",
+          "price_int": 26999,
+          "original_price": "￥38,999",
+          "discount_rate": "31%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GX94XV8G",
+            "B0GX94XV8G"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【最新Google TV 14搭載・2026 バージョン】 Wanbo T2 Ultra プロジェクター 500ANSI 1080P フルHD 高性能4コアチップでカクツキ解消 32GBストレージ 大容量 1.2:1 投影比率 短焦点 10W HiFi スピーカー内蔵 WiFi ブルートゥース chromecast 対応 オートフォーカス/全自動台形補正/スクリーンアジャスト/ズーム 防塵 静音",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "26,999"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-31%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥38,999\n￥38,999"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GX94XV8G",
+          "url": "https://www.amazon.co.jp/dp/B0GX94XV8G",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:12:45.629227+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 26999,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GX94XV8G",
+            "asin": "B0GX94XV8G"
+          }
+        },
+        "evidence_sha256": "AD8E5C5D3FD9E573CC05ED05DB1E5EAC939923703772C13ADBC7980394A5FB98"
+      },
+      {
+        "asin": "B0GNMBYZV5",
+        "category": "プロジェクター#1",
+        "checked_at": "2026-10-14T10:12:52.664616+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥69,980",
+          "price_int": 69980,
+          "original_price": "￥99,899",
+          "discount_rate": "30%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥69,980",
+          "price_int": 69980,
+          "original_price": "￥99,899",
+          "discount_rate": "30%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GNMBYZV5",
+            "B0GNMBYZV5"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "New【Amazon.co.jp限定】エプソン 家庭用プロジェクター EF-61WA Leminoプレミアム1カ月無料視聴カード同梱 Lifestudio Pop 700lm/Full HD Google TV™搭載 小型 ホームシアター 推し活 映画 スポーツ観戦",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "69,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-30%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥99,899\n￥99,899"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GNMBYZV5",
+          "url": "https://www.amazon.co.jp/dp/B0GNMBYZV5",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:12:52.664616+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 69980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GNMBYZV5",
+            "asin": "B0GNMBYZV5"
+          }
+        },
+        "evidence_sha256": "68F4CF149DA7C051C38096EDB88AAA9A9F7129BD18E8C89C4B6CD881F681D28F"
+      },
+      {
+        "asin": "B0H4GT8PKF",
+        "category": "プロジェクター#12",
+        "checked_at": "2026-10-14T10:13:00.341839+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥49,320",
+          "price_int": 49320,
+          "original_price": "￥69,999",
+          "discount_rate": "30%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥49,320",
+          "price_int": 49320,
+          "original_price": "￥69,999",
+          "discount_rate": "30%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H4GT8PKF",
+            "B0H4GT8PKF"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "プロジェクター4K【2800ANSI・60W Dolby・最速VIDAA・音声操作】WIMIUS K14｜静音30dB｜AI自動フォーカス＆6D台形補正｜Netflix/YouTube/Prime対応｜Wi-Fi6・BT5.4・AirPlay2｜HDMI ARC&CEC｜ゲーム機・スマホ・タブレット対応｜キッズモード｜家庭用・天井投影対応",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "49,320"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-30%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥69,999\n￥69,999"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n ¥5000 OFFクーポンの適用 規約\nプロモーション情報 注文確定時に12%割引 規約",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0H4GT8PKF",
+                "https://www.amazon.co.jp/dp/B0H4GT8PKF",
+                "https://www.amazon.co.jp/dp/B0H4GT8PKF",
+                "https://www.amazon.co.jp/dp/B0H4GT8PKF",
+                "https://www.amazon.co.jp/dp/B0H4GT8PKF",
+                "https://www.amazon.co.jp/dp/B0H4GT8PKF"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H4GT8PKF",
+          "url": "https://www.amazon.co.jp/dp/B0H4GT8PKF",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:13:00.341839+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 49320,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_value_ambiguous",
+            "evidence_text": "クーポン:  \n ¥5000 OFFクーポンの適用 規約\nプロモーション情報 注文確定時に12%割引 規約",
+            "source_url": "https://www.amazon.co.jp/dp/B0H4GT8PKF",
+            "asin": "B0H4GT8PKF"
+          }
+        },
+        "evidence_sha256": "1FA7548C80F64070F8FC54DCE9344F6B93BC35B202528B4EA18055358B9D4BAA"
+      },
+      {
+        "asin": "B0G4DSTGYQ",
+        "category": "プロジェクター#19",
+        "checked_at": "2026-10-14T10:13:08.404010+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥16,888",
+          "price_int": 16888,
+          "original_price": "￥23,888",
+          "discount_rate": "29%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥16,888",
+          "price_int": 16888,
+          "original_price": "￥23,888",
+          "discount_rate": "29%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0G4DSTGYQ",
+            "B0G4DSTGYQ"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "プロジェクター家庭用 小型 天井 静音【Netflix・Prime Video・YouTubeアプリ搭載】600ANSI 4K対応 自動台形補正 0.5M近距離投影 Wi-Fi6/Bluetooth5.4スタンド一体型 軽量 ミニ スマホ/パソコン/PS5/Switch/DVD接続可 プレゼント3年保証2026年新登場MX1チャコールブラック",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "16,888"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-29%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥23,888\n￥23,888"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0G4DSTGYQ",
+          "url": "https://www.amazon.co.jp/dp/B0G4DSTGYQ",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:13:08.404010+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 16888,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0G4DSTGYQ",
+            "asin": "B0G4DSTGYQ"
+          }
+        },
+        "evidence_sha256": "4C3BD98820CA01B897C7AA6B6BD2CC861760F8EE421F5DA1ED6685EDB1F67DC9"
+      },
+      {
+        "asin": "B0GJSCGFTP",
+        "category": "スマートウォッチ#6",
+        "checked_at": "2026-10-14T10:13:15.797674+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥9,227",
+          "price_int": 9227,
+          "original_price": "￥11,880",
+          "discount_rate": "22%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥9,227",
+          "price_int": 9227,
+          "original_price": "￥11,880",
+          "discount_rate": "22%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GJSCGFTP",
+            "B0GJSCGFTP"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "HUAWEI Band 11 Pro GPS搭載 スマートウォッチ 8.99mm/18g薄型軽量ボディ 高輝度 2000nits 1.62大画面 24時間睡眠管理 14日間持続バッテリー ランニングモード 情緒モニタリング LINE通知 ブラック",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "9,227"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-22%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥11,880\n￥11,880"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GJSCGFTP",
+          "url": "https://www.amazon.co.jp/dp/B0GJSCGFTP",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:13:15.797674+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 9227,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GJSCGFTP",
+            "asin": "B0GJSCGFTP"
+          }
+        },
+        "evidence_sha256": "9AC3EBAEBD3085E575D9FD94029820A3979D6C5E296083065F24F6EAA4F21354"
+      },
+      {
+        "asin": "B0CD7GSKRF",
+        "category": "NAS（ネットワークストレージ）#11",
+        "checked_at": "2026-10-14T10:13:22.645157+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥20,792",
+          "price_int": 20792,
+          "original_price": "￥25,990",
+          "discount_rate": "20%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥20,792",
+          "price_int": 20792,
+          "original_price": "￥25,990",
+          "discount_rate": "20%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0CD7GSKRF",
+            "B0CD7GSKRF"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "TERRAMASTER F2-212 2ベイ NAS クアッドコアCPU 1GB DDR4（HDD付属なし）",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "20,792"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-20%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥25,990\n￥25,990"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0CD7GSKRF",
+          "url": "https://www.amazon.co.jp/dp/B0CD7GSKRF",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:13:22.645157+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 20792,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0CD7GSKRF",
+            "asin": "B0CD7GSKRF"
+          }
+        },
+        "evidence_sha256": "6F82F91B6505E40A3AF90E09ECCE30587ECDF4D4BA608496D30D45A2F327663A"
+      },
+      {
+        "asin": "B0BP97WV3R",
+        "category": "NAS（ネットワークストレージ）#2",
+        "checked_at": "2026-10-14T10:13:29.725240+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥124,320",
+          "price_int": 124320,
+          "original_price": "￥146,263",
+          "discount_rate": "15%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥124,320",
+          "price_int": 124320,
+          "original_price": "￥146,263",
+          "discount_rate": "15%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0BP97WV3R",
+            "B0BP97WV3R",
+            "B0BP97WV3R"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "QNAP NAS 4ベイ TS-464-8G /AZ 4コアCPU採用 8GBメモリ搭載 2つの2.5GbE対応ポートとNAS機能を拡張できるPCIeスロットを1つ搭載 中小企業向け 6か月延長保証 / 国内正規代理店品",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "124,320"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-15%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥146,263\n￥146,263"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0BP97WV3R",
+          "url": "https://www.amazon.co.jp/dp/B0BP97WV3R",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:13:29.725240+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 124320,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0BP97WV3R",
+            "asin": "B0BP97WV3R"
+          }
+        },
+        "evidence_sha256": "4CEFE0D920DB462CF7A74A2C632F11D30676C831EFBB2119639AF9C269CC332C"
+      },
+      {
+        "asin": "B0BLN49LV1",
+        "category": "NAS（ネットワークストレージ）#13",
+        "checked_at": "2026-10-14T10:13:36.545928+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥97,710",
+          "price_int": 97710,
+          "original_price": "￥112,101",
+          "discount_rate": "13%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥97,710",
+          "price_int": 97710,
+          "original_price": "￥112,101",
+          "discount_rate": "13%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0BLN49LV1",
+            "B0BLN49LV1"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】 QNAP(キューナップ) NAS 2ベイ TS-264 /AZ 4コアCPU採用 8GBメモリ搭載 2つの2.5GbE対応ポートとNAS機能を拡張できるPCIeスロットを1つ搭載 中小企業向け 6か月延長保証 /国内正規代理店",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "97,710"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-13%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥112,101\n￥112,101"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0BLN49LV1",
+          "url": "https://www.amazon.co.jp/dp/B0BLN49LV1",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:13:36.545928+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 97710,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0BLN49LV1",
+            "asin": "B0BLN49LV1"
+          }
+        },
+        "evidence_sha256": "50F78DFFED2F6D0D16A59F48F0ED86DCD90F6B64857E791043B1213F33782692"
+      },
+      {
+        "asin": "B0FM6SRJRB",
+        "category": "加湿器#2",
+        "checked_at": "2026-10-14T10:13:43.491167+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥13,400",
+          "price_int": 13400,
+          "original_price": "￥14,980",
+          "discount_rate": "11%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥13,400",
+          "price_int": 13400,
+          "original_price": "￥14,980",
+          "discount_rate": "11%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FM6SRJRB",
+            "B0FM6SRJRB"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【オヤスミスト】アイリスオーヤマ 加湿器 スチーム式 加湿量 600ml タンク容量 3L 2WAY給水 10畳・17畳対応 AHM-MHU60A-W",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "13,400"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-11%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥14,980\n￥14,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FM6SRJRB",
+          "url": "https://www.amazon.co.jp/dp/B0FM6SRJRB",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:13:43.491167+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 13400,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FM6SRJRB",
+            "asin": "B0FM6SRJRB"
+          }
+        },
+        "evidence_sha256": "E015169AAFC29025683A54C335455A0FC3D08B763F859376511F6280383AB0D3"
+      },
+      {
+        "asin": "B0GGY9V3TJ",
+        "category": "プロジェクター#20",
+        "checked_at": "2026-10-14T10:13:50.527706+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥49,491",
+          "price_int": 49491,
+          "original_price": "￥54,990",
+          "discount_rate": "10%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥49,491",
+          "price_int": 49491,
+          "original_price": "￥54,990",
+          "discount_rate": "10%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GGY9V3TJ",
+            "B0GGY9V3TJ"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【2500ANSI＆公式Google TV 14.0】プロジェクター 4K 【MEMC＆48WDoIby対応＆自動フォーカス＆自動台形補正＆自動障害物回避＆スクリーンフィット】WiMiUS G2 プロジェクター 家庭用 ビジネス用 HDR10+ HDMI CEC＆ARC WiFi6 双方向Bluetooth5.4 4K対応 2+32GBストレージ 最大300インチ ホームプロジェクター",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "49,491"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-10%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥54,990\n￥54,990"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 5% OFFクーポンの適用 規約\nプロモーション情報 注文確定時に10%割引 規約\nプロモーション情報 注文確定時に9%割引 規約",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B0GGY9V3TJ",
+                "https://www.amazon.co.jp/dp/B0GGY9V3TJ",
+                "https://www.amazon.co.jp/dp/B0GGY9V3TJ",
+                "https://www.amazon.co.jp/dp/B0GGY9V3TJ",
+                "https://www.amazon.co.jp/dp/B0GGY9V3TJ",
+                "https://www.amazon.co.jp/dp/B0GGY9V3TJ",
+                "https://www.amazon.co.jp/dp/B0GGY9V3TJ",
+                "https://www.amazon.co.jp/dp/B0GGY9V3TJ"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GGY9V3TJ",
+          "url": "https://www.amazon.co.jp/dp/B0GGY9V3TJ",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:13:50.527706+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "unverified",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 49491,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": "coupon_value_ambiguous",
+            "evidence_text": "クーポン:  \n 5% OFFクーポンの適用 規約\nプロモーション情報 注文確定時に10%割引 規約\nプロモーション情報 注文確定時に9%割引 規約",
+            "source_url": "https://www.amazon.co.jp/dp/B0GGY9V3TJ",
+            "asin": "B0GGY9V3TJ"
+          }
+        },
+        "evidence_sha256": "4D354602E2F71A965F3DF3502F1FE4FA1CD1941F8748889DAA395A4CDD35EEC8"
+      },
+      {
+        "asin": "B0F8TVM5XR",
+        "category": "プロジェクター#13",
+        "checked_at": "2026-10-14T10:13:57.550622+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥18,899",
+          "price_int": 18899,
+          "original_price": "￥20,999",
+          "discount_rate": "10%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥18,899",
+          "price_int": 18899,
+          "original_price": "￥20,999",
+          "discount_rate": "10%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F8TVM5XR",
+            "B0F8TVM5XR"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "FPD プロジェクター 公式Netflix認定 1080PフルHD Dolby Audio対応 【最大24ヶ月保証】",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "18,899"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-10%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥20,999\n￥20,999"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0F8TVM5XR",
+          "url": "https://www.amazon.co.jp/dp/B0F8TVM5XR",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:13:57.550622+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 18899,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F8TVM5XR",
+            "asin": "B0F8TVM5XR"
+          }
+        },
+        "evidence_sha256": "ACFF100E8EC8527611FD7DF10C4F366F3014093F9361B3CB58F96F35891CDEFD"
+      },
+      {
+        "asin": "B0FPWXNQ3G",
+        "category": "加湿器#15",
+        "checked_at": "2026-10-14T10:14:05.080524+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥17,800",
+          "price_int": 17800,
+          "original_price": "￥19,800",
+          "discount_rate": "10%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥17,800",
+          "price_int": 17800,
+          "original_price": "￥19,800",
+          "discount_rate": "10%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FPWXNQ3G",
+            "B0FPWXNQ3G",
+            "B0FPWXNQ3G"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "シャープ ハイブリッド式 加湿器 HV-T55-W プラズマクラスター7000 どっちも給水 レギュラー 加湿550mL タンク4L ホワイト",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "17,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-10%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥19,800\n￥19,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭先行セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FPWXNQ3G",
+          "url": "https://www.amazon.co.jp/dp/B0FPWXNQ3G",
+          "http_status": 200,
+          "checked_at": "2026-10-14T10:14:05.080524+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 17800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FPWXNQ3G",
+            "asin": "B0FPWXNQ3G"
+          }
+        },
+        "evidence_sha256": "3E62B7DAAB491101D2A3F2ECFAF58C321EF47A47B27522D10D5A24E7F64A8A84"
+      }
+    ],
+    "limits": {
+      "max_candidates": 24,
+      "timeout_seconds": 240
+    },
+    "detail_visits_started": 24,
+    "elapsed_seconds": 183.172,
+    "budget_stop_reason": null,
+    "final_selected_count": 10,
+    "categories": {
+      "スマートウォッチ": {
+        "collected_candidates": 3,
+        "verified_candidates": 3,
+        "final_selected": 2
+      },
+      "加湿器": {
+        "collected_candidates": 4,
+        "verified_candidates": 4,
+        "final_selected": 2
+      },
+      "NAS（ネットワークストレージ）": {
+        "collected_candidates": 5,
+        "verified_candidates": 5,
+        "final_selected": 2
+      },
+      "プロジェクター": {
+        "collected_candidates": 12,
+        "verified_candidates": 12,
+        "final_selected": 4
+      }
+    }
+  },
+  "supply_completion": {
+    "required_slots": 4,
+    "ready_before": 4,
+    "ready_after": 4,
+    "extra_batch_count": 0,
+    "added_asins": [],
+    "reason": "sufficient",
+    "max_extra_candidates": 24,
+    "max_extra_seconds": 240
+  },
+  "discount_contract": {
+    "schema_version": 1,
+    "policy": "amazon_direct_discounts_v1",
+    "account": 7,
+    "date": "2026-10-15",
+    "products": [
+      {
+        "asin": "B0H6VX2CBR",
+        "source_position": 1,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 21500,
+          "original_price_yen": 43000,
+          "discount_rate_percent": 50
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "unverified",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 21500,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": "coupon_value_ambiguous",
+          "evidence_text": "クーポン:  \n ¥4200 OFFクーポンの適用 規約\nプロモーション情報 注文確定時に20%割引 規約\nプロモーション情報 注文確定時に10%割引 規約",
+          "source_url": "https://www.amazon.co.jp/dp/B0H6VX2CBR",
+          "asin": "B0H6VX2CBR"
+        },
+        "observed_at": "2026-10-14T10:11:10.539139+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H6VX2CBR"
+      },
+      {
+        "asin": "B0FSCVT4G9",
+        "source_position": 2,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 89900,
+          "original_price_yen": 149900,
+          "discount_rate_percent": 40
+        },
+        "time_sale": {
+          "verified": true,
+          "label": "Amazon タイムセール"
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 89900,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0FSCVT4G9",
+          "asin": "B0FSCVT4G9"
+        },
+        "observed_at": "2026-10-14T10:11:18.543776+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0FSCVT4G9"
+      },
+      {
+        "asin": "B0FKH3WQ41",
+        "source_position": 3,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 36800,
+          "original_price_yen": 48180,
+          "discount_rate_percent": 24
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 36800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0FKH3WQ41",
+          "asin": "B0FKH3WQ41"
+        },
+        "observed_at": "2026-10-14T10:11:26.948354+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0FKH3WQ41"
+      },
+      {
+        "asin": "B0GQL9JZS7",
+        "source_position": 4,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 11392,
+          "original_price_yen": 14800,
+          "discount_rate_percent": 23
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 11392,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GQL9JZS7",
+          "asin": "B0GQL9JZS7"
+        },
+        "observed_at": "2026-10-14T10:11:35.655461+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GQL9JZS7"
+      },
+      {
+        "asin": "B0DDBZV6MP",
+        "source_position": 5,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 119992,
+          "original_price_yen": 149990,
+          "discount_rate_percent": 20
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 119992,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0DDBZV6MP",
+          "asin": "B0DDBZV6MP"
+        },
+        "observed_at": "2026-10-14T10:11:43.631553+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DDBZV6MP"
+      },
+      {
+        "asin": "B0FHW4519X",
+        "source_position": 6,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 39991,
+          "original_price_yen": 49990,
+          "discount_rate_percent": 20
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 39991,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0FHW4519X",
+          "asin": "B0FHW4519X"
+        },
+        "observed_at": "2026-10-14T10:11:50.981594+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0FHW4519X"
+      },
+      {
+        "asin": "B0FPGCXYV5",
+        "source_position": 7,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 16800,
+          "original_price_yen": 19800,
+          "discount_rate_percent": 15
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 16800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0FPGCXYV5",
+          "asin": "B0FPGCXYV5"
+        },
+        "observed_at": "2026-10-14T10:11:58.013701+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0FPGCXYV5"
+      },
+      {
+        "asin": "B0HH96JB9W",
+        "source_position": 8,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 15980,
+          "original_price_yen": 18800,
+          "discount_rate_percent": 15
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 15980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0HH96JB9W",
+          "asin": "B0HH96JB9W"
+        },
+        "observed_at": "2026-10-14T10:12:05.433252+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0HH96JB9W"
+      },
+      {
+        "asin": "B0HGQ8QB6B",
+        "source_position": 9,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 17880,
+          "original_price_yen": 29800,
+          "discount_rate_percent": 40
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "unverified",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 17880,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": "coupon_value_ambiguous",
+          "evidence_text": "クーポン:  \n ¥3500 OFFクーポンの適用 規約\nプロモーション情報 注文確定時に20%割引 規約\nプロモーション情報 注文確定時に15%割引 規約\nプロモーション情報 注文確定時に10%割引 規約",
+          "source_url": "https://www.amazon.co.jp/dp/B0HGQ8QB6B",
+          "asin": "B0HGQ8QB6B"
+        },
+        "observed_at": "2026-10-14T10:12:12.694655+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0HGQ8QB6B"
+      },
+      {
+        "asin": "B0DF7V3V9G",
+        "source_position": 10,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 23370,
+          "original_price_yen": 36999,
+          "discount_rate_percent": 37
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 23370,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0DF7V3V9G",
+          "asin": "B0DF7V3V9G"
+        },
+        "observed_at": "2026-10-14T10:12:20.210404+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DF7V3V9G"
+      }
+    ]
+  },
+  "sale_name": "Amazon セール",
+  "coupon_search": {
+    "page_limit": 2,
+    "timeout_seconds": 60,
+    "pages_attempted": 0,
+    "unique_added": 0,
+    "main_search_coupon_candidates": 6,
+    "reason": "main_search_already_found_coupon",
+    "elapsed_seconds": 0.0
+  }
+}
