@@ -77,6 +77,108 @@ def failed_early_phase_fixture(output_base, account=1, commit='a' * 40):
     return attempt, folder, summary
 
 
+def failed_main_label_fixture(output_base, commit='a' * 40):
+    attempt, _, summary = failed_early_phase_fixture(output_base, commit=commit)
+    prior = recovery.phase_transition_retry_evidence(attempt, account=1, target_date=MAIN_DATE,
+        current_date=MAIN_DATE, remote_products=[])
+    assert prior
+    folder = attempt.parent.parent/'run-26'
+    transition = attempt.with_name('account1_2026-10-16.phase-transition-main.attempt.json')
+    metadata = dict(account=1, date=MAIN_DATE, started_at_utc='2026-10-15T22:32:30+00:00',
+        output_dir=str(folder), source_origin_commit=commit, phase_transition_retry=prior)
+    save_json(transition, metadata)
+    summary = copy.deepcopy(summary)
+    record = summary['detail_offer_verification']['observations'][0]
+    record['evidence'].update(sale_label='プライム感謝祭セール', checked_at='2026-10-15T22:33:15+00:00')
+    record.update(checked_at=record['evidence']['checked_at'], reason='detail_prime_event_label_unverified',
+                  evidence_sha256=observation_sha256(record['evidence']))
+    summary['detail_offer_verification']['rejection_reasons'] = {'detail_prime_event_label_unverified': 1}
+    save_json(folder/f'products_{MAIN_DATE}.json', [])
+    save_json(folder/f'scrape_summary_{MAIN_DATE}.json', summary)
+    save_json(folder/'result.json', dict(schema='pinefield-local-recovery-v1', account='account1', date=MAIN_DATE,
+        execute=True, nightly=False, cloud_run_completed_declared=True, scrape_runs=1, push_attempts=0,
+        status='STOPPED', reason='canonical_output_validation_failed', output_dir=str(folder), source_origin_commit=commit,
+        phase_transition_retry=prior, started_at_utc='2026-10-15T22:32:00+00:00', finished_at_utc='2026-10-15T22:38:00+00:00',
+        candidate_files_sha256={name: recovery.digest((folder/name).read_bytes()) for name in
+            (f'products_{MAIN_DATE}.json', f'scrape_summary_{MAIN_DATE}.json')}))
+    return attempt, transition, folder, summary
+
+
+class PrimeMainLabelRetryEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        self.attempt, self.transition, self.folder, self.summary = failed_main_label_fixture(self.root)
+
+    def evidence(self, **kwargs):
+        return recovery.main_label_compatibility_retry_evidence(self.attempt, self.transition,
+            account=kwargs.pop('account', 1), target_date=kwargs.pop('target_date', MAIN_DATE),
+            current_date=kwargs.pop('current_date', MAIN_DATE), remote_products=kwargs.pop('remote_products', []), **kwargs)
+
+    def update(self, summary=None, result_changes=None, products=None):
+        if summary is not None: save_json(self.folder/f'scrape_summary_{MAIN_DATE}.json', summary)
+        if products is not None: save_json(self.folder/f'products_{MAIN_DATE}.json', products)
+        result = json.loads((self.folder/'result.json').read_text(encoding='utf-8'))
+        result.update(result_changes or {})
+        result['candidate_files_sha256'] = {name: recovery.digest((self.folder/name).read_bytes()) for name in
+            (f'products_{MAIN_DATE}.json', f'scrape_summary_{MAIN_DATE}.json')}
+        save_json(self.folder/'result.json', result)
+
+    def test_exact_incident_replays_main_alias_without_changing_raw_or_archives(self):
+        before = {p: p.read_bytes() for p in self.root.rglob('*') if p.is_file()}
+        proof = self.evidence()
+        self.assertIsNotNone(proof)
+        self.assertEqual(proof['replayed_main_alias_count'], 1)
+        self.assertEqual(proof['replayed_observations'][0]['raw_sale_label'], 'プライム感謝祭セール')
+        self.assertEqual(proof['replayed_observations'][0]['prime_event_proof']['label'], 'プライム感謝祭')
+        self.assertEqual(before, {p: p.read_bytes() for p in before})
+
+    def test_only_account1_today_and_empty_remote_are_eligible(self):
+        for change in ({'account': 2}, {'current_date': '2026-10-17'}, {'target_date': '2026-10-15'},
+                       {'remote_products': None}, {'remote_products': [{}]}, {'remote_products': {}}):
+            with self.subTest(change=change): self.assertIsNone(self.evidence(**change))
+
+    def test_alias_phase_identity_price_and_http_cannot_be_relaxed(self):
+        for key, value in [('sale_label', 'プライム会員セール'), ('sale_label', 'プライム感謝祭先行セール'),
+                           ('sale_label', 'プライム感謝祭'), ('sale_label', ' プライム感謝祭セール'),
+                           ('requested_asin', 'B999999999'), ('sale_region_selector', '#other'),
+                           ('checked_at', '2026-10-15T09:00:00+00:00'), ('http_status', 503),
+                           ('price_texts', ['7,999']), ('challenge_detected', True)]:
+            with self.subTest(key=key, value=value):
+                summary = copy.deepcopy(self.summary); record = summary['detail_offer_verification']['observations'][0]
+                record['evidence'][key] = value
+                if key == 'checked_at': record['checked_at'] = value
+                record['evidence_sha256'] = observation_sha256(record['evidence'])
+                self.update(summary=summary)
+                self.assertIsNone(self.evidence())
+
+    def test_any_other_rejection_acceptance_or_nonzero_product_is_rejected(self):
+        for changes in ({'accepted_count': 1}, {'final_selected_count': 1}, {'candidate_count': 2},
+                        {'rejection_reasons': {'detail_http_error': 1}}, {'observations': []}):
+            summary = copy.deepcopy(self.summary); summary['detail_offer_verification'].update(changes)
+            self.update(summary=summary)
+            with self.subTest(changes=changes): self.assertIsNone(self.evidence())
+        self.update(summary=self.summary, products=[{'asin': 'B000000001'}])
+        self.assertIsNone(self.evidence())
+
+    def test_tampered_marker_hash_result_and_wrong_incident_are_rejected(self):
+        original = self.transition.read_bytes()
+        for change in ({'output_dir': str(self.folder.parent/'run-27')}, {'account': 2}, {'date': '2026-10-17'},
+                       {'phase_transition_retry': {}}, {'source_origin_commit': 'b'*40}):
+            value = json.loads(original); value.update(change); save_json(self.transition, value)
+            with self.subTest(change=change): self.assertIsNone(self.evidence())
+        self.transition.write_bytes(original)
+        (self.folder/f'scrape_summary_{MAIN_DATE}.json').write_bytes(b'{}')
+        self.assertIsNone(self.evidence())
+
+    def test_other_failure_or_push_cannot_gain_parser_retry(self):
+        path = self.folder/'result.json'; original = path.read_bytes()
+        for change in ({'reason': 'single_scrape_timeout'}, {'push_attempts': 1}, {'nightly': True},
+                       {'scrape_runs': 2}, {'status': 'PUBLISHED'}, {'cloud_run_completed_declared': False}):
+            path.write_bytes(original); self.update(result_changes=change)
+            with self.subTest(change=change): self.assertIsNone(self.evidence())
+
+
 class PrimePhaseRetryEvidenceTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix='phase-retry-fixture-')
@@ -690,6 +792,46 @@ class RecoveryFixtureTests(unittest.TestCase):
                 self.assertFalse(transition.exists())
                 self.assertEqual(before, path.read_bytes())
                 self.assertEqual((result['scrape_runs'], result['push_attempts'], self.count()), (0, 0, 0))
+
+    def test_main_label_parser_retry_is_exclusive_and_preserves_both_prior_attempts(self):
+        attempt, transition, folder, _ = failed_main_label_fixture(self.root/'outputs', commit=self.initial)
+        old_files = {p: p.read_bytes() for p in (attempt, transition, *folder.iterdir()) if p.is_file()}
+        marker = attempt.with_name('account1_2026-10-16.main-label-compatibility.attempt.json')
+        preflight = self.execute_main(execute=False)
+        self.assertEqual(preflight['status'], 'PREFLIGHT_PASS', preflight)
+        self.assertIn('label_parser_correction_retry', preflight)
+        self.assertFalse(marker.exists())
+        with patch.dict(os.environ, {'RECOVERY_FIXTURE_MODE': 'empty'}):
+            first = self.execute_main()
+        self.assertEqual(first['status'], 'STOPPED', first)
+        self.assertEqual(first['scrape_runs'], 1)
+        self.assertTrue(marker.exists())
+        self.assertEqual(json.loads(marker.read_text())['schema'], 'prime-main-label-parser-correction-attempt-v1')
+        marker_bytes = marker.read_bytes()
+        second = self.execute_main()
+        self.assertEqual(second['reason'], 'same_account_date_already_attempted')
+        self.assertEqual((second['scrape_runs'], second['push_attempts'], self.count()), (0, 0, 1))
+        self.assertEqual(marker.read_bytes(), marker_bytes)
+        self.assertEqual(old_files, {p: p.read_bytes() for p in old_files})
+
+    def test_main_label_retry_rejects_runtime_owner_without_consuming_marker(self):
+        attempt, _, _, _ = failed_main_label_fixture(self.root/'outputs', commit=self.initial)
+        owner = self.factory_base/'factory-runtime/state/account1'/MAIN_DATE/'role-B.lock.json'
+        save_json(owner, {'token': 'another-owner', 'pid': os.getpid()})
+        before = owner.read_bytes()
+        result = self.execute_main()
+        self.assertEqual(result['reason'], 'existing_factory_runtime_owner_for_main_label_retry')
+        self.assertEqual((result['scrape_runs'], result['push_attempts'], self.count()), (0, 0, 0))
+        self.assertFalse(attempt.with_name('account1_2026-10-16.main-label-compatibility.attempt.json').exists())
+        self.assertEqual(owner.read_bytes(), before)
+
+    def test_main_label_retry_requires_fetched_parser_to_match_successful_replay(self):
+        attempt, _, _, _ = failed_main_label_fixture(self.root/'outputs', commit=self.initial)
+        self.advance('detail_offer.py', (ROOT/'detail_offer.py').read_text(encoding='utf-8')+'\n# different fetched parser fixture\n')
+        result = self.execute_main()
+        self.assertEqual(result['reason'], 'fetched_main_label_parser_differs_from_replayed_parser', result)
+        self.assertEqual((result['scrape_runs'], result['push_attempts'], self.count()), (0, 0, 0))
+        self.assertFalse(attempt.with_name('account1_2026-10-16.main-label-compatibility.attempt.json').exists())
 
     def test_nightly_cloud_wait_reuses_saved_candidate_without_another_scrape(self):
         # A validated candidate waiting for Cloud is unrelated to a failed phase transition.

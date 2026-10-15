@@ -47,6 +47,55 @@ def prime_source(day="2026-10-15", checked="2026-10-13T03:00:00+00:00", label="�
 
 
 class PrimeProofTests(unittest.TestCase):
+    def test_exact_main_sale_aliases_preserve_raw_evidence_and_canonical_proof(self):
+        for label in ("プライム感謝祭セール", "Amazonプライム感謝祭セール"):
+            with self.subTest(label=label):
+                base, products, summary, record = prime_source("2026-10-16", "2026-10-16T00:10:00+09:00", label)
+                before = copy.deepcopy(record)
+                proof = prime_event_proof(record, "2026-10-16")
+                self.assertEqual(("main", "プライム感謝祭"), (proof["phase"], proof["label"]))
+                self.assertEqual(label, record["evidence"]["sale_label"])
+                self.assertEqual(before, record)
+                self.assertEqual(observation_sha256(record["evidence"]), proof["evidence_sha256"])
+                self.assertTrue(validate_discount_contract_summary("account8", products, summary)[0])
+                self.assertEqual(summary["campaign"], source_campaign_config(base, summary, products, 8, "2026-10-16")["_sale_campaign"])
+
+    def test_main_alias_does_not_relax_badge_identity_phase_or_price_floor(self):
+        _, _, _, record = prime_source("2026-10-16", "2026-10-16T00:10:00+09:00", "プライム感謝祭セール")
+        from detail_offer import validate_offer
+        for field, value in (("requested_asin", "B000000099"), ("sale_region_count", 2),
+                             ("sale_region_selector", "#recommendations"),
+                             ("checked_at", "2026-10-15T23:59:59+09:00"), ("http_status", 503)):
+            with self.subTest(field=field):
+                changed = copy.deepcopy(record)
+                changed["evidence"][field] = value
+                if field == "checked_at":
+                    changed["checked_at"] = value
+                changed["pdp_offer"], _ = validate_offer(changed["evidence"], offer_scope="unified_discounts")
+                changed["evidence_sha256"] = observation_sha256(changed["evidence"])
+                with self.assertRaises(ValueError):
+                    prime_event_proof(changed, "2026-10-16")
+        for day in ("2026-10-15", "2026-10-20"):
+            with self.subTest(day=day), self.assertRaises(ValueError):
+                prime_event_proof(record, day)
+        base, products, summary, _ = prime_source("2026-10-16", "2026-10-16T00:10:00+09:00", "プライム感謝祭セール")
+        products[0]["price_int"] = 7999
+        with self.assertRaises(CampaignConfigError):
+            source_campaign_config(base, summary, products, 8, "2026-10-16")
+
+    def test_main_sale_alias_is_not_a_generic_prime_or_text_match(self):
+        _, _, _, record = prime_source("2026-10-16", "2026-10-16T00:10:00+09:00", "プライム感謝祭")
+        from detail_offer import validate_offer
+        for label in ("プライム会員セール", "プライム会員限定セール", "プライムセール", "プライム感謝祭セール中",
+                      "プライム感謝祭セールについて", "商品タイトル：プライム感謝祭セール", "AmazonPrimeプライム感謝祭セール"):
+            with self.subTest(label=label):
+                changed = copy.deepcopy(record)
+                changed["evidence"]["sale_label"] = label
+                changed["pdp_offer"], _ = validate_offer(changed["evidence"], offer_scope="unified_discounts")
+                changed["evidence_sha256"] = observation_sha256(changed["evidence"])
+                with self.assertRaisesRegex(ValueError, "label_unverified"):
+                    prime_event_proof(changed, "2026-10-16")
+
     def test_early_and_main_boundaries_have_proof_and_keep_thirteen_fields(self):
         for day, label in [("2026-10-13", "プライム感謝祭先行セール"), ("2026-10-15", "プライム感謝祭先行セール"),
                            ("2026-10-16", "プライム感謝祭"), ("2026-10-19", "プライム感謝祭")]:
@@ -181,6 +230,26 @@ class PrimeProofTests(unittest.TestCase):
 
 
 class PrimeAcquisitionTests(unittest.IsolatedAsyncioTestCase):
+    async def test_live_main_alias_is_accepted_without_rewriting_raw_badge(self):
+        for label in ("プライム感謝祭セール", "Amazonプライム感謝祭セール"):
+            with self.subTest(label=label):
+                page = MagicMock(url=f"https://www.amazon.co.jp/dp/{ASIN}")
+                page.goto = AsyncMock(return_value=MagicMock(status=200))
+                page.wait_for_timeout = AsyncMock()
+                page.evaluate = AsyncMock(side_effect=[observed(price=8000, original=10000, rate=20, label=label), [ASIN]])
+                reader = AsyncMock(return_value=("description", "specs"))
+                with patch("detail_offer.datetime") as clock:
+                    from datetime import datetime, timezone
+                    clock.now.return_value = datetime(2026, 10, 15, 16, tzinfo=timezone.utc)
+                    clock.fromisoformat.side_effect = datetime.fromisoformat
+                    record = await observe_detail_offer(page, product(price=8000), reader,
+                        offer_scope="unified_discounts", require_prime_event=True, source_date="2026-10-16")
+                self.assertEqual("accepted", record["status"])
+                self.assertEqual(label, record["evidence"]["sale_label"])
+                self.assertEqual(observation_sha256(record["evidence"]), record["evidence_sha256"])
+                self.assertEqual("プライム感謝祭", prime_event_proof(record, "2026-10-16")["label"])
+                reader.assert_awaited_once()
+
     async def test_new_acquisition_checks_prime_before_detail_enrichment(self):
         for label, accepted in [("タイムセール", False), ("プライム感謝祭先行セール", True)]:
             page = MagicMock()

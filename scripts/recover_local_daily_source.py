@@ -29,7 +29,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from sale_campaign import apply_campaign_config, source_campaign_config
-from detail_offer import observation_sha256, prime_event_phase, validate_offer
+from detail_offer import observation_sha256, prime_event_phase, prime_event_proof, validate_offer
 FACTORY_BASE = Path(r'D:\_0NOTEKATU')
 OUTPUT_BASE = FACTORY_BASE / 'scraping'
 PRODUCT_FIELDS = {'asin', 'title', 'price', 'price_int', 'original_price', 'discount_rate', 'image_url',
@@ -207,6 +207,100 @@ def phase_transition_retry_evidence(attempt, *, account, target_date, current_da
                 'phase_mismatch_count': mismatch_count}
     except (OSError, ValueError, KeyError, TypeError, AttributeError):
         return None
+
+
+def main_label_compatibility_retry_evidence(attempt, transition_attempt, *, account, target_date,
+                                          current_date=None, remote_products=None):
+    """One incident-only parser correction after account1's archived run-26.
+
+    Preserve the original attempt and transition marker. The raw observations
+    are replayed without mutation; they are never promoted into product rows.
+    """
+    try:
+        if (account != 1 or target_date != '2026-10-16' or target_date != (current_date or today_jst())
+                or not isinstance(remote_products, list) or remote_products):
+            return None
+        attempt, transition_attempt = Path(attempt), Path(transition_attempt)
+        if (transition_attempt.parent.resolve() != attempt.parent.resolve()
+                or transition_attempt.name != 'account1_2026-10-16.phase-transition-main.attempt.json'):
+            return None
+        prior = phase_transition_retry_evidence(attempt, account=account, target_date=target_date,
+            current_date=current_date, remote_products=remote_products)
+        saved = json.loads(transition_attempt.read_text(encoding='utf-8-sig'))
+        folder = Path(saved['output_dir']).resolve()
+        if (not prior or saved.get('phase_transition_retry') != prior or saved.get('account') != account
+                or saved.get('date') != target_date or folder.parent != attempt.parent.parent.resolve()
+                or folder.name != 'run-26' or not re.fullmatch(r'[0-9a-f]{40}', str(saved.get('source_origin_commit', '')))):
+            return None
+        result_path = folder/'result.json'
+        old = json.loads(result_path.read_text(encoding='utf-8-sig'))
+        if (old.get('schema') != 'pinefield-local-recovery-v1' or old.get('account') != 'account1'
+                or old.get('date') != target_date or old.get('execute') is not True
+                or old.get('nightly') is not False or old.get('cloud_run_completed_declared') is not True
+                or old.get('status') != 'STOPPED' or old.get('reason') != 'canonical_output_validation_failed'
+                or old.get('scrape_runs') != 1 or old.get('push_attempts') != 0
+                or old.get('phase_transition_retry') != prior or old.get('source_origin_commit') != saved['source_origin_commit']
+                or Path(old['output_dir']).resolve() != folder):
+            return None
+        stamps = [datetime.fromisoformat(v) for v in (old['started_at_utc'], saved['started_at_utc'], old['finished_at_utc'])]
+        if (any(s.tzinfo is None or s.astimezone(ZoneInfo('Asia/Tokyo')).date().isoformat() != target_date for s in stamps)
+                or stamps != sorted(stamps)):
+            return None
+        names = (f'products_{target_date}.json', f'scrape_summary_{target_date}.json')
+        files = {name: (folder/name).read_bytes() for name in names}
+        if (old.get('candidate_files_sha256') != {name: digest(payload) for name, payload in files.items()}
+                or json.loads(files[names[0]].decode('utf-8-sig')) != []):
+            return None
+        summary = json.loads(files[names[1]].decode('utf-8-sig'))
+        expected = apply_campaign_config({}, 'categories1.yaml', target_date).get('_sale_campaign')
+        if summary.get('date') != target_date or summary.get('total_taken') != 0 or summary.get('campaign') != expected:
+            return None
+        verification = summary['detail_offer_verification']; records = verification['observations']
+        count = len(records)
+        reason = 'detail_prime_event_label_unverified'
+        if (not isinstance(records, list) or not count or verification.get('schema_version') != 1
+                or verification.get('enabled') is not True or verification.get('offer_scope') != 'unified_discounts'
+                or verification.get('candidate_count') != count or verification.get('rejected_count') != count
+                or verification.get('accepted_count') != 0 or verification.get('final_selected_count') != 0
+                or verification.get('rejection_reasons') != {reason: count}):
+            return None
+        replayed = []
+        for record in records:
+            evidence = record['evidence']; checked = datetime.fromisoformat(evidence['checked_at'])
+            if (record.get('status') != 'rejected' or record.get('reason') != reason or record.get('pdp_offer') is not None
+                    or record.get('asin') != evidence.get('requested_asin') or record.get('checked_at') != evidence.get('checked_at')
+                    or record.get('evidence_sha256') != observation_sha256(evidence)
+                    or checked.tzinfo is None or checked.astimezone(ZoneInfo('Asia/Tokyo')).date().isoformat() != target_date
+                    or evidence.get('sale_region_count') != 1 or evidence.get('sale_region_selector') != '#dealBadge_feature_div'
+                    or evidence.get('sale_label') not in ('プライム感謝祭セール', 'Amazonプライム感謝祭セール')):
+                return None
+            replay = copy.deepcopy(evidence)
+            offer, rejection = validate_offer(replay, offer_scope='unified_discounts')
+            if rejection or replay != evidence or not offer or type(offer.get('price_int')) is not int or offer['price_int'] < 8000:
+                return None
+            accepted = dict(record, status='accepted', reason=None, pdp_offer=offer)
+            proof = prime_event_proof(accepted, target_date)
+            if proof.get('verified') is not True or proof.get('phase') != 'main' or proof.get('label') != 'プライム感謝祭':
+                return None
+            replayed.append({'asin': record['asin'], 'checked_at': record['checked_at'],
+                'evidence_sha256': record['evidence_sha256'], 'raw_sale_label': evidence['sale_label'],
+                'price_int': offer['price_int'], 'prime_event_proof': proof})
+        return {'schema': 'prime-main-label-parser-correction-retry-v1', 'account': account, 'date': target_date,
+            'reason': 'label_parser_correction_retry', 'prior_output_dir': str(folder),
+            'prior_attempt_sha256': digest(attempt.read_bytes()),
+            'prior_phase_transition_attempt_sha256': digest(transition_attempt.read_bytes()),
+            'prior_result_sha256': digest(result_path.read_bytes()), 'prior_candidate_files_sha256': old['candidate_files_sha256'],
+            'parser_sha256': digest((ROOT/'detail_offer.py').read_bytes()), 'replayed_main_alias_count': count,
+            'raw_evidence_unchanged': True, 'replayed_observations': replayed}
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        return None
+
+
+def check_main_label_retry_owners(account, target_date):
+    # Unlike a normal retry, this incident exception requires no A/B/source owner.
+    state = FACTORY_BASE/'factory-runtime'/'state'/f'account{account}'/target_date
+    if list(state.glob('*.lock.json')):
+        raise RecoveryStop('existing_factory_runtime_owner_for_main_label_retry')
 
 
 def postable_count(account, products, summary=None):
@@ -544,6 +638,7 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
         control = output.parent / '.control'
         attempt = control / f'account{account}_{target_date}.attempt.json'
         transition_attempt = control / f'account{account}_{target_date}.phase-transition-main.attempt.json'
+        label_attempt = control / f'account{account}_{target_date}.main-label-compatibility.attempt.json'
         pending = control / f'account{account}_{target_date}.pending.json'
         with account_lock(control / f'account{account}_{target_date}.lock'):
             check_source(factory, account, target_date)
@@ -573,23 +668,33 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                 result['postable_before'] = readiness
                 supplement = bool(nightly and existing and readiness < 4 and len(original_products) < 10)
                 transition_evidence = None
-                if attempt.exists() and not (nightly and pending.exists()) and existing is None and not transition_attempt.exists():
+                label_evidence = None
+                if attempt.exists() and not (nightly and pending.exists()) and existing is None:
                     # An absent pair is known empty; a partial or unreadable pair is unknown.
                     remote_products = None
                     if not any((worktree / name).exists() for name in paths):
                         remote_products = []
                     elif all((worktree / name).is_file() for name in paths):
                         remote_products = json.loads((worktree / paths[0]).read_text(encoding='utf-8-sig'))
-                    transition_evidence = phase_transition_retry_evidence(attempt, account=account,
-                        target_date=target_date, remote_products=remote_products)
-                    if transition_evidence:
-                        result['phase_transition_retry'] = transition_evidence
+                    if not transition_attempt.exists():
+                        transition_evidence = phase_transition_retry_evidence(attempt, account=account,
+                            target_date=target_date, remote_products=remote_products)
+                        if transition_evidence:
+                            result['phase_transition_retry'] = transition_evidence
+                    elif not nightly and not label_attempt.exists():
+                        label_evidence = main_label_compatibility_retry_evidence(attempt, transition_attempt,
+                            account=account, target_date=target_date, remote_products=remote_products)
+                        if label_evidence:
+                            check_main_label_retry_owners(account, target_date)
+                            if digest((worktree/'detail_offer.py').read_bytes()) != label_evidence['parser_sha256']:
+                                raise RecoveryStop('fetched_main_label_parser_differs_from_replayed_parser')
+                            result['label_parser_correction_retry'] = label_evidence
                 if existing is not None and not supplement:
                     result.update(existing)
                     result['postable_after'] = readiness
                     if nightly and readiness < 4:
                         result['shortfall_reason'] = 'preserved_existing_source_at_maximum_capacity'
-                elif attempt.exists() and not (nightly and pending.exists()) and not transition_evidence:
+                elif attempt.exists() and not (nightly and pending.exists()) and not transition_evidence and not label_evidence:
                     raise RecoveryStop('same_account_date_already_attempted')
                 elif not execute:
                     result['status'] = 'PREFLIGHT_PASS'
@@ -629,7 +734,14 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                                           'output_dir': str(output), 'source_origin_commit': base}
                         if transition_evidence:
                             attempt_record['phase_transition_retry'] = transition_evidence
-                        write_json(transition_attempt if transition_evidence else attempt,
+                        if label_evidence:
+                            check_main_label_retry_owners(account, target_date)
+                            if main_label_compatibility_retry_evidence(attempt, transition_attempt, account=account,
+                                    target_date=target_date, remote_products=remote_products) != label_evidence:
+                                raise RecoveryStop('main_label_retry_evidence_changed_before_scrape')
+                            attempt_record['label_parser_correction_retry'] = label_evidence
+                            attempt_record['schema'] = 'prime-main-label-parser-correction-attempt-v1'
+                        write_json(label_attempt if label_evidence else transition_attempt if transition_evidence else attempt,
                                    attempt_record, exclusive=True)
                         # Only our isolated two outputs are removed; the remote originals remain unchanged.
                         for name in paths:

@@ -221,11 +221,15 @@ def _prime_event_fields(evidence, source_date):
     if type(evidence.get("sale_region_count")) is not int or evidence["sale_region_count"] != 1 or evidence.get("sale_region_selector") != "#dealBadge_feature_div":
         return None, "detail_prime_event_badge_missing"
     lines = [line for line in str(evidence.get("sale_label", "")).splitlines() if line.strip()]
-    match = re.fullmatch(r"(?:Amazon)?(プライム感謝祭先行セール|プライム感謝祭)", _text(lines[0])) if lines else None
+    match = re.fullmatch(r"(?:Amazon)?(プライム感謝祭先行セール|プライム感謝祭(?:セール)?)", _text(lines[0])) if lines else None
     if not match:
         return None, "detail_prime_event_label_unverified"
     label = match.group(1)
     phase = "early" if label == "プライム感謝祭先行セール" else "main"
+    # The visible main-event badge also uses this exact alias. Normalize only
+    # the derived proof; the replayable raw label and its hash remain intact.
+    if phase == "main":
+        label = "プライム感謝祭"
     try:
         checked = datetime.fromisoformat(evidence["checked_at"])
         if checked.tzinfo is None:
