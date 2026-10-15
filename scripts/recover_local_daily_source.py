@@ -28,7 +28,8 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-from sale_campaign import source_campaign_config
+from sale_campaign import apply_campaign_config, source_campaign_config
+from detail_offer import observation_sha256, prime_event_phase, validate_offer
 FACTORY_BASE = Path(r'D:\_0NOTEKATU')
 OUTPUT_BASE = FACTORY_BASE / 'scraping'
 PRODUCT_FIELDS = {'asin', 'title', 'price', 'price_int', 'original_price', 'discount_rate', 'image_url',
@@ -102,6 +103,110 @@ def validate_date(account, target_date, *, allow_next_day=False):
         allowed.add((date.fromisoformat(today_jst()) + timedelta(days=1)).isoformat())
     if not valid or target_date not in allowed:
         raise RecoveryStop('target_must_be_JST_today')
+
+
+def prime_phase_wait_reason(target_date, *, current_date=None):
+    """Do not spend a scrape on a future event phase that cannot yet be proved."""
+    target_phase = prime_event_phase(target_date)
+    if target_phase is not None and prime_event_phase(current_date or today_jst()) != target_phase:
+        return 'prime_event_wait_for_target_phase'
+    return None
+
+
+def phase_transition_retry_evidence(attempt, *, account, target_date, current_date=None,
+                                    remote_products=None):
+    """Recognize only the archived zero-output failure at the early/main boundary.
+
+    This is evidence checking, not a retry counter reset. The caller exclusively
+    records a separate transition attempt while retaining this original attempt.
+    None means that the incident is unknown or does not qualify.
+    """
+    try:
+        current_date = current_date or today_jst()
+        previous_date = (date.fromisoformat(target_date) - timedelta(days=1)).isoformat()
+        if (type(account) is not int or not 1 <= account <= 20 or target_date != current_date
+                or prime_event_phase(target_date) != 'main' or prime_event_phase(previous_date) != 'early'
+                or not isinstance(remote_products, list) or remote_products):
+            return None
+        attempt = Path(attempt)
+        if attempt.name != f'account{account}_{target_date}.attempt.json' or attempt.parent.name != '.control':
+            return None
+        saved = json.loads(attempt.read_text(encoding='utf-8-sig'))
+        folder = Path(saved['output_dir']).resolve()
+        if (folder.parent != attempt.parent.parent.resolve() or not re.fullmatch(r'run-\d+', folder.name)
+                or saved.get('account') != account or saved.get('date') != target_date):
+            return None
+        result_path = folder / 'result.json'
+        old = json.loads(result_path.read_text(encoding='utf-8-sig'))
+        if (old.get('schema') != 'pinefield-local-recovery-v1' or old.get('account') != f'account{account}'
+                or old.get('date') != target_date or old.get('execute') is not True
+                or old.get('status') != 'STOPPED' or old.get('reason') != 'canonical_output_validation_failed'
+                or old.get('scrape_runs') != 1 or old.get('push_attempts') != 0
+                or Path(old['output_dir']).resolve() != folder
+                or old.get('source_origin_commit') != saved.get('source_origin_commit')
+                or not re.fullmatch(r'[0-9a-f]{40}', str(saved.get('source_origin_commit', '')))):
+            return None
+        for field in ('started_at_utc', 'finished_at_utc'):
+            stamp = datetime.fromisoformat(old[field])
+            if stamp.tzinfo is None or prime_event_phase(stamp.astimezone(ZoneInfo('Asia/Tokyo')).date().isoformat()) != 'early':
+                return None
+        started = datetime.fromisoformat(saved['started_at_utc'])
+        if started.tzinfo is None or prime_event_phase(started.astimezone(ZoneInfo('Asia/Tokyo')).date().isoformat()) != 'early':
+            return None
+        products_name = f'products_{target_date}.json'
+        summary_name = f'scrape_summary_{target_date}.json'
+        files = {name: (folder / name).read_bytes() for name in (products_name, summary_name)}
+        if (old.get('candidate_files_sha256') != {name: digest(content) for name, content in files.items()}
+                or json.loads(files[products_name].decode('utf-8-sig')) != []):
+            return None
+        summary = json.loads(files[summary_name].decode('utf-8-sig'))
+        expected = apply_campaign_config({}, f'categories{account}.yaml', target_date).get('_sale_campaign')
+        if (summary.get('date') != target_date or summary.get('total_taken') != 0
+                or not expected or summary.get('campaign') != expected):
+            return None
+        verification = summary['detail_offer_verification']
+        observations = verification['observations']
+        if (not isinstance(observations, list) or not observations
+                or verification.get('candidate_count') != len(observations)
+                or verification.get('accepted_count') != 0
+                or verification.get('rejected_count') != len(observations)
+                or verification.get('final_selected_count') != 0):
+            return None
+        reasons = {}
+        mismatch_count = 0
+        for record in observations:
+            reason = record.get('reason')
+            if record.get('status') != 'rejected' or not isinstance(reason, str) or not reason:
+                return None
+            reasons[reason] = reasons.get(reason, 0) + 1
+            if reason != 'detail_prime_event_phase_mismatch':
+                continue
+            evidence = record['evidence']
+            checked = datetime.fromisoformat(evidence['checked_at'])
+            if (checked.tzinfo is None or checked.astimezone(ZoneInfo('Asia/Tokyo')).date().isoformat() != previous_date
+                    or record.get('checked_at') != evidence['checked_at']
+                    or record.get('asin') != evidence.get('requested_asin')
+                    or record.get('evidence_sha256') != observation_sha256(evidence)
+                    or evidence.get('sale_region_count') != 1
+                    or evidence.get('sale_region_selector') != '#dealBadge_feature_div'
+                    or re.sub(r'\s+', '', str(evidence.get('sale_label', ''))) not in
+                       {'プライム感謝祭先行セール', 'Amazonプライム感謝祭先行セール'}):
+                return None
+            replay = copy.deepcopy(evidence)
+            offer, rejection = validate_offer(replay, offer_scope='unified_discounts')
+            if rejection or not offer or replay != evidence:
+                return None
+            mismatch_count += 1
+        if not mismatch_count or verification.get('rejection_reasons') != reasons:
+            return None
+        return {'schema': 'prime-phase-transition-retry-v1', 'account': account, 'date': target_date,
+                'from_phase': 'early', 'to_phase': 'main', 'prior_output_dir': str(folder),
+                'prior_attempt_sha256': digest(attempt.read_bytes()),
+                'prior_result_sha256': digest(result_path.read_bytes()),
+                'prior_candidate_files_sha256': old['candidate_files_sha256'],
+                'phase_mismatch_count': mismatch_count}
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        return None
 
 
 def postable_count(account, products, summary=None):
@@ -429,12 +534,16 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
               'push_attempts': 0, 'rebase_attempts': 0, 'output_dir': str(output), 'started_at_utc': utc_now()}
     worktree = None
     try:
+        wait_reason = prime_phase_wait_reason(target_date)
+        if wait_reason:
+            raise RecoveryStop(wait_reason)
         origin = commands.text(repo, 'remote', 'get-url', 'origin')
         if not expected_origin(origin):
             raise RecoveryStop('origin_is_not_canonical_Pinefield')
         # Shared by all local checkouts/clones, not bypassed by passing a different --repo.
         control = output.parent / '.control'
         attempt = control / f'account{account}_{target_date}.attempt.json'
+        transition_attempt = control / f'account{account}_{target_date}.phase-transition-main.attempt.json'
         pending = control / f'account{account}_{target_date}.pending.json'
         with account_lock(control / f'account{account}_{target_date}.lock'):
             check_source(factory, account, target_date)
@@ -463,12 +572,24 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                 readiness = postable_count(account, original_products, original_summary) if existing else 0
                 result['postable_before'] = readiness
                 supplement = bool(nightly and existing and readiness < 4 and len(original_products) < 10)
+                transition_evidence = None
+                if attempt.exists() and not (nightly and pending.exists()) and existing is None and not transition_attempt.exists():
+                    # An absent pair is known empty; a partial or unreadable pair is unknown.
+                    remote_products = None
+                    if not any((worktree / name).exists() for name in paths):
+                        remote_products = []
+                    elif all((worktree / name).is_file() for name in paths):
+                        remote_products = json.loads((worktree / paths[0]).read_text(encoding='utf-8-sig'))
+                    transition_evidence = phase_transition_retry_evidence(attempt, account=account,
+                        target_date=target_date, remote_products=remote_products)
+                    if transition_evidence:
+                        result['phase_transition_retry'] = transition_evidence
                 if existing is not None and not supplement:
                     result.update(existing)
                     result['postable_after'] = readiness
                     if nightly and readiness < 4:
                         result['shortfall_reason'] = 'preserved_existing_source_at_maximum_capacity'
-                elif attempt.exists() and not (nightly and pending.exists()):
+                elif attempt.exists() and not (nightly and pending.exists()) and not transition_evidence:
                     raise RecoveryStop('same_account_date_already_attempted')
                 elif not execute:
                     result['status'] = 'PREFLIGHT_PASS'
@@ -504,8 +625,12 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                             if child_timeout < 600:
                                 # Defer to the next safe window without consuming the one-scrape record.
                                 raise RecoveryStop('nightly_window_too_short_to_start_scrape')
-                        write_json(attempt, {'account': account, 'date': target_date, 'started_at_utc': utc_now(),
-                                           'output_dir': str(output), 'source_origin_commit': base}, exclusive=True)
+                        attempt_record = {'account': account, 'date': target_date, 'started_at_utc': utc_now(),
+                                          'output_dir': str(output), 'source_origin_commit': base}
+                        if transition_evidence:
+                            attempt_record['phase_transition_retry'] = transition_evidence
+                        write_json(transition_attempt if transition_evidence else attempt,
+                                   attempt_record, exclusive=True)
                         # Only our isolated two outputs are removed; the remote originals remain unchanged.
                         for name in paths:
                             (worktree / name).unlink(missing_ok=True)
@@ -630,7 +755,7 @@ def recover(*, account, target_date, repo=ROOT, execute=False, cloud_run_complet
                     if nightly and pending.exists():
                         pending.unlink()
     except (RecoveryStop, subprocess.TimeoutExpired, OSError, ValueError, KeyError, TypeError) as exc:
-        result['status'] = 'STOPPED'
+        result['status'] = 'WAIT' if str(exc) == 'prime_event_wait_for_target_phase' else 'STOPPED'
         result['reason'] = str(exc) if isinstance(exc, RecoveryStop) else type(exc).__name__
     finally:
         if worktree is not None:

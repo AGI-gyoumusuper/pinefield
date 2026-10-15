@@ -149,6 +149,25 @@ class NightlyPreparationWindowTests(unittest.TestCase):
                 self.assertEqual(window['status'], 'WAIT')
                 self.assertEqual(window['reason'], 'nightly_wait_for_midnight_repair_wave')
 
+    def test_early_to_main_preparation_waits_until_the_actual_jst_boundary(self):
+        for time in ('18:00:00', '18:30:00', '20:00:00', '23:10:00'):
+            with self.subTest(time=time):
+                window = self.window('2026-10-15T' + time + '+09:00', '2026-10-16')
+                self.assertEqual((window['status'], window['date'], window['reason']),
+                    ('WAIT', '2026-10-16', 'prime_event_wait_for_target_phase'))
+        for time in ('00:00:00', '00:30:00', '07:00:00'):
+            with self.subTest(time=time):
+                window = self.window('2026-10-16T' + time + '+09:00', '2026-10-16')
+                self.assertEqual(window['status'], 'READY')
+                self.assertFalse(window['before_midnight'])
+
+    def test_same_phase_preparation_retains_the_evening_window(self):
+        for current, target in (('2026-10-14', '2026-10-15'), ('2026-10-16', '2026-10-17')):
+            with self.subTest(current=current):
+                window = self.window(current + 'T18:30:00+09:00', target)
+                self.assertEqual(window['status'], 'READY')
+                self.assertTrue(window['before_midnight'])
+
 
 class NightlyCloudGateTests(unittest.TestCase):
     """Read-only fixtures keep the existing Cloud/target protections at the new start."""
@@ -267,6 +286,25 @@ class ControllerTests(unittest.TestCase):
             self.assertEqual(result['status'], 'PREFLIGHT_PASS')
             self.assertEqual(result['counts']['remaining_after'], 1)
             recover.assert_not_called()
+
+    def test_main_phase_wait_does_not_call_cloud_or_helper_or_consume_attempts(self):
+        snapshot = {**audit(range(1, 21)), 'ready_account_count': 0,
+                    'postable_count': 0, 'short_accounts': list(range(1, 21))}
+        for execute in (False, True):
+            with self.subTest(execute=execute), \
+                 patch.object(controller, 'now_utc', return_value=datetime.fromisoformat('2026-10-15T18:30:00+09:00')), \
+                 patch.object(controller, 'audit_remote', return_value=snapshot) as check, \
+                 patch.object(controller, 'fetch_runs', side_effect=AssertionError('No Cloud calls')) as fetch, \
+                 patch.object(controller, 'nightly_cloud_gate', side_effect=AssertionError('No Cloud gates')) as gate, \
+                 patch.object(controller.recovery, 'recover', side_effect=AssertionError('No scrape helper')) as recover:
+                result = controller.run_controller(target_date='2026-10-16', execute=execute,
+                                                   nightly_preparation=True)
+                self.assertEqual((result['status'], result['reason']),
+                                 ('WAIT', 'prime_event_wait_for_target_phase'))
+                self.assertEqual(check.call_count, 2)
+                self.assertEqual(result['counts']['helper_calls'], 0)
+                fetch.assert_not_called(); gate.assert_not_called(); recover.assert_not_called()
+                self.assertEqual(list(self.root.rglob('*.attempt.json')), [])
 
     def test_cloud_wait_and_stop_never_call_recovery(self):
         for status in ('WAIT', 'STOP'):

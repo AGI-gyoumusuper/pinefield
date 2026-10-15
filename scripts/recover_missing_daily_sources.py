@@ -62,6 +62,9 @@ def preparation_window(target_date=None):
     target_date = target_date or expected
     if target_date != expected:
         raise ControllerStop('nightly_target_outside_today_or_tomorrow_window')
+    phase_wait = recovery.prime_phase_wait_reason(target_date, current_date=day.isoformat())
+    if phase_wait:
+        return {'status': 'WAIT', 'date': target_date, 'reason': phase_wait}
     if evening:
         deadline = current.replace(hour=23, minute=25, second=0, microsecond=0)
         remaining = (deadline - current).total_seconds()

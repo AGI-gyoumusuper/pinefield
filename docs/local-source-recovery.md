@@ -18,6 +18,8 @@ python -B scripts/recover_local_daily_source.py --account 13 --date 2026-09-10 -
 
 `--cloud-run-completed` は、呼出側が対象アカウントの Cloud 実行と他の手動取得が終了済みであることを確認したという宣言であり、CLI が GitHub Jobs を自動照会するフラグではない。実行中の Cloud/手動取得と重ねて呼び出さない。同アカウント・同日は、取得開始を記録した後の再実行を拒否する。失敗しても自動再取得・無限再試行はしない。
 
+プライム先行セールから本祭への切替では、対象日の段階が観測日と異なる間は `WAIT / prime_event_wait_for_target_phase` として取得開始前に戻り、attemptを作らない。先行表示を本祭の証拠として流用しない。旧実装で既に失敗した取得は、初回attemptと保存結果の対応・SHA・商品0件・前段階の表示不一致を確認でき、対象段階へ移行済みで当日sourceも未固定の場合だけ、段階切替用の再取得を1回許可する。旧attempt・結果を削除・上書きせず、専用の排他的記録で消費済みを保持する。既存source・確認済み商品・記事・予約・台帳を差し替える例外ではない。通常の失敗・不明な証拠・別日付には適用しない。Cloud終了確認と既存lock・価格・参加証拠の検査は維持する。
+
 `--repo` は正規 Pinefield のローカル Git checkout を指定できる。既定はこの script の所属 repo。元 checkout の HEAD・index・未コミット変更には触れず、fetch と一時 worktree の登録/削除だけを行う。`--timeout-seconds` は1〜3600秒、既定1800秒。
 
 ## 固定条件
