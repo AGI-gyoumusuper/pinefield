@@ -427,7 +427,7 @@ def validate_discount_contract_summary(account, products, summary):
     """Replay recorded evidence only; never fetch or rewrite an existing source."""
     contract = summary.get("discount_contract")
     policy = summary.get("selection_policy", {})
-    prime_required = summary.get("campaign", {}).get("policy") == PRIME_CAMPAIGN_POLICY
+    prime_required = summary.get("campaign", {}).get("policy") in (PRIME_CAMPAIGN_POLICY, "prime_appreciation_2026_electronics_price_desc_v3")
     if prime_required and policy.get("require_prime_event") is not True:
         return False, "prime campaign selection proof policy missing"
     if (not isinstance(contract, dict) or type(contract.get("schema_version")) is not int

@@ -18,7 +18,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
-from sale_campaign import CAMPAIGN_POLICY, source_campaign_config
+from sale_campaign import CAMPAIGN_POLICY, PRIME_V2_POLICY, source_campaign_config
 
 
 ROOT = Path(__file__).resolve().parent
@@ -225,6 +225,30 @@ def validate(
     if not isinstance(summary.get("categories"), dict):
         return False, f"summary categories is not an object: {summary_path}"
 
+    def source_is_sealed():
+        try:
+            manifest = load_json(root / "data" / account / "source_manifest.json")
+            return (type(manifest.get("schema")) is int and manifest["schema"] == 1
+                    and type(manifest.get("account")) is int
+                    and manifest["account"] == int(account.removeprefix("account"))
+                    and manifest.get("date") == today
+                    and manifest.get("products_sha256") == hashlib.sha256(products_path.read_bytes()).hexdigest()
+                    and manifest.get("summary_sha256") == hashlib.sha256(summary_path.read_bytes()).hexdigest())
+        except (OSError, ValueError, TypeError, AttributeError):
+            return False
+
+    if today >= "2026-10-18" and "campaign" not in summary:
+        config_path = root / f"categories{account.removeprefix('account')}.yaml"
+        if config_path.exists():
+            try:
+                import yaml
+                current = yaml.safe_load(config_path.read_text(encoding="utf-8-sig"))
+                requires_price = current.get("filters", {}).get("selection_policy_version") == "profit_price_desc_v1"
+            except (OSError, ValueError, TypeError, AttributeError, yaml.YAMLError):
+                return False, "fresh price configuration invalid"
+            if requires_price and summary.get("selection_policy", {}).get("selection_policy_version") != "profit_price_desc_v1" and not source_is_sealed():
+                return False, "unfixed source requires current price-desc policy"
+
     # Historic replay stays compatible. Fresh inputs after this deployment must
     # not silently freeze the previously generic campaign as a Prime source.
     campaign_path = root / "sale_campaign.yaml"
@@ -237,7 +261,7 @@ def validate(
             return False, f"fresh campaign configuration invalid: {type(exc).__name__}"
         source_marker = summary.get("campaign")
         source_policy = source_marker.get("policy") if isinstance(source_marker, dict) else None
-        if require_current_prime and source_policy != CAMPAIGN_POLICY:
+        if require_current_prime and source_policy != CAMPAIGN_POLICY and not (today < "2026-10-18" and source_policy == PRIME_V2_POLICY):
             manifest_path = root / "data" / account / "source_manifest.json"
             sealed = False
             try:
@@ -251,7 +275,7 @@ def validate(
             except (OSError, ValueError, TypeError, AttributeError):
                 pass
             if not sealed:
-                return False, "unfixed source requires Prime verified v2 campaign"
+                return False, "unfixed source requires current Prime campaign"
 
     account_number = account.removeprefix("account")
     campaign = summary.get("campaign")
@@ -272,19 +296,28 @@ def validate(
 
     # The safety net must not accept an older popularity/rotation snapshot as
     # today's discount-first result just because its date and count are valid.
+    policy = summary.get("selection_policy")
+    price_policy = isinstance(policy, dict) and policy.get("selection_policy_version") == "profit_price_desc_v1"
     expected_policy = {
         "selection_mode": "category_quota" if account == "account20" and campaign is None else "global_ranked",
-        "sort_order": "sale_first",
+        "sort_order": "price_desc" if price_policy else "sale_first",
         "require_sale_info": True,
-        "max_per_category": 5 if account == "account20" and campaign is None else 2,
+        "max_per_category": 5 if account == "account20" and campaign is None else (0 if price_policy else 2),
         "max_total_items": 10,
     }
-    policy = summary.get("selection_policy")
+    if price_policy:
+        expected_policy.update(selection_policy_version="profit_price_desc_v1", min_price=8000, max_price=0)
+        if any(type(item.get("price_int")) is not int or item["price_int"] < 8000 for item in products):
+            return False, "price policy product is below the 8000-yen sales-price floor"
+        groups = [[item for item in products if re.sub(r"#\d+$", "", item["category"]) == shelf]
+                  for shelf in ("Nintendo Switch 2", "PS5ゲームソフト")] if account == "account20" and campaign is None else [products]
+        if any([item["price_int"] for item in group] != sorted((item["price_int"] for item in group), reverse=True) for group in groups):
+            return False, "price policy products are not in descending sales-price order"
     if not isinstance(policy, dict) or any(
         type(policy.get(key)) is not type(expected) or policy.get(key) != expected
         for key, expected in expected_policy.items()
     ):
-        return False, f"summary selection policy is not current discount-first mode: {summary_path}"
+        return False, f"summary selection policy is not a supported fixed-source policy: {summary_path}"
 
     ok, message = validate_detail_offer_summary(account, root, products, summary)
     if not ok:

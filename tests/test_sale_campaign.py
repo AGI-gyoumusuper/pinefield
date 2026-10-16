@@ -83,8 +83,8 @@ class SaleCampaignTests(unittest.TestCase):
                     self.assertIn("p_n_deal_type:10343616051", query)
                 filters = effective["filters"]
                 for key, expected in {
-                    "selection_mode": "global_ranked", "sort_order": "sale_first",
-                    "min_price": 8000, "max_total_items": 10, "max_per_category": 2,
+                    "selection_mode": "global_ranked", "sort_order": "price_desc",
+                    "min_price": 8000, "max_total_items": 10, "max_per_category": 0,
                 }.items():
                     self.assertEqual(expected, filters[key])
                 for key in ["discount_contract", "offer_scope", "verify_detail_offer"]:

@@ -12,14 +12,16 @@ categories:
     is_search: true
 
 filters:
+  selection_policy_version: "profit_price_desc_v1"
+  require_sale_info: true
   discount_contract: "amazon_direct_discounts_v1"
   verify_detail_offer: true  # 可視PDPでASIN・現価・参考価格・割引率を確定してから既存選定。
   offer_scope: "unified_discounts"  # 通常値下げ・Amazon内クーポンも同一経路で扱う。
   selection_mode: "category_quota"
   rotation_state_file: "data/account20/category_rotation.json"
-  min_price: 3000
-  max_price: 0
-  sort_order: "sale_first"   # セール優先→割引率→価格の降順
+  min_price: 8000        # 2026-10-16: 販売価格の下限。棚別の高い下限は維持
+  max_price: 0           # 上限なし
+  sort_order: "price_desc"  # 本人指定: 検証済候補を販売価格の高い順
   max_total_items: 10
   max_per_category: 5
   deferred_retry_failed_searches: true  # 検索失敗カテゴリ（部分取得を含む）を新しいブラウザ文脈で一度だけ遅延再巡回する。

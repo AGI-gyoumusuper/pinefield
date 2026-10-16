@@ -22,11 +22,14 @@ import yaml
 JST = timezone(timedelta(hours=9))
 CAMPAIGN_CONFIG_PATH = Path(__file__).with_name("sale_campaign.yaml")
 CAMPAIGN_ID = "prime_appreciation_2026"
-CAMPAIGN_POLICY = "prime_appreciation_2026_electronics_prime_verified_v2"
+CAMPAIGN_POLICY = "prime_appreciation_2026_electronics_price_desc_v3"
+PRIME_V2_POLICY = "prime_appreciation_2026_electronics_prime_verified_v2"
+PRICE_POLICY = "profit_price_desc_v1"
 LEGACY_CAMPAIGN_POLICY = "prime_appreciation_2026_electronics_v1"
 LEGACY_CONFIG_SHA256 = "6161f0c6ae9828bd7de6f6b8f1c06ffacb0245afff2744e4ad9392d7c37b1e6c"
 PRIME_CONFIG_SHA256 = "8726b65d5e8cf2ebd9393a13f462e63c3087e6503597749730332a3e6cbbb8ea"
-CONFIG_REGISTRY = {LEGACY_CAMPAIGN_POLICY: LEGACY_CONFIG_SHA256, CAMPAIGN_POLICY: PRIME_CONFIG_SHA256}
+PRICE_CONFIG_SHA256 = "a3511e2163a71a3063ea42755d51a8fea9732155e6c6f58d8072af69f63b644a"
+CONFIG_REGISTRY = {LEGACY_CAMPAIGN_POLICY: LEGACY_CONFIG_SHA256, PRIME_V2_POLICY: PRIME_CONFIG_SHA256, CAMPAIGN_POLICY: PRICE_CONFIG_SHA256}
 _STARTS_AT = "2026-10-13T00:00:00+09:00"
 _ENDS_AT = "2026-10-20T00:00:00+09:00"
 
@@ -86,8 +89,9 @@ def _load_campaign() -> tuple[dict[str, Any], str]:
     fixed = {
         "schema": 1, "id": CAMPAIGN_ID, "policy": campaign["policy"],
         "timezone": "Asia/Tokyo", "starts_at": _STARTS_AT, "ends_at": _ENDS_AT,
-        "min_price": 8000, "selection_mode": "global_ranked", "sort_order": "sale_first",
-        "max_total_items": 10, "max_per_category": 2, "max_items": 20,
+        "min_price": 8000, "selection_mode": "global_ranked",
+        "sort_order": "price_desc" if campaign["policy"] == CAMPAIGN_POLICY else "sale_first",
+        "max_total_items": 10, "max_per_category": 0 if campaign["policy"] == CAMPAIGN_POLICY else 2, "max_items": 20,
         "allocation_method": "daily_rotation_20_nodes_offsets_0_1_4_5_shift_3",
         "daily_shift": 3, "offsets": [0, 1, 4, 5],
         "official_source": "https://www.aboutamazon.jp/news/amazon-prime/prime-appreciation-sale-2026",
@@ -154,11 +158,18 @@ def _overlay(base_config: dict[str, Any], marker: dict[str, Any]) -> dict[str, A
     if not isinstance(filters, dict):
         raise CampaignConfigError("base account filters must be an object")
     filters.update({
-        "selection_mode": "global_ranked", "sort_order": "sale_first", "max_total_items": 10,
-        "max_per_category": 2, "min_price": 8000,
+        "selection_mode": "global_ranked", "sort_order": "price_desc" if marker["policy"] == CAMPAIGN_POLICY else "sale_first", "max_total_items": 10,
+        "max_per_category": 0 if marker["policy"] == CAMPAIGN_POLICY else 2, "min_price": 8000, "max_price": 0, "require_sale_info": True,
     })
     if marker["policy"] == CAMPAIGN_POLICY:
+        filters["selection_policy_version"] = PRICE_POLICY
+    else:
+        filters.pop("selection_policy_version", None)
+    if marker["policy"] in (PRIME_V2_POLICY, CAMPAIGN_POLICY):
         filters.update(require_prime_event=True, prime_event_source_date=marker["date"])
+    else:
+        filters.pop("require_prime_event", None)
+        filters.pop("prime_event_source_date", None)
     result["categories"] = copy.deepcopy(marker["categories"])
     result["_sale_campaign"] = copy.deepcopy(marker)
     return result
@@ -212,6 +223,8 @@ def source_campaign_config(
         raise CampaignConfigError("source campaign policy is unregistered")
     frozen_config = copy.deepcopy(campaign)
     frozen_config["policy"] = source_policy
+    frozen_config["sort_order"] = "price_desc" if source_policy == CAMPAIGN_POLICY else "sale_first"
+    frozen_config["max_per_category"] = 0 if source_policy == CAMPAIGN_POLICY else 2
     frozen_digest = hashlib.sha256(_canonical_json(frozen_config).encode("utf-8")).hexdigest()
     if frozen_digest != CONFIG_REGISTRY[source_policy]:
         raise CampaignConfigError("frozen campaign configuration changed")
@@ -223,13 +236,17 @@ def source_campaign_config(
         if not isinstance(policy, dict):
             raise CampaignConfigError("source selection_policy must be an object")
         for key, value in {
-            "selection_mode": "global_ranked", "sort_order": "sale_first",
-            "max_total_items": 10, "max_per_category": 2,
+            "selection_mode": "global_ranked", "sort_order": frozen_config["sort_order"],
+            "max_total_items": 10, "max_per_category": frozen_config["max_per_category"],
         }.items():
             if _canonical_json(policy.get(key)) != _canonical_json(value):
                 raise CampaignConfigError(f"campaign source selection_policy.{key} is inconsistent")
         if "min_price" in policy and _canonical_json(policy["min_price"]) != "8000":
             raise CampaignConfigError("campaign source selection_policy.min_price is inconsistent")
+        if source_policy == CAMPAIGN_POLICY and any(policy.get(key) != value for key, value in {
+            "selection_policy_version": PRICE_POLICY, "min_price": 8000, "max_price": 0, "require_sale_info": True,
+        }.items()):
+            raise CampaignConfigError("campaign price selection contract is missing")
     if not isinstance(products, list) or not 1 <= len(products) <= 10:
         raise CampaignConfigError("campaign products must be an array of 1 through 10 fixed products")
     if "total_taken" in summary and (type(summary["total_taken"]) is not int or summary["total_taken"] != len(products)):
@@ -254,6 +271,10 @@ def source_campaign_config(
                 raise CampaignConfigError(f"campaign product {position} ASIN is invalid or duplicated")
             seen_asins.add(asin)
     if source_policy == CAMPAIGN_POLICY:
+        prices = [product["price_int"] for product in products]
+        if prices != sorted(prices, reverse=True):
+            raise CampaignConfigError("campaign products are not in descending sales-price order")
+    if source_policy in (PRIME_V2_POLICY, CAMPAIGN_POLICY):
         try:
             # Controllers inject the validator from the same pinned Git commit.
             # Sealed v1 replay needs no new detail_offer module dependency.

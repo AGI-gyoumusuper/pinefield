@@ -68,14 +68,14 @@ class AccountConfigTests(unittest.TestCase):
                 self.assertNotIn("p_n_deal_type:23534876051", query["rh"][0])
                 node_id(category["url"])
 
-    def test_all_accounts_use_sale_ranking(self):
+    def test_all_accounts_use_price_ranking(self):
         for account in range(1, 21):
-            self.assertEqual("sale_first", load_config(account)["filters"]["sort_order"], f"account{account}")
+            self.assertEqual("price_desc", load_config(account)["filters"]["sort_order"], f"account{account}")
 
-    def test_new_accounts_use_three_thousand_yen_floor(self):
+    def test_new_accounts_use_eight_thousand_yen_floor(self):
         for account in range(10, 21):
             config = load_config(account)
-            self.assertEqual(3000, config["filters"]["min_price"], f"account{account}")
+            self.assertEqual(8000, config["filters"]["min_price"], f"account{account}")
             for category in config["categories"]:
                 rh = unquote(parse_qs(urlparse(category["url"]).query)["rh"][0])
                 self.assertIn("p_36:300000-", rh, f"account{account} {category['name']}")
@@ -84,7 +84,7 @@ class AccountConfigTests(unittest.TestCase):
         for account in range(1, 20):
             filters = load_config(account)["filters"]
             self.assertEqual("global_ranked", filters["selection_mode"])
-            self.assertEqual(2, filters["max_per_category"])
+            self.assertEqual(0, filters["max_per_category"])
             self.assertEqual(10, filters["max_total_items"])
         filters = load_config(20)["filters"]
         self.assertEqual("category_quota", filters["selection_mode"])

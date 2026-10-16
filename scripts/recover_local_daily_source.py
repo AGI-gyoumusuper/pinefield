@@ -490,7 +490,8 @@ def verify_policy(worktree, account):
     if not isinstance(filters, dict) or not isinstance(exclusion, dict):
         raise RecoveryStop('invalid_canonical_config')
     policy = {'selection_mode': 'category_quota' if account == 20 else 'global_ranked',
-              'sort_order': 'sale_first', 'max_per_category': 5 if account == 20 else 2, 'max_total_items': 10}
+              'sort_order': 'price_desc', 'max_per_category': 5 if account == 20 else 0, 'max_total_items': 10,
+              'selection_policy_version': 'profit_price_desc_v1', 'min_price': 8000, 'max_price': 0, 'require_sale_info': True}
     if any(type(filters.get(key)) is not type(value) or filters.get(key) != value for key, value in policy.items()):
         raise RecoveryStop('non_current_selection_policy')
     if exclusion.get('exclude_scraped_candidates') is not False:

@@ -37,8 +37,9 @@ def prime_source(day="2026-10-15", checked="2026-10-13T03:00:00+00:00", label="ã
     row = discount_row(candidate, record, 1, prime_source_date=day)
     summary = dict(date=day, campaign=marker, total_taken=1,
         categories={category["name"]: {} for category in marker["categories"]},
-        selection_policy=dict(selection_mode="global_ranked", sort_order="sale_first", require_sale_info=True,
-            max_per_category=2, max_total_items=10, require_prime_event=True, verify_detail_offer=True,
+        selection_policy=dict(selection_mode="global_ranked", sort_order="price_desc", require_sale_info=True,
+            selection_policy_version="profit_price_desc_v1", min_price=8000, max_price=0,
+            max_per_category=0, max_total_items=10, require_prime_event=True, verify_detail_offer=True,
             offer_scope="unified_discounts", discount_contract="amazon_direct_discounts_v1"),
         detail_offer_verification=dict(schema_version=1, enabled=True, offer_scope="unified_discounts",
             candidate_count=1, accepted_count=1, rejected_count=0, observations=[record]),
@@ -170,6 +171,7 @@ class PrimeProofTests(unittest.TestCase):
         base, products, summary, _ = prime_source()
         legacy_yaml = yaml.safe_load(CAMPAIGN_CONFIG_PATH.read_text(encoding="utf-8"))
         legacy_yaml["policy"] = LEGACY_CAMPAIGN_POLICY
+        legacy_yaml.update(sort_order="sale_first", max_per_category=2)
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "sale_campaign.yaml"
             path.write_text(yaml.safe_dump(legacy_yaml, allow_unicode=True), encoding="utf-8")
@@ -202,6 +204,8 @@ class PrimeProofTests(unittest.TestCase):
         summary["campaign"]["policy"] = LEGACY_CAMPAIGN_POLICY
         summary["campaign"]["config_sha256"] = LEGACY_CONFIG_SHA256
         summary["selection_policy"].pop("require_prime_event")
+        summary["selection_policy"].pop("selection_policy_version")
+        summary["selection_policy"].update(sort_order="sale_first",max_per_category=2)
         summary["discount_contract"]["products"][0].pop("prime_event")
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -225,6 +229,7 @@ class PrimeProofTests(unittest.TestCase):
             (folder / "source_manifest.json").unlink()
             legacy_yaml = yaml.safe_load((root / "sale_campaign.yaml").read_text(encoding="utf-8"))
             legacy_yaml["policy"] = LEGACY_CAMPAIGN_POLICY
+            legacy_yaml.update(sort_order="sale_first", max_per_category=2)
             (root / "sale_campaign.yaml").write_text(yaml.safe_dump(legacy_yaml), encoding="utf-8")
             self.assertTrue(ensure_daily_scrape.validate("account8", root, "2026-10-15")[0])
 

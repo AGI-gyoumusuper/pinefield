@@ -1650,7 +1650,7 @@ async def complete_discount_supply(
     pending = filter_and_sort(
         pending, min_price=min_price, max_price=max_price, sort_order=sort_order,
         max_total=24, posted_asins=registry.asins, min_discount_pct=min_discount_pct,
-        max_per_category=2, exclude_title_patterns=exclude_title_patterns,
+        max_per_category=max_per_category, exclude_title_patterns=exclude_title_patterns,
         category_min_prices=category_min_prices)
     supply['remaining_candidates'] = len(pending)
     if not pending:
@@ -1734,6 +1734,12 @@ async def complete_discount_supply(
             accept(candidate)
             if daily_supply_slots(result, account, cats, selection_mode) >= 4:
                 break
+    if sort_order == 'price_desc':
+        if quota_mode:
+            ordered_names = [cat['name'] for cat in cats]
+            result = [p for name in ordered_names for p in sort_products([p for p in result if p.category.split('#')[0] == name], sort_order)]
+        else:
+            result = sort_products(result, sort_order)
     supply['ready_after'] = daily_supply_slots(result, account, cats, selection_mode)
     if supply['ready_after'] >= 4:
         supply['reason'] = 'completed'
@@ -1757,7 +1763,9 @@ async def fetch_products(
     }
     max_price = int(flt.get("max_price", 0))
     sort_order = str(flt.get("sort_order", "price_desc"))
-    require_sale_info = sort_order == "sale_first"
+    require_sale_info = flt.get("require_sale_info", sort_order == "sale_first")
+    if type(require_sale_info) is not bool:
+        raise ValueError("require_sale_info must be a boolean")
     verify_detail_offer = flt.get("verify_detail_offer", False)
     integrated_discounts = flt.get("discount_contract") == DISCOUNT_POLICY
     require_prime_event = flt.get("require_prime_event", False)
@@ -1828,6 +1836,8 @@ async def fetch_products(
         "_excluded_gtins_loaded": len(product_registry.global_trade_numbers),
         "_excluded_brand_models_loaded": len(product_registry.brand_model_keys),
     }
+    if flt.get("selection_policy_version") == "profit_price_desc_v1":
+        scrape_stats["_selection_policy"].update(selection_policy_version="profit_price_desc_v1", min_price=min_price, max_price=max_price)
     if verify_detail_offer:
         scrape_stats["_selection_policy"]["verify_detail_offer"] = True
         if offer_scope in {"all_discounts", "unified_discounts"}:
@@ -2022,7 +2032,7 @@ async def fetch_products(
             # Preserve category/price/exclusion policy and bound the final confirmation pool.
             short = filter_and_sort(
                 all_products, min_price=min_price, max_price=max_price, sort_order=sort_order,
-                max_total=24, posted_asins=posted_asins, max_per_category=(12 if selection_mode == "category_quota" else 2),
+                max_total=24, posted_asins=posted_asins, max_per_category=(12 if selection_mode == "category_quota" else max_per_category),
                 exclude_title_patterns=exclude_title_patterns, selection_mode=selection_mode,
                 categories=cats, rotation_state_file=rotation_state_file, category_min_prices=category_min_prices)
             all_products = await verify_discount_candidates(page, short, scrape_stats,
