@@ -1,0 +1,1964 @@
+{
+  "date": "2026-10-18",
+  "total_taken": 10,
+  "selection_policy": {
+    "selection_mode": "global_ranked",
+    "sort_order": "price_desc",
+    "require_sale_info": true,
+    "max_per_category": 0,
+    "max_total_items": 10,
+    "selection_policy_version": "profit_price_desc_v1",
+    "min_price": 8000,
+    "max_price": 0,
+    "verify_detail_offer": true,
+    "offer_scope": "unified_discounts",
+    "discount_contract": "amazon_direct_discounts_v1",
+    "require_prime_event": true
+  },
+  "excluded_loaded": 72,
+  "excluded_gtins_loaded": 0,
+  "excluded_brand_models_loaded": 29,
+  "skipped_product_identity": 0,
+  "skipped_product_identity_reasons": {},
+  "categories": {
+    "NAS（ネットワークストレージ）": {
+      "pages": [
+        1,
+        0
+      ],
+      "taken": 1,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "プロジェクター": {
+      "pages": [
+        1,
+        0
+      ],
+      "taken": 1,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "ノートPC": {
+      "pages": [
+        14,
+        0
+      ],
+      "taken": 14,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "ロボット掃除機": {
+      "pages": [
+        3,
+        0
+      ],
+      "taken": 3,
+      "skipped_posted": 0,
+      "error": "",
+      "skipped_nosale": 0
+    }
+  },
+  "campaign": {
+    "schema": 1,
+    "id": "prime_appreciation_2026",
+    "policy": "prime_appreciation_2026_electronics_price_desc_v3",
+    "account": 2,
+    "date": "2026-10-18",
+    "starts_at": "2026-10-13T00:00:00+09:00",
+    "ends_at": "2026-10-20T00:00:00+09:00",
+    "min_price": 8000,
+    "selection_mode": "global_ranked",
+    "categories": [
+      {
+        "name": "NAS（ネットワークストレージ）",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A2151968051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "プロジェクター",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A137613011%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "ノートPC",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A2151981051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      },
+      {
+        "name": "ロボット掃除機",
+        "url": "https://www.amazon.co.jp/s?rh=n%3A2353758051%2Cp_n_deal_type%3A10343616051%2Cp_36%3A800000-",
+        "is_search": true,
+        "max_items": 20,
+        "min_price": 8000
+      }
+    ],
+    "allocation_method": "daily_rotation_20_nodes_offsets_0_1_4_5_shift_3",
+    "official_source": "https://www.aboutamazon.jp/news/amazon-prime/prime-appreciation-sale-2026",
+    "config_sha256": "a3511e2163a71a3063ea42755d51a8fea9732155e6c6f58d8072af69f63b644a"
+  },
+  "detail_offer_verification": {
+    "schema_version": 1,
+    "enabled": true,
+    "offer_scope": "unified_discounts",
+    "sale_name": "Amazon セール",
+    "candidate_count": 17,
+    "raw_candidate_count": 17,
+    "accepted_count": 17,
+    "rejected_count": 0,
+    "rejection_reasons": {},
+    "observations": [
+      {
+        "asin": "B0GXZJ8B1M",
+        "category": "ノートPC#12",
+        "checked_at": "2026-10-17T09:12:20.291629+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥154,800",
+          "price_int": 154800,
+          "original_price": "￥179,800",
+          "discount_rate": "14%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥154,800",
+          "price_int": 154800,
+          "original_price": "￥179,800",
+          "discount_rate": "14%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GXZJ8B1M",
+            "B0GXZJ8B1M"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】Lenovo IdeaPad Slim 3 83UR00A0JP ノートパソコン 15.3インチ",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "154,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-14%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥179,800\n￥179,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GXZJ8B1M",
+          "url": "https://www.amazon.co.jp/dp/B0GXZJ8B1M",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:12:20.291629+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 154800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GXZJ8B1M",
+            "asin": "B0GXZJ8B1M"
+          }
+        },
+        "evidence_sha256": "EBCB10302AC2972A1CE876B437A5D1DAC560A216BFFC30D429AA596C22828E70"
+      },
+      {
+        "asin": "B0H4QK7XCB",
+        "category": "ノートPC#3",
+        "checked_at": "2026-10-17T09:12:26.881348+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥149,980",
+          "price_int": 149980,
+          "original_price": "￥187,980",
+          "discount_rate": "20%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥149,980",
+          "price_int": 149980,
+          "original_price": "￥187,980",
+          "discount_rate": "20%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H4QK7XCB",
+            "B0H4QK7XCB"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】Dell XPS 13 DX13260 13.4インチタッチ ノートパソコン MAX53T-GWSA",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "149,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-20%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥187,980\n￥187,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H4QK7XCB",
+          "url": "https://www.amazon.co.jp/dp/B0H4QK7XCB",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:12:26.881348+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 149980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H4QK7XCB",
+            "asin": "B0H4QK7XCB"
+          }
+        },
+        "evidence_sha256": "C7851AD51B1A5D583B9CE36A5E5321B3175171D623B1040DED1D5A17C64811B6"
+      },
+      {
+        "asin": "B0GS7KFR8G",
+        "category": "ノートPC#9",
+        "checked_at": "2026-10-17T09:12:33.444053+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥145,980",
+          "price_int": 145980,
+          "original_price": "￥163,980",
+          "discount_rate": "11%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥145,980",
+          "price_int": 145980,
+          "original_price": "￥163,980",
+          "discount_rate": "11%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GS7KFR8G",
+            "B0GS7KFR8G"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】Dell 15 D15260 15.6インチ ノートパソコン ND65-GNSA",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "145,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-11%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥163,980\n￥163,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GS7KFR8G",
+          "url": "https://www.amazon.co.jp/dp/B0GS7KFR8G",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:12:33.444053+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 145980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GS7KFR8G",
+            "asin": "B0GS7KFR8G"
+          }
+        },
+        "evidence_sha256": "43B763CAC34554EAF285199D4441BDD1964CEAD6060153953CEA60A0AF42AFFA"
+      },
+      {
+        "asin": "B0HJBLNQ9F",
+        "category": "ノートPC#1",
+        "checked_at": "2026-10-17T09:12:40.000921+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥144,800",
+          "price_int": 144800,
+          "original_price": "￥174,800",
+          "discount_rate": "17%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥144,800",
+          "price_int": 144800,
+          "original_price": "￥174,800",
+          "discount_rate": "17%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0HJBLNQ9F",
+            "B0HJBLNQ9F"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】 ASUS ノートパソコン Vivobook 15 M1502UA 15.6インチ AMD Ryzen 5 125 メモリ16GB SSD 256GB MS Office搭載 Windows 11 重量1.7kg Wi-Fi 6 クワイエットブルー M1502UA-R5162BUSAM",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "144,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-17%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥174,800\n￥174,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0HJBLNQ9F",
+          "url": "https://www.amazon.co.jp/dp/B0HJBLNQ9F",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:12:40.000921+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 144800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0HJBLNQ9F",
+            "asin": "B0HJBLNQ9F"
+          }
+        },
+        "evidence_sha256": "7449D178CC3C0DE691C8F137CA83A042BC7334FD551898E0F2F941501D862353"
+      },
+      {
+        "asin": "B0GZ6D2Y7F",
+        "category": "ノートPC#11",
+        "checked_at": "2026-10-17T09:12:46.492021+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥129,800",
+          "price_int": 129800,
+          "original_price": "￥177,882",
+          "discount_rate": "27%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥129,800",
+          "price_int": 129800,
+          "original_price": "￥177,882",
+          "discount_rate": "27%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GZ6D2Y7F",
+            "B0GZ6D2Y7F"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】 ASUS ノートパソコン Vivobook 15 X1504MA 15.6インチ インテル Core 7 350 メモリ 16GB SSD 512GB Windows 11 重量 1.7kg バッテリー駆動 10.7時間 Wi-Fi 6 クールシルバー X1504MA-C7165SIA",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "129,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-27%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥177,882\n￥177,882"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GZ6D2Y7F",
+          "url": "https://www.amazon.co.jp/dp/B0GZ6D2Y7F",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:12:46.492021+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 129800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GZ6D2Y7F",
+            "asin": "B0GZ6D2Y7F"
+          }
+        },
+        "evidence_sha256": "61D94B734C90EC0350C0EEF7FD1B7DEC1561659FE219E84A0EB48BC12ACCDC1B"
+      },
+      {
+        "asin": "B0G5HP66X5",
+        "category": "ノートPC#14",
+        "checked_at": "2026-10-17T09:12:52.992040+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥123,803",
+          "price_int": 123803,
+          "original_price": "￥144,800",
+          "discount_rate": "15%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥123,803",
+          "price_int": 123803,
+          "original_price": "￥144,800",
+          "discount_rate": "15%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0G5HP66X5",
+            "B0G5HP66X5"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "Acer Aspire Spin 14 16GBメモリー 512GB SSD 14インチ WUXGA 16:10 IPS 非光沢 インテル Core Ultra 5 115U タッチディスプレイ 360°ヒンジ 120Hz 207万画素 Webカメラ スライドカバー付 microSDカード WiFi 6 Bluetooth 5.2 日本語キーボード ASP14-51N-F56Y",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "123,803"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-15%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥144,800\n￥144,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0G5HP66X5",
+          "url": "https://www.amazon.co.jp/dp/B0G5HP66X5",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:12:52.992040+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 123803,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0G5HP66X5",
+            "asin": "B0G5HP66X5"
+          }
+        },
+        "evidence_sha256": "EE816716D906EF4BC2C65AC28DE22CDE774E8A9818722077BD51DA1CD8668AB4"
+      },
+      {
+        "asin": "B0H3KXY3PW",
+        "category": "ノートPC#5",
+        "checked_at": "2026-10-17T09:12:59.493389+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥114,800",
+          "price_int": 114800,
+          "original_price": "￥184,800",
+          "discount_rate": "38%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥114,800",
+          "price_int": 114800,
+          "original_price": "￥184,800",
+          "discount_rate": "38%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H3KXY3PW",
+            "B0H3KXY3PW"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】Lenovo IdeaPad Slim 3 83RR00BYJP ノートパソコン 15.3インチ",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "114,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-38%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥184,800\n￥184,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H3KXY3PW",
+          "url": "https://www.amazon.co.jp/dp/B0H3KXY3PW",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:12:59.493389+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 114800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H3KXY3PW",
+            "asin": "B0H3KXY3PW"
+          }
+        },
+        "evidence_sha256": "3278E5E75A75363175277D68C15D952F231C5FA9093ED49429A93C779C065CBB"
+      },
+      {
+        "asin": "B0H4QQRQK4",
+        "category": "ノートPC#7",
+        "checked_at": "2026-10-17T09:13:06.004994+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥109,980",
+          "price_int": 109980,
+          "original_price": "￥174,980",
+          "discount_rate": "37%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥109,980",
+          "price_int": 109980,
+          "original_price": "￥174,980",
+          "discount_rate": "37%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H4QQRQK4",
+            "B0H4QQRQK4"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】Dell 15 DC15250 15.6インチ ノートパソコン ND55-GWBA",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "109,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-37%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥174,980\n￥174,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H4QQRQK4",
+          "url": "https://www.amazon.co.jp/dp/B0H4QQRQK4",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:13:06.004994+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 109980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H4QQRQK4",
+            "asin": "B0H4QQRQK4"
+          }
+        },
+        "evidence_sha256": "A95932FA02FBAFEE9770C5748DEC81EE6145DE5A63F3D93D3DED55CA9DAD78A8"
+      },
+      {
+        "asin": "B0DTTMWFTP",
+        "category": "ノートPC#2",
+        "checked_at": "2026-10-17T09:13:12.584778+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥99,800",
+          "price_int": 99800,
+          "original_price": "￥123,800",
+          "discount_rate": "19%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥99,800",
+          "price_int": 99800,
+          "original_price": "￥123,800",
+          "discount_rate": "19%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DTTMWFTP",
+            "B0DTTMWFTP"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "mouse 【3年保証】 ノートパソコン mouse A5 (Ryzen 5 7430U AMD Radeon グラフィックス 16GB メモリ 500GB SSD 15.6インチ フルHD Windows 11 ビジネス テレワーク) A5A5A01SR1SIW1104AZ",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "99,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-19%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥123,800\n￥123,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DTTMWFTP",
+          "url": "https://www.amazon.co.jp/dp/B0DTTMWFTP",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:13:12.584778+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 99800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DTTMWFTP",
+            "asin": "B0DTTMWFTP"
+          }
+        },
+        "evidence_sha256": "B271AB047056F73FCAE9E92682E02C9A8BF1225CA8EFD38A66F2D9D536219CD9"
+      },
+      {
+        "asin": "B0H4P39FJ6",
+        "category": "ノートPC#13",
+        "checked_at": "2026-10-17T09:13:19.230990+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥84,800",
+          "price_int": 84800,
+          "original_price": "￥99,800",
+          "discount_rate": "15%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥84,800",
+          "price_int": 84800,
+          "original_price": "￥99,800",
+          "discount_rate": "15%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H4P39FJ6",
+            "B0H4P39FJ6"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】Lenovo IdeaPad Slim 3 83RR00LBJP ノートパソコン 15.3インチ",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "84,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-15%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥99,800\n￥99,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H4P39FJ6",
+          "url": "https://www.amazon.co.jp/dp/B0H4P39FJ6",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:13:19.230990+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 84800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H4P39FJ6",
+            "asin": "B0H4P39FJ6"
+          }
+        },
+        "evidence_sha256": "E77A592DB4B33AD7B4AFB21D81D3C7FB49B71F15986785538C282C9C4253D00A"
+      },
+      {
+        "asin": "B0H2X9Q3Y3",
+        "category": "ノートPC#6",
+        "checked_at": "2026-10-17T09:13:25.739237+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥64,800",
+          "price_int": 64800,
+          "original_price": "￥76,800",
+          "discount_rate": "16%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥64,800",
+          "price_int": 64800,
+          "original_price": "￥76,800",
+          "discount_rate": "16%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H2X9Q3Y3",
+            "B0H2X9Q3Y3"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ASUS Chromebook クロームブック CM15 15.6インチ MediaTek Kompanio 540 8GB メモリ 64GB eMMC ゼロタッチ登録対応 日本語キーボード 重量 1.56kg Wi-Fi 6E ピュアグレー CM1505CM4A-864GY",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "64,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-16%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥76,800\n￥76,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H2X9Q3Y3",
+          "url": "https://www.amazon.co.jp/dp/B0H2X9Q3Y3",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:13:25.739237+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 64800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H2X9Q3Y3",
+            "asin": "B0H2X9Q3Y3"
+          }
+        },
+        "evidence_sha256": "40C8A6456E43374C12905A89EFA28C1F1471E7BB35AB41EA50EF4993C61DD395"
+      },
+      {
+        "asin": "B0DR8Y4VF9",
+        "category": "ロボット掃除機#3",
+        "checked_at": "2026-10-17T09:13:32.342688+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥62,047",
+          "price_int": 62047,
+          "original_price": "￥78,368",
+          "discount_rate": "21%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥62,047",
+          "price_int": 62047,
+          "original_price": "￥78,368",
+          "discount_rate": "21%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DR8Y4VF9",
+            "B0DR8Y4VF9"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ECOVACS Winbot W2 Pro Omni ポータブルウィンドウクリーニングロボット 多機能ステーション付き 作業中の充電 トリプルスプレーヘッドによるインテリジェントクリーニング 保護",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "62,047"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-21%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥78,368\n￥78,368"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DR8Y4VF9",
+          "url": "https://www.amazon.co.jp/dp/B0DR8Y4VF9",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:13:32.342688+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 62047,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DR8Y4VF9",
+            "asin": "B0DR8Y4VF9"
+          }
+        },
+        "evidence_sha256": "22D58D32C37B97B16A8F0979A2122E8EA2EF1802C32DEA4CE64F6F8B8F95F20F"
+      },
+      {
+        "asin": "B0DTYJMPQL",
+        "category": "ロボット掃除機#2",
+        "checked_at": "2026-10-17T09:13:39.188637+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥59,980",
+          "price_int": 59980,
+          "original_price": "￥73,000",
+          "discount_rate": "18%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥59,980",
+          "price_int": 59980,
+          "original_price": "￥73,000",
+          "discount_rate": "18%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0DTYJMPQL",
+            "B0DTYJMPQL"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【家中まるごと、これ一台】SwitchBot ロボット掃除機 S20 モップ自動洗浄＆乾燥 90日間自動ゴミ収集 水拭き 10000Pa強力吸引",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "59,980"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-18%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥73,000\n￥73,000"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0DTYJMPQL",
+          "url": "https://www.amazon.co.jp/dp/B0DTYJMPQL",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:13:39.188637+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 59980,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0DTYJMPQL",
+            "asin": "B0DTYJMPQL"
+          }
+        },
+        "evidence_sha256": "6B4D4D886148C2B58E011201CAC0E3A0A3299083A5EDDC1AF8F0D42BC672B1A6"
+      },
+      {
+        "asin": "B0H2VJG56L",
+        "category": "ノートPC#10",
+        "checked_at": "2026-10-17T09:13:45.795352+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥49,800",
+          "price_int": 49800,
+          "original_price": "￥59,800",
+          "discount_rate": "17%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥49,800",
+          "price_int": 49800,
+          "original_price": "￥59,800",
+          "discount_rate": "17%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H2VJG56L",
+            "B0H2VJG56L"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ASUS Chromebook クロームブック CM15 15.6インチ MediaTek Kompanio 540 4GB メモリ 64GB eMMC ゼロタッチ登録対応 日本語キーボード 重量 1.56kg Wi-Fi 6E ピュアグレー CM1505CM4A-464GY",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "49,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-17%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥59,800\n￥59,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H2VJG56L",
+          "url": "https://www.amazon.co.jp/dp/B0H2VJG56L",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:13:45.795352+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 49800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H2VJG56L",
+            "asin": "B0H2VJG56L"
+          }
+        },
+        "evidence_sha256": "271A1E7E803E3FB7ABCCA9BE382BA9DE245A904C6E3CE78ABCE2F308A51D1A0D"
+      },
+      {
+        "asin": "B0H1G515TC",
+        "category": "ノートPC#8",
+        "checked_at": "2026-10-17T09:13:52.296065+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥39,800",
+          "price_int": 39800,
+          "original_price": "￥49,800",
+          "discount_rate": "20%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥39,800",
+          "price_int": 39800,
+          "original_price": "￥49,800",
+          "discount_rate": "20%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H1G515TC",
+            "B0H1G515TC"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】 ASUS Chromebook クロームブック CM14 14インチ MediaTek Kompanio 540 4GB メモリ 64GB eMMC ゼロタッチ登録対応 日本語キーボード 重量 1.37kg Wi-Fi 6E ピュアグレー CM1405CM4A-464PG",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "39,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-20%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥49,800\n￥49,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H1G515TC",
+          "url": "https://www.amazon.co.jp/dp/B0H1G515TC",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:13:52.296065+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 39800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H1G515TC",
+            "asin": "B0H1G515TC"
+          }
+        },
+        "evidence_sha256": "1FE4FE41B07DDC7A8AA7465798692E3CB788483B7DF601D0ECFDCDFC7E0BD5EE"
+      },
+      {
+        "asin": "B0FRFN58PL",
+        "category": "ノートPC#4",
+        "checked_at": "2026-10-17T09:13:58.886047+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥37,800",
+          "price_int": 37800,
+          "original_price": "￥44,800",
+          "discount_rate": "16%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥37,800",
+          "price_int": 37800,
+          "original_price": "￥44,800",
+          "discount_rate": "16%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0FRFN58PL",
+            "B0FRFN58PL"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【Amazon.co.jp限定】 ASUS Chromebook クロームブック CX1405CTA 14インチ インテル N50 4GB メモリ 64GB eMMC バッテリー駆動 11時間 重量1.38kg 日本語キーボード ゼロタッチ登録対応 Wi-Fi 6 ピュアグレー CX1405CTA-S60604",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "37,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-16%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥44,800\n￥44,800"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0FRFN58PL",
+          "url": "https://www.amazon.co.jp/dp/B0FRFN58PL",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:13:58.886047+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 37800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0FRFN58PL",
+            "asin": "B0FRFN58PL"
+          }
+        },
+        "evidence_sha256": "B7B82FDEA9B3D0875A6A21BE0987AC623DCE2F287CDF19D1659C3A56FD392933"
+      },
+      {
+        "asin": "B0F7GGN94D",
+        "category": "ロボット掃除機#1",
+        "checked_at": "2026-10-17T09:14:05.730963+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥37,800",
+          "price_int": 37800,
+          "original_price": "￥48,000",
+          "discount_rate": "21%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥37,800",
+          "price_int": 37800,
+          "original_price": "￥48,000",
+          "discount_rate": "21%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F7GGN94D",
+            "B0F7GGN94D"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "【世界最小級掃除機】 SwitchBot ロボット掃除機 K11+ 超小型 高精度マッピング 6000pa強力吸引 水拭き 掃除シート付き 静音",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "37,800"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-21%"
+          ],
+          "reference_price_texts": [
+            "過去価格: \n￥48,000\n￥48,000"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "プライム感謝祭セール",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0F7GGN94D",
+          "url": "https://www.amazon.co.jp/dp/B0F7GGN94D",
+          "http_status": 200,
+          "checked_at": "2026-10-17T09:14:05.730963+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 37800,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F7GGN94D",
+            "asin": "B0F7GGN94D"
+          }
+        },
+        "evidence_sha256": "D0C2811C15E0F48FD621F4194DC0E2CC56BA55B66E48C549A3FFC2E5C7A3FFA9"
+      }
+    ],
+    "limits": {
+      "max_candidates": 24,
+      "timeout_seconds": 240
+    },
+    "detail_visits_started": 17,
+    "elapsed_seconds": 112.066,
+    "budget_stop_reason": null,
+    "final_selected_count": 10,
+    "categories": {
+      "NAS（ネットワークストレージ）": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "プロジェクター": {
+        "collected_candidates": 0,
+        "verified_candidates": 0,
+        "final_selected": 0
+      },
+      "ノートPC": {
+        "collected_candidates": 14,
+        "verified_candidates": 14,
+        "final_selected": 10
+      },
+      "ロボット掃除機": {
+        "collected_candidates": 3,
+        "verified_candidates": 3,
+        "final_selected": 0
+      }
+    }
+  },
+  "supply_completion": {
+    "required_slots": 4,
+    "ready_before": 4,
+    "ready_after": 4,
+    "extra_batch_count": 0,
+    "added_asins": [],
+    "reason": "sufficient",
+    "max_extra_candidates": 24,
+    "max_extra_seconds": 240
+  },
+  "discount_contract": {
+    "schema_version": 1,
+    "policy": "amazon_direct_discounts_v1",
+    "account": 2,
+    "date": "2026-10-18",
+    "products": [
+      {
+        "asin": "B0GXZJ8B1M",
+        "source_position": 1,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 154800,
+          "original_price_yen": 179800,
+          "discount_rate_percent": 14
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 154800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GXZJ8B1M",
+          "asin": "B0GXZJ8B1M"
+        },
+        "observed_at": "2026-10-17T09:12:20.291629+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GXZJ8B1M",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "main",
+          "label": "プライム感謝祭",
+          "source_date": "2026-10-18",
+          "observed_at": "2026-10-17T09:12:20.291629+00:00",
+          "asin": "B0GXZJ8B1M",
+          "evidence_sha256": "EBCB10302AC2972A1CE876B437A5D1DAC560A216BFFC30D429AA596C22828E70",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0GXZJ8B1M",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0H4QK7XCB",
+        "source_position": 2,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 149980,
+          "original_price_yen": 187980,
+          "discount_rate_percent": 20
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 149980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0H4QK7XCB",
+          "asin": "B0H4QK7XCB"
+        },
+        "observed_at": "2026-10-17T09:12:26.881348+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H4QK7XCB",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "main",
+          "label": "プライム感謝祭",
+          "source_date": "2026-10-18",
+          "observed_at": "2026-10-17T09:12:26.881348+00:00",
+          "asin": "B0H4QK7XCB",
+          "evidence_sha256": "C7851AD51B1A5D583B9CE36A5E5321B3175171D623B1040DED1D5A17C64811B6",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0H4QK7XCB",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0GS7KFR8G",
+        "source_position": 3,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 145980,
+          "original_price_yen": 163980,
+          "discount_rate_percent": 11
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 145980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GS7KFR8G",
+          "asin": "B0GS7KFR8G"
+        },
+        "observed_at": "2026-10-17T09:12:33.444053+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GS7KFR8G",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "main",
+          "label": "プライム感謝祭",
+          "source_date": "2026-10-18",
+          "observed_at": "2026-10-17T09:12:33.444053+00:00",
+          "asin": "B0GS7KFR8G",
+          "evidence_sha256": "43B763CAC34554EAF285199D4441BDD1964CEAD6060153953CEA60A0AF42AFFA",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0GS7KFR8G",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0HJBLNQ9F",
+        "source_position": 4,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 144800,
+          "original_price_yen": 174800,
+          "discount_rate_percent": 17
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 144800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0HJBLNQ9F",
+          "asin": "B0HJBLNQ9F"
+        },
+        "observed_at": "2026-10-17T09:12:40.000921+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0HJBLNQ9F",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "main",
+          "label": "プライム感謝祭",
+          "source_date": "2026-10-18",
+          "observed_at": "2026-10-17T09:12:40.000921+00:00",
+          "asin": "B0HJBLNQ9F",
+          "evidence_sha256": "7449D178CC3C0DE691C8F137CA83A042BC7334FD551898E0F2F941501D862353",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0HJBLNQ9F",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0GZ6D2Y7F",
+        "source_position": 5,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 129800,
+          "original_price_yen": 177882,
+          "discount_rate_percent": 27
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 129800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GZ6D2Y7F",
+          "asin": "B0GZ6D2Y7F"
+        },
+        "observed_at": "2026-10-17T09:12:46.492021+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GZ6D2Y7F",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "main",
+          "label": "プライム感謝祭",
+          "source_date": "2026-10-18",
+          "observed_at": "2026-10-17T09:12:46.492021+00:00",
+          "asin": "B0GZ6D2Y7F",
+          "evidence_sha256": "61D94B734C90EC0350C0EEF7FD1B7DEC1561659FE219E84A0EB48BC12ACCDC1B",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0GZ6D2Y7F",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0G5HP66X5",
+        "source_position": 6,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 123803,
+          "original_price_yen": 144800,
+          "discount_rate_percent": 15
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 123803,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0G5HP66X5",
+          "asin": "B0G5HP66X5"
+        },
+        "observed_at": "2026-10-17T09:12:52.992040+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0G5HP66X5",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "main",
+          "label": "プライム感謝祭",
+          "source_date": "2026-10-18",
+          "observed_at": "2026-10-17T09:12:52.992040+00:00",
+          "asin": "B0G5HP66X5",
+          "evidence_sha256": "EE816716D906EF4BC2C65AC28DE22CDE774E8A9818722077BD51DA1CD8668AB4",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0G5HP66X5",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0H3KXY3PW",
+        "source_position": 7,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 114800,
+          "original_price_yen": 184800,
+          "discount_rate_percent": 38
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 114800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0H3KXY3PW",
+          "asin": "B0H3KXY3PW"
+        },
+        "observed_at": "2026-10-17T09:12:59.493389+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H3KXY3PW",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "main",
+          "label": "プライム感謝祭",
+          "source_date": "2026-10-18",
+          "observed_at": "2026-10-17T09:12:59.493389+00:00",
+          "asin": "B0H3KXY3PW",
+          "evidence_sha256": "3278E5E75A75363175277D68C15D952F231C5FA9093ED49429A93C779C065CBB",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0H3KXY3PW",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0H4QQRQK4",
+        "source_position": 8,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 109980,
+          "original_price_yen": 174980,
+          "discount_rate_percent": 37
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 109980,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0H4QQRQK4",
+          "asin": "B0H4QQRQK4"
+        },
+        "observed_at": "2026-10-17T09:13:06.004994+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H4QQRQK4",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "main",
+          "label": "プライム感謝祭",
+          "source_date": "2026-10-18",
+          "observed_at": "2026-10-17T09:13:06.004994+00:00",
+          "asin": "B0H4QQRQK4",
+          "evidence_sha256": "A95932FA02FBAFEE9770C5748DEC81EE6145DE5A63F3D93D3DED55CA9DAD78A8",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0H4QQRQK4",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0DTTMWFTP",
+        "source_position": 9,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 99800,
+          "original_price_yen": 123800,
+          "discount_rate_percent": 19
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 99800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0DTTMWFTP",
+          "asin": "B0DTTMWFTP"
+        },
+        "observed_at": "2026-10-17T09:13:12.584778+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0DTTMWFTP",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "main",
+          "label": "プライム感謝祭",
+          "source_date": "2026-10-18",
+          "observed_at": "2026-10-17T09:13:12.584778+00:00",
+          "asin": "B0DTTMWFTP",
+          "evidence_sha256": "B271AB047056F73FCAE9E92682E02C9A8BF1225CA8EFD38A66F2D9D536219CD9",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0DTTMWFTP",
+          "selector": "#dealBadge_feature_div"
+        }
+      },
+      {
+        "asin": "B0H4P39FJ6",
+        "source_position": 10,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 84800,
+          "original_price_yen": 99800,
+          "discount_rate_percent": 15
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 84800,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0H4P39FJ6",
+          "asin": "B0H4P39FJ6"
+        },
+        "observed_at": "2026-10-17T09:13:19.230990+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H4P39FJ6",
+        "prime_event": {
+          "schema_version": 1,
+          "id": "prime_appreciation_2026",
+          "policy": "prime_appreciation_2026_badge_v1",
+          "verified": true,
+          "phase": "main",
+          "label": "プライム感謝祭",
+          "source_date": "2026-10-18",
+          "observed_at": "2026-10-17T09:13:19.230990+00:00",
+          "asin": "B0H4P39FJ6",
+          "evidence_sha256": "E77A592DB4B33AD7B4AFB21D81D3C7FB49B71F15986785538C282C9C4253D00A",
+          "evidence_url": "https://www.amazon.co.jp/dp/B0H4P39FJ6",
+          "selector": "#dealBadge_feature_div"
+        }
+      }
+    ]
+  },
+  "sale_name": "Amazon プライム感謝祭",
+  "coupon_search": {
+    "page_limit": 2,
+    "timeout_seconds": 60,
+    "pages_attempted": 2,
+    "unique_added": 0,
+    "main_search_coupon_candidates": 0,
+    "reason": "main_search_had_no_coupon_candidate",
+    "categories": {
+      "ロボット掃除機": {
+        "ロボット掃除機": {
+          "pages": [
+            24
+          ],
+          "taken": 0,
+          "skipped_posted": 0,
+          "error": ""
+        }
+      },
+      "NAS（ネットワークストレージ）": {
+        "NAS（ネットワークストレージ）": {
+          "pages": [
+            24
+          ],
+          "taken": 0,
+          "skipped_posted": 0,
+          "error": ""
+        }
+      }
+    },
+    "elapsed_seconds": 14.694
+  }
+}
