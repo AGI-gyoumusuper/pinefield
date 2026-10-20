@@ -1,6 +1,6 @@
 {
   "date": "2026-10-21",
-  "total_taken": 2,
+  "total_taken": 3,
   "selection_policy": {
     "selection_mode": "global_ranked",
     "sort_order": "price_desc",
@@ -781,9 +781,9 @@
     "enabled": true,
     "offer_scope": "unified_discounts",
     "sale_name": "Amazon セール",
-    "candidate_count": 2,
-    "raw_candidate_count": 2,
-    "accepted_count": 2,
+    "candidate_count": 3,
+    "raw_candidate_count": 3,
+    "accepted_count": 3,
     "rejected_count": 0,
     "rejection_reasons": {},
     "observations": [
@@ -936,6 +936,97 @@
           }
         },
         "evidence_sha256": "450FC268EFA95DD0647427FEC98DA71F53427802CF416B2736D7229685DEA4D4"
+      },
+      {
+        "asin": "B08NYVZZLP",
+        "category": "はちみつ#31",
+        "checked_at": "2026-10-20T11:36:18.895661+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥9,940",
+          "price_int": 9940,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "pdp_offer": {
+          "price": "￥9,940",
+          "price_int": 9940,
+          "original_price": "",
+          "discount_rate": ""
+        },
+        "evidence": {
+          "selected_asins": [
+            "B08NYVZZLP",
+            "B08NYVZZLP"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "プレミアム マヌカハニー UMF 10+ 1000g MGO 263+ ニュージーランドUMF協会認定 分析証明書付 はちみつ",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "9,940"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [
+            {
+              "selector": "#promoPriceBlockMessage_feature_div",
+              "text": "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする",
+              "asins": [],
+              "seller_ids": [],
+              "links": [
+                "https://www.amazon.co.jp/dp/B08NYVZZLP",
+                "https://www.amazon.co.jp/promotion/psp/A13TS2KLHLP7G7",
+                "https://www.amazon.co.jp/dp/B08NYVZZLP",
+                "https://www.amazon.co.jp/promotion/psp/A13TS2KLHLP7G7",
+                "https://www.amazon.co.jp/dp/B08NYVZZLP",
+                "https://www.amazon.co.jp/promotion/psp/A13TS2KLHLP7G7",
+                "https://www.amazon.co.jp/dp/B08NYVZZLP",
+                "https://www.amazon.co.jp/promotion/psp/A13TS2KLHLP7G7"
+              ]
+            }
+          ],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B08NYVZZLP",
+          "url": "https://www.amazon.co.jp/dp/B08NYVZZLP",
+          "http_status": 200,
+          "checked_at": "2026-10-20T11:36:18.895661+00:00",
+          "evidence_kind": "coupon",
+          "countdown": null,
+          "coupon": {
+            "status": "verified",
+            "kind": "percent",
+            "value": 10,
+            "basis_price_yen": 9940,
+            "application": "clip",
+            "conditions": [
+              "クーポン取得が必要"
+            ],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": true,
+            "stackable": true,
+            "final_price_yen": 8946,
+            "reason": null,
+            "evidence_text": "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする",
+            "source_url": "https://www.amazon.co.jp/dp/B08NYVZZLP",
+            "asin": "B08NYVZZLP"
+          }
+        },
+        "evidence_sha256": "D724F81F62D3D6360D1A08EDBCB31C69B2B89248094CC84567E36E250DB49BFE"
       }
     ],
     "limits": {
@@ -945,12 +1036,12 @@
     "detail_visits_started": 2,
     "elapsed_seconds": 12.939,
     "budget_stop_reason": null,
-    "final_selected_count": 2,
+    "final_selected_count": 3,
     "categories": {
       "はちみつ": {
         "collected_candidates": 0,
         "verified_candidates": 0,
-        "final_selected": 0
+        "final_selected": 1
       },
       "菓子・スナック": {
         "collected_candidates": 0,
@@ -1033,7 +1124,9 @@
     "reason": "no_unverified_eligible_candidates",
     "max_extra_candidates": 24,
     "max_extra_seconds": 240,
-    "remaining_candidates": 0
+    "remaining_candidates": 0,
+    "initial_scrape_report_only": true,
+    "final_after_local_supplement": 3
   },
   "discount_contract": {
     "schema_version": 1,
@@ -1106,6 +1199,41 @@
         },
         "observed_at": "2026-10-20T11:23:17.656123+00:00",
         "evidence_url": "https://www.amazon.co.jp/dp/B0GVHH45K5"
+      },
+      {
+        "asin": "B08NYVZZLP",
+        "source_position": 3,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 9940,
+          "original_price_yen": null,
+          "discount_rate_percent": null
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "verified",
+          "kind": "percent",
+          "value": 10,
+          "basis_price_yen": 9940,
+          "application": "clip",
+          "conditions": [
+            "クーポン取得が必要"
+          ],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": true,
+          "stackable": true,
+          "final_price_yen": 8946,
+          "reason": null,
+          "evidence_text": "クーポン:  \n 10% OFFクーポンの適用 規約 | 買い物をする",
+          "source_url": "https://www.amazon.co.jp/dp/B08NYVZZLP",
+          "asin": "B08NYVZZLP"
+        },
+        "observed_at": "2026-10-20T11:36:18.895661+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B08NYVZZLP"
       }
     ]
   },
@@ -1118,5 +1246,15 @@
     "main_search_coupon_candidates": 17,
     "reason": "main_search_already_found_coupon",
     "elapsed_seconds": 0.0
+  },
+  "local_supplement": {
+    "schema_version": 1,
+    "original_count": 2,
+    "added_asins": [
+      "B08NYVZZLP"
+    ],
+    "original_prefix_preserved": true,
+    "postable_count": 3,
+    "fresh_summary_date": "2026-10-21"
   }
 }
