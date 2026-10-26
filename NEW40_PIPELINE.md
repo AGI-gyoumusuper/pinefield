@@ -113,3 +113,16 @@ The publication owner must then:
 Do not roll back publication history during code restoration. The initial empty
 document is not permission to overwrite later receipts. No new40 live scrape,
 publication or schedule execution was performed as part of this implementation.
+# Official URL construction evidence
+
+The new40 input adapter may accept `official_url_builder` evidence after checking
+the current registered Store and dedicated Tracking, pinned Git ASIN/position and
+the construction proof. Its exact URL is
+`https://www.amazon.co.jp/dp/{ASIN}?tag={TRACKING}`. It is constructed before the
+daily input is frozen; frozen URLs are never retagged.
+
+History validation preserves the distinction: this mode requires
+`constructed_at_jst` and does not accept a `verified_at_jst` live-readback claim.
+Existing `live_readback` manifests remain supported. The same-note publication
+receipt and Git readback remain separate required completion evidence.
+

@@ -210,8 +210,27 @@ def _manifest_slot(manifest, slot):
              "verified affiliate ASIN/tracking mismatch")
     evidence = affiliate.get("verification_evidence", {})
     _require(isinstance(evidence, dict) and _sha(evidence.get("sha256"), 64), "affiliate evidence fingerprint missing")
-    _instant(affiliate.get("verified_at_jst"))
-    _require(_instant(affiliate["verified_at_jst"]) <= datetime.now(timezone.utc), "affiliate verification is in the future")
+    mode = affiliate.get("evidence_mode", "live_readback")
+    _require(mode in {"live_readback", "official_url_builder"}, "unknown affiliate evidence mode")
+    if mode == "official_url_builder":
+        # The input adapter has already verified the registered Store/Tracking,
+        # fixed Git product position and construction proof before sealing this
+        # manifest. Construction time must not be represented as a PDP readback.
+        _require(affiliate.get("verified_at_jst") is None, "constructed link cannot claim live readback time")
+        _require(affiliate.get("proof_schema") == "note40_amazon_link_construction.v1" and
+                 affiliate.get("proof_status") == "VERIFIED_CONSTRUCTION" and
+                 _sha(affiliate.get("proof_body_sha256"), 64), "verified construction proof identity missing")
+        truthful = affiliate.get("truthfulness", {})
+        _require(isinstance(truthful, dict) and all(truthful.get(key) is False for key in (
+            "network_request_performed_by_builder", "amazon_product_page_live_readback_performed",
+            "product_availability_verified_by_builder", "product_price_verified_by_builder",
+            "attribution_or_commission_observed_by_builder")), "construction proof makes an unsupported live claim")
+        _require(url == f"https://www.amazon.co.jp/dp/{row['asin']}?tag={tracking}",
+                 "constructed affiliate URL is not the exact deterministic format")
+        evidence_at = _instant(affiliate.get("constructed_at_jst"))
+    else:
+        evidence_at = _instant(affiliate.get("verified_at_jst"))
+    _require(evidence_at <= datetime.now(timezone.utc), "affiliate evidence time is in the future")
     return row
 
 

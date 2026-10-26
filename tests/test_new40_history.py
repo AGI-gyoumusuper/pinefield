@@ -81,6 +81,44 @@ def receipt(m, status="published", note_key="nfixture01", event_at=None):
 
 
 class MergeTests(unittest.TestCase):
+    @staticmethod
+    def construction_fields():
+        return dict(proof_schema='note40_amazon_link_construction.v1', proof_status='VERIFIED_CONSTRUCTION',
+                    proof_body_sha256='f'*64, truthfulness={key:False for key in (
+                        'network_request_performed_by_builder','amazon_product_page_live_readback_performed',
+                        'product_availability_verified_by_builder','product_price_verified_by_builder',
+                        'attribution_or_commission_observed_by_builder')})
+
+    def test_constructed_link_keeps_construction_time_distinct_from_live_readback(self):
+        m = manifest()
+        affiliate = m['slots'][0]['affiliate_evidence']
+        affiliate['evidence_mode'] = 'official_url_builder'
+        affiliate['constructed_at_jst'] = affiliate.pop('verified_at_jst')
+        affiliate.update(self.construction_fields())
+        m = seal(m)
+        merged = merge_verified_publication(empty_history(), receipt(m), m)
+        self.assertEqual(ASIN, merged['posted'][0]['asin'])
+        self.assertNotIn('verified_at_jst', m['slots'][0]['affiliate_evidence'])
+
+    def test_constructed_link_rejects_false_readback_future_time_and_nondeterministic_url(self):
+        for case in ('readback_time', 'future_time', 'missing_time', 'query', 'unknown_mode', 'false_live_claim', 'proof_schema'):
+            m = manifest(); row = m['slots'][0]; a = row['affiliate_evidence']
+            a['evidence_mode'] = 'official_url_builder'
+            a['constructed_at_jst'] = a.pop('verified_at_jst')
+            a.update(self.construction_fields())
+            if case == 'readback_time': a['verified_at_jst'] = a['constructed_at_jst']
+            elif case == 'future_time': a['constructed_at_jst'] = (datetime.now(timezone.utc)+timedelta(days=7)).isoformat()
+            elif case == 'missing_time': a.pop('constructed_at_jst')
+            elif case == 'unknown_mode': a['evidence_mode'] = 'unverified_builder'
+            elif case == 'false_live_claim': a['truthfulness']['amazon_product_page_live_readback_performed'] = True
+            elif case == 'proof_schema': a['proof_schema'] = 'note40_amazon_link_readback.v1'
+            else:
+                url = row['canonical_affiliate_url'] + '&ref=test'
+                row['canonical_affiliate_url'] = row['canonical_input']['affiliate_url'] = a['canonical_affiliate_url'] = url
+            m = seal(m)
+            with self.subTest(case=case), self.assertRaises(New40HistoryError):
+                merge_verified_publication(empty_history(), receipt(m), m)
+
     def test_pure_idempotent_and_keeps_identity_without_claiming_publish_ready(self):
         m = manifest(); r = receipt(m); h = empty_history(); before = copy.deepcopy((h, r, m))
         merged = merge_verified_publication(h, r, m)
