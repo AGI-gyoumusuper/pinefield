@@ -12,6 +12,7 @@ import copy
 import hashlib
 import json
 import re
+import unicodedata
 from datetime import date as Date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -25,6 +26,8 @@ CAMPAIGN_ID = "prime_appreciation_2026"
 CAMPAIGN_POLICY = "prime_appreciation_2026_electronics_price_desc_v3"
 PRIME_V2_POLICY = "prime_appreciation_2026_electronics_prime_verified_v2"
 PRICE_POLICY = "profit_price_desc_v1"
+ACTUAL_SALE_PRICE_POLICY = "actual_sale_price_gt_8000_v1"
+ACTUAL_SALE_PRICE_EXCLUSIVE_MINIMUM = 8000
 LEGACY_CAMPAIGN_POLICY = "prime_appreciation_2026_electronics_v1"
 LEGACY_CONFIG_SHA256 = "6161f0c6ae9828bd7de6f6b8f1c06ffacb0245afff2744e4ad9392d7c37b1e6c"
 PRIME_CONFIG_SHA256 = "8726b65d5e8cf2ebd9393a13f462e63c3087e6503597749730332a3e6cbbb8ea"
@@ -36,6 +39,54 @@ _ENDS_AT = "2026-10-20T00:00:00+09:00"
 
 class CampaignConfigError(ValueError):
     """Campaign config or frozen source does not match the approved contract."""
+
+
+def actual_sale_price_rejection(product, coupon=None):
+    """Fail closed on ambiguous current prices; never substitute reference prices.
+
+    ``price_int`` and ``price`` are the canonical current offer. A verified
+    coupon's payable price is an additional bound, never a guessed discount.
+    This helper does not mutate, reorder, replace or replenish source products.
+    """
+    get = product.get if isinstance(product, dict) else lambda key: getattr(product, key, None)
+    amount, display = get("price_int"), get("price")
+    if type(amount) is not int or not 0 < amount <= 9007199254740991:
+        return "actual_sale_price_unknown"
+    if not isinstance(display, str):
+        return "actual_sale_price_unknown"
+    normalized = unicodedata.normalize("NFKC", display).strip()
+    match = re.fullmatch(r"(?:[¥￥]\s*)?([1-9][0-9]{0,2}(?:,[0-9]{3})+|0|[1-9][0-9]*)(?:\s*円)?", normalized)
+    if not match:
+        return "actual_sale_price_unknown"
+    if int(match[1].replace(",", "")) != amount:
+        return "actual_sale_price_mismatch"
+    if amount <= ACTUAL_SALE_PRICE_EXCLUSIVE_MINIMUM:
+        return "actual_sale_price_at_or_below_8000"
+    if isinstance(coupon, dict) and coupon.get("status") == "verified":
+        final = coupon.get("final_price_yen")
+        if type(final) is not int or not 0 < final <= amount:
+            return "actual_coupon_price_unknown"
+        if final <= ACTUAL_SALE_PRICE_EXCLUSIVE_MINIMUM:
+            return "actual_coupon_price_at_or_below_8000"
+    return None
+
+
+def validate_actual_sale_price_policy(summary, products):
+    """Apply the explicit new marker without reinterpreting historical sources."""
+    policy = summary.get("selection_policy", {})
+    if not isinstance(policy, dict) or "actual_sale_price_policy" not in policy:
+        return
+    if policy["actual_sale_price_policy"] != ACTUAL_SALE_PRICE_POLICY:
+        raise CampaignConfigError("unregistered actual sale price policy")
+    contract = summary.get("discount_contract")
+    rows = contract.get("products", []) if isinstance(contract, dict) else []
+    for position, product in enumerate(products, 1):
+        matches = [row for row in rows if row.get("asin") == product.get("asin")]
+        if contract is not None and (len(matches) != 1 or matches[0].get("source_position") != position):
+            raise CampaignConfigError("missing or ambiguous discount row for actual sale price")
+        reason = actual_sale_price_rejection(product, matches[0].get("coupon") if matches else None)
+        if reason:
+            raise CampaignConfigError(f"{product.get('asin', 'unknown')}: {reason}")
 
 
 def _canonical_json(value: Any) -> str:

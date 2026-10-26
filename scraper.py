@@ -34,7 +34,8 @@ from product_identity import (
     ProductIdentityRegistry,
     extract_product_identity,
 )
-from sale_campaign import apply_campaign_config
+from sale_campaign import (ACTUAL_SALE_PRICE_POLICY, actual_sale_price_rejection,
+                           apply_campaign_config)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -984,9 +985,13 @@ def filter_and_sort(
         logger.info(f"Title pattern exclusions: {before - len(deduped)} items")
     filtered = []
     for p in deduped:
+        coupon = getattr(p, "_actual_sale_coupon", None)
+        if actual_sale_price_rejection(p, coupon):
+            continue
         category_name = (p.category or "").split("#")[0]
         effective_min_price = max(min_price, (category_min_prices or {}).get(category_name, min_price))
-        if p.price_int < effective_min_price:
+        payable = coupon["final_price_yen"] if isinstance(coupon, dict) and coupon.get("status") == "verified" else p.price_int
+        if payable < effective_min_price:
             continue
         if max_price > 0 and p.price_int > max_price:
             continue
@@ -1583,6 +1588,7 @@ async def verify_discount_candidates(page, candidates, stats, *, max_candidates=
             stop_reason = "detail_budget_exhausted"; break
         observations.append(record)
         if record["status"] == "accepted":
+            product._actual_sale_coupon = record["evidence"]["coupon"]
             product._discount_comparison_rate = discount_comparison_rate(product, record["evidence"]["coupon"])
             accepted.append(product)
         if record["reason"] == "detail_challenge":
@@ -1757,7 +1763,7 @@ async def fetch_products(
     flt = config.get("filters", {})
     min_price = int(flt.get("min_price", 3000))
     category_min_prices = {
-        str(cat.get("name", "")).strip(): max(min_price, int(cat.get("min_price", min_price)))
+        str(cat.get("name", "")).strip(): max(8001, min_price, int(cat.get("min_price", min_price)))
         for cat in cats
         if str(cat.get("name", "")).strip()
     }
@@ -1826,6 +1832,7 @@ async def fetch_products(
     detail_retry_budget = DetailRetryBudget()
     scrape_stats: dict = {
         "_selection_policy": {
+            "actual_sale_price_policy": ACTUAL_SALE_PRICE_POLICY,
             "selection_mode": selection_mode,
             "sort_order": sort_order,
             "require_sale_info": require_sale_info,
@@ -2140,6 +2147,10 @@ def fetch_and_save(output_path: str = "products.json", config_path: str = CONFIG
         fetch_products(config_path, associate_tag, reference_date)
     )
     validate_affiliate_output(products, output_path, config_path, associate_tag)
+    for product in products:
+        reason = actual_sale_price_rejection(product, getattr(product, "_actual_sale_coupon", None))
+        if reason:
+            raise ValueError(f"Refusing to save ineligible actual sale price: {product.asin}: {reason}")
     logger.info(f"Amazon affiliate URL check OK: {associate_tag} ({len(products)} items)")
     logger.info(f"最終取得: {len(products)} 件")
     os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)

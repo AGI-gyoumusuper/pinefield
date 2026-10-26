@@ -43,7 +43,7 @@ class PriceRankingTests(unittest.IsolatedAsyncioTestCase):
                     product("EXPENSIVE", "A", "5%OFF", price=999999)]
         selected=filter_and_sort(candidates,min_price=8000,max_price=0,sort_order="price_desc",
                                  category_min_prices={"VR":20000},max_total=10,max_per_category=0)
-        self.assertEqual(["EXPENSIVE","AT_SHELF","EXACT"],[p.asin for p in selected])
+        self.assertEqual(["EXPENSIVE","AT_SHELF"],[p.asin for p in selected])
 
     def test_shortage_does_not_relax_price_floor_and_game_shelves_remain(self):
         candidates=[product("A1","Nintendo Switch 2","5%OFF",price=12000),
@@ -54,7 +54,7 @@ class PriceRankingTests(unittest.IsolatedAsyncioTestCase):
         selected=filter_and_sort(candidates,min_price=8000,max_price=0,sort_order="price_desc",
               max_total=10,max_per_category=5,selection_mode="category_quota",
               categories=[{"name":"Nintendo Switch 2"},{"name":"PS5ゲームソフト"}])
-        self.assertEqual(["A1","A2","B1","B2"],[p.asin for p in selected])
+        self.assertEqual(["A1","B1","B2"],[p.asin for p in selected])
 
 
 class FixedSourceTests(unittest.TestCase):

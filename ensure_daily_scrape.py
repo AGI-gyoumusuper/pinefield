@@ -18,7 +18,8 @@ import time
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
-from sale_campaign import CAMPAIGN_POLICY, PRIME_V2_POLICY, source_campaign_config
+from sale_campaign import (CAMPAIGN_POLICY, PRIME_V2_POLICY, source_campaign_config,
+                           validate_actual_sale_price_policy)
 
 
 ROOT = Path(__file__).resolve().parent
@@ -297,6 +298,10 @@ def validate(
     # The safety net must not accept an older popularity/rotation snapshot as
     # today's discount-first result just because its date and count are valid.
     policy = summary.get("selection_policy")
+    try:
+        validate_actual_sale_price_policy(summary, products)
+    except (ValueError, TypeError, AttributeError) as exc:
+        return False, f"actual sale price policy invalid: {exc}"
     price_policy = isinstance(policy, dict) and policy.get("selection_policy_version") == "profit_price_desc_v1"
     expected_policy = {
         "selection_mode": "category_quota" if account == "account20" and campaign is None else "global_ranked",
