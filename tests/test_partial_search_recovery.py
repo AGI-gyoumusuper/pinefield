@@ -133,8 +133,8 @@ class PartialSearchFetchTests(unittest.IsolatedAsyncioTestCase):
         return selected, stats, calls
 
     async def test_retry_retains_prior_candidates_deduplicates_and_honors_category_limit(self):
-        first = [product("A1", discount="50%OFF"), product("A2", discount="40%OFF")]
-        retry = [product("A2", discount="90%OFF"), product("A3", discount="30%OFF"), product("A4", discount="20%OFF")]
+        first = [product("A1", discount="50%OFF", price=10000), product("A2", discount="40%OFF", price=10000)]
+        retry = [product("A2", discount="90%OFF", price=10000), product("A3", discount="30%OFF", price=10000), product("A4", discount="20%OFF", price=10000)]
         selected, stats, calls = await self.fetch(first, retry)
         self.assertEqual(["A", "A"], calls)
         self.assertEqual({"A1", "A2", "A3"}, {item.asin for item in selected})
@@ -143,9 +143,9 @@ class PartialSearchFetchTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(1, stats["A"]["deferred_retry_unique_added"])
 
     async def test_retry_does_not_repeat_successful_category_or_duplicate_its_asin(self):
-        first = [product("A1", discount="50%OFF")]
-        other = [product("B1", "B", discount="60%OFF")]
-        retry = [product("B1", discount="90%OFF"), product("A2", discount="30%OFF"), product("A3", discount="20%OFF")]
+        first = [product("A1", discount="50%OFF", price=10000)]
+        other = [product("B1", "B", discount="60%OFF", price=10000)]
+        retry = [product("B1", discount="90%OFF", price=10000), product("A2", discount="30%OFF", price=10000), product("A3", discount="20%OFF", price=10000)]
         selected, stats, calls = await self.fetch(first, retry, successful_other=other)
         self.assertEqual(["A", "B", "A"], calls)
         self.assertEqual({"A1", "A2", "A3", "B1"}, {item.asin for item in selected})

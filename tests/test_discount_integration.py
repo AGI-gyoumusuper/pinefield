@@ -159,7 +159,9 @@ class UnifiedDiscountTests(unittest.TestCase):
 
 class BoundedAcquisitionTests(unittest.IsolatedAsyncioTestCase):
     async def test_integrated_pipeline_binds_final_order_and_preserves_thirteen_keys(self):
-        pool = [product(f"B{n:09}", category="A" if n % 2 else "B", price=8000, rate="20%OFF") for n in range(1,27)]
+        pool = [product(f"B{n:09}", category="A" if n % 2 else "B", price=10000, rate="20%OFF") for n in range(1,27)]
+        for candidate in pool:
+            candidate.original_price = "￥12,500"
         cats = [dict(name=n, url=f"https://www.amazon.co.jp/s?rh=n%3A{i}%2Cp_n_deal_type%3A10343616051", is_search=True, max_items=20) for i,n in enumerate(("A","B"),1)]
         config = dict(categories=cats,filters=dict(verify_detail_offer=True,offer_scope="unified_discounts",discount_contract=DISCOUNT_POLICY,
                                                  sort_order="sale_first",selection_mode="global_ranked",min_price=3000,max_total_items=10,max_per_category=2),
@@ -169,7 +171,8 @@ class BoundedAcquisitionTests(unittest.IsolatedAsyncioTestCase):
         browser=SimpleNamespace(new_context=AsyncMock(return_value=context),close=AsyncMock())
         manager=MagicMock();manager.__aenter__.return_value=SimpleNamespace(chromium=SimpleNamespace(launch=AsyncMock(return_value=browser)))
         async def observer(_page,candidate,_reader,**kwargs):
-            value=discount_evidence("10%OFF クーポンを適用" if candidate.asin.endswith("004") else None)
+            value=discount_evidence("10%OFF クーポンを適用" if candidate.asin.endswith("004") else None,
+                                    price=10000, original=12500, rate=20)
             value.update(requested_asin=candidate.asin, selected_asins=[candidate.asin],url=f"https://www.amazon.co.jp/dp/{candidate.asin}")
             if value["coupon_regions"]:
                 value["coupon_regions"][0]["asins"]=[candidate.asin]

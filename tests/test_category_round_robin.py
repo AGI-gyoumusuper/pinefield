@@ -23,8 +23,8 @@ def product(category_number: int, rank: int, reviews: int) -> Product:
     return Product(
         asin=asin,
         title=f"C{category_number} product {rank}",
-        price="￥1,000",
-        price_int=1000,
+        price="￥12,000",
+        price_int=12000,
         original_price="",
         discount_rate="",
         image_url="https://example.com/image.jpg",
@@ -122,26 +122,28 @@ class CategoryRoundRobinTests(unittest.TestCase):
 
     def test_category_min_price_is_enforced_before_leader_selection(self):
         cheap_high_review = product(1, 2, 1000)
-        cheap_high_review.price_int = 6000
+        cheap_high_review.price = "￥11,000"
+        cheap_high_review.price_int = 11000
         eligible_lower_review = product(1, 1, 100)
-        eligible_lower_review.price_int = 8000
+        eligible_lower_review.price = "￥13,000"
+        eligible_lower_review.price_int = 13000
         selected = filter_and_sort(
             [cheap_high_review, eligible_lower_review],
             min_price=800,
             max_total=1,
             selection_mode="category_round_robin",
             categories=categories(1),
-            category_min_prices={"C1": 7000},
+            category_min_prices={"C1": 12000},
         )
         self.assertEqual(eligible_lower_review.asin, selected[0].asin)
 
     def test_category_min_price_is_added_to_amazon_search_url(self):
         url = search_url_with_min_price(
             "https://www.amazon.co.jp/s?rh=n%3A2151977051&s=exact-aware-popularity-rank",
-            7000,
+            12000,
         )
         query = parse_qs(urlparse(url).query)
-        self.assertEqual(["n:2151977051,p_36:700000-"], query["rh"])
+        self.assertEqual(["n:2151977051,p_36:1200000-"], query["rh"])
 
     def test_posting_sync_saves_position_six_and_next_position_seven(self):
         config_categories = categories(11)

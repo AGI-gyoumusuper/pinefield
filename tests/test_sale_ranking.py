@@ -6,13 +6,14 @@ from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from product_identity import ProductIdentityRegistry, identity_from_key
+from sale_campaign import ACTUAL_SALE_PRICE_POLICY
 from scraper import (
     Product, fetch_and_save, fetch_products, filter_and_sort, make_affiliate_url, merge_deferred_search_stats,
     scrape_search, select_enrich_unique_products, sort_products,
 )
 
 
-def product(name, category="A", discount="", price=5000, reviews=1, original="", model=None):
+def product(name, category="A", discount="", price=12000, reviews=1, original="", model=None):
     return Product(
         asin=name, title=name, price=f"￥{price:,}", price_int=price,
         original_price=original, discount_rate=discount, image_url="https://example.test/image.png",
@@ -40,12 +41,12 @@ class SaleRankingTests(unittest.TestCase):
     def test_sale_first_uses_presence_then_percentage_then_price_and_stable_ties(self):
         candidates = [
             product("NO_RATE", price=100000, original="￥200,000", reviews=99999),
-            product("ZERO_RATE", discount="0%OFF", price=10),
+            product("ZERO_RATE", discount="0%OFF", price=8800),
             product("LOWER_RATE", discount="30%OFF", price=100000),
-            product("LOWER_PRICE", discount="50%OFF", price=1000),
-            product("TIE_FIRST", discount="50%OFF", price=5000, reviews=1),
-            product("TIE_SECOND", discount="50%OFF", price=5000, reviews=9999),
-            product("HIGHER_RATE", discount="70%OFF", price=500),
+            product("LOWER_PRICE", discount="50%OFF", price=12000),
+            product("TIE_FIRST", discount="50%OFF", price=15000, reviews=1),
+            product("TIE_SECOND", discount="50%OFF", price=15000, reviews=9999),
+            product("HIGHER_RATE", discount="70%OFF", price=10000),
         ]
         original_order = list(candidates)
         selected = sort_products(candidates, "sale_first")
@@ -60,7 +61,7 @@ class SaleRankingTests(unittest.TestCase):
         self.assertEqual(["FIRST", "SECOND"], [p.asin for p in sort_products(candidates, "review_desc")])
 
     def test_other_sort_modes_keep_existing_behavior(self):
-        candidates = [product("CHEAP", discount="80%OFF", price=100), product("EXPENSIVE", discount="20%OFF", price=10000)]
+        candidates = [product("CHEAP", discount="80%OFF", price=8800), product("EXPENSIVE", discount="20%OFF", price=200000)]
         for mode, expected in {
             "amount_first": ["EXPENSIVE", "CHEAP"],
             "price_desc": ["EXPENSIVE", "CHEAP"],
@@ -219,7 +220,8 @@ class SaleIdentityRankingTests(unittest.IsolatedAsyncioTestCase):
                 self.assertEqual(2, search_mock.await_count)
                 self.assertEqual([sort == "sale_first"] * 2, [call.kwargs["require_sale_info"] for call in search_mock.await_args_list])
                 self.assertEqual(sort, select_mock.await_args.kwargs["sort_order"])
-                self.assertEqual({"selection_mode": mode, "sort_order": sort,
+                self.assertEqual({"actual_sale_price_policy": ACTUAL_SALE_PRICE_POLICY,
+                    "selection_mode": mode, "sort_order": sort,
                     "require_sale_info": sort == "sale_first", "max_per_category": quota,
                     "max_total_items": 10}, stats["_selection_policy"])
 
@@ -228,7 +230,8 @@ class SelectionPolicyOutputTests(unittest.TestCase):
     def test_summary_records_captured_policy_without_changing_product_fields(self):
         candidate = product("B000000001", discount="5%OFF")
         candidate.affiliate_url = make_affiliate_url(candidate.asin, "noteamazon1-22")
-        policy = {"selection_mode": "global_ranked", "sort_order": "sale_first",
+        policy = {"actual_sale_price_policy": ACTUAL_SALE_PRICE_POLICY,
+            "selection_mode": "global_ranked", "sort_order": "sale_first",
             "require_sale_info": True, "max_per_category": 2, "max_total_items": 10}
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -265,7 +268,7 @@ class FakeCard:
         if selector.startswith("h2"):
             return FakeElement(self.asin)
         if selector.startswith(".a-price:not"):
-            return FakeElement("￥5,000")
+            return FakeElement("￥12,000")
         if selector == "[data-a-strike='true'] .a-offscreen":
             return FakeElement(self.original) if self.original else None
         if selector.startswith("[class*='savingsPercentage']"):
@@ -286,7 +289,7 @@ class SaleCandidateGateTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_gate_restores_both_empty_condition_without_a_percentage_threshold(self):
         cards = [FakeCard("NO_SALE"), FakeCard("RATE_ONLY", discount="5%OFF"),
-            FakeCard("ORIGINAL_ONLY", original="￥5,000"), FakeCard("POINTS_ONLY", discount="10%ポイント")]
+            FakeCard("ORIGINAL_ONLY", original="￥12,000"), FakeCard("POINTS_ONLY", discount="10%ポイント")]
         result, stats = await self.scrape(cards, True)
         self.assertEqual(["RATE_ONLY", "ORIGINAL_ONLY"], [p.asin for p in result])
         self.assertEqual("5%OFF", result[0].discount_rate)

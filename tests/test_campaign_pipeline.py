@@ -106,6 +106,10 @@ class CampaignPipelineTests(unittest.TestCase):
 
     def test_saved_campaign_marker_keeps_raw_product_schema_and_summary_separation(self):
         _, _, products, summary = campaign_source()
+        # Saving new output follows the current floor; the historical 8000-yen
+        # source fixtures used by the replay tests above remain untouched.
+        for product in products:
+            product.update(price="12,000円", price_int=12000, original_price="15,000円")
         objects = [scraper.Product(**product) for product in products]
         stats = {**copy.deepcopy(summary["categories"]), "_campaign": summary["campaign"],
                  "_selection_policy": summary["selection_policy"]}

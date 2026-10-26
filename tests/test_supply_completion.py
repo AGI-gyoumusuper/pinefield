@@ -19,7 +19,7 @@ from test_detail_offer import KEYS, evidence, product
 from test_discount_integration import record_for
 
 
-def candidate(number, *, category="A", price=8000, rate=20, title=None, model=None):
+def candidate(number, *, category="A", price=12000, rate=20, title=None, model=None):
     item = product(f"B{number:09d}", category=category, price=price, rate=f"{rate}%OFF")
     item.original_price = f"￥{round(price / (1-rate/100)):,}"
     item.title = title or f"単品商品 {number}"
@@ -153,23 +153,31 @@ class SupplyCompletionTests(unittest.IsolatedAsyncioTestCase):
     async def test_existing_price_title_history_and_category_floor_filters_are_kept(self):
         selected = [candidate(1), candidate(2), candidate(3)]
         registry = ProductIdentityRegistry(asins={"B000000008"})
-        pool = [candidate(4, price=2000), candidate(5, price=12000),
-                candidate(6, title="単品ではないセット"), candidate(7, category="B", price=4000),
-                candidate(8), candidate(9, price=7000, rate=30), candidate(10, price=8000, rate=20)]
+        # Keep each exclusion independent: the hard floor, maximum price,
+        # title, stricter shelf floor and posted identity must all still apply.
+        pool = [candidate(4, price=8000), candidate(5, price=22000),
+                candidate(6, title="単品ではないセット"), candidate(7, category="B", price=14000),
+                candidate(8), candidate(9, price=18000, rate=30), candidate(10, price=19000, rate=20)]
         result, _, pdp, _ = await self.call(selected, pool, registry=registry,
-            max_price=10000, category_min_prices={"B":5000})
+            max_price=20000, category_min_prices={"B":15000})
         visited = [call.args[1].asin for call in pdp.await_args_list]
         self.assertEqual(["B000000009", "B000000010"], visited)
         self.assertEqual([p.asin for p in selected], [p.asin for p in result[:3]])
 
     async def test_newly_confirmed_price_below_floor_is_not_added(self):
-        selected = [candidate(1), candidate(2), candidate(3)]
-        async def observer(_page, item, _reader, **kwargs):
-            item.price_int = 2000
-            item.price = "￥2,000"
-            return accepted(item)
-        result, _, _, _ = await self.call(selected, [candidate(4)], observer=observer)
-        self.assertEqual(selected, result)
+        for confirmed_price in (7999, 8000, 8001):
+            with self.subTest(confirmed_price=confirmed_price):
+                selected = [candidate(1), candidate(2), candidate(3)]
+                async def observer(_page, item, _reader, **kwargs):
+                    item.price_int = confirmed_price
+                    item.price = f"￥{confirmed_price:,}"
+                    return accepted(item)
+                result, _, pdp, _ = await self.call(selected, [candidate(4)], observer=observer)
+                self.assertEqual(1, pdp.await_count)
+                if confirmed_price <= 8000:
+                    self.assertEqual(selected, result)
+                else:
+                    self.assertEqual([p.asin for p in selected] + ["B000000004"], [p.asin for p in result])
 
     async def test_existing_registered_identity_is_not_self_excluded_but_duplicate_new_model_is(self):
         selected = [candidate(1), candidate(2), candidate(3)]

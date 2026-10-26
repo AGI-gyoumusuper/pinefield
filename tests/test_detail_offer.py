@@ -151,8 +151,9 @@ class OfferPipelineTests(unittest.IsolatedAsyncioTestCase):
             visited = []
             async def verify(_page, candidate, _reader):
                 visited.append(candidate.asin)
-                number = int(candidate.asin[-2:]); candidate.price_int = 2000 if number == 1 else 5000
+                number = int(candidate.asin[-2:]); candidate.price_int = 2000 if number == 1 else 9000
                 candidate.price = f"￥{candidate.price_int:,}"; candidate.discount_rate = "50%OFF" if number == 6 else "10%OFF"
+                candidate.original_price = "￥2,222" if number == 1 else "￥18,000" if number == 6 else "￥10,000"
                 candidate.specs = ""
                 return {"asin": candidate.asin, "category": candidate.category, "status": "accepted", "reason": None}
             with patch("scraper.load_config", return_value=config), patch("scraper.load_product_exclusion_registry", return_value=ProductIdentityRegistry()), \
