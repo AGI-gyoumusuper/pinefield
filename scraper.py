@@ -1756,7 +1756,12 @@ async def fetch_products(
     config_path: str = CONFIG_PATH,
     associate_tag: str = ASSOCIATE_TAG,
     reference_date: str | None = None,
+    *, new40_selection_context=None,
 ) -> Tuple[List[Product], dict]:
+    if new40_selection_context is not None:
+        from new40_history import New40SelectionContext
+        if not isinstance(new40_selection_context, New40SelectionContext) or associate_tag != "":
+            raise ValueError("new40 selection requires validated Git context and an empty affiliate tag")
     config = apply_campaign_config(load_config(config_path), config_path, reference_date)
     campaign = config.get("_sale_campaign")
     cats = config.get("categories", [])
@@ -1805,13 +1810,24 @@ async def fetch_products(
     within_days = int(excl.get("exclude_within_days", 0))
     include_scraped = bool(excl.get("exclude_scraped_candidates", True))  # ver4.3: false=浚っただけの候補は焼かない（人気順用）
     exclude_product_identifiers = bool(excl.get("exclude_product_identifiers", False))
-    product_registry = load_product_exclusion_registry(
-        posted_path,
-        within_days,
-        include_scraped,
-        include_product_identities=exclude_product_identifiers,
-        reference_date=reference_date,
-    )
+    if new40_selection_context is None:
+        product_registry = load_product_exclusion_registry(
+            posted_path,
+            within_days,
+            include_scraped,
+            include_product_identities=exclude_product_identifiers,
+            reference_date=reference_date,
+        )
+    else:
+        account_match = re.fullmatch(r"categories(\d+)\.ya?ml", os.path.basename(config_path))
+        if account_match is None:
+            raise ValueError("new40 selection requires a canonical source category config")
+        product_registry = new40_selection_context.registry_for_selection(
+            source_account=int(account_match[1]), reference_date=reference_date,
+            within_days=within_days, include_product_identities=exclude_product_identifiers)
+        # New40 never reads the legacy cursor or ledger, even if configured.
+        rotation_state_file = ""
+        posted_path = new40_selection_context.public_evidence()["history_git_path"]
     posted_asins = product_registry.asins
     logger.info(
         "投稿済み商品除外: ASIN=%d GTIN=%d ブランド型番=%d "
@@ -1849,6 +1865,8 @@ async def fetch_products(
         scrape_stats["_selection_policy"]["verify_detail_offer"] = True
         if offer_scope in {"all_discounts", "unified_discounts"}:
             scrape_stats["_selection_policy"]["offer_scope"] = offer_scope
+    if new40_selection_context is not None:
+        scrape_stats["_new40_selection"] = new40_selection_context.public_evidence()
     if integrated_discounts:
         scrape_stats["_selection_policy"]["discount_contract"] = DISCOUNT_POLICY
         if require_prime_event:
@@ -2136,6 +2154,9 @@ async def fetch_products(
         if not verify_detail_offer:
             scrape_stats["_detail_retry"] = detail_retry_budget.summary()
         await browser.close()
+    if new40_selection_context is not None:
+        for product in filtered:
+            product.affiliate_url = ""
     return filtered, scrape_stats
 
 
