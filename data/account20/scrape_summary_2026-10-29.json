@@ -1,0 +1,823 @@
+{
+  "date": "2026-10-29",
+  "total_taken": 6,
+  "selection_policy": {
+    "actual_sale_price_policy": "actual_sale_price_gt_8000_v1",
+    "selection_mode": "category_quota",
+    "sort_order": "price_desc",
+    "require_sale_info": true,
+    "max_per_category": 5,
+    "max_total_items": 10,
+    "selection_policy_version": "profit_price_desc_v1",
+    "min_price": 8000,
+    "max_price": 0,
+    "verify_detail_offer": true,
+    "offer_scope": "unified_discounts",
+    "discount_contract": "amazon_direct_discounts_v1"
+  },
+  "excluded_loaded": 36,
+  "excluded_gtins_loaded": 0,
+  "excluded_brand_models_loaded": 1,
+  "skipped_product_identity": 0,
+  "skipped_product_identity_reasons": {},
+  "categories": {
+    "Nintendo Switch 2": {
+      "pages": [
+        16,
+        16
+      ],
+      "taken": 28,
+      "skipped_posted": 4,
+      "error": "",
+      "skipped_nosale": 0
+    },
+    "PS5ゲームソフト": {
+      "pages": [
+        16,
+        16
+      ],
+      "taken": 29,
+      "skipped_posted": 3,
+      "error": "",
+      "skipped_nosale": 0
+    }
+  },
+  "detail_offer_verification": {
+    "schema_version": 1,
+    "enabled": true,
+    "offer_scope": "unified_discounts",
+    "sale_name": "Amazon セール",
+    "candidate_count": 7,
+    "raw_candidate_count": 7,
+    "accepted_count": 6,
+    "rejected_count": 1,
+    "rejection_reasons": {
+      "detail_url_asin_mismatch": 1
+    },
+    "observations": [
+      {
+        "asin": "B0F54D861F",
+        "category": "Nintendo Switch 2#2",
+        "checked_at": "2026-10-28T23:06:01.779035+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥8,145",
+          "price_int": 8145,
+          "original_price": "￥9,980",
+          "discount_rate": "18%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥8,145",
+          "price_int": 8145,
+          "original_price": "￥9,980",
+          "discount_rate": "18%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0F54D861F",
+            "B0F54D861F",
+            "B0F54D861F"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "マリオカート ワールド -Switch2",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,145"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-18%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥9,980\n￥9,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0F54D861F",
+          "url": "https://www.amazon.co.jp/dp/B0F54D861F",
+          "http_status": 200,
+          "checked_at": "2026-10-28T23:06:01.779035+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8145,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0F54D861F",
+            "asin": "B0F54D861F"
+          }
+        },
+        "evidence_sha256": "01347DBAEA7204A7E7A662093EDD1AFB5E32BA7C78A62A02490C4A9C8944FE72"
+      },
+      {
+        "asin": "B0H44X9HSZ",
+        "category": "Nintendo Switch 2#12",
+        "checked_at": "2026-10-28T23:06:08.377718+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥8,082",
+          "price_int": 8082,
+          "original_price": "￥8,980",
+          "discount_rate": "10%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥8,082",
+          "price_int": 8082,
+          "original_price": "￥8,980",
+          "discount_rate": "10%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H44X9HSZ"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ファイアーエムブレム 万紫千紅|オンラインコード版",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,082"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-10%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥8,980\n￥8,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H44X9HSZ",
+          "url": "https://www.amazon.co.jp/dp/B0H44X9HSZ",
+          "http_status": 200,
+          "checked_at": "2026-10-28T23:06:08.377718+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8082,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H44X9HSZ",
+            "asin": "B0H44X9HSZ"
+          }
+        },
+        "evidence_sha256": "3CC2220947396DBAA9CEC2DED77EF31C3F345FD9119CFBBDE7DC8D1B5C3DF6D5"
+      },
+      {
+        "asin": "B0GQGDLC5D",
+        "category": "Nintendo Switch 2#13",
+        "checked_at": "2026-10-28T23:06:14.753406+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥8,082",
+          "price_int": 8082,
+          "original_price": "￥8,980",
+          "discount_rate": "10%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥8,082",
+          "price_int": 8082,
+          "original_price": "￥8,980",
+          "discount_rate": "10%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0GQGDLC5D"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ぽこ あ ポケモン|オンラインコード版",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,082"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-10%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥8,980\n￥8,980"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0GQGDLC5D",
+          "url": "https://www.amazon.co.jp/dp/B0GQGDLC5D",
+          "http_status": 200,
+          "checked_at": "2026-10-28T23:06:14.753406+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8082,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0GQGDLC5D",
+            "asin": "B0GQGDLC5D"
+          }
+        },
+        "evidence_sha256": "CEBC2D14650F11E98D70DD9E3AA2561AF60D2100818C834B55381CD1BBADE6B1"
+      },
+      {
+        "asin": "B0H45SVD4B",
+        "category": "Nintendo Switch 2#10",
+        "checked_at": "2026-10-28T23:06:21.355002+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥8,061",
+          "price_int": 8061,
+          "original_price": "￥9,020",
+          "discount_rate": "11%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥8,061",
+          "price_int": 8061,
+          "original_price": "￥9,020",
+          "discount_rate": "11%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H45SVD4B"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ELDEN RING Tarnished Edition（エルデンリング ターニッシュドエディション）-Switch2",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,061"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-11%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥9,020\n￥9,020"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H45SVD4B",
+          "url": "https://www.amazon.co.jp/dp/B0H45SVD4B",
+          "http_status": 200,
+          "checked_at": "2026-10-28T23:06:21.355002+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8061,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H45SVD4B",
+            "asin": "B0H45SVD4B"
+          }
+        },
+        "evidence_sha256": "D2558B3370E6ECEDC6F718664DF449B5A03DD404CC7BB5E1EE63AF2432A63E7F"
+      },
+      {
+        "asin": "B0H3C1XT8G",
+        "category": "PS5ゲームソフト#15",
+        "checked_at": "2026-10-28T23:06:27.693527+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥11,433",
+          "price_int": 11433,
+          "original_price": "￥13,310",
+          "discount_rate": "14%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥11,433",
+          "price_int": 11433,
+          "original_price": "￥13,310",
+          "discount_rate": "14%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H3C1XT8G"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "ドラゴンクエストモンスターズ４　枯れ木の国のビアンカ・フローラ　マスターズ版 -PS5",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "11,433"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-14%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥13,310\n￥13,310"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H3C1XT8G",
+          "url": "https://www.amazon.co.jp/dp/B0H3C1XT8G",
+          "http_status": 200,
+          "checked_at": "2026-10-28T23:06:27.693527+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 11433,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H3C1XT8G",
+            "asin": "B0H3C1XT8G"
+          }
+        },
+        "evidence_sha256": "20376FD532935E886834C2D3958D49E252044E8420429F23DCF16578D3B276C1"
+      },
+      {
+        "asin": "B0H9XJ3V8K",
+        "category": "PS5ゲームソフト#1",
+        "checked_at": "2026-10-28T23:06:32.775539+00:00",
+        "status": "rejected",
+        "reason": "detail_url_asin_mismatch",
+        "card_offer": {
+          "price": "￥8,413",
+          "price_int": 8413,
+          "original_price": "￥9,800",
+          "discount_rate": "14%OFF"
+        },
+        "pdp_offer": null,
+        "evidence": {
+          "selected_asins": [],
+          "page_asins": [],
+          "center_count": 0,
+          "product_title": "",
+          "price_region_count": 0,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [],
+          "currency_texts": [],
+          "discount_texts": [],
+          "reference_price_texts": [],
+          "sale_region_count": 0,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H9XJ3V8K",
+          "url": "https://www.amazon.co.jp/black-curtain/cero-black-curtain",
+          "http_status": 200,
+          "checked_at": "2026-10-28T23:06:32.775539+00:00",
+          "evidence_kind": null,
+          "countdown": null
+        },
+        "evidence_sha256": "1B12E3637DEFF6AC9B868B16D321ACD7B4ED2C15E097E7F4A1E3586705FFBB61"
+      },
+      {
+        "asin": "B0H3KR4NCN",
+        "category": "PS5ゲームソフト#2",
+        "checked_at": "2026-10-28T23:06:38.113186+00:00",
+        "status": "accepted",
+        "reason": null,
+        "card_offer": {
+          "price": "￥8,009",
+          "price_int": 8009,
+          "original_price": "￥9,790",
+          "discount_rate": "18%OFF"
+        },
+        "pdp_offer": {
+          "price": "￥8,009",
+          "price_int": 8009,
+          "original_price": "￥9,790",
+          "discount_rate": "18%OFF"
+        },
+        "evidence": {
+          "selected_asins": [
+            "B0H3KR4NCN"
+          ],
+          "page_asins": [],
+          "center_count": 1,
+          "product_title": "エースコンバット8 ウイングス・オブ・シーヴ -PS5",
+          "price_region_count": 1,
+          "price_region_selector": "#corePriceDisplay_desktop_feature_div",
+          "price_texts": [
+            "8,009"
+          ],
+          "currency_texts": [
+            "￥"
+          ],
+          "discount_texts": [
+            "-18%"
+          ],
+          "reference_price_texts": [
+            "参考価格: \n￥9,790\n￥9,790"
+          ],
+          "sale_region_count": 1,
+          "sale_region_selector": "#dealBadge_feature_div",
+          "sale_label": "",
+          "timer_count": 0,
+          "timer": null,
+          "challenge_detected": false,
+          "coupon_regions": [],
+          "primary_seller_ids": [],
+          "challenge_signals": [],
+          "schema_version": 1,
+          "requested_asin": "B0H3KR4NCN",
+          "url": "https://www.amazon.co.jp/dp/B0H3KR4NCN",
+          "http_status": 200,
+          "checked_at": "2026-10-28T23:06:38.113186+00:00",
+          "evidence_kind": "ordinary_discount",
+          "countdown": null,
+          "coupon": {
+            "status": "not_displayed",
+            "kind": null,
+            "value": null,
+            "basis_price_yen": 8009,
+            "application": "unknown",
+            "conditions": [],
+            "expires_at": null,
+            "expiry_status": "not_displayed",
+            "same_offer": false,
+            "stackable": false,
+            "final_price_yen": null,
+            "reason": null,
+            "evidence_text": "",
+            "source_url": "https://www.amazon.co.jp/dp/B0H3KR4NCN",
+            "asin": "B0H3KR4NCN"
+          }
+        },
+        "evidence_sha256": "ED3EE942EC1D8F09A7CE91D933DA13EDC344B5C1CD3E178B87C800D56C5E6718"
+      }
+    ],
+    "limits": {
+      "max_candidates": 24,
+      "timeout_seconds": 240
+    },
+    "detail_visits_started": 7,
+    "elapsed_seconds": 43.37,
+    "budget_stop_reason": null,
+    "final_selected_count": 6,
+    "categories": {
+      "Nintendo Switch 2": {
+        "collected_candidates": 4,
+        "verified_candidates": 4,
+        "final_selected": 4
+      },
+      "PS5ゲームソフト": {
+        "collected_candidates": 3,
+        "verified_candidates": 2,
+        "final_selected": 2
+      }
+    }
+  },
+  "supply_completion": {
+    "required_slots": 4,
+    "ready_before": 4,
+    "ready_after": 4,
+    "extra_batch_count": 0,
+    "added_asins": [],
+    "reason": "sufficient",
+    "max_extra_candidates": 24,
+    "max_extra_seconds": 240
+  },
+  "discount_contract": {
+    "schema_version": 1,
+    "policy": "amazon_direct_discounts_v1",
+    "account": 20,
+    "date": "2026-10-29",
+    "products": [
+      {
+        "asin": "B0F54D861F",
+        "source_position": 1,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 8145,
+          "original_price_yen": 9980,
+          "discount_rate_percent": 18
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 8145,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0F54D861F",
+          "asin": "B0F54D861F"
+        },
+        "observed_at": "2026-10-28T23:06:01.779035+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0F54D861F"
+      },
+      {
+        "asin": "B0H44X9HSZ",
+        "source_position": 2,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 8082,
+          "original_price_yen": 8980,
+          "discount_rate_percent": 10
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 8082,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0H44X9HSZ",
+          "asin": "B0H44X9HSZ"
+        },
+        "observed_at": "2026-10-28T23:06:08.377718+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H44X9HSZ"
+      },
+      {
+        "asin": "B0GQGDLC5D",
+        "source_position": 3,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 8082,
+          "original_price_yen": 8980,
+          "discount_rate_percent": 10
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 8082,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0GQGDLC5D",
+          "asin": "B0GQGDLC5D"
+        },
+        "observed_at": "2026-10-28T23:06:14.753406+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0GQGDLC5D"
+      },
+      {
+        "asin": "B0H45SVD4B",
+        "source_position": 4,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 8061,
+          "original_price_yen": 9020,
+          "discount_rate_percent": 11
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 8061,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0H45SVD4B",
+          "asin": "B0H45SVD4B"
+        },
+        "observed_at": "2026-10-28T23:06:21.355002+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H45SVD4B"
+      },
+      {
+        "asin": "B0H3C1XT8G",
+        "source_position": 5,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 11433,
+          "original_price_yen": 13310,
+          "discount_rate_percent": 14
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 11433,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0H3C1XT8G",
+          "asin": "B0H3C1XT8G"
+        },
+        "observed_at": "2026-10-28T23:06:27.693527+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H3C1XT8G"
+      },
+      {
+        "asin": "B0H3KR4NCN",
+        "source_position": 6,
+        "observation_status": "verified",
+        "base_offer": {
+          "sale_price_yen": 8009,
+          "original_price_yen": 9790,
+          "discount_rate_percent": 18
+        },
+        "time_sale": {
+          "verified": false,
+          "label": null
+        },
+        "coupon": {
+          "status": "not_displayed",
+          "kind": null,
+          "value": null,
+          "basis_price_yen": 8009,
+          "application": "unknown",
+          "conditions": [],
+          "expires_at": null,
+          "expiry_status": "not_displayed",
+          "same_offer": false,
+          "stackable": false,
+          "final_price_yen": null,
+          "reason": null,
+          "evidence_text": "",
+          "source_url": "https://www.amazon.co.jp/dp/B0H3KR4NCN",
+          "asin": "B0H3KR4NCN"
+        },
+        "observed_at": "2026-10-28T23:06:38.113186+00:00",
+        "evidence_url": "https://www.amazon.co.jp/dp/B0H3KR4NCN"
+      }
+    ]
+  },
+  "sale_name": "Amazon セール",
+  "coupon_search": {
+    "page_limit": 2,
+    "timeout_seconds": 60,
+    "pages_attempted": 2,
+    "unique_added": 0,
+    "main_search_coupon_candidates": 0,
+    "reason": "main_search_had_no_coupon_candidate",
+    "categories": {
+      "PS5ゲームソフト": {
+        "PS5ゲームソフト": {
+          "pages": [
+            16
+          ],
+          "taken": 0,
+          "skipped_posted": 1,
+          "error": ""
+        }
+      },
+      "Nintendo Switch 2": {
+        "Nintendo Switch 2": {
+          "pages": [
+            16
+          ],
+          "taken": 0,
+          "skipped_posted": 1,
+          "error": ""
+        }
+      }
+    },
+    "elapsed_seconds": 13.253
+  }
+}
